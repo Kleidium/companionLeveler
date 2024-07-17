@@ -13,7 +13,7 @@ function sumr.createWindow(reference)
 	sumr.id_ok = tes3ui.registerID("kl_sum_ok")
 	sumr.id_image = tes3ui.registerID("kl_sum_img")
 	log = logger.getLogger("Companion Leveler")
-	log:debug("Build menu initialized.")
+	log:debug("Summary menu initialized.")
 
 	if (reference) then
 		sumr.reference = reference

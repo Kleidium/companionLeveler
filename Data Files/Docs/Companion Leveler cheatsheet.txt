@@ -764,8 +764,8 @@ Special: Assassins accept contracts to kill a random NPC once per level for a go
 *[BAKER] Love For Baking: Resist Fire 20%, Fortify Short Blade 5 pts.
 Special: Occasionally provides baked goods/jelly/eggs to the player.
 
-*[BATTLE ALCHEMIST] Immunity Research: Fortify Alchemy 5 pts, Resist Poison 30%, Resist Paralysis 15%, Resist Common Disease 5%, Resist Blight Disease 5%.
-Special: Occasionally brews poisons. Higher Alchemy increases brew chance and poison quality.
+*[BANKER] Accountant: Fortify Intelligence 5 pts, Fortify Mercantile 5 pts, Feather 5 pts.
+Special: Occasionally generates interest on carried gold. Interest rate increases with higher Mercantile.
 
 [BARBARIAN] Inner Rage: Fortify Strength 10 pts, Fortify Athletics 10 pts, Fortify Attack 10 pts, Resist Normal Weapons 15%.
 
@@ -774,6 +774,9 @@ Special: Occasionally sings an inspiring song, which fortifies a random attribut
 
 *[BARRISTER] Objective Orator: Fortify Personality 10 pts, Fortify Intelligence 7 pts, Fortify Speechcraft 15 pts.
 Special: Occasionally reduces the player's bounty through legal loopholes. Chance of bounty reduction increases with higher Speechcraft.
+
+*[BATTLE ALCHEMIST] Immunity Research: Fortify Alchemy 5 pts, Resist Poison 30%, Resist Paralysis 15%, Resist Common Disease 5%, Resist Blight Disease 5%.
+Special: Occasionally brews poisons. Higher Alchemy increases brew chance and poison quality.
 
 [BATTLEMAGE] Battle-Learned: Fortify Strength 7 pts, Fortify Endurance 7 pts, Fortify Intelligence 7 pts, Fortify Heavy Armor 10 pts, Fortify Alteration 10 pts, Resist Magicka 5%, Resist Normal Weapons 5%.
 
@@ -801,6 +804,9 @@ Special: Occasionally provides a Personality increase to the player. Effectivene
 [CRUSADER] Resolve: Fortify Willpower 15 pts, Resist Normal Weapons 12%, Resist Magicka 12%, Resist Paralysis 12%.
 
 *[DERVISH MESMER] Mesmerization: Fortify Illusion 15 pts, Rally Humanoid 15 pts, Sanctuary 15 pts, Constant Restore Fatigue 1pt/sec.
+
+*[DIRESINGER] Dirge: Fortify Speechcraft 7 pts, Resist Magicka 7%, Resist Poison 7%.
+Special: Diresingers sing songs of woe to exhaust their enemies, damaging their fatigue.
 
 *[DOCK WORKER] Strong Back: Fortify Strength 10 pts, Fortify Endurance 7 pts, Feather 15 pts.
 
@@ -917,6 +923,8 @@ Special: In Experience Mode, Sages have a chance at increasing experience gained
 
 *[SAILOR] Sea Legs: Fortify Endurance 10 pts, Fortify Strength 5 pts, Fortify Hand-to-Hand and Long Blade 5 pts, Swift Swim 10 pts, Resist Frost 10%.
 
+*[SAND-RUNNER] Arrhythmic Stride: Fortify Endurance 7 pts, Fortify Willpower 7 pts, Fortify Athletics 7 pts, Fortify Short Blade 7 pts, Resist Fire 10%, Resist Frost 10%, Resist Paralysis 5%.
+
 [SAVANT] Peerless Intellect: Fortify Intelligence 25 pts, Constant Restore Intelligence 1pt/sec.
 Special: Occasionally trains the player in a random skill. Higher Intelligence increases chance of training.
 
@@ -925,6 +933,8 @@ Special: In Experience Mode, Scouts have a 3% chance at awarding 1 experience wh
 
 *[SCRIBE] Inscription: Fortify Intelligence 10 pts, Fortify Enchant 10 pts, Fortify Speechcraft 5 pts, Resist Magicka 5%.
 Special: Occasionally compiles a magical scroll. Higher Enchant and Level increases chance of scroll creation. Higher Enchant also increases scroll quality.
+
+*[SHADOWDANCER] Shadowstep: Fortify Agility, Speed 7 pts; Fortify Sneak, Illusion 10 pts; Chameleon 15%.
 
 [SHAMAN] Trance: Constant Restore Magicka 2pts/sec. Weakness to Magicka 15%.
 Special: Occasionally imbues the player with a magicka regenerating aura. Higher Mysticism increases duration of aura.
@@ -963,6 +973,9 @@ Special: Occasionally steals an item. Higher Sneak, Security, and Level increase
 
 [TRADER] Give and Take: Fortify Personality 5 pts, Fortify Mercantile and Speechcraft 10 pts, Feather 5 pts.
 Special: Occasionally spends their gold to purchase random items. Higher Mercantile increases chance of purchase and reduces price. Cannot stack with Pawnbroker.
+
+*[VAMPIRE HUNTER] Vampiric Nemesis: Fortify Agility, Intelligence, Willpower 5 pts; Fortify Short Blade, Hand-to-Hand, Marksman 5pts; Resist Common Disease 25%.
+Special: Whenever a Vampire is encountered, companions with this ability enter a frenzy and receive powerful temporary buffs. These buffs cannot stack.
 
 *[VESTAL] Purity: Fortify Restoration 10 pts, Constant Restore Intelligence, Willpower, Personality, Luck 1pt/sec.
 

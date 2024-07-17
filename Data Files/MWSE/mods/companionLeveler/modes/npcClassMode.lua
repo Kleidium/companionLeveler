@@ -635,9 +635,10 @@ function npcClassMode.companionLevelNPC(companions)
             ----NPC Abilities-----------------------------------------------------------------------------------------------------------------
             if config.abilityLearningNPC == true then
                 abilities.npcAbilities(class.name, companionRef)
+            end
+            if config.triggeredAbilities == true then
                 abilities.executeAbilities(companionRef)
-                timer.start({ type = timer.game, duration = math.random(8, 96), iterations = 1,
-                    callback = "companionLeveler:abilityTimer" })
+                --timer.start({ type = timer.game, duration = math.random(12, 72), iterations = 1, callback = "companionLeveler:abilityTimer", data = { name = name } })
             end
             ----Derived Stat Mod Data--------------------------------------------------------------------------------------------------------
             modData.mgk_gained = (companionRef.mobile.magicka.base - companionRef.baseObject.magicka)
@@ -719,6 +720,13 @@ function npcClassMode.companionLevelNPC(companions)
     end
     abilities.contract()
     abilities.bounty()
+
+    --Start Recurring Ability Timer
+    local modDataP = func.getModDataP(tes3.player)
+    if modDataP.noDupe == 0 then
+        timer.start({ type = timer.game, duration = math.random(48, 96), iterations = 1, callback = "companionLeveler:abilityTimer2" })
+        modDataP.noDupe = 1
+    end
 end
 
 return npcClassMode

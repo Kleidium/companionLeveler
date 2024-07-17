@@ -1,5 +1,12 @@
 local stuff = {}
 
+----Version Control------------------------------------------------------------------------------------------------
+
+--Always make sure these values are correct.
+stuff.version = 2.10
+stuff.npcAbilityAmount = 105
+stuff.creAbilityAmount = 48
+stuff.creTypeAmount = 12
 
 ----Companion Classes--------------------------------------------------------------------------------------
 stuff.classes = {
@@ -1296,7 +1303,12 @@ stuff.classesSpecial = {
 	[97] = "Bounty Hunter",
 	[98] = "Scribe",
 	[99] = "Silver Hand",
-	[100] = "Poet"
+	[100] = "Poet",
+	[101] = "Diresinger",
+	[102] = "Banker",
+	[103] = "Vampire Hunter",
+	[104] = "Sand-runner",
+	[105] = "Shadowdancer"
 }
 
 
@@ -1400,7 +1412,12 @@ stuff.abListNPC = {
 	[97] = "kl_ab_npc_bountyhunter",
 	[98] = "kl_ab_npc_scribe",
 	[99] = "kl_ab_npc_silverhand",
-	[100] = "kl_ab_npc_poet"
+	[100] = "kl_ab_npc_poet",
+	[101] = "kl_ab_npc_diresinger",
+	[102] = "kl_ab_npc_banker",
+	[103] = "kl_ab_npc_vampirehunter",
+	[104] = "kl_ab_npc_sandrunner",
+	[105] = "kl_ab_npc_shadowdancer"
 }
 
 stuff.abDescriptionNPC = {
@@ -1458,7 +1475,7 @@ stuff.abDescriptionNPC = {
 	[52] = "Farming is hard, but necessary work.",
 	[53] = "Be kind to the land and it may return the favor.",
 	[54] = "Survival is our tradition. The tribe must be protected.",
-	[55] = "The nightmare will never end.",
+	[55] = "Without change something sleeps inside us, and seldom awakens. The sleeper must awaken.",
 	[56] = "Life's river has many twists and turns.",
 	[57] = "Unfortunately, the difference between criminals and lawmen often lies in the attire.",
 	[58] = "When there's a story to be told, nothing beats a firsthand account of events.",
@@ -1503,7 +1520,12 @@ stuff.abDescriptionNPC = {
 	[97] = "One man's mistake is another man's treasure.",
 	[98] = "It is only through inscription that words become immutable.",
 	[99] = "Those suffering from Hircine's corrupted touch must be saved from themselves.",
-	[100] = "The deeper and darker the despair, the brighter and more powerful the hope born from it."
+	[100] = "The deeper and darker the despair, the brighter and more powerful the hope born from it.",
+	[101] = "Sing it for the deaf, sing it for the blind. Sing about everyone that you left behind.",
+	[102] = "Whoever said \"money doesn't buy happiness\" simply couldn't afford the cost.",
+	[103] = "\"I am the morning sun, come to vanquish this horrible night!\"",
+	[104] = "Survival is the ability to swim in strange water.",
+	[105] = "Freedom is found under the cover of night."
 }
 
 stuff.abDescriptionNPC2 = {
@@ -1538,11 +1560,11 @@ stuff.abDescriptionNPC2 = {
 	[29] = "(Mercantile) Merchants will train their investors in the art of Mercantile.",
 	[30] = "(Conjuration) Practitioners of necromancy will often summon undead minions.",
 	[31] = "(Restoration) Priests will confer blessings to the party.",
-	[32] = "(Speechcraft) Savants will lecture you on just about anything that is knowable.",
+	[32] = "(Intelligence/Speechcraft) Savants will lecture you on just about anything that is knowable.",
 	[33] = "",
 	[34] = "",
 	[35] = "(Armorer) A Smith will reinforce their comrades armor.",
-	[36] = "(Security) Smugglers will share a cut of their profits.",
+	[36] = "(Security) Smugglers will sometimes share a cut of their profits.",
 	[37] = "",
 	[38] = "",
 	[39] = "",
@@ -1606,7 +1628,12 @@ stuff.abDescriptionNPC2 = {
 	[97] = "Bounty Hunters will accept bounties once per level.",
 	[98] = "(Enchant) Scribes can compose magical scrolls.",
 	[99] = "Members of the Silver Hand gain powerful bonuses when fighting werewolves.",
-	[100] = "(Speechcraft) Each stanza a poet utters may very well improve your own Speechcraft."
+	[100] = "(Speechcraft) Each stanza a poet utters may very well improve your own Speechcraft.",
+	[101] = "(Speechcraft) Diresingers sing songs of woe to exhaust their opponents.",
+	[102] = "(Mercantile) Bankers may generate interest on the gold they carry.",
+	[103] = "Vampire Hunters hunt their quarry with a tremendous zeal.",
+	[104] = "",
+	[105] = ""
 }
 
 stuff.alchemyPotionsB = {
