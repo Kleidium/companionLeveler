@@ -30,13 +30,13 @@ function specList.createWindow(reference)
 
     local border = specList_block:createThinBorder {}
     border.width = 260
-    border.height = 600
+    border.height = 566
     border.flowDirection = "top_to_bottom"
 
     --Create Pane
     local pane = border:createVerticalScrollPane()
     pane.width = 260
-    pane.height = 600
+    pane.height = 566
     pane.widget.scrollbarVisible = true
 
     --Populate Pane

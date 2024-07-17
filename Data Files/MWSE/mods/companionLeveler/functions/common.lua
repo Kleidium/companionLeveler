@@ -10,6 +10,18 @@ local this = {}
 ----Mod Data------------------------------------------------------------------------------------------------------------------
 --
 
+function this.getModDataP(playerRef)
+    log:trace("Checking player's saved Mod Data.")
+    if not playerRef.data.companionLeveler then
+        log:info("Player Mod Data not found, setting to base Mod Data values.")
+        playerRef.data.companionLeveler = { ["noDupe"] = 0 }
+        playerRef.modified = true
+    else
+        log:trace("Saved Mod Data found.")
+    end
+    return playerRef.data.companionLeveler
+end
+
 function this.getModData(ref)
 	log = logger.getLogger("Companion Leveler")
 	log:trace("Checking saved Mod Data.")
@@ -17,7 +29,7 @@ function this.getModData(ref)
 		--NPC Data-----------------------------------------------------------------------------------------------------------------------
 		if ref.object.objectType ~= tes3.objectType.creature then
 			log:info("NPC Mod Data not found, setting to base Mod Data values.")
-			ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level,
+			ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level,
 				["class"] = ref.object.class.id,
 				["summary"] = "No Summary.", ["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 }, ["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 				["skillMods"] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -32,14 +44,15 @@ function this.getModData(ref)
 					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false } }
+					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+					false, false, false, false, false, false, false, false, false, false, false } }
 		else
 			--Creature Data--------------------------------------------------------------------------------------------------------------
 			local defType = this.determineDefault(ref)
 
 			if defType == "Normal" then
 				log:info("Normal type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Normal", ["typelevels"] = { ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Normal", ["typelevels"] = { ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 }, ["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
@@ -52,7 +65,7 @@ function this.getModData(ref)
 			end
 			if defType == "Daedra" then
 				log:info("Daedra type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Daedra", ["typelevels"] = { 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Daedra", ["typelevels"] = { 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -66,7 +79,7 @@ function this.getModData(ref)
 			end
 			if defType == "Undead" then
 				log:info("Undead type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Undead", ["typelevels"] = { 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Undead", ["typelevels"] = { 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -80,7 +93,7 @@ function this.getModData(ref)
 			end
 			if defType == "Humanoid" then
 				log:info("Humanoid type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Humanoid", ["typelevels"] = { 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Humanoid", ["typelevels"] = { 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -95,7 +108,7 @@ function this.getModData(ref)
 			--Custom Type Detection-------------------------------------------------------------------------------------------------
 			if defType == "Centurion" then
 				log:info("Centurion type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Centurion", ["typelevels"] = { 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Centurion", ["typelevels"] = { 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -109,7 +122,7 @@ function this.getModData(ref)
 			end
 			if defType == "Spriggan" then
 				log:info("Spriggan type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Spriggan", ["typelevels"] = { 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Spriggan", ["typelevels"] = { 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -123,7 +136,7 @@ function this.getModData(ref)
 			end
 			if defType == "Goblin" then
 				log:info("Goblin type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Goblin", ["typelevels"] = { 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Goblin", ["typelevels"] = { 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 }, ["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
@@ -136,7 +149,7 @@ function this.getModData(ref)
 			end
 			if defType == "Domestic" then
 				log:info("Domestic type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Domestic", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Domestic", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -150,7 +163,7 @@ function this.getModData(ref)
 			end
 			if defType == "Spectral" then
 				log:info("Spectral type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Spectral", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Spectral", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -164,7 +177,7 @@ function this.getModData(ref)
 			end
 			if defType == "Insectile" then
 				log:info("Insectile type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Insectile", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Insectile", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -178,7 +191,7 @@ function this.getModData(ref)
 			end
 			if defType == "Draconic" then
 				log:info("Draconic type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Draconic", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Draconic", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -192,7 +205,7 @@ function this.getModData(ref)
 			end
 			if defType == "Brute" then
 				log:info("Brute type detected.")
-				ref.data.companionLeveler = { ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Brute", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Brute", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -227,6 +240,141 @@ function this.checkModData(ref)
 	end
 end
 
+function this.updateModData(ref)
+	log = logger.getLogger("Companion Leveler")
+	log:trace("Checking for updated Mod Data.")
+
+	if ref.data.companionLeveler then
+		local modData = this.getModData(ref)
+
+		if modData.version == nil then
+			modData["version"] = 0
+		end
+
+		if modData.version < tables.version then
+			--Shared Mod Data--
+
+			--Version
+			modData.version = tables.version
+			log:debug("" .. ref.object.name .. "'s version updated.")
+
+			--Blacklist
+			if modData.blacklist == nil then
+				modData["blacklist"] = false
+				log:debug("" .. ref.object.name .. "'s blacklist feature updated.")
+			end
+
+			--Att Gained
+			if modData.att_gained == nil then
+				modData["att_gained"] = {0, 0, 0, 0, 0, 0, 0, 0}
+				log:debug("" .. ref.object.name .. "'s attribute gained feature updated.")
+			end
+
+			--Hth Gained
+			if modData.hth_gained == nil then
+				modData["hth_gained"] = 0
+				log:debug("" .. ref.object.name .. "'s health gained feature updated.")
+			end
+
+			--Mgk Gained
+			if modData.mgk_gained == nil then
+				modData["mgk_gained"] = 0
+				log:debug("" .. ref.object.name .. "'s magicka gained feature updated.")
+			end
+
+			--Fat Gained
+			if modData.fat_gained == nil then
+				modData["fat_gained"] = 0
+				log:debug("" .. ref.object.name .. "'s fatigue gained feature updated.")
+			end
+
+			--Lvl Progress
+			if modData.lvl_progress == nil then
+				modData["lvl_progress"] = 0
+				log:debug("" .. ref.object.name .. "'s level progress feature updated.")
+			end
+
+			--Lvl Req
+			if modData.lvl_req == nil then
+				modData["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate))
+				log:debug("" .. ref.object.name .. "'s level requirement feature updated.")
+			end
+
+			--NPC Mod Data--
+			if ref.object.objectType ~= tes3.objectType.creature then
+				--NPC Abilities
+				if modData.abilities == nil then
+					modData["abilities"] = {false}
+				end
+
+				if #modData.abilities < tables.npcAbilityAmount then
+					local difference = tables.npcAbilityAmount - #modData.abilities
+
+					for i = 1, difference do
+						table.insert(modData.abilities, false)
+					end
+					log:debug("" .. ref.object.name .. "'s ability list updated.")
+				end
+
+				--Skill Gained
+				if modData.skill_gained == nil then
+					modData["skill_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+					log:debug("" .. ref.object.name .. "'s skill gained feature updated.")
+					
+				end
+
+				--Ignore Skill
+				if modData.ignore_skill == nil then
+					modData["ignore_skill"] = 99
+					log:debug("" .. ref.object.name .. "'s ignore skill feature updated.")
+				end
+
+				--Contracts
+				if modData.contracts == nil then
+					modData["contracts"] = {}
+					log:debug("" .. ref.object.name .. "'s contract feature updated.")
+				end
+
+				--Bounties
+				if modData.bounties == nil then
+					modData["bounties"] = {}
+					log:debug("" .. ref.object.name .. "'s bounty feature updated.")
+				end
+			else
+				--Creature Mod Data--
+
+				--Type Levels
+				if modData.typelevels == nil then
+					modData["typelevels"] = {1}
+				end
+
+				if #modData.typelevels < tables.creTypeAmount then
+					local difference = tables.creTypeAmount - #modData.typelevels
+
+					for i = 1, difference do
+						table.insert(modData.typelevels, 1)
+					end
+					log:debug("" .. ref.object.name .. "'s type list updated.")
+				end
+
+				--Creature Abilities
+				if modData.abilities == nil then
+					modData["abilities"] = {false}
+				end
+
+				if #modData.abilities < tables.creAbilityAmount then
+					local difference = tables.creAbilityAmount - #modData.abilities
+
+					for i = 1, difference do
+						table.insert(modData.abilities, false)
+					end
+					log:debug("" .. ref.object.name .. "'s ability list updated.")
+				end
+			end
+		end
+	end
+end
+
 
 --
 ----Companion Check-------------------------------------------------------------------------------------------------------------
@@ -252,6 +400,8 @@ function this.validCompanionCheck(mobileActor)
 					return false
 				end
 			end
+		else
+			return false
 		end
 	end
 

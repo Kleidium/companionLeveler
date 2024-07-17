@@ -117,8 +117,10 @@ function buildMode.companionLevelBuild(companions)
 				if config.abilityLearningNPC == true then
 					local class = tes3.findClass(modData.class)
 					abilities.npcAbilities(class.name, companionRef)
+				end
+				if config.triggeredAbilities == true then
 					abilities.executeAbilities(companionRef)
-					timer.start({ type = timer.game, duration = math.random(8, 96), iterations = 1, callback = "companionLeveler:abilityTimer" })
+					--timer.start({ type = timer.game, duration = math.random(12, 96), iterations = 1, callback = "companionLeveler:abilityTimer", data = { name = name } })
 				end
 			end
 			----Creature Type Level---------------------------------------------------------------------------------------------------------------
@@ -302,6 +304,13 @@ function buildMode.companionLevelBuild(companions)
 	end
 	abilities.contract()
 	abilities.bounty()
+
+	--Start Recurring Ability Timer
+	local modDataP = func.getModDataP(tes3.player)
+	if modDataP.noDupe == 0 then
+		timer.start({ type = timer.game, duration = math.random(48, 96), iterations = 1, callback = "companionLeveler:abilityTimer2" })
+		modDataP.noDupe = 1
+	end
 end
 
 return buildMode

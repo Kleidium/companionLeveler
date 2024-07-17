@@ -27,13 +27,13 @@ function spList.createWindow(reference)
 
     local border = spList_block:createThinBorder {}
     border.width = 212
-    border.height = 600
+    border.height = 566
     border.flowDirection = "top_to_bottom"
 
     --Create Pane
     local pane = border:createVerticalScrollPane()
     pane.width = 212
-    pane.height = 600
+    pane.height = 566
     pane.widget.scrollbarVisible = true
 
     --Populate Pane

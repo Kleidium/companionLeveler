@@ -31,6 +31,7 @@ function sheet.createWindow(reference)
     sheet.id_special = tes3ui.registerID("kl_sheet_special_btn")
 
     local root = require("companionLeveler.menus.root")
+    local viewportWidth, viewportHeight = tes3ui.getViewportSize()
 
     log = logger.getLogger("Companion Leveler")
     log:debug("Character sheet menu initialized.")
@@ -39,13 +40,22 @@ function sheet.createWindow(reference)
         sheet.reference = reference
     end
 
-    local menu = tes3ui.createMenu { id = sheet.id_menu, fixedFrame = true }
+    local menu = tes3ui.createMenu { id = sheet.id_menu, dragFrame = true }
+    menu.minWidth = 495
+    menu.maxWidth = 495
+    menu.minHeight = 440
+    menu.maxHeight = 920
+    menu.absolutePosAlignX = 0.5
+    menu.absolutePosAlignY = 0.5
+    menu.width = viewportWidth * 0.95
+    menu.height = viewportHeight * 0.95
+    menu.text = reference.object.name
     local modData = func.getModData(reference)
     local attTable = reference.mobile.attributes
     local faction = reference.object.faction
 
     -- Create layout
-    local label = menu:createLabel { text = "" .. reference.object.name .. "'s Current Statistics:", id = sheet.id_label }
+    local label = menu:createLabel { text = "Current Statistics:", id = sheet.id_label }
     label.wrapText = true
     label.justifyText = "center"
     local label2 = menu:createLabel { text = "(current value / base value)", id = sheet.id_label2 }
@@ -57,14 +67,33 @@ function sheet.createWindow(reference)
     local sheet_block = menu:createBlock { id = "text_block_sheet" }
     sheet_block.autoWidth = true
     sheet_block.autoHeight = true
+    sheet_block.widthProportional = 1.0
+    sheet_block.heightProportional = 1.0
 
     local border = sheet_block:createThinBorder {}
-    border.width = 440
-    border.height = 744
+    border.widthProportional = 1.0
+    border.heightProportional = 1.0
+    border.width = 469
+    border.height = 778
+    border.maxHeight = 778
+    border.paddingAllSides = 4
     border.flowDirection = "top_to_bottom"
 
+    local mainScroll = border:createVerticalScrollPane({})
+    mainScroll.width = 469
+    mainScroll.height = 778
+    mainScroll.maxHeight = 778
+
+    if config.expMode == false then
+        menu.maxHeight = 900
+        border.height = 758
+        border.maxHeight = 758
+        mainScroll.height = 758
+        mainScroll.maxHeight = 758
+    end
+
     ----Headers-----------------------------------------------------------------------------------------------
-    local title = border:createThinBorder {}
+    local title = mainScroll:createThinBorder {}
     title.width = 440
     title.height = 40
 
@@ -83,7 +112,7 @@ function sheet.createWindow(reference)
     titleLabel.borderTop = 8
     titleLabel.color = { 1.0, 1.0, 1.0 }
 
-    local header = border:createThinBorder {}
+    local header = mainScroll:createThinBorder {}
     header.width = 440
     header.height = 32
     header.flowDirection = "left_to_right"
@@ -113,7 +142,7 @@ function sheet.createWindow(reference)
     end
 
     ----Content Blocks------------------------------------------------------------------------------------------------------
-    local main = border:createThinBorder {}
+    local main = mainScroll:createThinBorder {}
     main.width = 440
     main.height = 672
     main.flowDirection = "left_to_right"
@@ -448,7 +477,7 @@ function sheet.onOriginal()
         ide.widget.state = 1
         ori.widget.state = 4
 
-        label.text = "" .. sheet.reference.object.name .. "'s Original Statistics:"
+        label.text = "Original Statistics:"
         label2.text = "(before any changes were ever made)"
 
         if sheet.reference.object.objectType == tes3.objectType.creature then
@@ -540,7 +569,7 @@ function sheet.onCurrent()
         ide.widget.state = 1
         ori.widget.state = 1
 
-        label.text = "" .. sheet.reference.object.name .. "'s Current Statistics:"
+        label.text = "Current Statistics:"
         label2.text = "(current value / base value)"
 
         if sheet.reference.object.objectType == tes3.objectType.creature then
@@ -646,7 +675,7 @@ function sheet.onIdeal()
             title.text = "" .. sheet.reference.object.name .. ", the " .. sheet.class.name .. ""
         end
 
-        label.text = "" .. sheet.reference.object.name .. "'s Ideal Statistics:"
+        label.text = "Ideal Statistics:"
         label2.text = "(original + total Companion Leveler stats = Ideal Stats)"
 
         lvl.text = "Level: " .. sheet.reference.baseObject.level .. " + " .. (modData.level - sheet.reference.baseObject.level) .. " = " .. modData.level .. ""
@@ -842,6 +871,32 @@ function sheet.fixStats(e)
             sheet.onCurrent()
             tes3.messageBox("" .. sheet.reference.object.name .. "'s current statistics are now recognized as their ideal values.")
         end
+
+        if e.button == 3 then
+            --Remove Abilities
+            for i = 1, #modData.abilities do
+                modData.abilities[i] = false
+            end
+
+            if sheet.reference.object.objectType == tes3.objectType.creature then
+                func.removeAbilities(sheet.reference)
+            else
+                func.removeAbilitiesNPC(sheet.reference)
+            end
+
+            --Update Statistics after simulating
+            sheet.onOK()
+            timer.delayOneFrame(function()
+                timer.delayOneFrame(function()
+                    timer.delayOneFrame(function()
+                        sheet.createWindow(sheet.reference)
+                        sheet.onCurrent()
+                    end)
+                end)
+            end)
+
+            tes3.messageBox("" .. sheet.reference.object.name .. " has forgotten their abilities.")
+        end
     end
 end
 
@@ -849,7 +904,7 @@ function sheet.onFix()
     local menu = tes3ui.findMenu(sheet.id_menu)
     if menu then
         tes3.messageBox({ message = "Fix " .. sheet.reference.object.name .. "'s stats?",
-            buttons = { "Reset Stats to Original", "Fix Stats to Ideal", "Set Ideal to Current", "Cancel" },
+            buttons = { "Reset Stats to Original", "Fix Stats to Ideal", "Set Ideal to Current", "Remove All Abilities", "Cancel" },
             callback = sheet.fixStats })
     end
 end

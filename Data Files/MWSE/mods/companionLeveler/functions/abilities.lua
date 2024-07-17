@@ -673,6 +673,7 @@ end
 
 --Spectral Will #34---------------------------------------------------------------------------------------------------------------
 function this.spectralWill(e)
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Spectral Will triggered.")
 
@@ -705,6 +706,7 @@ end
 
 --Pheromone #40-------------------------------------------------------------------------------------------------------------------
 function this.pheromone(ref)
+    if config.triggeredAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
 
 	if (string.startswith(ref.object.name, "Kwama") or string.endswith(ref.object.name, "Kwama") or string.startswith(ref.object.name, "Shalk") or string.endswith(ref.object.name, "Shalk")) then
@@ -792,6 +794,11 @@ end
 
 --Execute Learned Abilities-------------------------------------------------------------------------------------------------------
 function this.executeAbilities(companionRef)
+    if config.triggeredAbilities == false then return end
+    if (tes3.mobilePlayer.inCombat == true or companionRef.mobile.inCombat == true) then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Execute Abilities function triggered on " .. companionRef.object.name .. ".")
+
     local attTable = companionRef.mobile.attributes
     local modData = func.getModData(companionRef)
     local class = tes3.findClass(modData.class)
@@ -821,7 +828,7 @@ function this.executeAbilities(companionRef)
         end
 
         --Teach Acrobatics
-        if math.random(1, 130) < (acrobatics.current + modData.level) then
+        if math.random(1, 140) < (acrobatics.current + modData.level) then
             tes3.modStatistic({ skill = 20, value = value, reference = tes3.player })
             tes3.messageBox("" .. companionRef.object.name .. " showed you some new acrobatic maneuvers.")
         end
@@ -839,7 +846,7 @@ function this.executeAbilities(companionRef)
         end
 
         --Teach Security
-        if math.random(1, 130) < (security.current + modData.level) then
+        if math.random(1, 140) < (security.current + modData.level) then
             tes3.modStatistic({ skill = 18, value = value, reference = tes3.player })
             tes3.messageBox("" .. companionRef.object.name .. " taught you a bit about security.")
         end
@@ -905,7 +912,7 @@ function this.executeAbilities(companionRef)
     if (
         modData.abilities[22] == true or modData.abilities[23] == true or class.name == "Alchemist" or
             class.name == "Apothecary") then
-        if math.random(1, 130) < (alchemy.current + modData.level) then
+        if math.random(1, 140) < (alchemy.current + modData.level) then
             --Brew a potion
             if (alchemy.current > 0 and alchemy.current < 25) then
                 local selection = math.random(1, #tables.alchemyPotionsB)
@@ -969,7 +976,7 @@ function this.executeAbilities(companionRef)
 
     --Enchanter
     if (modData.abilities[26] == true or class.name == "Enchanter") then
-        if math.random(1, 130) < (enchant.current + modData.level) then
+        if math.random(1, 140) < (enchant.current + modData.level) then
             --Fashion a soul gem
             if (enchant.current > 0 and enchant.current < 25) then
                 tes3.addItem({ item = "Misc_SoulGem_Petty", reference = tes3.player })
@@ -1030,7 +1037,7 @@ function this.executeAbilities(companionRef)
         end
 
         --Teach Mercantile
-        if math.random(1, 120) < (mercantile.current + modData.level) then
+        if math.random(1, 140) < (mercantile.current + modData.level) then
             tes3.modStatistic({ skill = 24, value = value, reference = tes3.player })
             tes3.messageBox("" .. companionRef.object.name .. " taught you a bit about economics.")
         end
@@ -1216,7 +1223,7 @@ function this.executeAbilities(companionRef)
         end
 
         --Level random skill
-        if math.random(1, 130) < (speechcraft.current + modData.level) then
+        if math.random(1, 150) < (((attTable[2].current + speechcraft.current) / 2) + modData.level) then
             tes3.modStatistic({ skill = randSkill, value = value, reference = tes3.player })
             tes3.messageBox("" .. companionRef.object.name .. " lectured you on " .. tes3.getSkillName(randSkill) .. ".")
         end
@@ -1225,6 +1232,7 @@ function this.executeAbilities(companionRef)
     --Smith
     if (modData.abilities[35] == true or class.name == "Smith") then
         local party = func.partyTable()
+        local amount = math.round(armorer.current / 2)
 
         for i = 1, #party do
             local reference = party[i]
@@ -1237,7 +1245,7 @@ function this.executeAbilities(companionRef)
                     slot = slot
                 }
                 if armor then
-                    armor.variables.condition = armor.variables.condition + armorer.current
+                    armor.variables.condition = armor.variables.condition + amount
                 end
             end
 
@@ -1247,12 +1255,12 @@ function this.executeAbilities(companionRef)
                 objectType = tes3.objectType.weapon,
             }
             if weapon and weapon.variables then
-                weapon.variables.condition = weapon.variables.condition + armorer.current
+                weapon.variables.condition = weapon.variables.condition + amount
             end
         end
 
         tes3.messageBox("" ..
-            companionRef.object.name .. " reinforced the party's equipment by " .. armorer.current .. ".")
+            companionRef.object.name .. " reinforced the party's equipment by " .. amount .. ".")
     end
 
     --Smuggler
@@ -1306,7 +1314,7 @@ function this.executeAbilities(companionRef)
 
     --Artisan
     if (modData.abilities[43] == true or class.name == "Artisan") then
-        if math.random(1, 130) < (armorer.current + modData.level) then
+        if math.random(1, 140) < (armorer.current + modData.level) then
             --Fashion a tool
             if (armorer.current > 0 and armorer.current < 25) then
                 local selection = math.random(1, #tables.artisanTools)
@@ -1368,7 +1376,7 @@ function this.executeAbilities(companionRef)
         local bounty = tes3.mobilePlayer.bounty
 
         --Do lawyer things
-        if math.random(1, 130) < (speechcraft.current + modData.level) then
+        if math.random(1, 140) < (speechcraft.current + modData.level) then
             if bounty > 0 then
                 if bounty < 2000 then
                     tes3.mobilePlayer.bounty = (bounty / 1.5)
@@ -1382,7 +1390,7 @@ function this.executeAbilities(companionRef)
 
     --Battle Alchemist
     if (modData.abilities[46] == true or class.name == "Battle Alchemist") then
-        if math.random(1, 130) < (alchemy.current + modData.level) then
+        if math.random(1, 140) < (alchemy.current + modData.level) then
             --Brew a potion
             if (alchemy.current > 0 and alchemy.current < 25) then
                 local selection = math.random(1, #tables.poisonsB)
@@ -1504,7 +1512,7 @@ function this.executeAbilities(companionRef)
 
     --Journalist
     if (modData.abilities[58] == true or class.name == "Journalist") then
-        if math.random(1, 140) < (speechcraft.current + modData.level) then
+        if math.random(10, 160) < (speechcraft.current + modData.level) then
             --Write article
             tes3.runLegacyScript {
                 reference = tes3.player,
@@ -1533,7 +1541,7 @@ function this.executeAbilities(companionRef)
 
     --Miner/Ore Miner
     if (modData.abilities[62] == true or class.name == "Miner" or modData.abilities[74] == true or class.name == "Ore Miner") then
-        if math.random(1, 180) < (attTable[6].current + modData.level) then
+        if math.random(1, 185) < (attTable[6].current + modData.level) then
             local randNum = math.random(1, 2)
 
             --Mine something
@@ -1547,7 +1555,7 @@ function this.executeAbilities(companionRef)
 
     --Pawnbroker/Trader
     if (modData.abilities[66] == true or class.name == "Pawnbroker" or modData.abilities[69] == true or class.name == "Trader") then
-        if math.random(1, 130) < (mercantile.current + modData.level) then
+        if math.random(1, 140) < (mercantile.current + modData.level) then
             --Buy from leveled lists
             local item
             repeat
@@ -1588,7 +1596,7 @@ function this.executeAbilities(companionRef)
         local randNum = (math.random(10, 300) + (modData.level * 20))
         local removedCount = tes3.removeItem({ reference = companionRef, item = "Gold_001", count = randNum, playSound = true })
         if removedCount > 0 then
-            if math.random(10, 170) < attTable[8].current then
+            if math.random(10, 175) < attTable[8].current then
                 --Success
                 local winnings = math.round(removedCount * (((attTable[8].current + 10) / 350) + math.random()))
                 tes3.addItem({ reference = companionRef, item = "Gold_001", count = (removedCount + winnings), playSound = true })
@@ -1717,7 +1725,7 @@ function this.executeAbilities(companionRef)
 
     --Scribe
     if (modData.abilities[98] == true or class.name == "Scribe") then
-        if math.random(1, 130) < (enchant.current + modData.level) then
+        if math.random(1, 140) < (enchant.current + modData.level) then
             --Compile a scroll
             if (enchant.current > 0 and enchant.current < 25) then
                 local selection = math.random(1, 7)
@@ -1757,6 +1765,8 @@ function this.executeAbilities(companionRef)
         end
     end
 
+    --Silver Hand gets a buff when fighting werewolves. (see this.requiem) #99 Moonlight Requiem
+
     --Poet
     if (modData.abilities[100] == true or class.name == "Poet") then
         local value = 1
@@ -1769,11 +1779,31 @@ function this.executeAbilities(companionRef)
         end
 
         --Teach Speechcraft
-        if math.random(1, 130) < (speechcraft.current + modData.level) then
+        if math.random(1, 140) < (speechcraft.current + modData.level) then
             tes3.modStatistic({ skill = 25, value = value, reference = tes3.player })
             tes3.messageBox("" .. companionRef.object.name .. " gave an epiphanic verse which taught you a bit about Speechcraft.")
         end
     end
+
+    --Diresingers exhaust enemies through woeful songs. (see this.dirge) #101 Dirge
+
+    --Banker
+    if (modData.abilities[102] == true or class.name == "Banker") then
+        if math.random(0, 150) < mercantile.current then
+            local count = tes3.getItemCount({ reference = companionRef, item = "Gold_001" })
+            local percentage = mercantile.current / 1250
+            if percentage > 0.1 then
+                percentage = 0.1
+            end
+            local amount = math.round(count * percentage)
+
+            --Generate Gold Interest
+            tes3.addItem({ reference = companionRef, item = "Gold_001", count = amount })
+            tes3.messageBox("" .. companionRef.object.name .. " generated " .. amount .. " gold in interest.")
+        end
+    end
+
+    --Vampire Hunters get buffs when fighting vampires. (see this.elegy) #103 Sanguine Elegy
 
     --Scavenger scavenges random stuff?
 
@@ -1781,23 +1811,20 @@ function this.executeAbilities(companionRef)
 
     --diplomat?
 
-    --diresinger is bard opposite?
-
     --druid does something beast/plant related?
 
     --juggler?
 
-    --shadowdancer?
-
     --ranger does something location related?
 
     --Skald?
-
-    --Sand-runner
 end
+
 
 --Opportunist #4---------------------------------------------------------------------------------------------------------------------
 function this.contract()
+    if config.triggeredAbilities == false then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Contract triggered.")
 
@@ -1887,6 +1914,8 @@ end
 
 --Observant #16---------------------------------------------------------------------------------------------------------------------
 function this.survey()
+    if config.triggeredAbilities == false then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Survey triggered.")
 
@@ -1914,9 +1943,10 @@ function this.survey()
     end
 end
 
-
 --Reading Comprehension #49---------------------------------------------------------------------------------------------------------
 function this.comprehension(e)
+    if config.triggeredAbilities == false then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Comprehension triggered.")
 
@@ -1953,9 +1983,10 @@ function this.comprehension(e)
 	end
 end
 
-
 --Tranquility #72-------------------------------------------------------------------------------------------------------------------
 function this.tranquility(ref)
+    if config.triggeredAbilities == false then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Tranquility triggered.")
 
@@ -1980,9 +2011,10 @@ function this.tranquility(ref)
 	end
 end
 
-
 --Jester's Privilege #73----------------------------------------------------------------------------------------------------------
 function this.jest(e)
+    if config.combatAbilities == false then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Jest triggered.")
 
@@ -2038,6 +2070,7 @@ function this.jest(e)
 								},
 							})
                             tes3.createVisualEffect({ object = "VFX_IllusionHit", lifespan = 3, reference = actor.reference })
+                            tes3.playSound({ sound = "illusion hit", reference = actor.reference, volume = 0.8 })
 							log:debug("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Jest!")
                             if config.bMessages == true then
                                 tes3.messageBox("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Jest!")
@@ -2057,9 +2090,10 @@ function this.jest(e)
 	end
 end
 
-
 --Thaumaturgy #80-----------------------------------------------------------------------------------------------------------------
 function this.thaumaturgy(e)
+    if config.combatAbilities == false then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Thaumaturgy triggered.")
 
@@ -2109,6 +2143,7 @@ function this.thaumaturgy(e)
                         },
                     })
                     tes3.createVisualEffect({ object = "VFX_DestructHit", lifespan = 3, reference = actor.reference })
+                    tes3.playSound({ sound = "destruction hit", reference = actor.reference, volume = 0.8 })
                     log:debug("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Thaumaturgy!")
                     if config.bMessages == true then
                         tes3.messageBox("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Thaumaturgy!")
@@ -2121,9 +2156,10 @@ function this.thaumaturgy(e)
 	end
 end
 
-
 --Insight #88--------------------------------------------------------------------------------------------------------------------
 function this.insight(num)
+    if config.triggeredAbilities == false then return num end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Insight triggered.")
 
@@ -2147,11 +2183,15 @@ function this.insight(num)
         tes3.messageBox("" .. name .. "'s insight granted bonus experience.")
 
         return num + 1
+    else
+        return num
     end
 end
 
 --Patient Zero #96--------------------------------------------------------------------------------------------------------------------
 function this.inoculate(e)
+    if config.combatAbilities == false then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Inoculate triggered.")
 
@@ -2188,6 +2228,7 @@ function this.inoculate(e)
                                 tes3.addSpell({ reference = actor.reference, spell = diseases[i] })
                                 log:debug("" .. actor.reference.object.name .. " was inflicted with " .. caster.object.name .. "'s " .. diseases[i].name .. "!")
                                 tes3.createVisualEffect({ object = "VFX_PoisonHit", lifespan = 3, reference = actor.reference })
+                                tes3.playSound({ sound = "Drink", reference = actor.reference, volume = 0.8 })
                                 if config.bMessages == true then
                                     tes3.messageBox("" .. actor.reference.object.name .. " was inflicted with " .. caster.object.name .. "'s " .. diseases[i].name .. "!")
                                 end
@@ -2211,6 +2252,8 @@ end
 
 --Citizen's Arrest #97--------------------------------------------------------------------------------------------------------------------
 function this.bounty()
+    if config.triggeredAbilities == false then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Bounty triggered.")
 
@@ -2267,6 +2310,8 @@ function this.bounty()
 end
 
 function this.bountyCheck()
+    if config.triggeredAbilities == false then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Bounty check triggered.")
 
@@ -2325,6 +2370,8 @@ end
 
 --Moonlight Requiem #99--------------------------------------------------------------------------------------------------------------------
 function this.requiem(e)
+    if config.combatAbilities == false then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Moonlight Requiem triggered.")
 
@@ -2352,6 +2399,135 @@ function this.requiem(e)
                             end
                         else
                             log:debug("" .. reference.object.name .. " is already affected by Moonlight Requiem.")
+                        end
+                    end
+                end
+            end
+        end
+	end
+end
+
+--Dirge #101----------------------------------------------------------------------------------------------------------
+function this.dirge(e)
+    if config.combatAbilities == false then return end
+
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Dirge triggered.")
+
+	if (e.target == tes3.mobilePlayer) then
+        log:trace("Combat target is player.")
+		for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+			if actor.objectType ~= tes3.objectType.creature then
+				local npcTable = func.npcTable()
+				local trigger = 0
+				local speechcraft
+				local level
+				local caster
+
+				for i = 1, #npcTable do
+					local reference = npcTable[i]
+					local modData = func.getModData(reference)
+					if (modData.abilities[101] == true or modData.class == "Diresinger") then
+						trigger = 1
+						caster = reference.object.name
+						speechcraft = reference.mobile:getSkillStatistic(25)
+						level = modData.level
+						log:debug("" .. caster .. " attempted to dispirit " .. actor.reference.object.name .. ".")
+					end
+				end
+
+				if trigger == 1 then
+					--Check for Dirge spell object
+					local affected = tes3.isAffectedBy({ reference = actor.reference, object = "kl_spell_dirge" })
+					if not affected then
+                        tes3.cast({ reference = actor.reference, target = actor.reference, spell = "kl_spell_dirge", instant = true, bypassResistances = true })
+
+						if (speechcraft.current + math.random(1, 10)) > (actor.reference.mobile.willpower.current + 10) then
+							local amount = level
+							if amount > 30 then
+								amount = 30
+							end
+                            local duration = speechcraft.current + amount
+                            if duration > 180 then
+                                duration = 180
+                            end
+
+                            --Damage Fatigue
+							tes3.applyMagicSource({
+								reference = actor.reference,
+								name = "Dirge",
+								bypassResistances = true,
+								effects = {
+									{ id = tes3.effect.damageFatigue,
+										duration = duration,
+										min = 2,
+										max = 3 }
+								},
+							})
+                            tes3.createVisualEffect({ object = "VFX_IllusionHit", lifespan = 4, reference = actor.reference })
+							log:debug("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Dirge!")
+                            if config.bMessages == true then
+                                tes3.messageBox("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Dirge!")
+                            end
+						else
+							log:debug("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Dirge!")
+                            if config.bMessages == true then
+                                tes3.messageBox("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Dirge!")
+                            end
+						end
+					else
+						log:debug("" .. actor.reference.object.name .. " is already affected by Dirge.")
+					end
+				end
+			end
+		end
+	end
+end
+
+--Sanguine Elegy #103--------------------------------------------------------------------------------------------------------------------
+function this.elegy(e)
+    if config.combatAbilities == false then return end
+
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Sanguine Elegy triggered.")
+
+	if (e.target == tes3.mobilePlayer) then
+        log:trace("Combat target is player.")
+		for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+            local affected = tes3.isAffectedBy({ reference = actor.reference, effect = 133 })
+            local faction = actor.reference.object.faction
+            local clan = false
+            if faction ~= nil then
+                log:debug("Faction not nil. (" .. faction.id .. ")")
+                if (faction.id == "Clan Aundae" or faction.id == "Clan Quarra" or faction.id == "Clan Berne") then
+                    if actor.reference.object.name ~= "Cattle" then
+                        clan = true
+                        log:debug("" .. actor.reference.object.name .. " is a vampire clan member.")
+                    end
+                end
+            end
+            if (affected or clan) then
+                log:debug("" .. actor.reference.object.name .. " is a Vampire.")
+                local npcTable = func.npcTable()
+
+                for i = 1, #npcTable do
+                    local reference = npcTable[i]
+                    local modData = func.getModData(reference)
+
+                    if (modData.abilities[103] == true or modData.class == "Vampire Hunter") then
+                        log:debug("" .. reference.object.name .. " sensed a vampire!")
+
+                        local affected2 = tes3.isAffectedBy({ reference = reference, object = "kl_spell_elegy" })
+
+                        if not affected2 then
+                            tes3.cast({ reference = reference, target = reference, spell = "kl_spell_elegy", instant = true, bypassResistances = true })
+
+                            log:debug("" .. reference.object.name .. " entered a fervor!")
+                            if config.bMessages == true then
+                                tes3.messageBox("" .. reference.object.name .. " entered a fervor!")
+                            end
+                        else
+                            log:debug("" .. reference.object.name .. " is already affected by Sanguine Elegy.")
                         end
                     end
                 end

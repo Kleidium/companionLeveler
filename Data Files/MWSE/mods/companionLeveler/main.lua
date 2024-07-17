@@ -23,6 +23,16 @@ local function initialized()
 end
 event.register("initialized", initialized)
 
+local function versionCheck()
+	local partyTable = func.buildTable()
+
+	for i = 1, #partyTable do
+		func.updateModData(partyTable[i])
+	end
+end
+event.register("loaded", versionCheck)
+
+
 
 --
 ----Level-Up Mode------------------------------------------------------------------------------------------------------------------------------
@@ -53,6 +63,7 @@ local function onLevelUp()
 	end
 end
 event.register("levelUp", onLevelUp)
+
 
 --
 ----Exp Mode----------------------------------------------------------------------------------------------------------------------
@@ -212,28 +223,59 @@ local function abilityClear(e)
 end
 event.register(tes3.event.mobileActivated, abilityClear)
 
---Triggered Ability Timer
-local function abilityTimer()
+--Triggered Ability Timer: From Levels. Will phase out in later updates.
+local function abilityTimer(e)
+	log:trace("Level ability timer triggered.")
 	if config.modEnabled == false then return end
+	local timer = e.timer
+	local data = timer.data
 
 	local party = func.npcTable()
 
 	for i = 1, #party do
 		local reference = party[i]
-		abilities.executeAbilities(reference)
+		if reference.object.name == data.name then
+			abilities.executeAbilities(reference)
+		end
 	end
 
 end
 timer.register("companionLeveler:abilityTimer", abilityTimer)
 
+--Triggered Ability Timer: Recurring
+local function abilityTimer2()
+	log:trace("Recurring ability timer triggered.")
+
+	local float = math.random()
+	local int = math.random(7, 23)
+	timer.start({ type = timer.game, duration = (float + int), iterations = 1, callback = "companionLeveler:abilityTimer2" })
+
+	if config.modEnabled == false then return end
+
+	local party = func.npcTable()
+	if #party > 0 then
+		local choice = math.random(1, #party)
+		local reference = party[choice]
+
+		if math.random(0, 99) < config.triggerChance then
+			abilities.executeAbilities(reference)
+		end
+	end
+end
+timer.register("companionLeveler:abilityTimer2", abilityTimer2)
+
 --Combat Abilities
 local function onCombat(e)
 	if config.modEnabled == false then return end
 
-	abilities.jest(e)
-	abilities.thaumaturgy(e)
-	abilities.inoculate(e)
-	abilities.requiem(e)
+	if math.random(0, 99) < config.combatChance then
+		abilities.jest(e)
+		abilities.thaumaturgy(e)
+		abilities.inoculate(e)
+		abilities.requiem(e)
+		abilities.dirge(e)
+		abilities.elegy(e)
+	end
 end
 event.register(tes3.event.combatStarted, onCombat)
 
@@ -265,6 +307,8 @@ local function onCellChanged(e)
 end
 event.register(tes3.event.cellChanged, onCellChanged)
 
+
+
 --
 --Config Stuff------------------------------------------------------------------------------------------------------------------------------
 --
@@ -282,3 +326,9 @@ end)
 
 -- event.register("jump", onLevelUp)
 -- event.register("jump", expTest)
+
+
+
+----Planned Features
+----TR ingredient/item integration
+----GMST text values for other languages OR i18n support
