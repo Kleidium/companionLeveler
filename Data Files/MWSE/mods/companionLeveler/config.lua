@@ -2,6 +2,7 @@ local defaultConfig = {
 
 	modEnabled = true,
 	buildMode = false,
+	expMode = false,
 	levelSummary = true,
 	aboveMaxSkill = false,
 	aboveMaxAtt = false,
@@ -14,6 +15,15 @@ local defaultConfig = {
 	spellLearning = true,
 	spellLearningC = true,
 	abilityLearning = true,
+	abilityLearningNPC = true,
+	showUnlearned = false,
+	ignoreSummon = true,
+	expRequirement = 120,
+	expRate = 10,
+	expClassSkill = 10,
+	expMiscSkill = 2,
+	expKill = 2,
+	expQuest = 3,
 	healthMod = 10,
 	magickaMod = 1,
 	racialBonusMod = 1,
@@ -49,7 +59,10 @@ local defaultConfig = {
 	logLevel = "INFO",
 	typeBind = {
 		keyCode = tes3.scanCode.k
-	}
+	},
+	aheadClasses = true,
+	allClasses = false,
+	bMessages = true
 }
 
 local mwseConfig = mwse.loadConfig("Companion Leveler", defaultConfig)
