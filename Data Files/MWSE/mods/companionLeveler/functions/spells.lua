@@ -458,6 +458,7 @@ end
 function this.creatureSpellRoll(level, cType, companionRef)
     log = logger.getLogger("Companion Leveler")
     local name = companionRef.object.name
+
     if cType == "Normal" then
         local iterations = 0
         if level < 10 then
@@ -898,6 +899,246 @@ function this.creatureSpellRoll(level, cType, companionRef)
                 log:trace("Impish spell roll failed on " .. name .. ".")
             end
         until (wasAdded == true or iterations == 30)
+    end
+    if cType == "Fiery" then
+        local firstLearned = false
+
+        if level >= 3 then
+            local spell = tables.fireTable[1]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "destruction cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 7 and not firstLearned) then
+            local spell = tables.fireTable[2]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "destruction cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 12 and not firstLearned) then
+            local spell = tables.fireTable[3]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "destruction cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 18 and not firstLearned) then
+            local spell = tables.fireTable[4]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "destruction cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+    end
+    if cType == "Frozen" then
+        local firstLearned = false
+
+        if level >= 3 then
+            local spell = tables.frostTable[1]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "frost_cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 7 and not firstLearned) then
+            local spell = tables.frostTable[2]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "frost_cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 12 and not firstLearned) then
+            local spell = tables.frostTable[3]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "frost_cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 18 and not firstLearned) then
+            local spell = tables.frostTable[4]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "frost_cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+    end
+    if cType == "Galvanic" then
+        local firstLearned = false
+
+        if level >= 3 then
+            local spell = tables.shockTable[1]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "shock cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 7 and not firstLearned) then
+            local spell = tables.shockTable[2]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "shock cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 12 and not firstLearned) then
+            local spell = tables.shockTable[3]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "shock cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 18 and not firstLearned) then
+            local spell = tables.shockTable[4]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "shock cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+    end
+    if cType == "Poisonous" then
+        local firstLearned = false
+
+        if level >= 3 then
+            local spell = tables.poisonTable[1]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "alteration cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 7 and not firstLearned) then
+            local spell = tables.poisonTable[2]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "alteration cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 12 and not firstLearned) then
+            local spell = tables.poisonTable[3]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "alteration cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
+        if (level >= 18 and not firstLearned) then
+            local spell = tables.poisonTable[4]
+            local learned = tes3.getObject(spell)
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                firstLearned = true
+                tes3.playSound({ sound = "alteration cast" })
+            else
+                log:trace("" .. name .. " already knows " .. spell .. ".")
+            end
+        end
     end
 end
 

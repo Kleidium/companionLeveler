@@ -90,6 +90,10 @@ function creClassMode.companionLevelCre(companions)
                 if (config.abilityLearning == true and modData.abilityLearning == true) then
                     abilities.creatureAbilities(cName, companionRef)
                 end
+
+                --Technique Points
+				modData.tp_max = modData.tp_max + 1
+				modData.tp_current = modData.tp_max
                 ----1st major attribute trained-------------------------------------------------------------------------------------------------
                 local mAtt1 = tables.capitalization[trainedAtt1]
                 local min1 = config.minMajorAtt1

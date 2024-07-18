@@ -24,11 +24,14 @@ end
 event.register("initialized", initialized)
 
 local function versionCheck()
-	local partyTable = func.buildTable()
+	log:info("Checking version...")
+	local partyTable = func.partyTable()
 
 	for i = 1, #partyTable do
 		func.updateModData(partyTable[i])
 	end
+
+	log:info("Version check complete.")
 end
 event.register("loaded", versionCheck)
 
@@ -177,7 +180,7 @@ event.register("uiActivated", function()
 
 	local actor = tes3ui.getServiceActor()
 
-	if actor and func.validCompanionCheck(actor) then
+	if actor and func.validCompanionCheck(actor) and actor.inCombat == false then
 		log:debug("NPC Follower detected. Giving class change topic.")
 		tes3.setGlobal("kl_companion", 1)
 	else
@@ -191,14 +194,17 @@ event.register(tes3.event.keyDown, function(e)
 
 	local t = tes3.getPlayerTarget()
 	if not t then return end
+	if t.mobile.inCombat then return end
 
 	if func.validCompanionCheck(t.mobile) then
 		log:trace("Ability Check triggered on " .. t.object.name .. ". (Key Press)")
+
 		if t.object.objectType == tes3.objectType.creature then
 			func.addAbilities(t)
 		else
 			func.addAbilitiesNPC(t)
 		end
+
 		root.createWindow(t)
 	end
 end)
@@ -247,7 +253,7 @@ local function abilityTimer2()
 	log:trace("Recurring ability timer triggered.")
 
 	local float = math.random()
-	local int = math.random(7, 23)
+	local int = math.random(8, 23)
 	timer.start({ type = timer.game, duration = (float + int), iterations = 1, callback = "companionLeveler:abilityTimer2" })
 
 	if config.modEnabled == false then return end
@@ -285,10 +291,14 @@ event.register(tes3.event.combatStarted, onCombat)
 local function onDamage(e)
 	if config.modEnabled == false then return end
 
-	if math.random(0, 99) < config.combatChance then
-		local result = 0
+	if e.source == "attack" then
+		--Reliable
+		abilities.ignition(e)
 
-		if e.source == "attack" then
+		--Combat Chance
+		if math.random(0, 99) < config.combatChance then
+			local result = 0
+
 			result = result + abilities.thuum(e)
 			result = result + abilities.maneater(e)
 			result = result + abilities.ladykiller(e)
@@ -301,9 +311,11 @@ local function onDamage(e)
 			else
 				abilities.arcaneK(e)
 			end
-		end
 
-		e.damage = e.damage + result
+			e.damage = e.damage + result
+		end
+	elseif e.source == "fall" then
+		e.damage = abilities.acrobatic(e)
 	end
 end
 event.register("damage", onDamage)
@@ -324,13 +336,14 @@ local function onCellChanged(e)
 	abilities.composition()
 	abilities.mystery()
 	abilities.manasponge()
+	abilities.resolve()
 	abilities.blessed()
 	abilities.bountyCheck()
 	abilities.track()
 
 	if config.expMode == false then return end
 
-	local exp = abilities.survey()
+	local exp = abilities.survey(e)
 
 	if exp > 0 then
 		--Award EXP
@@ -350,6 +363,40 @@ local function onCellChanged(e)
 end
 event.register(tes3.event.cellChanged, onCellChanged)
 
+--On Rest Abilities
+local function onCalcRestInterrupt(e)
+	if config.modEnabled == false then return end
+
+	abilities.cunning(e)
+end
+event.register(tes3.event.calcRestInterrupt, onCalcRestInterrupt)
+
+--On Door Activate
+local function onDoor(e)
+	if e.activator ~= tes3.player then return end
+
+	if (e.target.baseObject.objectType == tes3.objectType.door) then
+		log:trace("Door callback triggered.")
+		local cell = tes3.player.cell
+
+		if cell.isOrBehavesAsExterior then
+			local vector = tes3.getLastExteriorPosition()
+			local modData = func.getModDataP(tes3.player)
+			modData.lastExteriorPosition = {vector.x, vector.y, vector.z}
+
+			log:debug("Last Exterior Position Assigned: " .. tostring(vector) .. "")
+		end
+	end
+end
+event.register("activate", onDoor)
+
+--Bartering
+local function onCalcTravelPrice(e)
+	if config.modEnabled == false then return end
+
+	abilities.navigator(e)
+end
+event.register("calcTravelPrice", onCalcTravelPrice)
 
 
 --
@@ -362,10 +409,92 @@ event.register("modConfigReady", function()
 end)
 
 --for testing:
--- local function expTest()
--- 	if config.expMode == false then return end
--- 	tes3.player.mobile:exerciseSkill(10, 100)
--- end
+local function expTest()
+	if config.expMode == false then return end
+	tes3.player.mobile:exerciseSkill(10, 100)
+end
 
--- event.register("jump", onLevelUp)
--- event.register("jump", expTest)
+event.register("jump", onLevelUp)
+event.register("jump", expTest)
+
+
+
+
+----Planned Features----
+----gotta turn more triggered abilities into techniques/other stuff. more auras, better passives? warlord aura.
+----make sure version control is updated
+----remember to update readme
+----A class can negotiate better deals and get %off gold?
+----Training classes use TP to train you/themselves?
+----look at length of menus maybe make them dragframes if they too bige. ability list, special list
+----expensive revive tech, less expensive worse revive tech, beastmaster training tech, gathering tech?
+----clean up some files, maybe check the modes to ensure all is good
+----another class gives tech points aside from warlock and sorcerer
+----clean up beast master
+
+
+
+
+
+
+--CHANGES--
+--FIXED: Nightblade ability increases short blade rather than long blade now.
+--FIXED: assassins are getting contracts when other party members level up, as well as when the player levels up supposedly. The same has been fixed for Bounty Hunter.
+--FIXED: a typo in ability 9 flavor text (Healer)
+--FIXED: modData code optimized a bit
+--FIXED: disabled right clicking out of character sheet
+--FIXED: partyTable was including player as a mobile instead of a reference
+--CHANGED: removed redundant companion names in ability/spell/special lists, centered the titles
+--CHANGED: unused creature skills filler text in build mode changed from "N/A" to "--"
+--CHANGED: removed auto-calc from all spells
+--CHANGED: changed lower end of triggered ability timer to 8 from 7
+--CHANGED: growth settings menu no longer overlaps with root menu
+--CHANGED: root menu now sized dynamically and centered
+--CHANGED: tooltip common function for NPC abilities
+--CHANGED: NPC Abilities now split between ability type/town, wilderness, anywhere. some abilities changed to town/wilderness only
+--CHANGED: Trance nerfed because of Arcanist technique synergy
+--CHANGED: Acrobat buffed, reduces their fall damage by a lot and the party's by half as much. Reduced Acrobatics passive by 10.
+--CHANGED: k menu can't be opened in combat.
+--CHANGED: Crusader passive nerfed, added dmg reduction aura based on Willpower
+--CHANGED: overlapping menus have 1.0 alpha now
+--CHANGED: Baker gives 5 blunt weapon now
+--CHANGED: forget bounties/contracts, contracts show reward
+--CHANGED: artificer turns into a technique which requires ingredients
+--CHANGED: necromancer turns into a technique which raises undead
+--CHANGED: warlock increases TP by 5 and no longer has additional magicka
+--CHANGED: added star icon to mastered classes/types
+--CHANGED: shipmaster reduces most travel costs by 25%.
+--CHANGED: archeologist is now a technique
+--CHANGED: beast master is now a technique
+--ADDED: Fiery, Frozen, Galvanic, Poisonous types.
+--ADDED: Scavenger, Vagabond, Ninja, Fisherman, and Arcanist abilities.
+--ADDED: Technique menu. Ninja, Stormcaller, Arcanist, Alchemist, Undead, Humanoid.
+--ADDED: Mastered classes and types are now colored yellow with a star indicator in Class/Type Change menus.
+--ADDED: Techniques are here, TP is equal to level and is regen on level up
+--ADDED: some helpful tooltips
+
+
+
+
+
+
+
+
+
+
+
+--ON HOLD--
+----TR ingredient/item integration. can check for TR and add items/make lists?
+----GMST text values for other languages OR i18n support
+----golem type? arachnid type? reptile? homuncular: able to pick creature major attributes? +1 to both? or also pick random attribute? can change attributes in type change menu.
+----allow mix of build/exp/regular mode companions?
+----maybe expand growth settings to skill/attribute leveling flags, other settings
+----maybe provide a way for companions to train while away from the player or otherwise catch up to the player's level?
+----more tooltips where needed
+----trim tables maybe
+----equip and unequip spells?
+----specialization techs have a % chance to be learned when leveling up as a class with that specialization? e.g. stealth learns a dash tech?
+----hybrid class/type techs? like level 10 spriggan level 10 frozen type hybrid tech?
+----tes3.getTrap/setTrap (Rogue?). rogue can use magicka to set a spell trap they have learned, tes3.showDialogueMenu (some sort of telepath?) maybe use distance check from necro
+----friendly intervention compat? check for mod and require, add tele menu to technique/root menu
+----traders TRADE random items for other items

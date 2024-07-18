@@ -120,8 +120,14 @@ function buildMode.companionLevelBuild(companions)
 				end
 				if config.triggeredAbilities == true then
 					abilities.executeAbilities(companionRef)
+					abilities.contract(companionRef)
+					abilities.bounty(companionRef)
+					--To Be Removed
 					--timer.start({ type = timer.game, duration = math.random(12, 96), iterations = 1, callback = "companionLeveler:abilityTimer", data = { name = name } })
 				end
+				--Technique Points
+				modData.tp_max = modData.tp_max + 1
+				modData.tp_current = modData.tp_max
 			end
 			----Creature Type Level---------------------------------------------------------------------------------------------------------------
 			if companionRef.object.class == nil then
@@ -309,8 +315,6 @@ function buildMode.companionLevelBuild(companions)
 	if leveled > 0 then
 		tes3.playSound({ sound = "skillraise" })
 	end
-	abilities.contract()
-	abilities.bounty()
 
 	--Start Recurring Ability Timer
 	local modDataP = func.getModDataP(tes3.player)

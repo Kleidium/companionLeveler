@@ -19,11 +19,14 @@ function abList.createWindow(reference)
 
 
     local menu = tes3ui.createMenu { id = abList.id_menu, fixedFrame = true }
+    menu.alpha = 1.0
 
     local modData = func.getModData(reference)
 
     --Create layout
-    local label = menu:createLabel { text = "" .. reference.object.name .. "'s Ability List:", id = abList.id_label }
+    local label = menu:createLabel { text = "Ability List:", id = abList.id_label }
+    label.wrapText = true
+    label.justifyText = "center"
     label.borderBottom = 12
 
 
@@ -55,23 +58,7 @@ function abList.createWindow(reference)
                 listItem.color = { 0.35, 0.35, 0.35 }
             end
 
-            listItem:register("help", function(e)
-                local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
-
-                local contentElement = tooltip:getContentElement()
-                contentElement.paddingAllSides = 12
-                contentElement.childAlignX = 0.5
-                contentElement.childAlignY = 0.5
-
-                tooltip:createDivider()
-
-                tooltip:createLabel { text = tables.abDescriptionNPC[i] }
-
-                if tables.abDescriptionNPC2[i] ~= "" then
-                    local helpLabel2 = tooltip:createLabel { text = tables.abDescriptionNPC2[i] }
-                    helpLabel2.borderTop = 8
-                end
-            end)
+            func.abilityTooltip(listItem, i, true)
 
             if modData.abilities[i] == true then
                 listItem:register("mouseClick", function() abList.onSelect(spellObject.id) end)
@@ -96,25 +83,10 @@ function abList.createWindow(reference)
                 listItem.color = { 0.35, 0.35, 0.35 }
             end
 
-            listItem:register("help", function(e)
-                local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
-
-                local contentElement = tooltip:getContentElement()
-                contentElement.paddingAllSides = 12
-                contentElement.childAlignX = 0.5
-                contentElement.childAlignY = 0.5
-
-                tooltip:createDivider()
-
-                tooltip:createLabel { text = tables.abDescription[i] }
-
-                local helpLabel2 = tooltip:createLabel { text = tables.abDescription2[i] }
-                helpLabel2.borderTop = 8
-            end)
+            func.abilityTooltip(listItem, i, false)
 
             if modData.abilities[i] == true then
                 listItem:register("mouseClick", function() abList.onSelect(spellObject.id) end)
-                --listItem.color = { 1.0, 1.0, 1.0 }
             end
 
             --Show Unlearned?
@@ -211,5 +183,6 @@ function abList.onOK()
         menu:destroy()
     end
 end
+
 
 return abList

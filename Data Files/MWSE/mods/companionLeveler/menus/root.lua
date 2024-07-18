@@ -7,6 +7,7 @@ local classChange = require("companionLeveler.menus.classChange")
 local buildChange = require("companionLeveler.menus.buildChange")
 local sheet = require("companionLeveler.menus.sheet")
 local growth = require("companionLeveler.menus.growthSettings")
+local tech = require("companionLeveler.menus.techniques.techniques")
 
 local root = {}
 
@@ -20,6 +21,7 @@ function root.createWindow(reference)
     root.id_change = tes3ui.registerID("kl_root_change_btn")
     root.id_build = tes3ui.registerID("kl_root_build_btn")
     root.id_growth = tes3ui.registerID("kl_root_growth_btn")
+    root.id_tech = tes3ui.registerID("kl_root_tech_btn")
     root.id_exp = tes3ui.registerID("kl_root_exp_bar")
 
     log = logger.getLogger("Companion Leveler")
@@ -61,22 +63,23 @@ function root.createWindow(reference)
 
     --Button Block
     local root_block = menu:createBlock { id = "kl_root_block" }
-    root_block.width = 236
-    root_block.height = 150
     root_block.flowDirection = "top_to_bottom"
+    root_block.autoHeight = true
+    root_block.autoWidth = true
+    root_block.paddingLeft = 10
+    root_block.paddingRight = 10
+    root_block.widthProportional = 1.0
+	root_block.autoHeight = true
+	root_block.childAlignX = 0.5
 
 
     -- Buttons
     local button_sheet = root_block:createButton { id = root.id_sheet, text = "Character Sheet" }
-    button_sheet.borderLeft = 50
     local button_change = root_block:createButton { id = root.id_change, text = "Change Class/Type" }
-    button_change.borderLeft = 42
     local button_build = root_block:createButton { id = root.id_build, text = "Change Build" }
-    button_build.borderLeft = 61
     local button_growth = root_block:createButton { id = root.id_growth, text = "Growth Settings" }
-    button_growth.borderLeft = 47
+    local button_tech = root_block:createButton { id = root.id_tech, text = "Techniques" }
     local button_cancel = root_block:createButton { id = root.id_cancel, text = tes3.findGMST("sCancel").value }
-    button_cancel.borderLeft = 84
 
     --EXP Bar
     if config.expMode == true then
@@ -88,10 +91,9 @@ function root.createWindow(reference)
         exp.widget.fillColor = { 0.6, 0.6, 0.0 }
         exp.width = 180
         exp.height = 21
-        exp.borderLeft = 26
         exp.borderTop = 10
 
-        root_block.height = 184
+        func.clTooltip(exp, "exp")
     end
 
     -- Events
@@ -104,7 +106,8 @@ function root.createWindow(reference)
     end
 
     button_build:register("mouseClick", function() menu:destroy() buildChange.buildChange(reference) end)
-    button_growth:register("mouseClick", function() growth.createWindow(reference) end)
+    button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
+    button_tech:register("mouseClick", function() menu:destroy() tech.createWindow(reference) end)
     button_cancel:register("mouseClick", function() tes3ui.leaveMenuMode() menu:destroy() end)
 
     -- Final setup

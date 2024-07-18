@@ -5,6 +5,7 @@ local func = require("companionLeveler.functions.common")
 
 local growth = {}
 
+
 function growth.createWindow(reference)
     growth.id_menu = tes3ui.registerID("kl_growth_menu")
     growth.id_label = tes3ui.registerID("kl_growth_label")
@@ -15,6 +16,8 @@ function growth.createWindow(reference)
 
     log = logger.getLogger("Companion Leveler")
     log:debug("Growth Settings menu initialized.")
+
+    local root = require("companionLeveler.menus.root")
 
     growth.reference = reference
 
@@ -29,14 +32,14 @@ function growth.createWindow(reference)
     label.borderBottom = 34
 
 
-    --Button Block
+    --Main Button Block---------------------------------------------------------------------------------------------
     local growth_block = menu:createBlock { id = "kl_growth_block" }
     growth_block.width = 236
-    growth_block.height = 150
+    growth_block.height = 130
     growth_block.flowDirection = "top_to_bottom"
 
 
-    -- Buttons
+    --Buttons
     local button_spell = growth_block:createButton { id = growth.id_spell, text = "Spell Learning" }
     button_spell.borderLeft = 41
     if modData.spellLearning == true then
@@ -61,16 +64,26 @@ function growth.createWindow(reference)
         button_blacklist.text = "Blacklist: No"
     end
 
-    local button_cancel = growth_block:createButton { id = growth.id_cancel, text = tes3.findGMST("sCancel").value }
-    button_cancel.borderLeft = 84
+    ----Bottom Button Block-----------------------------------------------------------------------------------------
+	local button_block = menu:createBlock {}
+	button_block.widthProportional = 1.0
+	button_block.autoHeight = true
+	button_block.childAlignX = 1.0
+
+	local button_root = button_block:createButton { text = "Main Menu" }
+	button_root.borderRight = 66
+
+	local button_cancel = button_block:createButton { id = growth.id_cancel, text = tes3.findGMST("sCancel").value }
 
 
+    --Events
     button_spell:register(tes3.uiEvent.mouseClick, growth.onSpell)
     button_ability:register(tes3.uiEvent.mouseClick, growth.onAbility)
     button_blacklist:register(tes3.uiEvent.mouseClick, growth.onBlacklist)
-    button_cancel:register("mouseClick", function() menu:destroy() end)
+    button_root:register("mouseClick", function() menu:destroy() root.createWindow(reference) end)
+    button_cancel:register("mouseClick", function() tes3ui.leaveMenuMode() menu:destroy() end)
 
-    -- Final setup
+    --Final Setup
     menu:updateLayout()
     tes3ui.enterMenuMode(growth.id_menu)
 end
@@ -131,5 +144,6 @@ function growth.onBlacklist(e)
         end
     end
 end
+
 
 return growth

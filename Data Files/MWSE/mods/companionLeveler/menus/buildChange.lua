@@ -148,7 +148,7 @@ function buildModule.buildChange(reference)
         bord.paddingLeft = 2
         local input
         if reference.object.objectType == tes3.objectType.creature then
-            input = bord:createTextInput({ text = "N/A", numeric = true, id = "sBuildI_" .. i .. "" })
+            input = bord:createTextInput({ text = "--", numeric = true, id = "sBuildI_" .. i .. "" })
         else
             input = bord:createTextInput({ text = "" .. modData.skillMods[i] .. "", numeric = true, id = "sBuildI_" .. i .. "" })
         end
@@ -185,7 +185,7 @@ function buildModule.buildChange(reference)
         bord.paddingLeft = 2
         local input
         if reference.object.objectType == tes3.objectType.creature then
-            input = bord:createTextInput({ text = "N/A", numeric = true, id = "sBuildImax_" .. i .. "" })
+            input = bord:createTextInput({ text = "--", numeric = true, id = "sBuildImax_" .. i .. "" })
         else
             input = bord:createTextInput({ text = "" .. modData.skillModsMax[i] .. "", numeric = true, id = "sBuildImax_" .. i .. "" })
         end
@@ -225,7 +225,7 @@ function buildModule.buildChange(reference)
         bord.paddingLeft = 2
         local input
         if reference.object.objectType == tes3.objectType.creature then
-            input = bord:createTextInput({ text = "N/A", numeric = true, id = "sBuildI_" .. i .. "" })
+            input = bord:createTextInput({ text = "--", numeric = true, id = "sBuildI_" .. i .. "" })
         else
             input = bord:createTextInput({ text = "" .. modData.skillMods[i] .. "", numeric = true, id = "sBuildI_" .. i .. "" })
         end
@@ -262,7 +262,7 @@ function buildModule.buildChange(reference)
         bord.paddingLeft = 2
         local input
         if reference.object.objectType == tes3.objectType.creature then
-            input = bord:createTextInput({ text = "N/A", numeric = true, id = "sBuildImax_" .. i .. "" })
+            input = bord:createTextInput({ text = "--", numeric = true, id = "sBuildImax_" .. i .. "" })
         else
             input = bord:createTextInput({ text = "" .. modData.skillModsMax[i] .. "", numeric = true, id = "sBuildImax_" .. i .. "" })
         end
@@ -302,7 +302,7 @@ function buildModule.buildChange(reference)
         bord.paddingLeft = 2
         local input
         if reference.object.objectType == tes3.objectType.creature then
-            input = bord:createTextInput({ text = "N/A", numeric = true, id = "sBuildI_" .. i .. "" })
+            input = bord:createTextInput({ text = "--", numeric = true, id = "sBuildI_" .. i .. "" })
         else
             input = bord:createTextInput({ text = "" .. modData.skillMods[i] .. "", numeric = true, id = "sBuildI_" .. i .. "" })
         end
@@ -339,7 +339,7 @@ function buildModule.buildChange(reference)
         bord.paddingLeft = 2
         local input
         if reference.object.objectType == tes3.objectType.creature then
-            input = bord:createTextInput({ text = "N/A", numeric = true, id = "sBuildImax_" .. i .. "" })
+            input = bord:createTextInput({ text = "--", numeric = true, id = "sBuildImax_" .. i .. "" })
         else
             input = bord:createTextInput({ text = "" .. modData.skillModsMax[i] .. "", numeric = true, id = "sBuildImax_" .. i .. "" })
         end
@@ -365,7 +365,7 @@ function buildModule.buildChange(reference)
     -- Events
     menu:register(tes3.uiEvent.keyEnter, buildModule.onOK)
     button_ok:register(tes3.uiEvent.mouseClick, buildModule.onOK)
-    button_growth:register("mouseClick", function() growth.createWindow(reference) end)
+    button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
     button_root:register("mouseClick", function() menu:destroy() root.createWindow(reference) end)
 
     -- Final setup

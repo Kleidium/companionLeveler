@@ -52,12 +52,12 @@ function classModule.classChange(reference)
 
 	local border = pane_block:createThinBorder { id = "kl_border" }
 	border.width = 190
-	border.height = 134
+	border.height = 133
 	border.borderRight = 12
 
 	local border2 = pane_block:createThinBorder { id = "kl_border2" }
-	border2.width = 262
-	border2.height = 134
+	border2.width = 261
+	border2.height = 133
 	border2.paddingAllSides = 2
 
 	--Image
@@ -77,26 +77,79 @@ function classModule.classChange(reference)
 	pane.widget.scrollbarVisible = true
 
 	--Populate Pane
-	local a = pane:createTextSelect { text = "Default: " .. reference.object.class.name .. "", id = "cChangeB_D" }
+	local bloc = pane:createBlock {}
+	bloc.flowDirection = tes3.flowDirection.leftToRight
+	bloc.width = 180
+	bloc.height = 18
+	local a = bloc:createTextSelect { text = "Default: " .. reference.object.class.name .. "", id = "cChangeB_D" }
 	a:register("mouseClick", function() classModule.defSelect() end)
+	for int = 1, #tables.classesSpecial do
+		if reference.object.class.name == tables.classesSpecial[int] then
+			if modData.abilities[int] == true then
+				a.widget.idle = { 0.6, 0.6, 0.0 }
+				local star = bloc:createImage({ path = "textures\\companionLeveler\\star.tga" })
+				star.height = 10
+				star.width = 10
+				star.borderLeft = 4
+				star.borderTop = 1
+			end
+		end
+	end
 
-	pane:createDivider()
+	local bloc2 = pane:createBlock {}
+	bloc2.flowDirection = tes3.flowDirection.leftToRight
+	bloc2.width = 180
+	bloc2.height = 18
+
+	bloc2:createDivider()
 
 	if config.allClasses == true then
 		--list all available classes
 		for n, k in pairs(tes3.dataHandler.nonDynamicData.classes) do
 			local num = classModule.total
-			local b = pane:createTextSelect { text = k.name, id = "cChangeB_" .. num .. "" }
+			local bl = pane:createBlock {}
+			bl.flowDirection = tes3.flowDirection.leftToRight
+			bl.width = 180
+			bl.height = 18
+			local b = bl:createTextSelect { text = k.name, id = "cChangeB_" .. num .. "" }
 			b:register("mouseClick", function() classModule.onSelect(num, k.id) end)
 			classModule.total = classModule.total + 1
+			for int = 1, #tables.classesSpecial do
+				if k.name == tables.classesSpecial[int] then
+					if modData.abilities[int] == true then
+						b.widget.idle = { 0.6, 0.6, 0.0 }
+						local star = bl:createImage({ path = "textures\\companionLeveler\\star.tga" })
+						star.height = 10
+						star.width = 10
+						star.borderLeft = 4
+						star.borderTop = 1
+					end
+				end
+			end
 		end
 	else
 		--list most vanilla classes
 		for i = 1, #tables.classes do
 			local num = classModule.total
-			local b = pane:createTextSelect { text = tables.classes[i], id = "cChangeB_" .. num .. "" }
+			local bl = pane:createBlock {}
+			bl.flowDirection = tes3.flowDirection.leftToRight
+			bl.width = 180
+			bl.height = 18
+			local b = bl:createTextSelect { text = tables.classes[i], id = "cChangeB_" .. num .. "" }
 			b:register("mouseClick", function() classModule.onSelect(num, tables.classes[i]) end)
 			classModule.total = classModule.total + 1
+			for int = 1, #tables.classesSpecial do
+				if b.text == tables.classesSpecial[int] then
+					if modData.abilities[int] == true then
+						b.widget.idle = { 0.6, 0.6, 0.0 }
+						local star = bl:createImage({ path = "textures\\companionLeveler\\star.tga" })
+						star.height = 10
+						star.width = 10
+						star.borderLeft = 4
+						star.borderTop = 1
+					end
+				end
+			end
 		end
 		--Ahead of the Classes
 		if config.aheadClasses == true then
@@ -114,9 +167,25 @@ function classModule.classChange(reference)
 							end
 							if dupe == false then
 								local num = classModule.total
-								local b = pane:createTextSelect { text = "" .. k.name .. "", id = "cChangeB_" .. num .. "" }
+								local bl = pane:createBlock {}
+								bl.flowDirection = tes3.flowDirection.leftToRight
+								bl.width = 180
+								bl.height = 18
+								local b = bl:createTextSelect { text = "" .. k.name .. "", id = "cChangeB_" .. num .. "" }
 								b:register("mouseClick", function() classModule.onSelect(num, k.id) end)
 								classModule.total = classModule.total + 1
+								for int = 1, #tables.classesSpecial do
+									if k.name == tables.classesSpecial[int] then
+										if modData.abilities[int] == true then
+											b.widget.idle = { 0.6, 0.6, 0.0 }
+											local star = bl:createImage({ path = "textures\\companionLeveler\\star.tga" })
+											star.height = 10
+											star.width = 10
+											star.borderLeft = 4
+											star.borderTop = 1
+										end
+									end
+								end
 							end
 						end
 					end
@@ -128,8 +197,28 @@ function classModule.classChange(reference)
 
 	--Sort
 	pane:getContentElement():sortChildren(function(c, d)
-		if not string.startswith(c.text, "Default") and not string.startswith(d.text, "Default") then
-			return c.text < d.text
+		local cText
+		local dText
+
+		for int = 0, classModule.total do
+			cText = ""
+			local cChild = c:findChild("cChangeB_" .. int .. "")
+			if cChild == nil then
+				cChild = c:findChild("cChangeB_D")
+			end
+			if cChild ~= nil then cText = cChild.text break end
+		end
+		for num = 0, classModule.total do
+			dText = ""
+			local dChild = d:findChild("cChangeB_" .. num .. "")
+			if dChild == nil then
+				dChild = d:findChild("cChangeB_D")
+			end
+			if dChild ~= nil then dText = dChild.text break end
+		end
+
+		if not string.startswith(cText, "Default") and not string.startswith(dText, "Default") then
+			return cText < dText
 		end
 	end)
 
@@ -227,25 +316,10 @@ function classModule.classChange(reference)
 				learned.text = "(Unlearned)"
 			end
 
-			abilityName:register("help", function(e)
-				local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
-
-				local contentElement = tooltip:getContentElement()
-				contentElement.paddingAllSides = 12
-				contentElement.childAlignX = 0.5
-				contentElement.childAlignY = 0.5
-
-				tooltip:createDivider()
-
-				local helpLabel = tooltip:createLabel { text = tables.abDescriptionNPC[i] }
-
-				if tables.abDescriptionNPC2[i] ~= "" then
-					local helpLabel2 = tooltip:createLabel { text = tables.abDescriptionNPC2[i] }
-					helpLabel2.borderTop = 8
-				end
-			end)
+			func.abilityTooltip(abilityName, i, true)
 		end
 	end
+
 
 	--Button Block
 	local button_block = menu:createBlock {}
@@ -263,7 +337,7 @@ function classModule.classChange(reference)
 	-- Events
 	menu:register(tes3.uiEvent.keyEnter, classModule.onOK)
 	button_ok:register(tes3.uiEvent.mouseClick, classModule.onOK)
-	button_growth:register("mouseClick", function() growth.createWindow(reference) end)
+	button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
 	button_root:register("mouseClick",
 		function() menu:destroy()
 			tes3.messageBox { message = "" ..
@@ -376,23 +450,7 @@ function classModule.onSelect(i, id)
 					learned.text = "(Unlearned)"
 				end
 
-				ability:register("help", function(e)
-					local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
-
-					local contentElement = tooltip:getContentElement()
-					contentElement.paddingAllSides = 12
-					contentElement.childAlignX = 0.5
-					contentElement.childAlignY = 0.5
-
-					tooltip:createDivider()
-
-					local helpLabel = tooltip:createLabel { text = tables.abDescriptionNPC[n] }
-
-					if tables.abDescriptionNPC2[n] ~= "" then
-						local helpLabel2 = tooltip:createLabel { text = tables.abDescriptionNPC2[n] }
-						helpLabel2.borderTop = 8
-					end
-				end)
+				func.abilityTooltip(ability, n, true)
 			end
 		end
 
@@ -484,23 +542,7 @@ function classModule.defSelect()
 					learned.text = "(Unlearned)"
 				end
 
-				ability:register("help", function(e)
-					local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
-
-					local contentElement = tooltip:getContentElement()
-					contentElement.paddingAllSides = 12
-					contentElement.childAlignX = 0.5
-					contentElement.childAlignY = 0.5
-
-					tooltip:createDivider()
-
-					local helpLabel = tooltip:createLabel { text = tables.abDescriptionNPC[n] }
-
-					if tables.abDescriptionNPC2[n] ~= "" then
-						local helpLabel2 = tooltip:createLabel { text = tables.abDescriptionNPC2[n] }
-						helpLabel2.borderTop = 8
-					end
-				end)
+				func.abilityTooltip(ability, n, true)
 			end
 		end
 
@@ -508,5 +550,6 @@ function classModule.defSelect()
 		menu:updateLayout()
 	end
 end
+
 
 return classModule

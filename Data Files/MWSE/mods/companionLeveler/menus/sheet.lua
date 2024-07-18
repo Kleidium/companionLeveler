@@ -1,4 +1,4 @@
-local config = require("companionLeveler.config")
+--local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
@@ -11,6 +11,7 @@ local growth = require("companionLeveler.menus.growthSettings")
 
 local sheet = {}
 
+
 function sheet.createWindow(reference)
     sheet.id_menu = tes3ui.registerID("kl_sheet_menu")
     sheet.id_label = tes3ui.registerID("kl_sheet_label")
@@ -21,7 +22,8 @@ function sheet.createWindow(reference)
     sheet.id_hth = tes3ui.registerID("kl_sheet_hth_bar")
     sheet.id_mgk = tes3ui.registerID("kl_sheet_mgk_bar")
     sheet.id_fat = tes3ui.registerID("kl_sheet_fat_bar")
-    sheet.id_exp = tes3ui.registerID("kl_sheet_exp_bar")
+    sheet.id_tp = tes3ui.registerID("kl_sheet_tp_bar")
+    --sheet.id_exp = tes3ui.registerID("kl_sheet_exp_bar")
     sheet.id_ok = tes3ui.registerID("kl_sheet_ok_btn")
     sheet.id_original = tes3ui.registerID("kl_sheet_orig_btn")
     sheet.id_current = tes3ui.registerID("kl_sheet_current_btn")
@@ -51,9 +53,15 @@ function sheet.createWindow(reference)
     menu.width = viewportWidth * 0.95
     menu.height = viewportHeight * 0.95
     menu.text = reference.object.name
+
     local modData = func.getModData(reference)
     local attTable = reference.mobile.attributes
     local faction = reference.object.faction
+
+    --Fix right click bullshit
+    menu:register("unfocus", function(e)
+        return false
+    end)
 
     -- Create layout
     local label = menu:createLabel { text = "Current Statistics:", id = sheet.id_label }
@@ -75,7 +83,7 @@ function sheet.createWindow(reference)
     border.widthProportional = 1.0
     border.heightProportional = 1.0
     border.width = 469
-    border.height = 778
+    border.height = 769
     border.maxHeight = 778
     border.paddingAllSides = 4
     border.flowDirection = "top_to_bottom"
@@ -85,13 +93,13 @@ function sheet.createWindow(reference)
     mainScroll.height = 778
     mainScroll.maxHeight = 778
 
-    if config.expMode == false then
-        menu.maxHeight = 900
-        border.height = 758
-        border.maxHeight = 758
-        mainScroll.height = 758
-        mainScroll.maxHeight = 758
-    end
+    -- if config.expMode == false then
+    --     menu.maxHeight = 900
+    --     border.height = 758
+    --     border.maxHeight = 758
+    --     mainScroll.height = 758
+    --     mainScroll.maxHeight = 758
+    -- end
 
     ----Headers-----------------------------------------------------------------------------------------------
     local title = mainScroll:createThinBorder {}
@@ -145,66 +153,77 @@ function sheet.createWindow(reference)
     ----Content Blocks------------------------------------------------------------------------------------------------------
     local main = mainScroll:createThinBorder {}
     main.width = 440
-    main.height = 672
+    main.height = 697
     main.flowDirection = "left_to_right"
 
     local leftBlock = main:createThinBorder { id = "text_block_sheet_left" }
     leftBlock.flowDirection = "top_to_bottom"
     leftBlock.width = 220
-    leftBlock.height = 672
+    leftBlock.height = 697
 
     local rightBlock = main:createThinBorder { id = "text_block_sheet_right" }
     rightBlock.flowDirection = "top_to_bottom"
     rightBlock.width = 220
-    rightBlock.height = 672
+    rightBlock.height = 697
 
     ----Attribute Block---------------------------------------------------------------------------------------------------
 
-    local lvl = leftBlock:createLabel({ text = "Level: " .. modData.level .. "", id = sheet.id_lvl })
-    lvl.borderTop = 10
-    lvl.wrapText = true
-    lvl.justifyText = "center"
+    sheet.lvl = leftBlock:createLabel({ text = "Level: " .. modData.level .. "", id = sheet.id_lvl })
+    sheet.lvl.borderTop = 10
+    sheet.lvl.wrapText = true
+    sheet.lvl.justifyText = "center"
 
-    local hth = leftBlock:createFillBar({ current = reference.mobile.health.current, max = reference.mobile.health.base,
+    sheet.hth = leftBlock:createFillBar({ current = reference.mobile.health.current, max = reference.mobile.health.base,
         id = sheet.id_hth })
-    hth.widget.showText = true
-    hth.widget.fillColor = { 0.6, 0.2, 0.2 }
-    hth.width = 180
-    hth.borderTop = 10
-    hth.borderLeft = 20
-    hth.borderBottom = 4
+    sheet.hth.widget.showText = true
+    sheet.hth.widget.fillColor = { 0.6, 0.2, 0.2 }
+    sheet.hth.width = 180
+    sheet.hth.borderTop = 10
+    sheet.hth.borderLeft = 20
+    sheet.hth.borderBottom = 4
 
-    local mgk = leftBlock:createFillBar({ current = reference.mobile.magicka.current, max = reference.mobile.magicka.base, id = sheet.id_mgk })
-    mgk.widget.showText = true
-    mgk.widget.fillColor = { 0.2, 0.2, 0.6 }
-    mgk.width = 180
-    mgk.borderLeft = 20
-    mgk.borderBottom = 4
+    sheet.mgk = leftBlock:createFillBar({ current = reference.mobile.magicka.current, max = reference.mobile.magicka.base, id = sheet.id_mgk })
+    sheet.mgk.widget.showText = true
+    sheet.mgk.widget.fillColor = { 0.2, 0.2, 0.6 }
+    sheet.mgk.width = 180
+    sheet.mgk.borderLeft = 20
+    sheet.mgk.borderBottom = 4
 
-    local fat = leftBlock:createFillBar({ current = reference.mobile.fatigue.current, max = reference.mobile.fatigue.base, id = sheet.id_fat })
-    fat.widget.showText = true
-    fat.widget.fillColor = { 0.2, 0.6, 0.2 }
-    fat.width = 180
-    fat.borderLeft = 20
-    fat.borderBottom = 2
+    sheet.fat = leftBlock:createFillBar({ current = reference.mobile.fatigue.current, max = reference.mobile.fatigue.base, id = sheet.id_fat })
+    sheet.fat.widget.showText = true
+    sheet.fat.widget.fillColor = { 0.2, 0.6, 0.2 }
+    sheet.fat.width = 180
+    sheet.fat.borderLeft = 20
+    sheet.fat.borderBottom = 2
 
-    if config.expMode == true then
-        border.height = 769
-        main.height = 697
-        leftBlock.height = 697
-        rightBlock.height = 697
+    sheet.tp = leftBlock:createFillBar({ current = modData.tp_current, max = modData.tp_max, id = sheet.id_tp })
+    sheet.tp.widget.showText = true
+    sheet.tp.widget.fillColor = { 0.50, 0.20, 0.66 } --purple
+    sheet.tp.width = 180
+    sheet.tp.height = 21
+    sheet.tp.borderLeft = 20
+    sheet.tp.borderBottom = 2
+    sheet.tp.borderTop = 2
 
-        local exp = leftBlock:createFillBar({ current = modData.lvl_progress,
-            max = modData.lvl_req,
-            id = sheet.id_exp })
-        exp.widget.showText = true
-        exp.widget.fillColor = { 0.6, 0.6, 0.0 }
-        exp.width = 180
-        exp.height = 21
-        exp.borderLeft = 20
-        exp.borderBottom = 2
-        exp.borderTop = 2
-    end
+    func.clTooltip(sheet.tp, "tp")
+
+    -- if config.expMode == true then
+    --     border.height = 769
+    --     main.height = 697
+    --     leftBlock.height = 697
+    --     rightBlock.height = 697
+
+    --     sheet.exp = leftBlock:createFillBar({ current = modData.lvl_progress, max = modData.lvl_req, id = sheet.id_exp })
+    --     sheet.exp.widget.showText = true
+    --     sheet.exp.widget.fillColor = { 0.6, 0.6, 0.0 } --yellow
+    --     sheet.exp.width = 180
+    --     sheet.exp.height = 21
+    --     sheet.exp.borderLeft = 20
+    --     sheet.exp.borderBottom = 2
+    --     sheet.exp.borderTop = 2
+
+    --     func.clTooltip(sheet.exp, "exp")
+    -- end
 
     leftBlock:createDivider()
 
@@ -306,7 +325,6 @@ function sheet.createWindow(reference)
             typeList.wrapText = true
             typeList.justifyText = "center"
             typeList.color = { 0.35, 0.35, 0.35 }
-            --typeList.borderLeft = 12
             typeList.borderTop = 8
 
             if i == 1 then
@@ -324,7 +342,7 @@ function sheet.createWindow(reference)
         end
     else
         local ignoreLabel = rightBlock:createLabel({ text = "Ignored Skill: None", id = "kl_sheet_ignore_label" })
-        ignoreLabel.borderTop = 8
+        ignoreLabel.borderTop = 10
         ignoreLabel.color = { 1.0, 0.62, 0.0 }
         ignoreLabel.wrapText = true
         ignoreLabel.justifyText = "center"
@@ -398,11 +416,13 @@ function sheet.createWindow(reference)
         end
 
         local listTop = menu:findChild("kl_sheet_skill_0")
-        if config.expMode == true then
-            listTop.borderTop = 40
-        else
-            listTop.borderTop = 30
-        end
+        listTop.borderTop = 40
+
+        -- if config.expMode == true then
+        --     listTop.borderTop = 40
+        -- else
+        --     listTop.borderTop = 30
+        -- end
 
         local lastCombat = menu:findChild("kl_sheet_skill_8")
         lastCombat.borderBottom = 6
@@ -435,7 +455,7 @@ function sheet.createWindow(reference)
     button_current:register(tes3.uiEvent.mouseClick, sheet.onCurrent)
     button_ideal:register(tes3.uiEvent.mouseClick, sheet.onIdeal)
     button_fix:register(tes3.uiEvent.mouseClick, sheet.onFix)
-    button_growth:register("mouseClick", function() growth.createWindow(reference) end)
+    button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
     button_root:register("mouseClick", function() menu:destroy() root.createWindow(reference) end)
     button_ability:register("mouseClick", function() abilityList.createWindow(reference) end)
     button_spell:register("mouseClick", function() spellList.createWindow(reference) end)
@@ -461,10 +481,6 @@ function sheet.onOriginal()
         local label = menu:findChild(sheet.id_label)
         local label2 = menu:findChild(sheet.id_label2)
         local title = menu:findChild(sheet.id_title)
-        local lvl = menu:findChild(sheet.id_lvl)
-        local hth = menu:findChild(sheet.id_hth)
-        local mgk = menu:findChild(sheet.id_mgk)
-        local fat = menu:findChild(sheet.id_fat)
         local cur = menu:findChild(sheet.id_current)
         local ide = menu:findChild(sheet.id_ideal)
         local ori = menu:findChild(sheet.id_original)
@@ -483,30 +499,37 @@ function sheet.onOriginal()
             title.text = "" .. sheet.reference.object.name .. ", the " .. sheet.reference.object.class.name .. ""
         end
 
-        lvl.text = "Level: " .. sheet.reference.baseObject.level .. ""
+        sheet.lvl.text = "Level: " .. sheet.reference.baseObject.level .. ""
 
         --Fill Bars
-        hth.widget.current = sheet.reference.mobile.health.current
-        mgk.widget.current = sheet.reference.mobile.magicka.current
-        fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.hth.widget.current = sheet.reference.mobile.health.current
+        sheet.mgk.widget.current = sheet.reference.mobile.magicka.current
+        sheet.fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.tp.widget.current = sheet.reference.baseObject.level
 
-        hth.widget.max = sheet.reference.baseObject.health
-        mgk.widget.max = sheet.reference.baseObject.magicka
-        fat.widget.max = sheet.reference.baseObject.fatigue
+        sheet.hth.widget.max = sheet.reference.baseObject.health
+        sheet.mgk.widget.max = sheet.reference.baseObject.magicka
+        sheet.fat.widget.max = sheet.reference.baseObject.fatigue
+        sheet.tp.widget.max = sheet.reference.baseObject.level
 
-        if hth.widget.current > hth.widget.max then
-            hth.widget.current = hth.widget.max
+        -- if config.expMode == true then
+        --     sheet.exp.widget.current = 0
+        --     sheet.exp.widget.max = (config.expRequirement + (sheet.reference.baseObject.level * config.expRate))
+        -- end
+
+        if sheet.hth.widget.current > sheet.hth.widget.max then
+            sheet.hth.widget.current = sheet.hth.widget.max
         end
-        if mgk.widget.current > mgk.widget.max then
-            mgk.widget.current = mgk.widget.max
+        if sheet.mgk.widget.current > sheet.mgk.widget.max then
+            sheet.mgk.widget.current = sheet.mgk.widget.max
         end
-        if fat.widget.current > fat.widget.max then
-            fat.widget.current = fat.widget.max
+        if sheet.fat.widget.current > sheet.fat.widget.max then
+            sheet.fat.widget.current = sheet.fat.widget.max
         end
 
-        hth.widget.fillColor = { 0.6, 0.2, 0.2 }
-        mgk.widget.fillColor = { 0.2, 0.2, 0.6 }
-        fat.widget.fillColor = { 0.2, 0.6, 0.2 }
+        sheet.hth.widget.fillColor = { 0.6, 0.2, 0.2 }
+        sheet.mgk.widget.fillColor = { 0.2, 0.2, 0.6 }
+        sheet.fat.widget.fillColor = { 0.2, 0.6, 0.2 }
 
         --Attributes
         for i = 0, 7 do
@@ -553,10 +576,6 @@ function sheet.onCurrent()
         local title = menu:findChild(sheet.id_title)
         local label = menu:findChild(sheet.id_label)
         local label2 = menu:findChild(sheet.id_label2)
-        local lvl = menu:findChild(sheet.id_lvl)
-        local hth = menu:findChild(sheet.id_hth)
-        local mgk = menu:findChild(sheet.id_mgk)
-        local fat = menu:findChild(sheet.id_fat)
         local cur = menu:findChild(sheet.id_current)
         local ide = menu:findChild(sheet.id_ideal)
         local ori = menu:findChild(sheet.id_original)
@@ -574,20 +593,27 @@ function sheet.onCurrent()
             title.text = "" .. sheet.reference.object.name .. ", the " .. sheet.class.name .. ""
         end
 
-        lvl.text = "Level: " .. modData.level .. ""
+        sheet.lvl.text = "Level: " .. modData.level .. ""
 
         --Fill Bars
-        hth.widget.current = sheet.reference.mobile.health.current
-        mgk.widget.current = sheet.reference.mobile.magicka.current
-        fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.hth.widget.current = sheet.reference.mobile.health.current
+        sheet.mgk.widget.current = sheet.reference.mobile.magicka.current
+        sheet.fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.tp.widget.current = modData.tp_current
 
-        hth.widget.max = sheet.reference.mobile.health.base
-        mgk.widget.max = sheet.reference.mobile.magicka.base
-        fat.widget.max = sheet.reference.mobile.fatigue.base
+        sheet.hth.widget.max = sheet.reference.mobile.health.base
+        sheet.mgk.widget.max = sheet.reference.mobile.magicka.base
+        sheet.fat.widget.max = sheet.reference.mobile.fatigue.base
+        sheet.tp.widget.max = modData.tp_max
 
-        hth.widget.fillColor = { 0.6, 0.2, 0.2 }
-        mgk.widget.fillColor = { 0.2, 0.2, 0.6 }
-        fat.widget.fillColor = { 0.2, 0.6, 0.2 }
+        -- if config.expMode == true then
+        --     sheet.exp.widget.current = modData.lvl_progress
+        --     sheet.exp.widget.max = modData.lvl_req
+        -- end
+
+        sheet.hth.widget.fillColor = { 0.6, 0.2, 0.2 }
+        sheet.mgk.widget.fillColor = { 0.2, 0.2, 0.6 }
+        sheet.fat.widget.fillColor = { 0.2, 0.6, 0.2 }
 
         --Attributes
         for i = 0, 7 do
@@ -653,10 +679,6 @@ function sheet.onIdeal()
         local title = menu:findChild(sheet.id_title)
         local label = menu:findChild(sheet.id_label)
         local label2 = menu:findChild(sheet.id_label2)
-        local lvl = menu:findChild(sheet.id_lvl)
-        local hth = menu:findChild(sheet.id_hth)
-        local mgk = menu:findChild(sheet.id_mgk)
-        local fat = menu:findChild(sheet.id_fat)
         local cur = menu:findChild(sheet.id_current)
         local ide = menu:findChild(sheet.id_ideal)
         local ori = menu:findChild(sheet.id_original)
@@ -674,38 +696,45 @@ function sheet.onIdeal()
         label.text = "Ideal Statistics:"
         label2.text = "(original + total Companion Leveler stats = Ideal Stats)"
 
-        lvl.text = "Level: " .. sheet.reference.baseObject.level .. " + " .. (modData.level - sheet.reference.baseObject.level) .. " = " .. modData.level .. ""
+        sheet.lvl.text = "Level: " .. sheet.reference.baseObject.level .. " + " .. (modData.level - sheet.reference.baseObject.level) .. " = " .. modData.level .. ""
 
         --Fill Bars
-        hth.widget.max = sheet.reference.baseObject.health + modData.hth_gained
-        mgk.widget.max = sheet.reference.baseObject.magicka + modData.mgk_gained
-        fat.widget.max = sheet.reference.baseObject.fatigue + modData.fat_gained
+        sheet.hth.widget.max = sheet.reference.baseObject.health + modData.hth_gained
+        sheet.mgk.widget.max = sheet.reference.baseObject.magicka + modData.mgk_gained
+        sheet.fat.widget.max = sheet.reference.baseObject.fatigue + modData.fat_gained
+        sheet.tp.widget.max = modData.tp_max
 
-        hth.widget.current = sheet.reference.mobile.health.current
-        mgk.widget.current = sheet.reference.mobile.magicka.current
-        fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.hth.widget.current = sheet.reference.mobile.health.current
+        sheet.mgk.widget.current = sheet.reference.mobile.magicka.current
+        sheet.fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.tp.widget.current = modData.tp_current
 
-        if sheet.reference.mobile.health.base ~= hth.widget.max then
-            hth.widget.fillColor = { 0.46, 0.21, 0.44 }
+        -- if config.expMode == true then
+        --     sheet.exp.widget.current = modData.lvl_progress
+        --     sheet.exp.widget.max = modData.lvl_req
+        -- end
+
+        if sheet.reference.mobile.health.base ~= sheet.hth.widget.max then
+            sheet.hth.widget.fillColor = { 0.46, 0.21, 0.44 }
         end
 
-        if sheet.reference.mobile.magicka.base ~= mgk.widget.max then
-            mgk.widget.fillColor = { 0.46, 0.21, 0.44 }
+        if sheet.reference.mobile.magicka.base ~= sheet.mgk.widget.max then
+            sheet.mgk.widget.fillColor = { 0.46, 0.21, 0.44 }
         end
 
-        if sheet.reference.mobile.fatigue.base ~= fat.widget.max then
-            fat.widget.fillColor = { 0.46, 0.21, 0.44 }
+        if sheet.reference.mobile.fatigue.base ~= sheet.fat.widget.max then
+            sheet.fat.widget.fillColor = { 0.46, 0.21, 0.44 }
         end
 
 
-        if hth.widget.current > hth.widget.max then
-            hth.widget.current = hth.widget.max
+        if sheet.hth.widget.current > sheet.hth.widget.max then
+            sheet.hth.widget.current = sheet.hth.widget.max
         end
-        if mgk.widget.current > mgk.widget.max then
-            mgk.widget.current = mgk.widget.max
+        if sheet.mgk.widget.current > sheet.mgk.widget.max then
+            sheet.mgk.widget.current = sheet.mgk.widget.max
         end
-        if fat.widget.current > fat.widget.max then
-            fat.widget.current = fat.widget.max
+        if sheet.fat.widget.current > sheet.fat.widget.max then
+            sheet.fat.widget.current = sheet.fat.widget.max
         end
 
         for i = 0, 7 do
@@ -815,6 +844,14 @@ function sheet.fixStats(e)
                                 modData.skill_gained[i + 1] = 0
                             end
                         end
+
+                        --Reset EXP
+                        modData.lvl_progress = 0
+                        func.calcEXP(sheet.reference)
+
+                        --Reset TP
+                        modData.tp_current = sheet.reference.baseObject.level
+                        modData.tp_max = sheet.reference.baseObject.level
 
                         sheet.onCurrent()
                     end)
@@ -1026,5 +1063,6 @@ function sheet.onIgnore(i)
             callback = sheet.setIgnore })
     end
 end
+
 
 return sheet

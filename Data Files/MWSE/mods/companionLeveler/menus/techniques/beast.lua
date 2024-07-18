@@ -1,0 +1,324 @@
+local logger = require("logging.logger")
+local log = logger.getLogger("Companion Leveler")
+local tables = require("companionLeveler.tables")
+local func = require("companionLeveler.functions.common")
+
+
+local beast = {}
+
+
+function beast.createWindow(ref)
+	--Initialize IDs
+	beast.id_menu = tes3ui.registerID("kl_beast_menu")
+	beast.id_pane = tes3ui.registerID("kl_beast_pane")
+	beast.id_pane2 = tes3ui.registerID("kl_beast_pane2")
+	beast.id_ok = tes3ui.registerID("kl_beast_ok")
+
+	log = logger.getLogger("Companion Leveler")
+	log:debug("Beast menu initialized.")
+
+	local tech = require("companionLeveler.menus.techniques.techniques")
+
+	local personality = ref.mobile.attributes[7] --reduces time spent training
+	local willpower = ref.mobile.attributes[3] --allows training higher level attributes
+	local modData = func.getModData(ref)
+
+	beast.efficiency = math.round(personality.current * 0.5)
+
+	if beast.efficiency > 75 then
+		beast.efficiency = 75
+	end
+
+	-- Create window and frame
+	local menu = tes3ui.createMenu { id = beast.id_menu, fixedFrame = true }
+
+	-- Create layout
+	local input_label = menu:createLabel { text = "Train which creature? TP: " .. modData.tp_current .. "/" .. modData.tp_max .. "" }
+	input_label.borderBottom = 5
+
+	-- Pane Block
+	local pane_block = menu:createBlock { id = "pane_block_beast" }
+	pane_block.autoWidth = true
+	pane_block.autoHeight = true
+
+	-- Beast Border
+	local border = pane_block:createThinBorder { id = "kl_border_beast" }
+	border.positionX = 4
+	border.positionY = -4
+	border.width = 267
+	border.height = 160
+	border.borderAllSides = 4
+	border.paddingAllSides = 4
+
+	-- Attribute Border
+	local border2 = pane_block:createThinBorder { id = "kl_border2_beast" }
+	border2.positionX = 202
+	border2.positionY = 0
+	border2.width = 267
+	border2.height = 160
+	border2.paddingAllSides = 4
+	border2.borderAllSides = 4
+
+
+	----Populate-----------------------------------------------------------------------------------------------------
+
+	--Panes
+	local pane = border:createVerticalScrollPane { id = beast.id_pane }
+	pane.height = 148
+	pane.width = 210
+	pane.widget.scrollbarVisible = true
+
+	local pane2 = border2:createVerticalScrollPane { id = beast.id_pane2 }
+	pane2.height = 148
+	pane2.width = 210
+	pane2.widget.scrollbarVisible = true
+
+	--Populate Panes
+	beast.total = 0
+
+	for mobileActor in tes3.iterate(tes3.worldController.allMobileActors) do
+		if (mobileActor.cell == tes3.getPlayerCell() and func.validCompanionCheck(mobileActor) and mobileActor.reference.object.objectType == tes3.objectType.creature) then
+			local pos = mobileActor.reference.position
+			local dist = pos:distance(tes3.player.position)
+			log:debug("" .. mobileActor.reference.object.name .. "'s distance: " .. dist .. "")
+
+			if dist < 1000 then
+				beast.total = beast.total + 1
+
+				local a = pane:createTextSelect { text = "" .. mobileActor.reference.object.name .. "", id = "kl_beast_btn_" .. beast.total .. ""}
+
+				a:register("mouseClick", function(e) beast.onSelect(a, mobileActor.reference) end)
+			end
+		end
+	end
+
+	for i = 0, 7 do
+		local a = pane2:createTextSelect { text = tables.capitalization[i],  id = "kl_beast_btn_" .. tables.capitalization[i] .. ""}
+		a.widget.state = tes3.uiState.disabled
+		a.disabled = true
+		a:register("mouseClick", function(e) beast.onSelect2(a) end)
+	end
+
+
+	--Text Block
+	local text_block = menu:createBlock { id = "text_block_beast" }
+	text_block.autoWidth = true
+	text_block.autoHeight = true
+	text_block.borderAllSides = 10
+	text_block.flowDirection = "left_to_right"
+
+	local att_block = text_block:createBlock {}
+	att_block.width = 174
+	att_block.autoHeight = true
+	att_block.borderAllSides = 4
+	att_block.flowDirection = "top_to_bottom"
+
+	local cost_block = text_block:createBlock {}
+	cost_block.width = 174
+	cost_block.autoHeight = true
+	cost_block.borderAllSides = 4
+	cost_block.flowDirection = "top_to_bottom"
+
+	local time_block = text_block:createBlock {}
+	time_block.width = 157
+	time_block.autoHeight = true
+	time_block.borderAllSides = 4
+	time_block.flowDirection = "top_to_bottom"
+
+	--Base Statistics
+	local att_title = att_block:createLabel({ text = "Current Attributes:", id = "kl_att_beast" })
+	att_title.color = { 1.0, 1.0, 1.0 }
+	beast.base_str = att_block:createLabel({ text = "Strength: ", id = "kl_beast_str" })
+	beast.base_int = att_block:createLabel({ text = "Intelligence: ", id = "kl_beast_int" })
+	beast.base_will = att_block:createLabel({ text = "Willpower: ", id = "kl_beast_will" })
+	beast.base_agi = att_block:createLabel({ text = "Agility: ", id = "kl_beast_agi" })
+	beast.base_spd = att_block:createLabel({ text = "Speed: ", id = "kl_beast_spd" })
+	beast.base_end = att_block:createLabel({ text = "Endurance: ", id = "kl_beast_end" })
+	beast.base_per = att_block:createLabel({ text = "Personality: ", id = "kl_beast_per" })
+	beast.base_luck = att_block:createLabel({ text = "Luck: ", id = "kl_beast_luck" })
+
+	--TP Costs
+	local cost_title = cost_block:createLabel({ text = "TP Costs:" })
+	cost_title.color = { 1.0, 1.0, 1.0 }
+	beast.tp_str = cost_block:createLabel { text = "Strength:", id = "kl_beast_str_c" }
+	beast.tp_int = cost_block:createLabel { text = "Intelligence:", id = "kl_beast_int_c" }
+	beast.tp_will = cost_block:createLabel { text = "Willpower:", id = "kl_beast_will_c" }
+	beast.tp_agi = cost_block:createLabel { text = "Agility:", id = "kl_beast_agi_c" }
+	beast.tp_spd = cost_block:createLabel { text = "Speed:", id = "kl_beast_spd_c" }
+	beast.tp_end = cost_block:createLabel { text = "Endurance:", id = "kl_beast_end_c" }
+	beast.tp_per = cost_block:createLabel { text = "Personality:", id = "kl_beast_per_c" }
+	beast.tp_luck = cost_block:createLabel { text = "Luck:", id = "kl_beast_luck_c" }
+	cost_block:createLabel { text = "" }
+	beast.will_req = cost_block:createLabel { text = "Willpower Required: ", id = "kl_beast_will_req" }
+	beast.per_bonus = cost_block:createLabel { text = "Time Efficiency: " .. beast.efficiency .. "%" , id = "kl_beast_per_bonus" }
+
+	--Time Costs
+	local time_title = time_block:createLabel({ text = "Time Costs:" })
+	time_title.color = { 1.0, 1.0, 1.0 }
+	beast.time_str = time_block:createLabel { text = "Strength:", id = "kl_beast_str_t" }
+	beast.time_int = time_block:createLabel { text = "Intelligence:", id = "kl_beast_int_t" }
+	beast.time_will = time_block:createLabel { text = "Willpower:", id = "kl_beast_will_t" }
+	beast.time_agi = time_block:createLabel { text = "Agility:", id = "kl_beast_agi_t" }
+	beast.time_spd = time_block:createLabel { text = "Speed:", id = "kl_beast_spd_t" }
+	beast.time_end = time_block:createLabel { text = "Endurance:", id = "kl_beast_end_t" }
+	beast.time_per = time_block:createLabel { text = "Personality:", id = "kl_beast_per_t" }
+	beast.time_luck = time_block:createLabel { text = "Luck:", id = "kl_beast_luck_t" }
+
+	----Bottom Button Block------------------------------------------------------------------------------------------
+	local button_block = menu:createBlock {}
+	button_block.widthProportional = 1.0
+	button_block.autoHeight = true
+	button_block.childAlignX = 0.5
+	button_block.borderTop = 10
+
+	local button_ok = button_block:createButton { text = tes3.findGMST("sOK").value }
+	button_ok.widget.state = 2
+	button_ok.disabled = true
+	beast.ok = button_ok
+	local button_cancel = button_block:createButton { text = tes3.findGMST("sCancel").value }
+
+	--Events
+	button_ok:register("mouseClick", function()
+		if willpower.current < beast.req then
+			tes3.messageBox("" .. ref.object.name .. " is not skilled enough to train " .. beast.ref.object.name .. "'s " .. beast.attName ..".")
+			return
+		end
+
+		if modData.tp_current < beast.tp then
+			tes3.messageBox("Not enough Technique Points!")
+			return
+		end
+
+		--Spend TP
+		modData.tp_current = modData.tp_current - beast.tp
+
+		--Train Attribute
+		tes3.modStatistic{ reference = beast.ref, attribute = beast.att, value = 1}
+		tes3.messageBox("" .. ref.object.name .. " trained " .. beast.ref.object.name .. "'s " .. beast.attName .. " to " .. beast.ref.mobile.attributes[beast.att + 1].base .. "!")
+
+		--Pass Time
+		local gameHour = tes3.getGlobal('GameHour')
+
+		gameHour = gameHour + beast.time
+		tes3.setGlobal('GameHour', gameHour)
+
+		--Reset
+		menu:destroy()
+		tes3ui.leaveMenuMode()
+		timer.delayOneFrame(function()
+			beast.createWindow(ref)
+		end)
+	end)
+	button_cancel:register("mouseClick", function() menu:destroy() tech.createWindow(ref) end)
+
+	-- Final setup
+	menu:updateLayout()
+	tes3ui.enterMenuMode(beast.id_menu)
+end
+
+function beast.onSelect(elem, ref)
+	local menu = tes3ui.findMenu(beast.id_menu)
+
+	if menu then
+		local att = ref.mobile.attributes
+		local ratio = 7.5
+		local modData = func.getModData(ref)
+
+		for i = 1, beast.total do
+			local btn = menu:findChild("kl_beast_btn_" .. i .. "")
+			if btn then
+				btn.widget.state = 1
+			end
+		end
+
+		for i = 0, 7 do
+			local btn = menu:findChild("kl_beast_btn_" .. tables.capitalization[i] .. "")
+			if btn and btn.widget.state == 4 then
+				beast.tp = math.round((att[i + 1].base / ratio) + (modData.level / 3))
+				beast.req = math.round((att[i + 1].base / 2) + (modData.level * 2) + 10)
+				beast.attName = "" .. tables.capitalization[i] .. ""
+				beast.att = i
+				beast.time = math.round(((att[i + 1].base / ratio) + 1) * (1 - (beast.efficiency / 100)))
+				beast.will_req.text = "Willpower Required: " .. math.round((att[i + 1].base / 2) + (modData.level * 2) + 10) .. ""
+				break
+			else
+				btn.widget.state = 1
+				btn.disabled = false
+			end
+		end
+
+		elem.widget.state = 4
+		beast.ref = ref
+
+		--Base Attributes
+		beast.base_str.text = "Strength: " .. att[1].base .. ""
+		beast.base_int.text = "Intelligence: " .. att[2].base .. ""
+		beast.base_will.text = "Willpower: " .. att[3].base .. ""
+		beast.base_agi.text = "Agility: " .. att[4].base .. ""
+		beast.base_spd.text = "Speed: " .. att[5].base .. ""
+		beast.base_end.text = "Endurance: " .. att[6].base .. ""
+		beast.base_per.text = "Personality: " .. att[7].base .. ""
+		beast.base_luck.text = "Luck: " .. att[8].base .. ""
+
+		--Technique Point Costs
+		beast.tp_str.text = "Strength: " .. math.round((att[1].base / ratio) + (modData.level / 3)) .. " TP"
+		beast.tp_int.text = "Intelligence: " .. math.round((att[2].base / ratio) + (modData.level / 3)) .. " TP"
+		beast.tp_will.text = "Willpower: " .. math.round((att[3].base / ratio) + (modData.level / 3)) .. " TP"
+		beast.tp_agi.text = "Agility: " .. math.round((att[4].base / ratio) + (modData.level / 3)) .. " TP"
+		beast.tp_spd.text = "Speed: " .. math.round((att[5].base / ratio) + (modData.level / 3)) .. " TP"
+		beast.tp_end.text = "Endurance: " .. math.round((att[6].base / ratio) + (modData.level / 3)) .. " TP"
+		beast.tp_per.text = "Personality: " .. math.round((att[7].base / ratio) + (modData.level / 3)) .. " TP"
+		beast.tp_luck.text = "Luck: " .. math.round((att[8].base / ratio) + (modData.level / 3)) .. " TP"
+
+		--Time Costs
+		beast.time_str.text = "Strength: " .. math.round(((att[1].base / ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
+		beast.time_int.text = "Intelligence: " .. math.round(((att[2].base / ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
+		beast.time_will.text = "Willpower: " .. math.round(((att[3].base / ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
+		beast.time_agi.text = "Agility: " .. math.round(((att[4].base / ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
+		beast.time_spd.text = "Speed: " .. math.round(((att[5].base / ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
+		beast.time_end.text = "Endurance: " .. math.round(((att[6].base / ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
+		beast.time_per.text = "Personality: " .. math.round(((att[7].base / ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
+		beast.time_luck.text = "Luck: " .. math.round(((att[8].base / ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
+
+
+		menu:updateLayout()
+	end
+end
+
+function beast.onSelect2(elem)
+	local menu = tes3ui.findMenu(beast.id_menu)
+
+	if menu then
+		local att = beast.ref.mobile.attributes
+		local ratio = 7.5
+		local modData = func.getModData(beast.ref)
+
+		for i = 0, 7 do
+			local btn = menu:findChild("kl_beast_btn_" .. tables.capitalization[i] .. "")
+			btn.widget.state = 1
+		end
+
+		elem.widget.state = 4
+
+		for i = 0, 7 do
+			local btn = menu:findChild("kl_beast_btn_" .. tables.capitalization[i] .. "")
+			if btn and btn.widget.state == 4 then
+				beast.tp = math.round((att[i + 1].base / ratio) + (modData.level / 3))
+				beast.req = math.round((att[i + 1].base / 2) + (modData.level * 2) + 10)
+				beast.attName = "" .. tables.capitalization[i] .. ""
+				beast.att = i
+				beast.time = math.round(((att[i + 1].base / ratio) + 1) * (1 - (beast.efficiency / 100)))
+				beast.will_req.text = "Willpower Required: " .. math.round((att[i + 1].base / 2) + (modData.level * 2) + 10) .. ""
+				break
+			end
+		end
+
+
+		beast.ok.widget.state = 1
+		beast.ok.disabled = false
+
+		menu:updateLayout()
+	end
+end
+
+return beast

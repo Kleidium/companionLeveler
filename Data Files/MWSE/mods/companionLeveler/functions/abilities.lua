@@ -884,6 +884,206 @@ function this.creatureAbilities(cType, companionRef)
             end
         end
     end
+    if cType == "Fiery" then
+        if modData.typelevels[17] >= 5 then
+            local ability = tes3.getObject(tables.abList[65])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "destruction area" })
+                modData.abilities[65] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[17] >= 10 then
+            local ability = tes3.getObject(tables.abList[66])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "destruction area" })
+                modData.abilities[66] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[17] >= 15 then
+            local ability = tes3.getObject(tables.abList[67])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "destruction area" })
+                modData.abilities[67] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[17] >= 20 then
+            local ability = tes3.getObject(tables.abList[68])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "destruction area" })
+                modData.abilities[68] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+    end
+    if cType == "Frozen" then
+        if modData.typelevels[18] >= 5 then
+            local ability = tes3.getObject(tables.abList[69])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "frost area" })
+                modData.abilities[69] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[18] >= 10 then
+            local ability = tes3.getObject(tables.abList[70])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "frost area" })
+                modData.abilities[70] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[18] >= 15 then
+            local ability = tes3.getObject(tables.abList[71])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "frost area" })
+                modData.abilities[71] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[18] >= 20 then
+            local ability = tes3.getObject(tables.abList[72])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "frost area" })
+                modData.abilities[72] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+    end
+    if cType == "Galvanic" then
+        if modData.typelevels[19] >= 5 then
+            local ability = tes3.getObject(tables.abList[73])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "shock area" })
+                modData.abilities[73] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[19] >= 10 then
+            local ability = tes3.getObject(tables.abList[74])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "shock area" })
+                modData.abilities[74] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[19] >= 15 then
+            local ability = tes3.getObject(tables.abList[75])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "shock area" })
+                modData.abilities[75] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[19] >= 20 then
+            local ability = tes3.getObject(tables.abList[76])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "shock area" })
+                modData.abilities[76] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+    end
+    if cType == "Poisonous" then
+        if modData.typelevels[20] >= 5 then
+            local ability = tes3.getObject(tables.abList[77])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "alteration area" })
+                modData.abilities[77] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[20] >= 10 then
+            local ability = tes3.getObject(tables.abList[78])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "alteration area" })
+                modData.abilities[78] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[20] >= 15 then
+            local ability = tes3.getObject(tables.abList[79])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "alteration area" })
+                modData.abilities[79] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[20] >= 20 then
+            local ability = tes3.getObject(tables.abList[80])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "alteration area" })
+                modData.abilities[80] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+    end
 end
 
 --Greater Instinct #3-------------------------------------------------------------------------------------------------------------------
@@ -979,18 +1179,18 @@ function this.dream()
 
     local party = func.partyTable()
 
-    if config.triggeredAbilities == false then
-        for n = 1, #party do
-            local ref = party[n]
-            local dreaming = tes3.isAffectedBy({ reference = ref, object = "kl_ability_dream" })
+    -- if config.triggeredAbilities == false then
+    --     for n = 1, #party do
+    --         local ref = party[n]
+    --         local dreaming = tes3.isAffectedBy({ reference = ref, object = "kl_ability_dream" })
 
-            if dreaming then
-                tes3.removeSpell({ reference = ref, spell = "kl_ability_dream" })
-            end
-        end
-        log:debug("Dream Mastery removed from party.")
-        return
-    end
+    --         if dreaming then
+    --             tes3.removeSpell({ reference = ref, spell = "kl_ability_dream" })
+    --         end
+    --     end
+    --     log:debug("Dream Mastery removed from party.")
+    --     return
+    -- end
 
     local trigger = 0
     local creTable = func.creTable()
@@ -1282,7 +1482,7 @@ function this.freedom()
     end
 end
 
---Spectral Will #34---------------------------------------------------------------------------------------------------------------
+--Spectral Will #34, Total Decay #12---------------------------------------------------------------------------------------------------------------
 function this.spectralWill(e)
     if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
@@ -1503,7 +1703,7 @@ function this.aqualung()
     end
 end
 
---Misdirection #55--------------------------------------------------------------------------------------------------------------
+--Misdirection #55-----------------------------------------------------------------------------------------------------------------
 function this.misdirection(e)
     if config.triggeredAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
@@ -1524,7 +1724,7 @@ function this.misdirection(e)
     end
 end
 
---Mental Misstep #56--------------------------------------------------------------------------------------------------------------
+--Mental Misstep #56---------------------------------------------------------------------------------------------------------------
 function this.misstep(e)
     if config.triggeredAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
@@ -1545,7 +1745,7 @@ function this.misstep(e)
     end
 end
 
---Dominance #60----------------------------------------------------------------------------------------------------------
+--Dominance #60---------------------------------------------------------------------------------------------------------------------
 function this.dominance(e)
     if config.combatAbilities == false then return end
 
@@ -1619,7 +1819,7 @@ function this.dominance(e)
 	end
 end
 
---Alchemical Composition #62-------------------------------------------------------------------------------------------------------------------
+--Alchemical Composition #62--------------------------------------------------------------------------------------------------------
 function this.composition()
     log = logger.getLogger("Companion Leveler")
     log:trace("Alchemical Composition triggered.")
@@ -1694,7 +1894,7 @@ function this.composition()
     end
 end
 
---Mysterious Aura #63-------------------------------------------------------------------------------------------------------------------
+--Mysterious Aura #63---------------------------------------------------------------------------------------------------------------
 function this.mystery()
     log = logger.getLogger("Companion Leveler")
     log:trace("Mysterious Aura triggered.")
@@ -1786,21 +1986,12 @@ function this.mystery()
     end
 end
 
---Manasponge Aura #64-------------------------------------------------------------------------------------------------------------------
+--Manasponge Aura #64---------------------------------------------------------------------------------------------------------------
 function this.manasponge()
     log = logger.getLogger("Companion Leveler")
     log:trace("Manasponge Aura triggered.")
 
     local party = func.partyTable()
-
-    if config.triggeredAbilities == false then
-        for n = 1, #party do
-            local ref = party[n]
-            tes3.removeSpell({ reference = ref, spell = "kl_ability_manasponge" })
-        end
-        log:debug("Manasponge Aura removed from party.")
-        return
-    end
 
     local trigger = 0
     local creTable = func.creTable()
@@ -1836,9 +2027,101 @@ function this.manasponge()
     end
 end
 
+--Ignition #68----------------------------------------------------------------------------------------------------------------------
+function this.ignition(e)
+    if config.triggeredAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Ignition triggered.")
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) and e.attacker.actorType == 0 then
+            local modData = func.getModData(e.attacker.reference)
+
+            if modData.abilities[68] then
+                    --Fire Damage Bonus
+                    tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_ignition", instant = true })
+            end
+        end
+    end
+end
+
+--Permafrost #72--------------------------------------------------------------------------------------------------------------------
+function this.permafrost(e)
+    if config.triggeredAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Permafrost triggered.")
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) and e.attacker.actorType == 0 then
+            local modData = func.getModData(e.attacker.reference)
+
+            if modData.abilities[72] then
+                    --Frost Damage Bonus
+                    tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_permafrost", instant = true })
+            end
+        end
+    end
+end
+
+--Voltaic Grasp #76-----------------------------------------------------------------------------------------------------------------
+function this.voltaic(e)
+    if config.triggeredAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Voltaic Grasp triggered.")
+
+    if (math.random(0, 99) < 45) then
+        if e.attacker then
+            if func.validCompanionCheck(e.attacker) and e.attacker.actorType == 0 then
+                local modData = func.getModData(e.attacker.reference)
+
+                if modData.abilities[76] then
+                    --Shock Damage Bonus
+                    tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_voltaic_grasp", instant = true })
+                end
+            end
+        end
+    end
+end
+
+--Venomous Kiss #80-----------------------------------------------------------------------------------------------------------------
+function this.venomous(e)
+    if config.triggeredAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Venomous Kiss triggered.")
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) and e.attacker.actorType == 0 then
+            local modData = func.getModData(e.attacker.reference)
+
+            if modData.abilities[80] then
+                local affected = tes3.isAffectedBy({ reference = e.mobile, object = "kl_spell_venomous_kiss" })
+
+                if not affected then
+                    --Poison
+                    tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_venomous_kiss", instant = true })
+                    log:debug("" .. e.mobile.object.name .. " was poisoned!")
+                end
+
+                --Poison Weakness
+                tes3.applyMagicSource({
+                    reference = e.mobile,
+                    name = "Lingering Kiss",
+                    effects = {
+                        { id = tes3.effect.weaknesstoPoison,
+                            min = 1,
+                            max = 3,
+                            duration = math.random(5, 15)
+                        }
+                    },
+                })
+            end
+        end
+    end
+end
+
 
 --
-----NPC Abilities-----------------------------------------------------------------------------------------------------------------
+----NPC Abilities----------------------------------------------------------------------------------------------------------------------------------------------
 --
 
 --Learn Abilities-----------------------------------------------------------------------------------------------------------------
@@ -1880,6 +2163,16 @@ function this.npcAbilities(class, companionRef)
                         end)
                     end
 
+                    --Forbidden Knowledge (Sorcerer Class)
+                    if spellObject.name == "Forbidden Knowledge" then
+                        modData.tp_max = modData.tp_max + 2
+                    end
+
+                    --Arcane Mastery (Warlock Class)
+                    if spellObject.name == "Arcane Mastery" then
+                        modData.tp_max = modData.tp_max + 5
+                    end
+
                     --Mod Data Stats
                     timer.delayOneFrame(function()
                         timer.delayOneFrame(function()
@@ -1902,6 +2195,7 @@ end
 function this.executeAbilities(companionRef)
     if config.triggeredAbilities == false then return end
     if (tes3.mobilePlayer.inCombat == true or companionRef.mobile.inCombat == true) then return end
+
     log = logger.getLogger("Companion Leveler")
     log:trace("Execute Abilities function triggered on " .. companionRef.object.name .. ".")
 
@@ -1920,25 +2214,8 @@ function this.executeAbilities(companionRef)
     local marksman = companionRef.mobile:getSkillStatistic(23)
     local mysticism = companionRef.mobile:getSkillStatistic(14)
     local security = companionRef.mobile:getSkillStatistic(18)
-    local acrobatics = companionRef.mobile:getSkillStatistic(20)
 
-    --Acrobat
-    if (modData.abilities[1] == true or class.name == "Acrobat") then
-        local value = 1
-
-        if modData.aboveMaxSkill == false then
-            local skillStat = tes3.player.mobile:getSkillStatistic(20)
-            if skillStat.base + value > 100 then
-                value = math.max(100 - skillStat.base, 0)
-            end
-        end
-
-        --Teach Acrobatics
-        if math.random(1, 140) < (acrobatics.current + modData.level) then
-            tes3.modStatistic({ skill = 20, value = value, reference = tes3.player })
-            tes3.messageBox("" .. companionRef.object.name .. " showed you some new acrobatic maneuvers.")
-        end
-    end
+    --Acrobat reduces fall damage based on their Acrobatics. See #1 Acrobatic
 
     --Agent
     if (modData.abilities[2] == true or class.name == "Agent") then
@@ -1965,6 +2242,7 @@ function this.executeAbilities(companionRef)
     --Bard
     if (modData.abilities[6] == true or class.name == "Bard") then
         local party = func.partyTable()
+        local attribute = math.random(0, 7)
 
         --Sing a song to the party
         for i = 1, #party do
@@ -1975,15 +2253,17 @@ function this.executeAbilities(companionRef)
                 name = "Bardic Inspiration",
                 bypassResistances = true,
                 effects = {
-                    { id = tes3.effect.fortifyAttribute, attribute = math.random(0, 7),
+                    { id = tes3.effect.fortifyAttribute, attribute = attribute,
                         duration = (math.random(120, 180) + (speechcraft.current * 3)),
-                        min = (modData.level / 2),
+                        min = math.round(modData.level / 2),
                         max = modData.level },
                 },
             })
         end
-        tes3.messageBox("" .. companionRef.object.name .. " sang an inspiring song!")
+        tes3.messageBox("" .. companionRef.object.name .. " sang an inspiring song of " .. tes3.attributeName[attribute] .. "!")
     end
+
+    --Crusaders confer a physical resistance aura to the party. (See this.resolve) #8 Resolve
 
     --Healers confer a regenerating aura to the party. (See this.blessed) #9 Blessed Aura
 
@@ -2005,11 +2285,9 @@ function this.executeAbilities(companionRef)
         end
     end
 
-    --Alchemist and Apothecary
-    if (
-        modData.abilities[22] == true or modData.abilities[23] == true or class.name == "Alchemist" or
-            class.name == "Apothecary") then
-        if math.random(1, 140) < (alchemy.current + modData.level) then
+    --Apothecary
+    if (modData.abilities[23] == true or class.name == "Apothecary") then
+        if math.random(1, 150) < (alchemy.current + modData.level) then
             --Brew a potion
             if (alchemy.current > 0 and alchemy.current < 25) then
                 local selection = math.random(1, #tables.alchemyPotionsB)
@@ -2071,42 +2349,7 @@ function this.executeAbilities(companionRef)
             " and " .. tes3.getSkillName(drillmaster.minorSkills[randNum2]) .. ".")
     end
 
-    --Enchanter
-    if (modData.abilities[26] == true or class.name == "Enchanter") then
-        if math.random(1, 140) < (enchant.current + modData.level) then
-            --Fashion a soul gem
-            if (enchant.current > 0 and enchant.current < 25) then
-                tes3.addItem({ item = "Misc_SoulGem_Petty", reference = tes3.player })
-
-                tes3.messageBox("" ..
-                    companionRef.object.name .. " fashioned you a petty soul gem.")
-            end
-            if (enchant.current >= 25 and enchant.current < 50) then
-                tes3.addItem({ item = "Misc_SoulGem_Lesser", reference = tes3.player })
-
-                tes3.messageBox("" ..
-                    companionRef.object.name .. " fashioned you a lesser soul gem.")
-            end
-            if (enchant.current >= 50 and enchant.current < 75) then
-                tes3.addItem({ item = "Misc_SoulGem_Common", reference = tes3.player })
-
-                tes3.messageBox("" ..
-                    companionRef.object.name .. " fashioned you a common soul gem.")
-            end
-            if (enchant.current >= 75 and enchant.current < 100) then
-                tes3.addItem({ item = "Misc_SoulGem_Greater", reference = tes3.player })
-
-                tes3.messageBox("" ..
-                    companionRef.object.name .. " fashioned you a greater soul gem!")
-            end
-            if enchant.current >= 100 then
-                tes3.addItem({ item = "Misc_SoulGem_Grand", reference = tes3.player })
-
-                tes3.messageBox("" ..
-                    companionRef.object.name .. " fashioned you a grand soul gem!")
-            end
-        end
-    end
+    --Enchanters provide basic enchanting services and can fashion soul gems as techniques. (See this.techniques) #26 Power Reservoir
 
     --Hunter and Poacher
     if (modData.abilities[28] == true or class.name == "Hunter" or modData.abilities[75] == true or class.name == "Poacher") then
@@ -2142,70 +2385,7 @@ function this.executeAbilities(companionRef)
         end
     end
 
-    --Necromancer
-    if (modData.abilities[30] == true or class.name == "Necromancer") then
-        --Summon a free minion
-        if (conjuration.current > 0 and conjuration.current < 25) then
-            tes3.applyMagicSource({
-                reference = companionRef,
-                name = "Summoned Spirit",
-                effects = {
-                    { id = tes3.effect.summonAncestralGhost,
-                        duration = (math.random(120, 180) + (conjuration.current * 3))
-                    },
-                }
-            })
-            tes3.messageBox("" .. companionRef.object.name .. " summoned a spectral minion.")
-        end
-        if (conjuration.current >= 25 and conjuration.current < 50) then
-            tes3.applyMagicSource({
-                reference = companionRef,
-                name = "Summoned Skeleton",
-                effects = {
-                    { id = tes3.effect.summonSkeletalMinion,
-                        duration = (math.random(120, 180) + (conjuration.current * 3))
-                    },
-                }
-            })
-            tes3.messageBox("" .. companionRef.object.name .. " summoned a skeletal minion.")
-        end
-        if (conjuration.current >= 50 and conjuration.current < 75) then
-            tes3.applyMagicSource({
-                reference = companionRef,
-                name = "Summoned Bonewalker",
-                effects = {
-                    { id = tes3.effect.summonBonewalker,
-                        duration = (math.random(120, 180) + (conjuration.current * 4))
-                    },
-                }
-            })
-            tes3.messageBox("" .. companionRef.object.name .. " summoned an undead minion.")
-        end
-        if (conjuration.current >= 75 and conjuration.current < 100) then
-            tes3.applyMagicSource({
-                reference = companionRef,
-                name = "Summoned Greater Bonewalker",
-                effects = {
-                    { id = tes3.effect.summonGreaterBonewalker,
-                        duration = (math.random(120, 180) + (conjuration.current * 4))
-                    },
-                }
-            })
-            tes3.messageBox("" .. companionRef.object.name .. " summoned a stronger undead minion.")
-        end
-        if conjuration.current >= 100 then
-            tes3.applyMagicSource({
-                reference = companionRef,
-                name = "Summoned Bonelord",
-                effects = {
-                    { id = tes3.effect.summonBonelord,
-                        duration = (math.random(120, 180) + (conjuration.current * 5))
-                    },
-                }
-            })
-            tes3.messageBox("" .. companionRef.object.name .. " summoned a powerful undead minion!")
-        end
-    end
+    --Necromancer can raise undead minions as a technique. (see techniques.lua) #30 Dark Appetite
 
     --Priest
     if (modData.abilities[31] == true or class.name == "Priest") then
@@ -2371,50 +2551,13 @@ function this.executeAbilities(companionRef)
         tes3.messageBox("" .. companionRef.object.name .. " shared a cut of their profits with you. (" .. amount .. " Gold)")
     end
 
-    --Archeologist
-    if (modData.abilities[41] == true or class.name == "Archeologist") then
-        if tes3.player.cell.restingIsIllegal  == false then
-            local randNum = math.random(1, 27)
+    --Archeologist digs artifacts up as a technique. (see techniques.lua) #41 Archeological Inclination
 
-            --Find random artifacts
-            tes3.addItem({ item = tables.unearthedObjects[randNum], reference = companionRef })
-    
-            local spoils = tes3.getObject(tables.unearthedObjects[randNum])
-            tes3.messageBox("" .. companionRef.object.name .. " dug something up. (" .. spoils.name .. ")")
-        end
-    end
-
-    --Artificer
-    if (modData.abilities[42] == true or class.name == "Artificer") then
-        --Summon a mechanical minion
-        if (armorer.current > 0 and armorer.current < 75) then
-            tes3.applyMagicSource({
-                reference = companionRef,
-                name = "Constructed Golem",
-                effects = {
-                    { id = tes3.effect.summonCenturionSphere,
-                        duration = (math.random(180, 240) + (enchant.current * 3))
-                    },
-                }
-            })
-        end
-        if armorer.current > 75 then
-            tes3.applyMagicSource({
-                reference = companionRef,
-                name = "Constructed Greater Golem",
-                effects = {
-                    { id = tes3.effect.summonFabricant,
-                        duration = (math.random(180, 240) + (enchant.current * 5))
-                    },
-                }
-            })
-        end
-        tes3.messageBox("" .. companionRef.object.name .. " constructed a mechanical minion.")
-    end
+    --Artificer can create constructs as a technique. (see techniques.lua) #42 Skilled Artificer
 
     --Artisan
     if (modData.abilities[43] == true or class.name == "Artisan") then
-        if math.random(1, 140) < (armorer.current + modData.level) then
+        if math.random(1, 150) < (armorer.current + modData.level) then
             --Fashion a tool
             if (armorer.current > 0 and armorer.current < 25) then
                 local selection = math.random(1, #tables.artisanTools)
@@ -2537,43 +2680,16 @@ function this.executeAbilities(companionRef)
 
     --Pearl Diver
     if (modData.abilities[47] == true or class.name == "Pearl Diver") then
-        if math.random(1, 140) < (attTable[8].current + modData.level) then
-            --Find a Pearl
-            tes3.addItem({ item = "ingred_pearl_01", reference = companionRef })
-            tes3.messageBox("" .. companionRef.object.name .. " found a Pearl.")
-        end
-    end
-
-    --Beastmaster
-    if (modData.abilities[48] == true or class.name == "Beastmaster") then
-        if math.random(1, 130) < (attTable[3].current + modData.level) then
-            local creTable = func.creTable()
-
-            --Train allied Creatures
-            for i = 1, #creTable do
-                local reference = creTable[i]
-
-                local randNum = math.random(0, 7)
-                local modDataSpecial = func.getModData(reference)
-                local value = 1
-
-                if modData.aboveMaxAtt == false then
-                    local attStat = reference.mobile.attributes[randNum + 1]
-                    if attStat.base + value > 100 then
-                        value = math.max(100 - attStat.base, 0)
-                    end
-                end
-
-                tes3.modStatistic({ attribute = randNum, value = value, reference = reference })
-
-                modDataSpecial.att_gained[randNum + 1] = modDataSpecial.att_gained[randNum + 1] + value
-
-                tes3.messageBox("" ..
-                    companionRef.object.name ..
-                    " trained " .. reference.object.name .. "'s " .. tes3.getAttributeName(randNum) .. ".")
+        if tes3.player.cell.restingIsIllegal  == false then
+            if math.random(1, 140) < (attTable[8].current + modData.level) then
+                --Find a Pearl
+                tes3.addItem({ item = "ingred_pearl_01", reference = companionRef })
+                tes3.messageBox("" .. companionRef.object.name .. " found a Pearl.")
             end
         end
     end
+
+    --Beastmaster can train creature companions as a technique. (See beast.lua) #48 Beast Whisperer
 
     --Bookseller gives another skill point when you read skill books. (See this.comprehension) #49 Reading Comprehension
 
@@ -2611,13 +2727,15 @@ function this.executeAbilities(companionRef)
 
     --Journalist
     if (modData.abilities[58] == true or class.name == "Journalist") then
-        if math.random(10, 160) < (speechcraft.current + modData.level) then
-            --Write article
-            tes3.runLegacyScript {
-                reference = tes3.player,
-                command = "ModReputation 1"
-            }
-            tes3.messageBox("" .. companionRef.object.name .. "'s article increased your reputation!")
+        if tes3.player.cell.restingIsIllegal  == true then
+            if math.random(10, 160) < (speechcraft.current + modData.level) then
+                --Write article
+                tes3.runLegacyScript {
+                    reference = tes3.player,
+                    command = "ModReputation 1"
+                }
+                tes3.messageBox("" .. companionRef.object.name .. "'s article increased your reputation!")
+            end
         end
     end
 
@@ -2695,21 +2813,23 @@ function this.executeAbilities(companionRef)
 
     --Gambler
     if (modData.abilities[71] == true or class.name == "Gambler") then
-        --Gamble
-        local randNum = (math.random(10, 300) + (modData.level * 20))
-        local removedCount = tes3.removeItem({ reference = companionRef, item = "Gold_001", count = randNum, playSound = true })
-        if removedCount > 0 then
-            if math.random(10, 175) < attTable[8].current then
-                --Success
-                local winnings = math.round(removedCount * (((attTable[8].current + 10) / 350) + math.random()))
-                tes3.addItem({ reference = companionRef, item = "Gold_001", count = (removedCount + winnings), playSound = true })
-                tes3.messageBox("" .. companionRef.object.name .. " won " .. winnings .. " gold from their last gambling session.")
+        if tes3.player.cell.restingIsIllegal then
+            --Gamble
+            local randNum = (math.random(10, 300) + (modData.level * 20))
+            local removedCount = tes3.removeItem({ reference = companionRef, item = "Gold_001", count = randNum, playSound = true })
+            if removedCount > 0 then
+                if math.random(10, 175) < attTable[8].current then
+                    --Success
+                    local winnings = math.round(removedCount * (((attTable[8].current + 10) / 350) + math.random()))
+                    tes3.addItem({ reference = companionRef, item = "Gold_001", count = (removedCount + winnings), playSound = true })
+                    tes3.messageBox("" .. companionRef.object.name .. " won " .. winnings .. " gold from their last gambling session.")
+                else
+                    --Failure
+                    tes3.messageBox("" .. companionRef.object.name .. " lost " .. removedCount .. " gold from their last gambling session.")
+                end
             else
-                --Failure
-                tes3.messageBox("" .. companionRef.object.name .. " lost " .. removedCount .. " gold from their last gambling session.")
+                tes3.messageBox("" .. companionRef.object.name .. " had no gold to gamble with.")
             end
-        else
-            tes3.messageBox("" .. companionRef.object.name .. " had no gold to gamble with.")
         end
     end
 
@@ -2892,17 +3012,19 @@ function this.executeAbilities(companionRef)
 
     --Banker
     if (modData.abilities[102] == true or class.name == "Banker") then
-        if math.random(0, 150) < mercantile.current then
-            local count = tes3.getItemCount({ reference = companionRef, item = "Gold_001" })
-            local percentage = mercantile.current / 1250
-            if percentage > 0.1 then
-                percentage = 0.1
+        if tes3.player.cell.restingIsIllegal then
+            if math.random(0, 150) < mercantile.current then
+                local count = tes3.getItemCount({ reference = companionRef, item = "Gold_001" })
+                local percentage = mercantile.current / 1250
+                if percentage > 0.1 then
+                    percentage = 0.1
+                end
+                local amount = math.round(count * percentage)
+    
+                --Generate Gold Interest
+                tes3.addItem({ reference = companionRef, item = "Gold_001", count = amount })
+                tes3.messageBox("" .. companionRef.object.name .. " generated " .. amount .. " gold in interest.")
             end
-            local amount = math.round(count * percentage)
-
-            --Generate Gold Interest
-            tes3.addItem({ reference = companionRef, item = "Gold_001", count = amount })
-            tes3.messageBox("" .. companionRef.object.name .. " generated " .. amount .. " gold in interest.")
         end
     end
 
@@ -2912,13 +3034,67 @@ function this.executeAbilities(companionRef)
 
     --Rangers detect nearby creatures. (see this.track) #108 Experienced Tracker
 
+    --Succubus deals extra damage to males. (see this.maneater) #109 Maneater
 
-    
+    --Incubus deals extra damage to females. (see this.ladykiller) #110 Lady Killer
+
+    --Vagabonds prevent rest interruption. (see this.cunning) #111 Vagabond's Cunning
+
+    --Scavenger
+    if (modData.abilities[112] == true or class.name == "Scavenger") then
+        if tes3.player.cell.restingIsIllegal  == false then
+            if math.random(1, 120) < attTable[8].current then
+                local randNum = math.random(1, #tables.scavengeList)
+                local list = tables.scavengeList[randNum]
+                local item = list[math.random(1, #list)]
+
+                --Scavenge random items
+                tes3.addItem({ item = item, reference = companionRef })
+
+                local spoils = tes3.getObject(item)
+                tes3.messageBox("" .. companionRef.object.name .. " scavenged something from nearby. (" .. spoils.name .. ")")
+            end
+        end
+    end
+
+    --Ninja can escape from most dungeons. (see techniques.lua) #113 Shinobi
+
+    --Fisherman
+    if (modData.abilities[114] == true or class.name == "Fisherman") then
+        local cell = tes3.getPlayerCell()
+
+        if (cell.restingIsIllegal  == false and cell.displayName ~= "Ashlands Region" and cell.displayName ~= "Red Mountain Region" and cell.displayName ~= "Molag Amur Region") then
+            local modList = tes3.getModList()
+            local list = tables.fish
+
+			for i, v in pairs(modList) do
+				if v == "abotWaterLife.esm" then
+                    list = tables.abotFish
+                    break
+                end
+            end
+
+            local item = list[math.random(1, #list)]
+
+            --Gather Aquatic Item
+            tes3.addItem({ item = item, reference = companionRef })
+
+            local spoils = tes3.getObject(item)
+            tes3.messageBox("" .. companionRef.object.name .. " seems to have fished something up. (" .. spoils.name .. ")")
+        end
+    end
+
+    --Arcanists can transfer magicka back and forth between themselves and the player. (see techniques.lua) #115 Mystic Conduit
+
+
+
     --Wandering Artist works with painting skill?
 
     --diplomat?
 
     --Skald?
+
+    --seraph?
 
     --clothier can maybe make clothes/make them warmer or increase enchant capacity?
 
@@ -2927,63 +3103,107 @@ function this.executeAbilities(companionRef)
     --duelists can maybe duel npcs or something
 
     --gladiators can fight in arena?
+
+    --cat-catcher enslaves NPC enemies when they are heavily wounded Personality/Willpower
 end
 
 
---Opportunist #4---------------------------------------------------------------------------------------------------------------------
-function this.contract()
-    if config.triggeredAbilities == false then return end
-
+--Acrobatic #1-----------------------------------------------------------------------------------------------------------------------
+function this.acrobatic(e)
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
-    log:trace("Contract triggered.")
+    log:trace("Acrobatic triggered.")
 
-    local npcTable = func.npcTable()
+    if e.mobile then
+        local npcTable = func.npcTable()
+        local trigger = 0
+        local mobile
 
-    for i = 1, #npcTable do
-        local reference = npcTable[i]
-        local modData = func.getModData(reference)
+        for i = 1, #npcTable do
+            local modData = func.getModData(npcTable[i])
 
-        if (modData.abilities[4] == true or modData.class == "Assassin") then
-            local temp = {}
-            for obj in tes3.iterateObjects(tes3.objectType.npc) do
-                temp[obj] = true
+            if modData.abilities[1] then
+                trigger = 1
+                mobile = npcTable[i].mobile
+                break
             end
+        end
 
-            local list = {}
-            for obj in pairs(temp) do
-                list[#list+1] = obj
+        if trigger == 1 then
+            if (func.validCompanionCheck(e.mobile) and e.mobile.actorType == 1) or (e.mobile == tes3.mobilePlayer) then
+                log:debug("Current fall damage: " .. e.damage .. ".")
+
+                --Fall Damage Reduction
+                local acrobatics = mobile:getSkillStatistic(20)
+                local reduction = acrobatics.current
+
+                if e.mobile ~= mobile then
+                    --Other Party Member
+                    reduction = math.round(acrobatics.current * 0.5)
+                end
+
+                if reduction > 100 then
+                    reduction = 100
+                elseif reduction < 0 then
+                    reduction = 0
+                end
+
+                e.damage = math.round(e.damage * (1 - (reduction * 0.01)))
+                log:debug("" .. e.mobile.object.name .. "'s fall damage reduced to " .. e.damage .. ".")
             end
+        end
+    end
 
-            local choice
+    return e.damage
+end
 
-            repeat
-                local check = true
+--Opportunist #4---------------------------------------------------------------------------------------------------------------------
+function this.contract(reference)
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Contract check triggered on " .. reference.object.name .. ".")
 
-                choice = list[math.random(1, #list)]
+    local modData = func.getModData(reference)
 
-                if choice.name == "" then
-                    check = false
-                else
-                    for n = 1, #tables.contractBlacklist do
-                        if string.match(choice.name, tables.contractBlacklist[n]) then
-                            check = false
-                            break
-                        end
+    if (modData.abilities[4] == true or modData.class == "Assassin") then
+        local temp = {}
+        for obj in tes3.iterateObjects(tes3.objectType.npc) do
+            temp[obj] = true
+        end
+
+        local list = {}
+        for obj in pairs(temp) do
+            list[#list+1] = obj
+        end
+
+        local choice
+
+        repeat
+            local check = true
+
+            choice = list[math.random(1, #list)]
+
+            if choice.name == "" then
+                check = false
+            else
+                for n = 1, #tables.contractBlacklist do
+                    if string.match(choice.name, tables.contractBlacklist[n]) then
+                        check = false
+                        break
                     end
                 end
-            until (check == true)
-
-            table.insert(modData.contracts, choice.id)
-
-            local amount = (choice.level * 100)
-
-            if amount > 5000 then
-                amount = 5000
             end
+        until (check == true)
 
-            tes3.messageBox("" .. reference.object.name .. " received a contract to kill " .. choice.name .. " for " .. amount .. " gold.")
-            log:info("" .. reference.object.name .. " received a contract to kill " .. choice.name .. " for " .. amount .. " gold.")
+        table.insert(modData.contracts, choice.id)
+
+        local amount = (choice.level * 100)
+
+        if amount > 4000 then
+            amount = 4000
         end
+
+        tes3.messageBox("" .. reference.object.name .. " received a contract to kill " .. choice.name .. " for " .. amount .. " gold.")
+        log:info("" .. reference.object.name .. " received a contract to kill " .. choice.name .. " for " .. amount .. " gold.")
     end
 end
 
@@ -3007,8 +3227,8 @@ function this.contractKill(e)
 
                     local amount = (e.reference.object.level * 100)
 
-                    if amount > 5000 then
-                        amount = 5000
+                    if amount > 4000 then
+                        amount = 4000
                     end
 
                     tes3.addItem({ reference = reference, item = "Gold_001", count = amount, playSound = true })
@@ -3023,7 +3243,7 @@ end
 
 --Inner Rage #5--------------------------------------------------------------------------------------------------------------
 function this.rage(e)
-    if config.triggeredAbilities == false then return end
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Inner Rage triggered.")
 
@@ -3052,23 +3272,75 @@ function this.rage(e)
     end
 end
 
+--Resolve #8------------------------------------------------------------------------------------------------------------------
+function this.resolve()
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Resolve triggered.")
+
+    local trigger = 0
+    local npcTable = func.npcTable()
+    local willpower
+
+    for i = 1, #npcTable do
+        local reference = npcTable[i]
+        local modData = func.getModData(reference)
+
+        if modData.abilities[8] == true then
+            trigger = 1
+            willpower = reference.mobile.attributes[3]
+            break
+        end
+    end
+
+    if trigger == 1 then
+        local partyTable = func.partyTable()
+
+        for i = 1, #partyTable do
+            --Confer Aura
+            tes3.removeSpell({ reference = partyTable[i], spell = "kl_ability_resolve_01" })
+            tes3.removeSpell({ reference = partyTable[i], spell = "kl_ability_resolve_02" })
+            tes3.removeSpell({ reference = partyTable[i], spell = "kl_ability_resolve_03" })
+            tes3.removeSpell({ reference = partyTable[i], spell = "kl_ability_resolve_04" })
+
+            --25pts
+            if willpower.current >= 25 and willpower.current < 50 then
+                tes3.addSpell({ reference = partyTable[i], spell = "kl_ability_resolve_01" })
+            end
+            --50pts
+            if willpower.current >= 50 and willpower.current < 75 then
+                tes3.addSpell({ reference = partyTable[i], spell = "kl_ability_resolve_02" })
+            end
+            --75pts
+            if willpower.current >= 75 and willpower.current < 100 then
+                tes3.addSpell({ reference = partyTable[i], spell = "kl_ability_resolve_03" })
+            end
+            --100pts
+            if willpower.current >= 100 then
+                tes3.addSpell({ reference = partyTable[i], spell = "kl_ability_resolve_04" })
+            end
+        end
+        log:debug("Resolve bestowed upon party.")
+    else
+        local partyTable = func.partyTable()
+
+        for i = 1, #partyTable do
+            --Remove Aura
+            tes3.removeSpell({ reference = partyTable[i], spell = "kl_ability_resolve_01" })
+            tes3.removeSpell({ reference = partyTable[i], spell = "kl_ability_resolve_02" })
+            tes3.removeSpell({ reference = partyTable[i], spell = "kl_ability_resolve_03" })
+            tes3.removeSpell({ reference = partyTable[i], spell = "kl_ability_resolve_04" })
+        end
+
+        log:debug("Resolve removed from party.")
+    end
+end
+
 --Blessed Aura #9---------------------------------------------------------------------------------------------------------------------
 function this.blessed()
     log = logger.getLogger("Companion Leveler")
     log:trace("Blessed Aura triggered.")
 
     local party = func.partyTable()
-
-    if config.triggeredAbilities == false then
-        --Remove Aura
-        for n = 1, #party do
-            local ref = party[n]
-            tes3.removeSpell({ reference = ref, spell = "kl_ability_blessed" })
-        end
-
-        log:debug("Blessed Aura removed from party.")
-        return
-    end
 
     local trigger = 0
     local npcTable = func.npcTable()
@@ -3104,8 +3376,9 @@ function this.blessed()
 end
 
 --Observant #16---------------------------------------------------------------------------------------------------------------------
-function this.survey()
-    if config.triggeredAbilities == false then return end
+function this.survey(e)
+    if config.triggeredAbilities == false then return 0 end
+    if e.cell.restingIsIllegal then return 0 end
 
     log = logger.getLogger("Companion Leveler")
     log:trace("Survey triggered.")
@@ -3118,7 +3391,7 @@ function this.survey()
         local reference = npcTable[i]
         local modData = func.getModData(reference)
         if (modData.abilities[16] == true or modData.class == "Scout") then
-            if math.random(0, 99) < 3 then
+            if math.random(0, 99) < 4 then
                 trigger = 1
                 name = reference.object.name
                 break
@@ -3174,10 +3447,33 @@ function this.comprehension(e)
 	end
 end
 
+--Rugged Navigator #68--------------------------------------------------------------------------------------------------------------
+function this.navigator(e)
+    if config.triggeredAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Navigator triggered.")
+    if e.mobile and e.mobile.reference.object.faction.id == "Mages Guild" then return end
+
+    local npcTable = func.npcTable()
+    local originalPrice = e.price
+
+    for i = 1, #npcTable do
+        local reference = npcTable[i]
+        local modData = func.getModData(reference)
+
+        if modData.abilities[68] == true then
+            e.price = math.round(e.price * 0.75)
+            log:debug("" .. reference.object.name .. "'s navigation skills reduced travel costs to " .. e.price .. ".")
+        end
+    end
+
+    if e.price < 1  and originalPrice > 0 then
+        e.price = 1
+    end
+end
+
 --Tranquility #72-------------------------------------------------------------------------------------------------------------------
 function this.tranquility(ref)
-    if config.triggeredAbilities == false then return end
-
     log = logger.getLogger("Companion Leveler")
     log:trace("Tranquility triggered.")
 
@@ -3188,7 +3484,7 @@ function this.tranquility(ref)
 		for i = 1, #npcTable do
 			local reference = npcTable[i]
 			local modData = func.getModData(reference)
-			if (modData.abilities[72] == true or modData.class == "Herder") then
+			if modData.abilities[72] == true then
 				trigger = 1
 				log:debug("" .. ref.object.name .. " was placated by " .. reference.object.name .. ".")
                 break
@@ -3283,7 +3579,7 @@ end
 
 --Runic #77--------------------------------------------------------------------------------------------------------------
 function this.arcaneK(e)
-    if config.triggeredAbilities == false then return end
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Runic triggered.")
 
@@ -3321,7 +3617,7 @@ end
 
 --Arcane Augmentation #78--------------------------------------------------------------------------------------------------------------
 function this.arcaneA(e)
-    if config.triggeredAbilities == false then return end
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Arcane Augmentation triggered.")
 
@@ -3518,61 +3814,56 @@ function this.inoculate(e)
 end
 
 --Citizen's Arrest #97--------------------------------------------------------------------------------------------------------------------
-function this.bounty()
+function this.bounty(reference)
     if config.triggeredAbilities == false then return end
 
     log = logger.getLogger("Companion Leveler")
-    log:trace("Bounty triggered.")
+    log:trace("Bounty triggered on " .. reference.object.name .. ".")
 
-    local npcTable = func.npcTable()
+    local modData = func.getModData(reference)
 
-    for i = 1, #npcTable do
-        local reference = npcTable[i]
-        local modData = func.getModData(reference)
-
-        if (modData.abilities[97] == true or modData.class == "Bounty Hunter") then
-            local temp = {}
-            for _, cell in pairs(tes3.dataHandler.nonDynamicData.cells) do
-                temp[cell] = true
-            end
-
-            local list = {}
-            for cell in pairs(temp) do
-                list[#list+1] = cell
-            end
-
-            local choice
-
-            repeat
-                local check = true
-
-                choice = list[math.random(1, #list)]
-
-                if (choice.displayName ~= nil) then
-                    for n = 1, #tables.bountyBlacklist do
-                        if string.match(choice.displayName, tables.bountyBlacklist[n]) then
-                            check = false
-                            break
-                        end
-                    end
-                else
-                    check = false
-                end
-
-            until (check == true)
-
-
-            table.insert(modData.bounties, choice.id)
-
-            local cellName = choice.displayName
-            local unused
-            if string.match(cellName, ",") then
-                cellName, unused = choice.displayName:match("([^,]+),([^,]+)")
-            end
-
-            tes3.messageBox("" .. reference.object.name .. " received a bounty to kill a fugitive. They were last seen in " .. cellName .. ".")
-            log:info("" .. reference.object.name .. " received a bounty to kill a fugitive. They were last seen in " .. cellName .. ".")
+    if (modData.abilities[97] == true or modData.class == "Bounty Hunter") then
+        local temp = {}
+        for _, cell in pairs(tes3.dataHandler.nonDynamicData.cells) do
+            temp[cell] = true
         end
+
+        local list = {}
+        for cell in pairs(temp) do
+            list[#list+1] = cell
+        end
+
+        local choice
+
+        repeat
+            local check = true
+
+            choice = list[math.random(1, #list)]
+
+            if (choice.displayName ~= nil) then
+                for n = 1, #tables.bountyBlacklist do
+                    if string.match(choice.displayName, tables.bountyBlacklist[n]) then
+                        check = false
+                        break
+                    end
+                end
+            else
+                check = false
+            end
+
+        until (check == true)
+
+
+        table.insert(modData.bounties, choice.id)
+
+        local cellName = choice.displayName
+        local unused
+        if string.match(cellName, ",") then
+            cellName, unused = choice.displayName:match("([^,]+),([^,]+)")
+        end
+
+        tes3.messageBox("" .. reference.object.name .. " received a bounty to kill a fugitive. They were last seen in " .. cellName .. ".")
+        log:info("" .. reference.object.name .. " received a bounty to kill a fugitive. They were last seen in " .. cellName .. ".")
     end
 end
 
@@ -3887,17 +4178,6 @@ function this.track()
     log = logger.getLogger("Companion Leveler")
     log:trace("Track triggered.")
 
-    if config.triggeredAbilities == false then
-        --Remove Aura
-        tes3.removeSpell({ reference = tes3.player, spell = "kl_ability_track_01" })
-        tes3.removeSpell({ reference = tes3.player, spell = "kl_ability_track_02" })
-        tes3.removeSpell({ reference = tes3.player, spell = "kl_ability_track_03" })
-        tes3.removeSpell({ reference = tes3.player, spell = "kl_ability_track_04" })
-
-        log:debug("Track removed from player.")
-        return
-    end
-
     local trigger = 0
     local npcTable = func.npcTable()
     local intelligence
@@ -3951,7 +4231,7 @@ end
 
 --Maneater #109--------------------------------------------------------------------------------------------------------------
 function this.maneater(e)
-    if config.triggeredAbilities == false then return end
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Maneater triggered.")
 
@@ -4012,7 +4292,7 @@ end
 
 --Lady Killer #110--------------------------------------------------------------------------------------------------------------
 function this.ladykiller(e)
-    if config.triggeredAbilities == false then return end
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Lady Killer triggered.")
 
@@ -4069,6 +4349,35 @@ function this.ladykiller(e)
     end
 
     return result
+end
+
+--Vagabond's Cunning #111---------------------------------------------------------------------------------------------------------
+function this.cunning(e)
+    if config.triggeredAbilities == false then return end
+
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Cunning triggered.")
+
+    if e.count > 0 then
+        local npcTable = func.npcTable()
+
+        for i = 1, #npcTable do
+            local reference = npcTable[i]
+            local modData = func.getModData(reference)
+
+            if modData.abilities[111] == true then
+                local security = reference.mobile:getSkillStatistic(18)
+
+                if math.random(0, 99) < security.current then
+                    --Prevent Ambush
+                    e.count = 0
+                    log:info("" .. reference.object.name .. " prevented an ambush.")
+                    tes3.messageBox("" .. reference.object.name .. " prevented an ambush!")
+                    break
+                end
+            end
+        end
+    end
 end
 
 
