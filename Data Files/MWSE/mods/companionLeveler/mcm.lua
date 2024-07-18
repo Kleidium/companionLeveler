@@ -80,42 +80,6 @@ globalSettings:createOnOffButton {
     variable = mwse.mcm.createTableVariable { id = "levelHealth", table = config }
 }
 
--- globalSettings:createOnOffButton {
---     label = "NPC Spell-Learning on Level-Up",
---     description = "If this is enabled, whenever your NPC companion trains a magic school, they have a chance at learning a spell of that school within their abilities.\n\nDefault: On",
---     variable = mwse.mcm.createTableVariable { id = "spellLearning", table = config }
--- }
-
--- globalSettings:createOnOffButton {
---     label = "NPC Ability-Learning on Level-Up",
---     description = "If this is enabled, NPC companions learn an Ability specific to their current class at every 5th level. Each class has only one Ability. \n\nOnly vanilla classes and certain 'Ahead of the Classes' classes have abilities.\n\nDefault: On",
---     variable = mwse.mcm.createTableVariable { id = "abilityLearningNPC", table = config }
--- }
-
--- globalSettings:createOnOffButton {
---     label = "Creature Spell-Learning on Level-Up",
---     description = "If this is enabled, whenever your creature companion levels up, they have a chance at learning a spell suitable to their creature type.\n\nDefault: On",
---     variable = mwse.mcm.createTableVariable { id = "spellLearningC", table = config }
--- }
-
--- globalSettings:createOnOffButton {
---     label = "Creature Ability-Learning on Level-Up",
---     description = "If this is enabled, whenever your creature companions level up and reach certain level thresholds, they will learn Abilities specific to their creature type.\n\nDefault: On",
---     variable = mwse.mcm.createTableVariable { id = "abilityLearning", table = config }
--- }
-
--- globalSettings:createOnOffButton {
---     label = "Triggered Abilities",
---     description = "If this is enabled, certain NPC and creature abilities with special effects are able to be triggered. \n\nFor example: Alchemists will sometimes create potions. \n\nDefault: On",
---     variable = mwse.mcm.createTableVariable { id = "triggeredAbilities", table = config }
--- }
-
--- globalSettings:createOnOffButton {
---     label = "Show Unlearned Abilities",
---     description = "If this is enabled, all abilities will be shown in the character sheet regardless of whether or not the companion has learned them. Unlearned abilities are darker in color.\n\nDefault: Off",
---     variable = mwse.mcm.createTableVariable { id = "showUnlearned", table = config }
--- }
-
 globalSettings:createOnOffButton {
     label = "Ignore Summoned Creatures",
     description = "If this is enabled, summoned creatures in the party are not counted as valid companions and will be ignored.\n\nDefault: On",
@@ -145,11 +109,6 @@ globalSettings:createKeyBinder {
     allowCombinations = false,
 }
 
--- globalSettings:createOnOffButton {
---     label = "Battle Messages",
---     description = "Enable or disable messages from triggered battle abilities. \n\nDefault: On",
---     variable = mwse.mcm.createTableVariable { id = "bMessages", table = config }
--- }
 
 ----Global Modifiers---------------------------------------------------------------------------------------------------------------------------------------
 local globalMod = settings:createCategory("Global Modifiers")
@@ -166,27 +125,6 @@ globalMod:createSlider {
     }
 }
 
--- globalMod:createSlider {
---     label = "NPC Spell-Learning Chance",
---     description = "Sets the percentage chance of NPC companions learning a spell when training a school of magic, within their casting ability. \n\nDefault: 50% chance to learn a spell of the trained school.",
---     max = 100,
---     min = 1,
---     variable = EasyMCM:createTableVariable {
---         id = "spellChance",
---         table = config
---     }
--- }
-
--- globalMod:createSlider {
---     label = "Creature Spell-Learning Chance",
---     description = "Sets the percentage chance of learning a spell when your creature companion levels up. \n\nDefault: 30% chance to learn a spell suitable to creature type.",
---     max = 100,
---     min = 1,
---     variable = EasyMCM:createTableVariable {
---         id = "spellChanceC",
---         table = config
---     }
--- }
 
 ----Class Mode Page--------------------------------------------------------------------------------------------------------------------------
 local listMod = pageClass:createCategory("Class List Settings")

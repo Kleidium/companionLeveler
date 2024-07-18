@@ -8,6 +8,7 @@ function spList.createWindow(reference)
     spList.id_label = tes3ui.registerID("kl_spList_label")
     spList.id_title = tes3ui.registerID("kl_spList_ok")
     spList.id_pane = tes3ui.registerID("kl_spList_pane")
+    spList.reference = reference
 
 
     log = logger.getLogger("Companion Leveler")
@@ -26,13 +27,13 @@ function spList.createWindow(reference)
     spList_block.autoHeight = true
 
     local border = spList_block:createThinBorder {}
-    border.width = 212
+    border.width = 270
     border.height = 566
     border.flowDirection = "top_to_bottom"
 
     --Create Pane
     local pane = border:createVerticalScrollPane()
-    pane.width = 212
+    pane.width = 270
     pane.height = 566
     pane.widget.scrollbarVisible = true
 
@@ -41,8 +42,7 @@ function spList.createWindow(reference)
 
     for i = 1, #spellList do
 
-        local listItem = pane:createLabel({ text = spellList[i].name, id = "kl_spList_listItem_" .. i .. "" })
-        listItem.color = { 1.0, 1.0, 1.0 }
+        local listItem = pane:createTextSelect({ text = spellList[i].name, id = "kl_spList_listItem_" .. i .. "" })
 
         listItem:register("help", function(e)
             local tooltip = tes3ui.createTooltipMenu { spell = spellList[i] }
@@ -52,6 +52,8 @@ function spList.createWindow(reference)
             contentElement.childAlignX = 0.5
             contentElement.childAlignY = 0.5
         end)
+
+        listItem:register("mouseClick", function() spList.onSelect(spellList[i].id) end)
     end
 
     --Button Block
@@ -65,6 +67,29 @@ function spList.createWindow(reference)
 
     --Events
     button_ok:register(tes3.uiEvent.mouseClick, spList.onOK)
+end
+
+function spList.forget(e)
+    local menu = tes3ui.findMenu(spList.id_menu)
+    if menu then
+        if e.button == 0 then
+            tes3.removeSpell({ reference = spList.reference, spell = spList.spell.id})
+            tes3.messageBox("" .. spList.reference.object.name .. " forgot the " .. spList.spell.name .. " spell.")
+            menu:destroy()
+            spList.createWindow(spList.reference)
+        end
+    end
+end
+
+function spList.onSelect(id)
+    local menu = tes3ui.findMenu(spList.id_menu)
+    if menu then
+        local spell = tes3.getObject(id)
+        spList.spell = spell
+        tes3.messageBox({ message = "Forget " .. spell.name .. "?",
+            buttons = { "Yes", "No" },
+            callback = spList.forget })
+    end
 end
 
 function spList.onOK()

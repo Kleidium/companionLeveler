@@ -11,6 +11,7 @@ function abList.createWindow(reference)
     abList.id_label = tes3ui.registerID("kl_abList_label")
     abList.id_title = tes3ui.registerID("kl_abList_ok")
     abList.id_pane = tes3ui.registerID("kl_abList_pane")
+    abList.reference = reference
 
 
     log = logger.getLogger("Companion Leveler")
@@ -31,13 +32,13 @@ function abList.createWindow(reference)
     abList_block.autoHeight = true
 
     local border = abList_block:createThinBorder {}
-    border.width = 212
+    border.width = 270
     border.height = 566
     border.flowDirection = "top_to_bottom"
 
     --Create Pane
     local pane = border:createVerticalScrollPane()
-    pane.width = 212
+    pane.width = 270
     pane.height = 566
     pane.widget.scrollbarVisible = true
 
@@ -45,9 +46,14 @@ function abList.createWindow(reference)
     if reference.object.objectType ~= tes3.objectType.creature then
         for i = 1, #tables.abListNPC do
             local spellObject = tes3.getObject(tables.abListNPC[i])
+            local listItem
 
-            local listItem = pane:createLabel({ text = spellObject.name, id = "kl_abList_listItem_" .. i .. "" })
-            listItem.color = { 0.35, 0.35, 0.35 }
+            if modData.abilities[i] == true then
+                listItem = pane:createTextSelect({ text = spellObject.name, id = "kl_abList_listItem_" .. i .. "" })
+            else
+                listItem = pane:createLabel({ text = spellObject.name, id = "kl_abList_listItem_" .. i .. "" })
+                listItem.color = { 0.35, 0.35, 0.35 }
+            end
 
             listItem:register("help", function(e)
                 local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
@@ -68,7 +74,7 @@ function abList.createWindow(reference)
             end)
 
             if modData.abilities[i] == true then
-                listItem.color = { 1.0, 1.0, 1.0 }
+                listItem:register("mouseClick", function() abList.onSelect(spellObject.id) end)
             end
 
             --Show Unlearned?
@@ -81,9 +87,14 @@ function abList.createWindow(reference)
     else
         for i = 1, #tables.abList do
             local spellObject = tes3.getObject(tables.abList[i])
+            local listItem
 
-            local listItem = pane:createLabel({ text = spellObject.name, id = "kl_abList_listItem_" .. i .. "" })
-            listItem.color = { 0.35, 0.35, 0.35 }
+            if modData.abilities[i] == true then
+                listItem = pane:createTextSelect({ text = spellObject.name, id = "kl_abList_listItem_" .. i .. "" })
+            else
+                listItem = pane:createLabel({ text = spellObject.name, id = "kl_abList_listItem_" .. i .. "" })
+                listItem.color = { 0.35, 0.35, 0.35 }
+            end
 
             listItem:register("help", function(e)
                 local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
@@ -102,7 +113,8 @@ function abList.createWindow(reference)
             end)
 
             if modData.abilities[i] == true then
-                listItem.color = { 1.0, 1.0, 1.0 }
+                listItem:register("mouseClick", function() abList.onSelect(spellObject.id) end)
+                --listItem.color = { 1.0, 1.0, 1.0 }
             end
 
             --Show Unlearned?
@@ -130,6 +142,66 @@ function abList.createWindow(reference)
 
     --Events
     button_ok:register(tes3.uiEvent.mouseClick, abList.onOK)
+end
+
+function abList.forget(e)
+    local menu = tes3ui.findMenu(abList.id_menu)
+    local dialog = tes3ui.findMenu("MenuDialog")
+
+    if menu then
+        if e.button == 0 then
+            tes3.removeSpell({ reference = abList.reference, spell = abList.spell.id})
+
+            if abList.reference.object.objectType == tes3.objectType.creature then
+                --Creature
+                for i = 1, #tables.abList do
+                    if abList.spell.id == tables.abList[i] then
+                        local modData = func.getModData(abList.reference)
+                        modData.abilities[i] = false
+                    end
+                end
+            else
+                --NPC
+                for i = 1, #tables.abListNPC do
+                    if abList.spell.id == tables.abListNPC[i] then
+                        local modData = func.getModData(abList.reference)
+                        modData.abilities[i] = false
+                    end
+                end
+            end
+
+            tes3.messageBox("" .. abList.reference.object.name .. " forgot the " .. abList.spell.name .. " ability. Checking Ideal Stats is recommended.")
+
+            abList.onOK()
+
+            --Dialogue prevents leaveMenuMode for some reason
+            if dialog then
+                dialog:destroy()
+            end
+
+            --Update Statistics after simulating
+            tes3ui.leaveMenuMode()
+            timer.delayOneFrame(function()
+                timer.delayOneFrame(function()
+                    timer.delayOneFrame(function()
+                        tes3ui.enterMenuMode("kl_sheet_menu")
+                        abList.createWindow(abList.reference)
+                    end)
+                end)
+            end)
+        end
+    end
+end
+
+function abList.onSelect(id)
+    local menu = tes3ui.findMenu(abList.id_menu)
+    if menu then
+        local spell = tes3.getObject(id)
+        abList.spell = spell
+        tes3.messageBox({ message = "Forget " .. spell.name .. "?",
+            buttons = { "Yes", "No" },
+            callback = abList.forget })
+    end
 end
 
 function abList.onOK()

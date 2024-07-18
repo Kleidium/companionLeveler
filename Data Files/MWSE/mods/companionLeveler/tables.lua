@@ -1,14 +1,15 @@
 local stuff = {}
 
-----Version Control------------------------------------------------------------------------------------------------
+----Version Control---------------------------------------------------------------------------------------------------------------------------
 
 --Always make sure these values are correct.
-stuff.version = 2.10
-stuff.npcAbilityAmount = 105
-stuff.creAbilityAmount = 48
-stuff.creTypeAmount = 12
+stuff.version = 2.20
+stuff.npcAbilityAmount = 110
+stuff.creAbilityAmount = 64
+stuff.creTypeAmount = 16
 
-----Companion Classes--------------------------------------------------------------------------------------
+----Companion Classes-------------------------------------------------------------------------------------------------------------------------
+
 stuff.classes = {
 	[1] = "Acrobat",
 	[2] = "Agent",
@@ -74,7 +75,8 @@ stuff.classes = {
 }
 
 
-----Capitalization/Offset-------------------------------------------------------------
+----Capitalization/Offset-------------------------------------------------------------------------------------------------------------------
+
 stuff.capitalization = {
 	[0] = "Strength",
 	[1] = "Intelligence",
@@ -93,7 +95,8 @@ stuff.capitalization2 = {
 }
 
 
-----Creature Type Tables----------------------------------------------------------------
+----Creature Type Tables------------------------------------------------------------------------------------------------------------------
+
 stuff.typeTable = {
 	[1] = "Normal",
 	[2] = "Daedra",
@@ -106,27 +109,35 @@ stuff.typeTable = {
 	[9] = "Spectral",
 	[10] = "Insectile",
 	[11] = "Draconic",
-	[12] = "Brute"
+	[12] = "Brute",
+	[13] = "Aquatic",
+	[14] = "Avian",
+	[15] = "Bestial",
+	[16] = "Impish"
 }
 
 stuff.typeDesc1 = {
-	[1] = "Physical Type. Limited close range spells and augmentations. Guaranteed bonus Agility.",
-	[2] = "Mixed Type. Barriers. Proficient in Destruction and summoning other Daedra.",
-	[3] = "Mixed Type. Debilitating spells. Proficient in Mysticism.",
-	[4] = "Magical Type. Proficient in offensive magic. Learns magic at a faster rate.",
-	[5] = "Physical Type. Weak electric and flame attacks. Guaranteed bonus Endurance.",
-	[6] = "Magical Type. Proficient in supportive magic. Guaranteed bonus Luck.",
-	[7] = "Stealth Type. Proficient in Illusion magic. Learns many Abilities.",
-	[8] = "Stealth Type. Learns no Spells or Abilities, but their mere presence makes you feel luckier somehow...",
-	[9] = "Magical Type. Proficient in Mysticism, Illusion, and Conjuration. Guaranteed bonus Willpower.",
-	[10] = "Stealth Type. Poisons and paralysis. Wards off aggressive kwama and shalk. Guaranteed bonus Speed.",
-	[11] = "Mixed Type. Learns all types of magic, but slowly. Three major attributes. No random attribute. Learns to fly.",
-	[12] = "Physical Type. Learns no spells. High Strength growth in exchange for lowered Agility and Intelligence growth."
+	[1] = "Physical Type. Limited spells and augmentations. Learns to track nearby creatures. Guaranteed bonus Agility.",
+	[2] = "Mixed Type. Proficient in Destruction and summoning other Daedra. Learns to envelop the party in an elemental barrier.",
+	[3] = "Mixed Type. Proficient in Mysticism and debilitating spells. Learns to potentially rise again when struck down.",
+	[4] = "Magical Type. Proficient in most offensive magic. Learns magic at a faster rate. Learns to protect the party from blight.",
+	[5] = "Physical Type. Weak electric and flame attacks. Learns to project a spell reflection field. Guaranteed bonus Endurance.",
+	[6] = "Magical Type. Proficient in supportive magic and frost magic. Learns to confer an aura of Luck. Guaranteed bonus Luck.",
+	[7] = "Stealth Type. Proficient in most Illusion magic. Learns twice as many Abilities. Learns to augment the party's movement.",
+	[8] = "Stealth Type. Learns no Spells or Abilities, but their presence makes you feel luckier somehow. Guaranteed bonus Personality.",
+	[9] = "Magical Type. Proficient in Mysticism, Illusion, and Conjuration. Learns to regain form from soul gems. Guaranteed bonus Willpower.",
+	[10] = "Stealth Type. Poisons and paralysis. Eventually wards off aggressive kwama and shalk. Guaranteed bonus Speed.",
+	[11] = "Mixed Type. Learns all types of magic, but slowly. Three major attributes. Learns to fly and weaponize Personality.",
+	[12] = "Physical Type. Learns no spells. Learns to rally the party. High Strength growth in exchange for lowered Agility and Intelligence growth.",
+	[13] = "Mixed Type. Proficient in Alteration and Restoration. Learns to confer an aura which allows the party to breathe water.",
+	[14] = "Stealth Type. Disruptive Illusion spells. Learns to fly quickly and distract enemies when attacking.",
+	[15] = "Physical Type. Calls other beasts to their side. Learns to assert dominance over other creatures, which may cause them to flee.",
+	[16] = "Magical Type. Proficient in all magic. Reduced health growth. Learns various powerful auras. Guaranteed bonus Intelligence."
 }
 
 stuff.typeDesc2 = {
 	[1] = "\"The familiar flora and fauna of Tamriel is exchanged for bizarre and twisted forms that can survive the regular ashfall.\" - Pocket Guide to the Empire, Morrowind",
-	[2] = "\"We serve by choice. We serve the strong, so that their strength might shield us.\" - Spirit of the Daedra",
+	[2] = "\"We serve by choice. We serve the strong, so that their strength might shield us. Clans serve by long-practice, but practice may change. Dremora have long served Dagon but not always so.\" - Spirit of the Daedra",
 	[3] = "\"The Ancestors are not departed. The dead are not under the earth. Their spirits are in the restless wind, in the fire's voice, in the foot-smoothed step. Pay heed to these things, and you will know your absent kin.\" - The Doors of the Spirit",
 	[4] = "\"That House was a curse on our land for millennia, and when at last their pestilence was snuffed out, the very earth itself breathed a cloud of fire and ash in relief, bringing night to day for over a year's time.\" - Poison Song",
 	[5] = "\"I wondered what secrets remained hidden in the maze of chambers that lay before me, defying the efforts of looters, waiting to gleam again in the light they had not seen in long eons.\" - The Ruins of Kemel-Ze",
@@ -136,7 +147,11 @@ stuff.typeDesc2 = {
 	[9] = "\"Spirits do not like to visit the mortal world, and they do so only out of duty and obligation. Spirits tell us that the otherworld is more pleasant, or at least more comfortable for spirits than our real world, which is cold, bitter, and full of pain and loss.\" - Ancestors and the Dunmer",
 	[10] = "\"A few scribs grow up to become warriors. While some uneducated souls think that killing the warriors keeps the rest in line, this expert disagrees.\" - Care of Kwama",
 	[11] = "\"Dragons live far, far longer than even elves, and, in consequence, breed even more slowly. Still, who can say what alterations being born into a social setting may produce, for good or ill, in dragon behavior.\" - King Edward, Part XI",
-	[12] = "\"We live in an uneasy truce with the giants of Skyrim. Some believe that they are our Atmoran ancestors, and the more backward villagers on the border with Wrothgar still breed cows specifically to paint with runes as offerings to these lumbering nomads.\" - Kyne's Challenge"
+	[12] = "\"We live in an uneasy truce with the giants of Skyrim. Some believe that they are our Atmoran ancestors, and the more backward villagers on the border with Wrothgar still breed cows specifically to paint with runes as offerings to these lumbering nomads.\" - Kyne's Challenge",
+	[13] = "\"The Queen of Dreughs, whose name is not easy to spell, was in a period of self-incubation. Her wardens took the gift from Vivec and promised to guard it from the surface world. This is the first account of dreughs being liars.\" - The Thirty-Six Lessons of Vivec, Sermon Twenty-Eight",
+	[14] = "\"As it passed a sandy, forested island that promised\nSanctuary and peace, the crew cheered in joy.\nThen exultation turned to terror as a great shadow rose\nFrom the trees on leathered wings like a unfurling Cape.\" - Father of the Niben, Fragment Two",
+	[15] = "\"When he awoke, the bear stood over him, and the remains of a number of the Falmer were strewn about. He knew that the Good Beast had protected him during the night. He traveled back to Beast Rock, the bear by his side, and the All-Maker spoke to him again.\" - The Story of Aevar Stone-Singer",
+	[16] = "\"Whatever their history, Imps are mischievous creatures, capable of casting minor but painful spells of pure magicka. They are certainly intelligent and speak their own language, and they are crafty enough that they know when to fight and when to flee.\" - Ancient Daggerfall Tome"
 }
 
 stuff.typeStat1 = {
@@ -151,7 +166,11 @@ stuff.typeStat1 = {
 	[9] = 1,
 	[10] = 5,
 	[11] = 0,
-	[12] = 0
+	[12] = 0,
+	[13] = 4,
+	[14] = 4,
+	[15] = 0,
+	[16] = 1
 }
 
 stuff.typeStat2 = {
@@ -161,15 +180,20 @@ stuff.typeStat2 = {
 	[4] = 2,
 	[5] = 5,
 	[6] = 7,
-	[7] = 4,
+	[7] = 1,
 	[8] = 7,
 	[9] = 2,
 	[10] = 4,
 	[11] = 1,
-	[12] = 5
+	[12] = 5,
+	[13] = 1,
+	[14] = 3,
+	[15] = 4,
+	[16] = 6
 }
 
-----Specialization Attributes----------------------------------------------
+----Specialization Attributes-----------------------------------------------------------------------------------------------------
+
 --Agility, Speed, Personality, Luck------------------------------------------
 stuff.stealthTable = {
 	[1] = 6,
@@ -195,7 +219,8 @@ stuff.combatTable = {
 }
 
 
-----Specialization Skills----------------------------------------------------
+----Specialization Skills----------------------------------------------------------------------------------------------------
+
 ----Acrobatics, Light Armor, Marksman, Sneak, Hand to Hand, Short Blade, Mercantile, Speechcraft, Security
 stuff.stealthSkillTable = {
 	[1] = 20,
@@ -236,7 +261,8 @@ stuff.combatSkillTable = {
 }
 
 
-----Spell Learning Tables----------------------------------------------------
+----Spell Learning Tables------------------------------------------------------------------------------------------------
+
 ----Restoration--------------------------------------------------------------
 
 stuff.restorationTable = {
@@ -426,11 +452,12 @@ stuff.mysticismTable = {
 	[19] = "Llivam's Reversal",
 	[20] = "Tranasa's Spelltrap",
 	[21] = "The Moth-Wing Mirror",
-	[22] = "Astral Drain"
+	[22] = "kl_spell_astraldrain"
 }
 
 
 ----Creature Spell Tables------------------------------------------------------------------------------------------
+
 stuff.normalTable1 = {
 	[1] = "Poisonous Touch",
 	[2] = "Clench",
@@ -620,7 +647,7 @@ stuff.undeadTable2 = {
 	[36] = "Rapid Regenerate",
 	[37] = "Profane Touch",
 	[38] = "Dread Parasite",
-	[39] = "Astral Drain"
+	[39] = "kl_spell_astraldrain"
 }
 
 stuff.humanoidTable1 = {
@@ -718,7 +745,7 @@ stuff.humanoidTable2 = {
 	[62] = "Cosmic Wound",
 	[63] = "Dark Ray",
 	[64] = "Profane Touch",
-	[65] = "Astral Drain",
+	[65] = "kl_spell_astraldrain",
 	[66] = "Burning Aegis"
 }
 
@@ -944,7 +971,7 @@ stuff.spectralTable2 = {
 	[39] = "Regenerate",
 	[40] = "Rapid Regenerate",
 	[41] = "Profane Touch",
-	[42] = "Astral Drain",
+	[42] = "kl_spell_astraldrain",
 	[43] = "Shadow Weave",
 	[44] = "Demoralize Beast",
 	[45] = "Light",
@@ -992,10 +1019,121 @@ stuff.insectileTable2 = {
 	[17] = "Clench",
 	[18] = "Weapon Eater",
 	[19] = "Fire Bite",
-	[20] = "Potent Poison"
+	[20] = "Potent Poison",
+	[21] = "Halting Grasp"
 }
 
-----Creature Abilities-----------------------------------------------------------------------------------
+stuff.aquaticTable1 = {
+	[1] = "Cure Poison",
+	[2] = "Quicksilver",
+	[3] = "Nimbleness",
+	[4] = "Vigor",
+	[5] = "Vitality",
+	[6] = "Mother's Kiss",
+	[7] = "Burden",
+	[8] = "Frost Barrier",
+	[9] = "First Barrier",
+	[10] = "Righteousness",
+	[11] = "Frostbite",
+	[12] = "Black Hand",
+	[13] = "Regenerate"
+}
+
+stuff.aquaticTable2 = {
+	[1] = "Cure Poison",
+	[2] = "Quicksilver",
+	[3] = "Nimbleness",
+	[4] = "Vigor",
+	[5] = "Vitality",
+	[6] = "Mother's Kiss",
+	[7] = "Burden",
+	[8] = "Frost Barrier",
+	[9] = "First Barrier",
+	[10] = "Righteousness",
+	[11] = "Frostbite",
+	[12] = "Black Hand",
+	[13] = "Crushing Burden",
+	[14] = "Strong Frost Shield",
+	[15] = "Third Barrier",
+	[16] = "Fourth Barrier",
+	[17] = "Fifth Barrier",
+	[18] = "Strong Shock Shield",
+	[19] = "Turn of the Wheel",
+	[20] = "Troll Strength",
+	[21] = "Divine Aid",
+	[22] = "Blood Gift",
+	[23] = "Flameguard",
+	[24] = "Frostguard",
+	[25] = "Magickguard",
+	[26] = "Poisonguard",
+	[27] = "Stamina",
+	[28] = "Rapid Regenerate",
+	[29] = "Regenerate",
+	[30] = "Hearth Heal",
+	[31] = "Clench",
+	[32] = "Heartbite",
+	[33] = "Hornhand",
+	[34] = "Poisonous Touch",
+	[35] = "Sanctuary",
+	[36] = "Paralysis",
+	[37] = "Dire Weary",
+	[38] = "Restore Agility",
+	[39] = "Restore Speed",
+	[40] = "Restore Luck",
+	[41] = "Restore Strength",
+	[42] = "Frozen Aegis",
+	[43] = "Galvanic Aegis",
+	[44] = "Invisibility",
+	[45] = "Enduring Noise"
+}
+
+stuff.avianTable1 = {
+	[1] = "Crying Eye",
+	[2] = "Demoralize Beast",
+	[3] = "Frenzy Beast",
+	[4] = "Frenzying Touch",
+	[5] = "Paralysis",
+	[6] = "Silence",
+	[7] = "Earwig",
+	[8] = "Burden"
+}
+
+stuff.avianTable2 = {
+	[1] = "Crying Eye",
+	[2] = "Demoralize Beast",
+	[3] = "Frenzy Beast",
+	[4] = "Frenzying Touch",
+	[5] = "Paralysis",
+	[6] = "Silence",
+	[7] = "Earwig",
+	[8] = "Burden",
+	[9] = "Alad's Caliginy",
+	[10] = "Sanctuary",
+	[11] = "Far Silence",
+	[12] = "Cruel Noise",
+	[13] = "Dire Noise",
+	[14] = "Enduring Noise",
+	[15] = "Enduring Silence",
+	[16] = "Heavy Burden",
+	[17] = "Weary",
+	[18] = "Medusa's Gaze",
+	[19] = "Debilitate"
+}
+
+stuff.bestialTable = {
+	[1] = "BM_summonwolf",
+	[2] = "BM_summonbear",
+	[3] = "Clench",
+	[4] = "Fleabite",
+	[5] = "Frostbite",
+	[6] = "Emasculate",
+	[7] = "kl_spell_intimidate",
+	[8] = "Troll Strength",
+	[9] = "Quicksilver",
+	[10] = "Vitality"
+}
+
+----Creature Abilities-------------------------------------------------------------------------------------------------------
 
 stuff.abList = {
 	[1] = "kl_ab_norm_01",
@@ -1045,58 +1183,23 @@ stuff.abList = {
 	[45] = "kl_ab_brute_01",
 	[46] = "kl_ab_brute_02",
 	[47] = "kl_ab_brute_03",
-	[48] = "kl_ab_brute_04"
-}
-
-stuff.abText = {
-	[1] = "Instinct",
-	[2] = "Beast Blood",
-	[3] = "Greater Instinct",
-	[4] = "Evolutionary Stamina",
-	[5] = "Taste of Freedom",
-	[6] = "Daedric Skin",
-	[7] = "Sinful Freedom",
-	[8] = "Dark Barrier",
-	[9] = "Numbed Flesh",
-	[10] = "Ancestral Memory",
-	[11] = "Still Breath",
-	[12] = "Total Decay",
-	[13] = "Strange Dream",
-	[14] = "Abnormal Growth",
-	[15] = "Painfully Awake",
-	[16] = "Dream Mastery",
-	[17] = "Precision",
-	[18] = "Insulated Exoskeleton",
-	[19] = "Augmented Grip",
-	[20] = "Dwemer Refractors",
-	[21] = "Sap Secretion",
-	[22] = "Jade Wind",
-	[23] = "Synthesis",
-	[24] = "Overgrowth",
-	[25] = "Quickness",
-	[26] = "Springstep",
-	[27] = "Enduring Quickness",
-	[28] = "Feral Parrying",
-	[29] = "Chameleon Skin",
-	[30] = "Boon of Muluk",
-	[31] = "Freedom of Movement",
-	[32] = "Perfect Dodge",
-	[33] = "Unafraid",
-	[34] = "Spectral Will",
-	[35] = "Aetherial Link",
-	[36] = "Incorporeal",
-	[37] = "Entomic",
-	[38] = "Jointed Legs",
-	[39] = "Venomous Mandibles",
-	[40] = "Pheromone",
-	[41] = "Dragon Scales",
-	[42] = "Ancient Memory",
-	[43] = "Burning Grip",
-	[44] = "Dragonflight",
-	[45] = "Durable",
-	[46] = "Short Temper",
-	[47] = "Stubborn Muscle",
-	[48] = "Wanton Destruction"
+	[48] = "kl_ab_brute_04",
+	[49] = "kl_ab_aqua_01",
+	[50] = "kl_ab_aqua_02",
+	[51] = "kl_ab_aqua_03",
+	[52] = "kl_ab_aqua_04",
+	[53] = "kl_ab_avian_01",
+	[54] = "kl_ab_avian_02",
+	[55] = "kl_ab_avian_03",
+	[56] = "kl_ab_avian_04",
+	[57] = "kl_ab_beast_01",
+	[58] = "kl_ab_beast_02",
+	[59] = "kl_ab_beast_03",
+	[60] = "kl_ab_beast_04",
+	[61] = "kl_ab_imp_01",
+	[62] = "kl_ab_imp_02",
+	[63] = "kl_ab_imp_03",
+	[64] = "kl_ab_imp_04"
 }
 
 stuff.abDescription = {
@@ -1115,7 +1218,7 @@ stuff.abDescription = {
 	[13] = "The mind is both an amazing and terrible thing.",
 	[14] = "To deny the precepts of nature and fashion them anew...that is the height of folly.",
 	[15] = "Reality. The true face of nightmare.",
-	[16] = "If lies are what make reality bearable, is willful ignorance really so wrong?",
+	[16] = "If lies make reality bearable, is willful ignorance really so wrong?",
 	[17] = "We are always one mistake away from chaos.",
 	[18] = "Weep not for the flesh, for something greater lies ahead.",
 	[19] = "Those who lack control possess not the means of change.",
@@ -1143,66 +1246,99 @@ stuff.abDescription = {
 	[41] = "Austerity. The first defense.",
 	[42] = "Learn from the mistakes of the past. Prevent the cycle from beginning anew.",
 	[43] = "A deterrent, a threat, and a promise.",
-	[44] = "Take to the skies and fly forever more.",
+	[44] = "To come and go as one pleases...this is true freedom.",
 	[45] = "Stout of body...not so much in mind.",
 	[46] = "Impatience paves the path to progress.",
 	[47] = "Some objects may not be innately immovable, but simply refuse to be moved altogether.",
-	[48] = "Such carnage neither posesses nor requires a reason."
+	[48] = "Such carnage neither posesses nor requires a reason.",
+	[49] = "To be as water is to know both freedom and constraint.",
+	[50] = "Adaptation is the first step toward evolution.",
+	[51] = "Let flow the torrent which will quench the flames of war.",
+	[52] = "\"The wonder is always new that any sane man can be a sailor.\"",
+	[53] = "The opening presents itself when one remains vigilant.",
+	[54] = "Take to the skies and fly forever more.",
+	[55] = "Train them to never again rely on sight alone.",
+	[56] = "Look down upon their disbelieving faces as their most meticulous plans fail...",
+	[57] = "Carry with you the warmth of hearth and home.",
+	[58] = "All that slumbers must one day awaken...",
+	[59] = "The strong survive. It is and will always be the way of the world.",
+	[60] = "In both love and war alike, first impressions always matter.",
+	[61] = "True magic lies within oneself.",
+	[62] = "The only constant in life is change.",
+	[63] = "Some things are beyond knowing.",
+	[64] = "The most difficult trials result in the most extraordinary growth."
 }
 
 stuff.abDescription2 = {
-	[1] = "Learned by Normal Types at level 5.",
-	[2] = "Learned by Normal Types at level 10.",
-	[3] = "Learned by Normal Types at level 15.",
-	[4] = "Learned by Normal Types at level 20.",
-	[5] = "Learned by Daedric Types at level 5.",
-	[6] = "Learned by Daedric Types at level 10.",
-	[7] = "Learned by Daedric Types at level 15.",
-	[8] = "Learned by Daedric Types at level 20.",
-	[9] = "Learned by Undead Types at level 5.",
-	[10] = "Learned by Undead Types at level 10.",
-	[11] = "Learned by Undead Types at level 15.",
-	[12] = "Learned by Undead Types at level 20.",
-	[13] = "Learned by Humanoid Types at level 5.",
-	[14] = "Learned by Humanoid Types at level 10.",
-	[15] = "Learned by Humanoid Types at level 15.",
-	[16] = "Learned by Humanoid Types at level 20.",
-	[17] = "Learned by Centurion Types at level 5.",
-	[18] = "Learned by Centurion Types at level 10.",
-	[19] = "Learned by Centurion Types at level 15.",
-	[20] = "Learned by Centurion Types at level 20.",
-	[21] = "Learned by Spriggan Types at level 5.",
-	[22] = "Learned by Spriggan Types at level 10.",
-	[23] = "Learned by Spriggan Types at level 15.",
-	[24] = "Learned by Spriggan Types at level 20.",
-	[25] = "Learned by Goblin Types at level 3.",
-	[26] = "Learned by Goblin Types at level 5.",
-	[27] = "Learned by Goblin Types at level 7.",
-	[28] = "Learned by Goblin Types at level 10.",
-	[29] = "Learned by Goblin Types at level 13.",
-	[30] = "Learned by Goblin Types at level 15.",
-	[31] = "Learned by Goblin Types at level 17.",
-	[32] = "Learned by Goblin Types at level 20.",
-	[33] = "Learned by Spectral Types at level 5.",
-	[34] = "Learned by Spectral Types at level 10. Grand Soul Gems resurrect this creature, but reduce attributes.",
-	[35] = "Learned by Spectral Types at level 15.",
-	[36] = "Learned by Spectral Types at level 20.",
-	[37] = "Learned by Insectile Types at level 5.",
-	[38] = "Learned by Insectile Types at level 10.",
-	[39] = "Learned by Insectile Types at level 15.",
-	[40] = "Learned by Insectile Types at level 20. Insects no longer attack on sight.",
-	[41] = "Learned by Draconic Types at level 5.",
-	[42] = "Learned by Draconic Types at level 10.",
-	[43] = "Learned by Draconic Types at level 15.",
-	[44] = "Learned by Draconic Types at level 20.",
-	[45] = "Learned by Brute Types at level 5.",
-	[46] = "Learned by Brute Types at level 10.",
-	[47] = "Learned by Brute Types at level 15.",
-	[48] = "Learned by Brute Types at level 20."
+	[1] = "[Normal Type Level 5 Ability]",
+	[2] = "[Normal Type Level 10 Ability]",
+	[3] = "[Normal Type Level 15 Ability] Detects nearby creatures through the use of heightened instincts.",
+	[4] = "[Normal Type Level 20 Ability]",
+	[5] = "[Daedric Type Level 5 Ability]",
+	[6] = "[Daedric Type Level 10 Ability]",
+	[7] = "[Daedric Type Level 15 Ability]",
+	[8] = "[Daedric Type Level 20 Ability] Channels energy from Oblivion to erect a barrier around the party.",
+	[9] = "[Undead Type Level 5 Ability]",
+	[10] = "[Undead Type Level 10 Ability]",
+	[11] = "[Undead Type Level 15 Ability]",
+	[12] = "[Undead Type Level 20 Ability] When struck down, has a chance to rise again at no cost.",
+	[13] = "[Humanoid Type Level 5 Ability]",
+	[14] = "[Humanoid Type Level 10 Ability]",
+	[15] = "[Humanoid Type Level 15 Ability]",
+	[16] = "[Humanoid Type Level 20 Ability] The party hears a distant melody, igniting a fire within...",
+	[17] = "[Centurion Type Level 5 Ability]",
+	[18] = "[Centurion Type Level 10 Ability]",
+	[19] = "[Centurion Type Level 15 Ability]",
+	[20] = "[Centurion Type Level 20 Ability] Projects a static field which may reflect spells.",
+	[21] = "[Spriggan Type Level 5 Ability]",
+	[22] = "[Spriggan Type Level 10 Ability] Winds of fortune fortify and restore the party's Luck.",
+	[23] = "[Spriggan Type Level 15 Ability]",
+	[24] = "[Spriggan Type Level 20 Ability]",
+	[25] = "[Goblin Type Level 3 Ability]",
+	[26] = "[Goblin Type Level 5 Ability] The entire party feels limber and light.",
+	[27] = "[Goblin Type Level 7 Ability]",
+	[28] = "[Goblin Type Level 10 Ability]",
+	[29] = "[Goblin Type Level 13 Ability]",
+	[30] = "[Goblin Type Level 15 Ability]",
+	[31] = "[Goblin Type level 17 Ability] Maintains an enchantment which allows the party to resist paralysis.",
+	[32] = "[Goblin Type Level 20 Ability]",
+	[33] = "[Spectral Type Level 5 Ability]",
+	[34] = "[Spectral Type Level 10 Ability] Grand Soul Gems resurrect this creature, but reduce attributes.",
+	[35] = "[Spectral Type Level 15 Ability]",
+	[36] = "[Spectral Type Level 20 Ability]",
+	[37] = "[Insectile Type Level 5 Ability]",
+	[38] = "[Insectile Type Level 10 Ability]",
+	[39] = "[Insectile Type Level 15 Ability]",
+	[40] = "[Insectile Type Level 20 Ability] Insects no longer attack on sight.",
+	[41] = "[Draconic Type Level 5 Ability]",
+	[42] = "[Draconic Type Level 10 Ability] (Personality) A weak thu'um allows attacks to deal bonus damage.",
+	[43] = "[Draconic Type Level 15 Ability]",
+	[44] = "[Draconic Type Level 20 Ability]",
+	[45] = "[Brute Type Level 5 Ability]",
+	[46] = "[Brute Type Level 10 Ability] Intense rage increases the morale of the party.",
+	[47] = "[Brute Type Level 15 Ability]",
+	[48] = "[Brute Type Level 20 Ability]",
+	[49] = "[Aquatic Type Level 5 Ability]",
+	[50] = "[Aquatic Type Level 10 Ability]",
+	[51] = "[Aquatic Type Level 15 Ability]",
+	[52] = "[Aquatic Type Level 20 Ability] Projects an aura that allows the party to breathe water.",
+	[53] = "[Avian Type Level 5 Ability]",
+	[54] = "[Avian Type Level 10 Ability]",
+	[55] = "[Avian Type Level 15 Ability] Attacks may distract enemies, reducing accuracy.",
+	[56] = "[Avian Type Level 20 Ability] Attacks may unfocus enemies, reducing casting chance.",
+	[57] = "[Bestial Type Level 5 Ability]",
+	[58] = "[Bestial Type Level 10 Ability]",
+	[59] = "[Bestial Type Level 15 Ability]",
+	[60] = "[Bestial Type Level 20 Ability] (Strength/Personality) May display dominance, causing creatures to flee.",
+	[61] = "[Impish Type Level 5 Ability]",
+	[62] = "[Impish Type Level 10 Ability] Furthers the party's knowledge of Alchemy and Enchant.",
+	[63] = "[Impish Type Level 15 Ability] A mysterious aura increases the party's affinity to all magic.",
+	[64] = "[Impish Type Level 20 Ability] A powerful aura draws in ambient magicka, possibly absorbing spells completely."
 }
 
 
-----NPC Abilities-------------------------------------------------------------------------
+----NPC Abilities------------------------------------------------------------------------------------------------------
+
 stuff.classesSpecial = {
 	[1] = "Acrobat",
 	[2] = "Agent",
@@ -1308,9 +1444,13 @@ stuff.classesSpecial = {
 	[102] = "Banker",
 	[103] = "Vampire Hunter",
 	[104] = "Sand-runner",
-	[105] = "Shadowdancer"
+	[105] = "Shadowdancer",
+	[106] = "Juggler",
+	[107] = "Druid",
+	[108] = "Ranger",
+	[109] = "Succubus",
+	[110] = "Incubus"
 }
-
 
 stuff.abListNPC = {
 	[1] = "kl_ab_npc_acrobat",
@@ -1417,7 +1557,12 @@ stuff.abListNPC = {
 	[102] = "kl_ab_npc_banker",
 	[103] = "kl_ab_npc_vampirehunter",
 	[104] = "kl_ab_npc_sandrunner",
-	[105] = "kl_ab_npc_shadowdancer"
+	[105] = "kl_ab_npc_shadowdancer",
+	[106] = "kl_ab_npc_juggler",
+	[107] = "kl_ab_npc_druid",
+	[108] = "kl_ab_npc_ranger",
+	[109] = "kl_ab_npc_succubus",
+	[110] = "kl_ab_npc_incubus"
 }
 
 stuff.abDescriptionNPC = {
@@ -1525,7 +1670,12 @@ stuff.abDescriptionNPC = {
 	[102] = "Whoever said \"money doesn't buy happiness\" simply couldn't afford the cost.",
 	[103] = "\"I am the morning sun, come to vanquish this horrible night!\"",
 	[104] = "Survival is the ability to swim in strange water.",
-	[105] = "Freedom is found under the cover of night."
+	[105] = "Freedom is found under the cover of night.",
+	[106] = "Efficiency often relies on the ability to multi-task.",
+	[107] = "Nature is at once both beauty and savagery.",
+	[108] = "What cannot be tamed may yet be understood.",
+	[109] = "Infatuation obfuscates all but the basest of thoughts.",
+	[110] = "What is love without bloodlust?"
 }
 
 stuff.abDescriptionNPC2 = {
@@ -1533,11 +1683,11 @@ stuff.abDescriptionNPC2 = {
 	[2] = "(Security) Companions with this ability will attempt to train your Security.",
 	[3] = "",
 	[4] = "Assassins will accept contracts once per level.",
-	[5] = "",
+	[5] = "(Endurance) Barbarians become enraged when wounded. Higher Endurance increases rage frequency.",
 	[6] = "(Speechcraft) Adept at lyrical lore, those with a love for song will sing to and inspire their comrades.",
 	[7] = "",
 	[8] = "",
-	[9] = "(Restoration) Healers will confer a regenerating aura to their benefactors.",
+	[9] = "(Restoration) Healers will confer a regenerating aura their allies if they are skilled enough.",
 	[10] = "",
 	[11] = "",
 	[12] = "",
@@ -1605,8 +1755,8 @@ stuff.abDescriptionNPC2 = {
 	[74] = "(Endurance) Ore Miners may seek and find ore.",
 	[75] = "(Marksman) Those trained as Poachers will seek out game and share the spoils.",
 	[76] = "",
-	[77] = "",
-	[78] = "",
+	[77] = "(Enchant) Arcane Knights deal extra non-elemental magic damage when using melee weapons.",
+	[78] = "(Enchant) Arcane Archers deal extra non-elemental magic damage when using projectiles.",
 	[79] = "",
 	[80] = "(Willpower) Thaumaturges shear away the resistances of their adversaries.",
 	[81] = "",
@@ -1633,7 +1783,12 @@ stuff.abDescriptionNPC2 = {
 	[102] = "(Mercantile) Bankers may generate interest on the gold they carry.",
 	[103] = "Vampire Hunters hunt their quarry with a tremendous zeal.",
 	[104] = "",
-	[105] = ""
+	[105] = "",
+	[106] = "",
+	[107] = "(Willpower) Druids sometimes turn enemy creatures into temporary allies.",
+	[108] = "(Intelligence) Rangers detect nearby creatures.",
+	[109] = "(Personality/Illusion) Succubi deal extra damage to humanoids and drain the magicka of males.",
+	[110] = "(Personality/Mysticism) Incubi deal extra damage to humanoids and drain the health of females."
 }
 
 stuff.alchemyPotionsB = {
@@ -2245,7 +2400,7 @@ stuff.bountyBlacklist = {
 }
 
 
-----NPC Level Up Messages---------------------------------------------------------------
+----NPC Level Up Messages-------------------------------------------------------------------------------------------
 stuff.npcMessage = {
 	[1] = "You'll have to get along from now on.",
 	[2] = "The first step of a new journey can sometimes be the heaviest.",

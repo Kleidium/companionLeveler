@@ -6,6 +6,7 @@ local func = require("companionLeveler.functions.common")
 local abilityList = require("companionLeveler.menus.abilityList")
 local spellList = require("companionLeveler.menus.spellList")
 local specialList = require("companionLeveler.menus.specialList")
+local growth = require("companionLeveler.menus.growthSettings")
 
 
 local sheet = {}
@@ -25,7 +26,7 @@ function sheet.createWindow(reference)
     sheet.id_original = tes3ui.registerID("kl_sheet_orig_btn")
     sheet.id_current = tes3ui.registerID("kl_sheet_current_btn")
     sheet.id_ideal = tes3ui.registerID("kl_sheet_ideal_btn")
-    sheet.id_blacklist = tes3ui.registerID("kl_sheet_blacklist_btn")
+    sheet.id_growth = tes3ui.registerID("kl_sheet_growth_btn")
     sheet.id_ability = tes3ui.registerID("kl_sheet_ability_btn")
     sheet.id_spell = tes3ui.registerID("kl_sheet_spell_btn")
     sheet.id_special = tes3ui.registerID("kl_sheet_special_btn")
@@ -303,8 +304,9 @@ function sheet.createWindow(reference)
         for i = 1, #tables.typeTable do
             local typeList = rightBlock:createLabel({ text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. "", id = "kl_sheet_creType_" .. i .. "" })
             typeList.wrapText = true
+            typeList.justifyText = "center"
             typeList.color = { 0.35, 0.35, 0.35 }
-            typeList.borderLeft = 12
+            --typeList.borderLeft = 12
             typeList.borderTop = 8
 
             if i == 1 then
@@ -417,19 +419,13 @@ function sheet.createWindow(reference)
     button_block.borderTop = 12
 
     local button_root = button_block:createButton { text = "Main Menu" }
-    button_root.borderRight = 27
+    button_root.borderRight = 29
 
     local button_fix = button_block:createButton { id = sheet.id_fix, text = "Fix Stats" }
-    button_fix.borderRight = 27
+    button_fix.borderRight = 29
 
-    local button_blacklist = button_block:createButton { id = sheet.id_blacklist, text = "Blacklist" }
-    button_blacklist.borderRight = 27
-
-    if modData.blacklist == true then
-        button_blacklist.text = "Blacklist: Yes"
-    else
-        button_blacklist.text = "Blacklist: No"
-    end
+    local button_growth = button_block:createButton { id = sheet.id_growth, text = "Growth Settings" }
+    button_growth.borderRight = 29
 
     local button_ok = button_block:createButton { id = sheet.id_ok, text = tes3.findGMST("sOK").value }
 
@@ -439,7 +435,7 @@ function sheet.createWindow(reference)
     button_current:register(tes3.uiEvent.mouseClick, sheet.onCurrent)
     button_ideal:register(tes3.uiEvent.mouseClick, sheet.onIdeal)
     button_fix:register(tes3.uiEvent.mouseClick, sheet.onFix)
-    button_blacklist:register(tes3.uiEvent.mouseClick, sheet.onBlacklist)
+    button_growth:register("mouseClick", function() growth.createWindow(reference) end)
     button_root:register("mouseClick", function() menu:destroy() root.createWindow(reference) end)
     button_ability:register("mouseClick", function() abilityList.createWindow(reference) end)
     button_spell:register("mouseClick", function() spellList.createWindow(reference) end)
@@ -891,11 +887,23 @@ function sheet.fixStats(e)
                     timer.delayOneFrame(function()
                         sheet.createWindow(sheet.reference)
                         sheet.onCurrent()
+                        tes3.messageBox("Checking Ideal Stats is recommended.")
                     end)
                 end)
             end)
 
             tes3.messageBox("" .. sheet.reference.object.name .. " has forgotten their abilities.")
+        end
+
+        if e.button == 4 then
+            --Remove Spells
+            local spells = tes3.getSpells({ target = sheet.reference, spellType = 0, getRaceSpells = false, getBirthsignSpells = false })
+
+            for i = 1, #spells do
+                tes3.removeSpell({ reference = sheet.reference, spell = spells[i].id })
+            end
+
+            tes3.messageBox("" .. sheet.reference.object.name .. " has forgotten their spells.")
         end
     end
 end
@@ -904,25 +912,8 @@ function sheet.onFix()
     local menu = tes3ui.findMenu(sheet.id_menu)
     if menu then
         tes3.messageBox({ message = "Fix " .. sheet.reference.object.name .. "'s stats?",
-            buttons = { "Reset Stats to Original", "Fix Stats to Ideal", "Set Ideal to Current", "Remove All Abilities", "Cancel" },
+            buttons = { "Reset Stats to Original", "Fix Stats to Ideal", "Set Ideal to Current", "Remove All Abilities", "Remove All Spells", "Cancel" },
             callback = sheet.fixStats })
-    end
-end
-
-function sheet.onBlacklist()
-    local menu = tes3ui.findMenu(sheet.id_menu)
-    local modData = func.getModData(sheet.reference)
-    if (menu) then
-        local button = menu:findChild(sheet.id_blacklist)
-        if button.text == "Blacklist: Yes" then
-            button.text = "Blacklist: No"
-            modData.blacklist = false
-            log:info("" .. sheet.reference.object.name .. " removed from blacklist.")
-        else
-            button.text = "Blacklist: Yes"
-            modData.blacklist = true
-            log:info("" .. sheet.reference.object.name .. " added to blacklist.")
-        end
     end
 end
 

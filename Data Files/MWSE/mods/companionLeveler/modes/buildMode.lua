@@ -81,7 +81,7 @@ function buildMode.companionLevelBuild(companions)
 				end
 				----NPC Spell Learning----------------------------------------------------------------------------------------------------------------
 				----Restoration-------------------------------------------------------------------------------------------------------------------
-				if config.spellLearning == true then
+				if (config.spellLearning == true and modData.spellLearning == true) then
 					local restoRoll = false
 					if (skillTable[16] > 0) then
 						restoRoll = true
@@ -114,7 +114,7 @@ function buildMode.companionLevelBuild(companions)
 					spells.spellRoll(restoRoll, destroRoll, alterRoll, conjRoll, illuRoll, mystRoll, companionRef)
 				end
 				----NPC Abilities------------------------------------------------------------------------------------------------------------
-				if config.abilityLearningNPC == true then
+				if (config.abilityLearningNPC == true and modData.abilityLearning == true) then
 					local class = tes3.findClass(modData.class)
 					abilities.npcAbilities(class.name, companionRef)
 				end
@@ -132,36 +132,43 @@ function buildMode.companionLevelBuild(companions)
                         modData.typelevels[n] = modData.typelevels[n] + 1
                         storedTlevel = modData.typelevels[n]
                         if cType == "Daedra" then
-                            chance = chance + 1
+                            chance = chance + 2
                         end
                         if cType == "Undead" then
-                            chance = chance + 1
+                            chance = chance + 2
                         end
                         if cType == "Humanoid" then
-                            chance = chance + 8
+                            chance = chance + 10
                         end
                         if cType == "Spriggan" then
-                            chance = chance + 2
+                            chance = chance + 3
                         end
                         if cType == "Spectral" then
+                            chance = chance + 3
+                        end
+                        if cType == "Draconic" then
+                            if modData.level % 2 ~= 0 then
+                                chance = 0
+                            else
+                                chance = chance + 5
+                            end
+                        end
+                        if cType == "Aquatic" then
                             chance = chance + 2
                         end
-						if cType == "Draconic" then
-                            chance = chance - 8
-                            if config.spellChanceC < 8 then
-                                chance = 5
-                            end
+						if cType == "Impish" then
+                            chance = chance + 3
                         end
                     end
                 end
 				log:info("" .. name .. "'s " .. cType .. " level increased by 1.")
 				----Creature Spell Learning---------------------------------------------------------------------------------------------
-				if config.spellLearningC == true then
+				if (config.spellLearningC == true and modData.spellLearning == true) then
 					if math.random(0, 99) < chance then
 						spells.creatureSpellRoll(modData.level, cType, companionRef)
 					end
 				end
-				if config.abilityLearning == true then
+				if (config.abilityLearning == true and modData.abilityLearning == true) then
 					abilities.creatureAbilities(cType, companionRef)
 				end
 			end
@@ -255,7 +262,7 @@ function buildMode.companionLevelBuild(companions)
 					local abilityString = ""
 					for n = 1, #tables.abList do
 						if modData.abilities[n] == true then
-							abilityString = abilityString .. tables.abText[n] .. ", "
+							abilityString = abilityString .. tes3.getObject(tables.abList[n]).name .. ", "
 						end
 					end
 					abilityString = string.gsub(abilityString, ", $", ".", 1)
