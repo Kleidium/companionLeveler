@@ -2,6 +2,7 @@ local tables = require("companionLeveler.tables")
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
 local func = require("companionLeveler.functions.common")
+local growth = require("companionLeveler.menus.growthSettings")
 
 
 local typeModule = {}
@@ -12,7 +13,7 @@ function typeModule.typeChange(reference)
 	typeModule.id_menu = tes3ui.registerID("kl_type_menu")
 	typeModule.id_pane = tes3ui.registerID("kl_type_pane")
 	typeModule.id_ok = tes3ui.registerID("kl_type_ok")
-	typeModule.id_blacklist = tes3ui.registerID("kl_type_blacklist")
+	typeModule.id_growth = tes3ui.registerID("kl_type_growth_btn")
 	typeModule.id_root = tes3ui.registerID("kl_type_root")
 	log = logger.getLogger("Companion Leveler")
 	log:debug("Type menu initialized.")
@@ -34,23 +35,26 @@ function typeModule.typeChange(reference)
 	local input_label = menu:createLabel { text = "Select " .. name .. "'s Type:" }
 	input_label.borderBottom = 5
 
+	-- Pane Block
 	local pane_block = menu:createBlock { id = "pane_block_type" }
 	pane_block.autoWidth = true
 	pane_block.autoHeight = true
 
+	-- Pane Border
 	local border = pane_block:createThinBorder { id = "kl_border_type" }
 	border.positionX = 4
 	border.positionY = -4
-	border.width = 190
-	border.height = 140
+	border.width = 210
+	border.height = 160
 	border.borderAllSides = 4
 	border.paddingAllSides = 4
 
+	-- Flavor Text Border
 	local border2 = pane_block:createThinBorder { id = "kl_border2_type" }
 	border2.positionX = 202
 	border2.positionY = 0
-	border2.width = 288
-	border2.height = 150
+	border2.width = 308
+	border2.height = 170
 	border2.paddingAllSides = 4
 	border2.wrapText = true
 
@@ -75,8 +79,8 @@ function typeModule.typeChange(reference)
 
 	--Pane
 	local pane = border:createVerticalScrollPane { id = typeModule.id_pane }
-	pane.height = 128
-	pane.width = 190
+	pane.height = 148
+	pane.width = 210
 	pane.widget.scrollbarVisible = true
 
 	--Populate Pane
@@ -93,20 +97,20 @@ function typeModule.typeChange(reference)
 
 	--Text Block
 	local text_block = menu:createBlock { id = "text_block_type" }
-	text_block.width = 470
-	text_block.height = 92
+	text_block.width = 490
+	text_block.height = 112
 	text_block.borderAllSides = 10
 	text_block.flowDirection = "left_to_right"
 
 	local spec_block = text_block:createBlock {}
-	spec_block.width = 155
-	spec_block.height = 95
+	spec_block.width = 175
+	spec_block.height = 115
 	spec_block.borderAllSides = 4
 	spec_block.flowDirection = "top_to_bottom"
 
 	local major_block = text_block:createBlock {}
-	major_block.width = 250
-	major_block.height = 108
+	major_block.width = 270
+	major_block.height = 128
 	major_block.borderAllSides = 4
 	major_block.flowDirection = "top_to_bottom"
 	major_block.wrapText = true
@@ -118,7 +122,7 @@ function typeModule.typeChange(reference)
 	spec_block:createLabel({ text = "" .. tables.capitalization[mAtt2] .. "", id = "kl_att2_type" })
 	local extraAtt = spec_block:createLabel({ text = "", id = "kl_att3_type" })
 	if modData.type == "Draconic" then
-		extraAtt.text = "Willpower"
+		extraAtt.text = "Personality"
 	end
 
 	--Description Text
@@ -133,22 +137,17 @@ function typeModule.typeChange(reference)
 	button_block.childAlignX = 1.0
 
 	local button_root = button_block:createButton { id = typeModule.id_root, text = "Main Menu" }
-	button_root.borderRight = 103
+	button_root.borderRight = 115
 
-	local button_blacklist = button_block:createButton { id = typeModule.id_blacklist, text = "Blacklist" }
-	button_blacklist.borderRight = 120
-	if modData.blacklist == true then
-		button_blacklist.text = "Blacklist: Yes"
-	else
-		button_blacklist.text = "Blacklist: No"
-	end
+	local button_growth = button_block:createButton { id = typeModule.id_growth, text = "Growth Settings" }
+	button_growth.borderRight = 116
 
 	local button_ok = button_block:createButton { id = typeModule.id_ok, text = tes3.findGMST("sOK").value }
 
 	-- Events
 	menu:register(tes3.uiEvent.keyEnter, typeModule.onOK)
 	button_ok:register(tes3.uiEvent.mouseClick, typeModule.onOK)
-	button_blacklist:register(tes3.uiEvent.mouseClick, typeModule.onBlacklist)
+	button_growth:register("mouseClick", function() growth.createWindow(reference) end)
 	button_root:register("mouseClick", function() menu:destroy() root.createWindow(reference) end)
 
 	-- Final setup
@@ -164,23 +163,6 @@ function typeModule.onOK()
 		menu:destroy()
 		log:info("" .. typeModule.reference.object.name .. " changed to " .. modData.type .. ".")
 		tes3.messageBox { message = "" .. typeModule.reference.object.name .. " changed to " .. modData.type .. "." }
-	end
-end
-
-function typeModule.onBlacklist()
-	local menu = tes3ui.findMenu(typeModule.id_menu)
-	local modData = func.getModData(typeModule.reference)
-	if (menu) then
-		local button = menu:findChild(typeModule.id_blacklist)
-		if button.text == "Blacklist: Yes" then
-			button.text = "Blacklist: No"
-			modData.blacklist = false
-			log:info("" .. typeModule.reference.object.name .. " removed from blacklist.")
-		else
-			button.text = "Blacklist: Yes"
-			modData.blacklist = true
-			log:info("" .. typeModule.reference.object.name .. " added to blacklist.")
-		end
 	end
 end
 
@@ -224,7 +206,7 @@ function typeModule.onSelect(i)
 		local text5 = menu:findChild("kl_att3_type")
 		text5.text = ""
 		if i == 11 then
-			text5.text = "Willpower"
+			text5.text = "Personality"
 		end
 
 
@@ -272,7 +254,7 @@ function typeModule.defSelect()
 				local text5 = menu:findChild("kl_att3_type")
 				text5.text = ""
 				if i == 11 then
-					text5.text = "Willpower"
+					text5.text = "Personality"
 				end
 			end
 		end

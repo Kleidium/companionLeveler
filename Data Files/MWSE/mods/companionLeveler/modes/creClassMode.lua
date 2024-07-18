@@ -50,37 +50,44 @@ function creClassMode.companionLevelCre(companions)
                         trainedAtt1 = tables.typeStat1[n]
                         trainedAtt2 = tables.typeStat2[n]
                         if cName == "Daedra" then
-                            chance = chance + 1
+                            chance = chance + 2
                         end
                         if cName == "Undead" then
-                            chance = chance + 1
+                            chance = chance + 2
                         end
                         if cName == "Humanoid" then
-                            chance = chance + 8
+                            chance = chance + 10
                         end
                         if cName == "Spriggan" then
-                            chance = chance + 2
+                            chance = chance + 3
                         end
                         if cName == "Spectral" then
-                            chance = chance + 2
+                            chance = chance + 3
                         end
                         if cName == "Draconic" then
-                            chance = chance - 8
-                            if config.spellChanceC <= 8 then
-                                chance = 5
+                            if modData.level % 2 ~= 0 then
+                                chance = 0
+                            else
+                                chance = chance + 5
                             end
+                        end
+                        if cName == "Aquatic" then
+                            chance = chance + 2
+                        end
+                        if cName == "Impish" then
+                            chance = chance + 3
                         end
                     end
                 end
                 log:info("" .. name .. "'s " .. cName .. " level increased by 1.")
                 ----Spell/Ability Learning----------------------------------------------------------------------------------------------------
-                if config.spellLearningC == true then
+                if (config.spellLearningC == true and modData.spellLearning == true) then
                     if math.random(0, 99) < chance then
                         spells.creatureSpellRoll(modData.level, cName, companionRef)
                     end
                 end
                 
-                if config.abilityLearning == true then
+                if (config.abilityLearning == true and modData.abilityLearning == true) then
                     abilities.creatureAbilities(cName, companionRef)
                 end
                 ----1st major attribute trained-------------------------------------------------------------------------------------------------
@@ -98,6 +105,11 @@ function creClassMode.companionLevelCre(companions)
                 if cName == "Brute" then
                     mAttMod1 = mAttMod1 + 2
                     log:debug("Brute Type Bonus to Primary Attribute rewarded to " .. name .. ".")
+                end
+
+                if cName == "Domestic" or cName == "Impish" then
+                    mAttMod1 = mAttMod1 + 1
+                    log:debug("Domestic/Impish Type Bonus to Primary Attribute rewarded to " .. name .. ".")
                 end
 
                 if config.aboveMaxAtt == false then
@@ -140,7 +152,7 @@ function creClassMode.companionLevelCre(companions)
                 until (valueRand ~= trainedAtt1 and valueRand ~= trainedAtt2)
 
                 if cName == "Draconic" then
-                    valueRand = 2
+                    valueRand = 6
                 end
 
                 local mAtt3 = tables.capitalization[valueRand]
@@ -178,6 +190,9 @@ function creClassMode.companionLevelCre(companions)
                 local hpMod = companionRef.mobile.endurance.base
                 local hpBase = companionRef.mobile.health.base
                 local hpChange = (hpMod * (config.healthMod * 0.01))
+                if cName == "Impish" then
+                    hpChange = hpChange / 2
+                end
                 local hpValue = (hpBase + hpChange)
 
                 if config.levelHealth == true then
@@ -245,7 +260,7 @@ function creClassMode.companionLevelCre(companions)
                     local abilityString = ""
                     for n = 1, #modData.abilities do
                         if modData.abilities[n] == true then
-                            abilityString = abilityString .. tables.abText[n] .. ", "
+                            abilityString = abilityString .. tes3.getObject(tables.abList[n]).name .. ", "
                         end
                     end
                     abilityString = string.gsub(abilityString, ", $", ".", 1)

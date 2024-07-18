@@ -775,8 +775,129 @@ function this.creatureSpellRoll(level, cType, companionRef)
                 else
                     log:trace("Draconic spell roll failed on " .. name .. ".")
                 end
-            until (wasAdded == true or iterations == 10)
+            until (wasAdded == true or iterations == 15)
         end
+    end
+    if cType == "Aquatic" then
+        local iterations = 0
+        if level < 10 then
+            repeat
+                local aqSpell = math.random(1, #tables.aquaticTable1)
+                log:trace("Aquatic Spell Table 1, #" .. aqSpell .. ".")
+                local learned = tables.aquaticTable1[aqSpell]
+                local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned })
+                iterations = iterations + 1
+                if wasAdded == true then
+                    tes3.messageBox("" .. name .. " learned to cast " .. learned .. "!")
+                    log:info("" .. name .. " learned to cast " .. learned .. ".")
+                    tes3.playSound({ sound = "dreugh moan" })
+                else
+                    log:trace("Aquatic spell roll failed on " .. name .. ".")
+                end
+            until (wasAdded == true or iterations == 20)
+        else
+            repeat
+                local aqSpell = math.random(1, #tables.aquaticTable2)
+                log:trace("Aquatic Spell Table 2, #" .. aqSpell .. ".")
+                local learned = tables.aquaticTable2[aqSpell]
+                local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned })
+                iterations = iterations + 1
+                if wasAdded == true then
+                    tes3.messageBox("" .. name .. " learned to cast " .. learned .. "!")
+                    log:info("" .. name .. " learned to cast " .. learned .. ".")
+                    tes3.playSound({ sound = "dreugh moan" })
+                else
+                    log:trace("Aquatic spell roll failed on " .. name .. ".")
+                end
+            until (wasAdded == true or iterations == 60)
+        end
+    end
+    if cType == "Avian" then
+        local iterations = 0
+        if level < 10 then
+            repeat
+                local spell = math.random(1, #tables.avianTable1)
+                log:trace("" .. cType .. " Spell Table 1, #" .. spell .. ".")
+                local learned = tables.avianTable1[spell]
+                local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned })
+                iterations = iterations + 1
+                if wasAdded == true then
+                    tes3.messageBox("" .. name .. " learned to cast " .. learned .. "!")
+                    log:info("" .. name .. " learned to cast " .. learned .. ".")
+                    tes3.playSound({ sound = "cliff racer moan" })
+                else
+                    log:trace("" .. cType .. " spell roll failed on " .. name .. ".")
+                end
+            until (wasAdded == true or iterations == 20)
+        else
+            repeat
+                local spell = math.random(1, #tables.avianTable2)
+                log:trace("" .. cType .. " Spell Table 2, #" .. spell .. ".")
+                local learned = tables.avianTable2[spell]
+                local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned })
+                iterations = iterations + 1
+                if wasAdded == true then
+                    tes3.messageBox("" .. name .. " learned to cast " .. learned .. "!")
+                    log:info("" .. name .. " learned to cast " .. learned .. ".")
+                    tes3.playSound({ sound = "cliff racer moan" })
+                else
+                    log:trace("" .. cType .. " spell roll failed on " .. name .. ".")
+                end
+            until (wasAdded == true or iterations == 45)
+        end
+    end
+    if cType == "Bestial" then
+        local iterations = 0
+        if level > 5 then
+            repeat
+                local spell = math.random(1, #tables.bestialTable)
+                log:trace("" .. cType .. " Spell Table, #" .. spell .. ".")
+                local learned = tes3.getObject(tables.bestialTable[spell])
+                local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
+                iterations = iterations + 1
+                if wasAdded == true then
+                    tes3.messageBox("" .. name .. " learned to cast " .. learned.name .. "!")
+                    log:info("" .. name .. " learned to cast " .. learned.name .. ".")
+                    tes3.playSound({ sound = "wolf roar" })
+                else
+                    log:trace("" .. cType .. " spell roll failed on " .. name .. ".")
+                end
+            until (wasAdded == true or iterations == 20)
+        end
+    end
+    if cType == "Impish" then
+        local iterations = 0
+        repeat
+            local randNum = math.random(1, 6)
+            local table
+
+            if randNum == 1 then
+                table = tables.restorationTable
+            elseif randNum == 2 then
+                table = tables.destructionTable
+            elseif randNum == 3 then
+                table = tables.alterationTable
+            elseif randNum == 4 then
+                table = tables.illusionTable
+            elseif randNum == 5 then
+                table = tables.mysticismTable
+            elseif randNum == 6 then
+                table = tables.conjurationTable
+            end
+
+            local spell = math.random(1, #table)
+            log:trace("Impish Spell Table, #" .. spell .. ".")
+            local learned = table[spell]
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned })
+            iterations = iterations + 1
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned to cast " .. learned .. "!")
+                log:info("" .. name .. " learned to cast " .. learned .. ".")
+                tes3.playSound({ sound = "scamp moan" })
+            else
+                log:trace("Impish spell roll failed on " .. name .. ".")
+            end
+        until (wasAdded == true or iterations == 30)
     end
 end
 

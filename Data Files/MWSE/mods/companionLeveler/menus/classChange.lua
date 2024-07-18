@@ -3,6 +3,7 @@ local tables = require("companionLeveler.tables")
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
 local func = require("companionLeveler.functions.common")
+local growth = require("companionLeveler.menus.growthSettings")
 
 
 local classModule = {}
@@ -13,7 +14,7 @@ function classModule.classChange(reference)
 	classModule.id_menu = tes3ui.registerID("kl_class_menu")
 	classModule.id_pane = tes3ui.registerID("kl_class_pane")
 	classModule.id_ok = tes3ui.registerID("kl_class_ok")
-	classModule.id_blacklist = tes3ui.registerID("kl_class_blacklist")
+	classModule.id_growth = tes3ui.registerID("kl_class_growth_btn")
 	classModule.id_root = tes3ui.registerID("kl_class_root")
 	classModule.id_image = tes3ui.registerID("kl_class_image")
 
@@ -254,20 +255,15 @@ function classModule.classChange(reference)
 	button_block.borderTop = 16
 
 	local button_root = button_block:createButton { id = classModule.id_root, text = "Main Menu" }
-	button_root.borderRight = 54
-	local button_blacklist = button_block:createButton { id = classModule.id_blacklist, text = "Blacklist" }
-	button_blacklist.borderRight = 120
-	if modData.blacklist == true then
-		button_blacklist.text = "Blacklist: Yes"
-	else
-		button_blacklist.text = "Blacklist: No"
-	end
+	button_root.borderRight = 85
+	local button_growth = button_block:createButton { id = classModule.id_growth, text = "Growth Settings" }
+	button_growth.borderRight = 92
 	local button_ok = button_block:createButton { id = classModule.id_ok, text = tes3.findGMST("sOK").value }
 
 	-- Events
 	menu:register(tes3.uiEvent.keyEnter, classModule.onOK)
 	button_ok:register(tes3.uiEvent.mouseClick, classModule.onOK)
-	button_blacklist:register(tes3.uiEvent.mouseClick, classModule.onBlacklist)
+	button_growth:register("mouseClick", function() growth.createWindow(reference) end)
 	button_root:register("mouseClick",
 		function() menu:destroy()
 			tes3.messageBox { message = "" ..
@@ -289,23 +285,6 @@ function classModule.onOK()
 		tes3ui.leaveMenuMode()
 		menu:destroy()
 		tes3.messageBox { message = "" .. classModule.reference.object.name .. " changed to " .. class.name .. "." }
-	end
-end
-
-function classModule.onBlacklist()
-	local menu = tes3ui.findMenu(classModule.id_menu)
-	local modData = func.getModData(classModule.reference)
-	if (menu) then
-		local button = menu:findChild(classModule.id_blacklist)
-		if button.text == "Blacklist: Yes" then
-			button.text = "Blacklist: No"
-			modData.blacklist = false
-			log:info("" .. classModule.reference.object.name .. " removed from blacklist.")
-		else
-			button.text = "Blacklist: Yes"
-			modData.blacklist = true
-			log:info("" .. classModule.reference.object.name .. " added to blacklist.")
-		end
 	end
 end
 

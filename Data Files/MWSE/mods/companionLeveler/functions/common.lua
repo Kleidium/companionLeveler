@@ -38,184 +38,257 @@ function this.getModData(ref)
 				["skill_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 				["hth_gained"] = 0,
 				["mgk_gained"] = 0,
-				["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["ignore_skill"] = 99, ["contracts"] = {}, ["bounties"] = {},
+				["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)),
+				["ignore_skill"] = 99, ["contracts"] = {}, ["bounties"] = {}, ["spellLearning"] = true, ["abilityLearning"] = true,
 				["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-					false, false, false, false, false, false, false, false, false, false, false } }
+					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false } }
 		else
 			--Creature Data--------------------------------------------------------------------------------------------------------------
 			local defType = this.determineDefault(ref)
 
 			if defType == "Normal" then
 				log:info("Normal type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Normal", ["typelevels"] = { ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Normal", ["typelevels"] = { ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 }, ["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			if defType == "Daedra" then
 				log:info("Daedra type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Daedra", ["typelevels"] = { 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Daedra", ["typelevels"] = { 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			if defType == "Undead" then
 				log:info("Undead type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Undead", ["typelevels"] = { 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Undead", ["typelevels"] = { 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			if defType == "Humanoid" then
 				log:info("Humanoid type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Humanoid", ["typelevels"] = { 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Humanoid", ["typelevels"] = { 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			--Custom Type Detection-------------------------------------------------------------------------------------------------
 			if defType == "Centurion" then
 				log:info("Centurion type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Centurion", ["typelevels"] = { 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Centurion", ["typelevels"] = { 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			if defType == "Spriggan" then
 				log:info("Spriggan type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Spriggan", ["typelevels"] = { 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Spriggan", ["typelevels"] = { 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			if defType == "Goblin" then
 				log:info("Goblin type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Goblin", ["typelevels"] = { 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Goblin", ["typelevels"] = { 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 }, ["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			if defType == "Domestic" then
 				log:info("Domestic type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Domestic", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Domestic", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			if defType == "Spectral" then
 				log:info("Spectral type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Spectral", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Spectral", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			if defType == "Insectile" then
 				log:info("Insectile type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Insectile", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Insectile", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			if defType == "Draconic" then
 				log:info("Draconic type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Draconic", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1 },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Draconic", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 			if defType == "Brute" then
 				log:info("Brute type detected.")
-				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Brute", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level },
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Brute", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1 },
 					["summary"] = "No Summary.",
 					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
 						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
 					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
 					["hth_gained"] = 0,
 					["mgk_gained"] = 0,
-					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)) }
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
+			end
+			if defType == "Aquatic" then
+				log:info("Aquatic type detected.")
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Aquatic", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1 },
+					["summary"] = "No Summary.",
+					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
+					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["hth_gained"] = 0,
+					["mgk_gained"] = 0,
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
+			end
+			if defType == "Avian" then
+				log:info("Avian type detected.")
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Avian", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1 },
+					["summary"] = "No Summary.",
+					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
+					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["hth_gained"] = 0,
+					["mgk_gained"] = 0,
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
+			end
+			if defType == "Bestial" then
+				log:info("Bestial type detected.")
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Bestial", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1 },
+					["summary"] = "No Summary.",
+					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
+					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["hth_gained"] = 0,
+					["mgk_gained"] = 0,
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
+			end
+			if defType == "Impish" then
+				log:info("Bestial type detected.")
+				ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level, ["type"] = "Impish", ["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level },
+					["summary"] = "No Summary.",
+					["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+						false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
+					["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+					["hth_gained"] = 0,
+					["mgk_gained"] = 0,
+					["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true }
 			end
 		end
 
@@ -298,6 +371,18 @@ function this.updateModData(ref)
 			if modData.lvl_req == nil then
 				modData["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate))
 				log:debug("" .. ref.object.name .. "'s level requirement feature updated.")
+			end
+
+			--Learn Spells
+			if modData.spellLearning == nil then
+				modData["spellLearning"] = true
+				log:debug("" .. ref.object.name .. "'s spell learning setting updated.")
+			end
+
+			--Learn Abilities
+			if modData.abilityLearning == nil then
+				modData["abilityLearning"] = true
+				log:debug("" .. ref.object.name .. "'s ability learning setting updated.")
 			end
 
 			--NPC Mod Data--
@@ -396,7 +481,11 @@ function this.validCompanionCheck(mobileActor)
 			if (aiPackage.type ~= tes3.aiPackage.follow) then
 				return false
 			else
-				if (aiPackage.targetActor.reference ~= tes3.player) then
+				if aiPackage.targetActor then
+					if (aiPackage.targetActor.reference ~= tes3.player) then
+						return false
+					end
+				else
 					return false
 				end
 			end
@@ -534,6 +623,18 @@ function this.determineDefault(ref)
 	end
 	if (string.startswith(name, "Giant") or string.endswith(name, "Giant") or string.endswith(name, "Ogrim") or string.startswith(name, "Ogrim")) then
 		answer = "Brute"
+	end
+	if (string.startswith(name, "Dreugh") or string.endswith(name, "Dreugh") or string.endswith(name, "Slaughterfish") or string.endswith(name, "Mudcrab") or string.endswith(name, "Horker")) then
+		answer = "Aquatic"
+	end
+	if (string.match(name, "Cliff Racer")) then
+		answer = "Avian"
+	end
+	if (string.match(name, "Bear") or string.match(name, "Wolf")) then
+		answer = "Bestial"
+	end
+	if (string.endswith(name, "Imp") or string.match(name, "Homunculus")) then
+		answer = "Impish"
 	end
 
 	return answer

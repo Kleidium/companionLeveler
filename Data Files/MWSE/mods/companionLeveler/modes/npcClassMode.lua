@@ -576,7 +576,7 @@ function npcClassMode.companionLevelNPC(companions)
             }
             ----Spell Learning----------------------------------------------------------------------------------------------------------------
             ----Restoration-------------------------------------------------------------------------------------------------------------------
-            if config.spellLearning == true then
+            if (config.spellLearning == true and modData.spellLearning == true) then
                 log:debug("Begin " .. name .. "'s NPC Spell Learning check.")
                 local restoRoll = false
                 if (
@@ -633,7 +633,7 @@ function npcClassMode.companionLevelNPC(companions)
                 spells.spellRoll(restoRoll, destroRoll, alterRoll, conjRoll, illuRoll, mystRoll, companionRef)
             end
             ----NPC Abilities-----------------------------------------------------------------------------------------------------------------
-            if config.abilityLearningNPC == true then
+            if (config.abilityLearningNPC == true and modData.abilityLearning == true) then
                 abilities.npcAbilities(class.name, companionRef)
             end
             if config.triggeredAbilities == true then

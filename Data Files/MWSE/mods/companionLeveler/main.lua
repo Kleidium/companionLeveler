@@ -275,15 +275,58 @@ local function onCombat(e)
 		abilities.requiem(e)
 		abilities.dirge(e)
 		abilities.elegy(e)
+		abilities.communion(e)
+		abilities.dominance(e)
 	end
 end
 event.register(tes3.event.combatStarted, onCombat)
+
+--Damage Abilities
+local function onDamage(e)
+	if config.modEnabled == false then return end
+
+	if math.random(0, 99) < config.combatChance then
+		local result = 0
+
+		if e.source == "attack" then
+			result = result + abilities.thuum(e)
+			result = result + abilities.maneater(e)
+			result = result + abilities.ladykiller(e)
+			abilities.misdirection(e)
+			abilities.misstep(e)
+			abilities.rage(e)
+
+			if e.projectile then
+				abilities.arcaneA(e)
+			else
+				abilities.arcaneK(e)
+			end
+		end
+
+		e.damage = e.damage + result
+	end
+end
+event.register("damage", onDamage)
 
 --Cell Change Abilities
 local function onCellChanged(e)
 	if config.modEnabled == false then return end
 
+	abilities.instinct()
+	abilities.barrier()
+	abilities.dream()
+	abilities.refractors()
+	abilities.jadewind()
+	abilities.springstep()
+	abilities.freedom()
+	abilities.temper()
+	abilities.aqualung()
+	abilities.composition()
+	abilities.mystery()
+	abilities.manasponge()
+	abilities.blessed()
 	abilities.bountyCheck()
+	abilities.track()
 
 	if config.expMode == false then return end
 
@@ -326,9 +369,3 @@ end)
 
 -- event.register("jump", onLevelUp)
 -- event.register("jump", expTest)
-
-
-
-----Planned Features
-----TR ingredient/item integration
-----GMST text values for other languages OR i18n support
