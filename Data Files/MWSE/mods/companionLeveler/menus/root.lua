@@ -87,9 +87,7 @@ function root.createWindow(reference)
         local exp = root_block:createFillBar({ current = modData.lvl_progress,
             max = modData.lvl_req,
             id = root.id_exp })
-        exp.widget.showText = true
-        exp.widget.fillColor = { 0.6, 0.6, 0.0 }
-        exp.width = 180
+        func.configureBar(exp, "standard", "gold")
         exp.height = 21
         exp.borderTop = 10
 

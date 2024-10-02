@@ -75,7 +75,7 @@ stuff.classes = {
 }
 
 
-----Capitalization/Offset-------------------------------------------------------------------------------------------------------------------
+----Capitalization-------------------------------------------------------------------------------------------------------------------
 
 stuff.capitalization = {
 	[0] = "Strength",
@@ -281,9 +281,7 @@ stuff.combatSkillTable = {
 }
 
 
-----Spell Learning Tables------------------------------------------------------------------------------------------------
-
-----Restoration--------------------------------------------------------------
+----NPC Spell Tables------------------------------------------------------------------------------------------------
 
 stuff.restorationTable = {
 	[1] = "Balyna's Efficacious Balm",
@@ -323,8 +321,6 @@ stuff.restorationTable = {
 	[35] = "The Eight Wonders"
 }
 
-----Destruction-------------------------------------------------------------
-
 stuff.destructionTable = {
 	[1] = "Spirit Knife",
 	[2] = "Hornhand",
@@ -363,8 +359,6 @@ stuff.destructionTable = {
 	[35] = "Cosmic Wound"
 }
 
-----Alteration-------------------------------------------------------------
-
 stuff.alterationTable = {
 	[1] = "First Barrier",
 	[2] = "Weary",
@@ -388,8 +382,6 @@ stuff.alterationTable = {
 	[20] = "Frozen Aegis",
 	[21] = "Galvanic Aegis"
 }
-
-----Conjuration-------------------------------------------------------------
 
 stuff.conjurationTable = {
 	[1] = "Bound Dagger",
@@ -424,8 +416,6 @@ stuff.conjurationTable = {
 	[30] = "Summon Golden Saint"
 }
 
-----Illusion-------------------------------------------------------------
-
 stuff.illusionTable = {
 	[1] = "Erelvam's Wild Sty",
 	[2] = "Father's Hand",
@@ -447,8 +437,6 @@ stuff.illusionTable = {
 	[18] = "Misperception",
 	[19] = "Enduring Noise"
 }
-
-----Mysticism-------------------------------------------------------------
 
 stuff.mysticismTable = {
 	[1] = "Righteousness",
@@ -472,7 +460,7 @@ stuff.mysticismTable = {
 	[19] = "Llivam's Reversal",
 	[20] = "Tranasa's Spelltrap",
 	[21] = "The Moth-Wing Mirror",
-	[22] = "kl_spell_astraldrain"
+	[22] = "astraldrain"
 }
 
 
@@ -667,7 +655,7 @@ stuff.undeadTable2 = {
 	[36] = "Rapid Regenerate",
 	[37] = "Profane Touch",
 	[38] = "Dread Parasite",
-	[39] = "kl_spell_astraldrain"
+	[39] = "astraldrain"
 }
 
 stuff.humanoidTable1 = {
@@ -765,7 +753,7 @@ stuff.humanoidTable2 = {
 	[62] = "Cosmic Wound",
 	[63] = "Dark Ray",
 	[64] = "Profane Touch",
-	[65] = "kl_spell_astraldrain",
+	[65] = "astraldrain",
 	[66] = "Burning Aegis"
 }
 
@@ -991,7 +979,7 @@ stuff.spectralTable2 = {
 	[39] = "Regenerate",
 	[40] = "Rapid Regenerate",
 	[41] = "Profane Touch",
-	[42] = "kl_spell_astraldrain",
+	[42] = "astraldrain",
 	[43] = "Shadow Weave",
 	[44] = "Demoralize Beast",
 	[45] = "Light",
@@ -1268,7 +1256,7 @@ stuff.abList = {
 }
 
 stuff.abType = {
-	[1] = "[PASSIVE]",
+	[1] = "[TECHNIQUE]: GATHERING",
 	[2] = "[PASSIVE]",
 	[3] = "[AURA]",
 	[4] = "[PASSIVE]",
@@ -1277,12 +1265,12 @@ stuff.abType = {
 	[7] = "[PASSIVE]",
 	[8] = "[AURA]",
 	[9] = "[PASSIVE]",
-	[10] = "[TECHNIQUE]",
+	[10] = "[TECHNIQUE]: ACTIVE",
 	[11] = "[PASSIVE]",
 	[12] = "[TRIGGERED]: SPECIFIC",
 	[13] = "[PASSIVE]",
 	[14] = "[PASSIVE]",
-	[15] = "[TECHNIQUE]",
+	[15] = "[TECHNIQUE]: ACTIVE",
 	[16] = "[AURA]",
 	[17] = "[PASSIVE]",
 	[18] = "[PASSIVE]",
@@ -1290,7 +1278,7 @@ stuff.abType = {
 	[20] = "[AURA]",
 	[21] = "[PASSIVE]",
 	[22] = "[AURA]",
-	[23] = "[TECHNIQUE]",
+	[23] = "[TECHNIQUE]: ACTIVE",
 	[24] = "[PASSIVE]",
 	[25] = "[PASSIVE]",
 	[26] = "[AURA]",
@@ -1303,7 +1291,7 @@ stuff.abType = {
 	[33] = "[PASSIVE]",
 	[34] = "[TRIGGERED]: SPECIFIC",
 	[35] = "[PASSIVE]",
-	[36] = "[PASSIVE]",
+	[36] = "[TECHNIQUE]: ACTIVE",
 	[37] = "[PASSIVE]",
 	[38] = "[PASSIVE]",
 	[39] = "[PASSIVE]",
@@ -1418,7 +1406,7 @@ stuff.abDescription = {
 	[65] = "Heat is the source of all organic life.",
 	[66] = "Fear not the flames of retribution.",
 	[67] = "Pay heed, once in a while, to that which smolders within.",
-	[68] = "The brightest of lights tend to burn the quickest.",
+	[68] = "The brightest of lights are the quickest to fade.",
 	[69] = "The cold of a quiet morning revitalizes the spirit.",
 	[70] = "Learn to master the chill of solitude, rather than suffer from it.",
 	[71] = "Perfect cold. Perfect stillness. Perfect silence. Perfect order.",
@@ -1434,7 +1422,7 @@ stuff.abDescription = {
 }
 
 stuff.abDescription2 = {
-	[1] = "[Normal Type Level 5 Ability]",
+	[1] = "[Normal Type Level 5 Ability] Allows this creature to dig for items on command.",
 	[2] = "[Normal Type Level 10 Ability]",
 	[3] = "[Normal Type Level 15 Ability] Detects nearby creatures through the use of heightened instincts.",
 	[4] = "[Normal Type Level 20 Ability]",
@@ -1446,9 +1434,9 @@ stuff.abDescription2 = {
 	[10] = "[Undead Type Level 10 Ability] Ancestral rituals allow redistribution of life force between you and themselves.",
 	[11] = "[Undead Type Level 15 Ability]",
 	[12] = "[Undead Type Level 20 Ability] When struck down, has a chance to rise again at no cost.",
-	[13] = "[Humanoid Type Level 5 Ability]",
+	[13] = "[Humanoid Type Level 5 Ability] Technique Points increase by 1.",
 	[14] = "[Humanoid Type Level 10 Ability]",
-	[15] = "[Humanoid Type Level 15 Ability] A terrible epiphany manifests in the ability to conjure ash storms.",
+	[15] = "[Humanoid Type Level 15 Ability] A terrible epiphany results in the ability to conjure ash storms.",
 	[16] = "[Humanoid Type Level 20 Ability] The party hears a distant melody, igniting a fire within...",
 	[17] = "[Centurion Type Level 5 Ability]",
 	[18] = "[Centurion Type Level 10 Ability]",
@@ -1456,20 +1444,20 @@ stuff.abDescription2 = {
 	[20] = "[Centurion Type Level 20 Ability] Projects a static field which may reflect spells.",
 	[21] = "[Spriggan Type Level 5 Ability]",
 	[22] = "[Spriggan Type Level 10 Ability] Winds of fortune fortify and restore the party's Luck.",
-	[23] = "[Spriggan Type Level 15 Ability]",
-	[24] = "[Spriggan Type Level 20 Ability]",
+	[23] = "[Spriggan Type Level 15 Ability] A connection with nature allows you to call forth the sun.",
+	[24] = "[Spriggan Type Level 20 Ability] Technique Points increase by 1.",
 	[25] = "[Goblin Type Level 3 Ability]",
 	[26] = "[Goblin Type Level 5 Ability] The entire party feels limber and light.",
 	[27] = "[Goblin Type Level 7 Ability]",
 	[28] = "[Goblin Type Level 10 Ability]",
 	[29] = "[Goblin Type Level 13 Ability]",
-	[30] = "[Goblin Type Level 15 Ability]",
+	[30] = "[Goblin Type Level 15 Ability] Technique Points increase by 1.",
 	[31] = "[Goblin Type level 17 Ability] Maintains an enchantment which allows the party to resist paralysis.",
 	[32] = "[Goblin Type Level 20 Ability]",
 	[33] = "[Spectral Type Level 5 Ability]",
-	[34] = "[Spectral Type Level 10 Ability] Grand Soul Gems resurrect this creature, but reduce attributes.",
+	[34] = "[Spectral Type Level 10 Ability] Grand Soul Gems resurrect this creature, but with reduced attributes.",
 	[35] = "[Spectral Type Level 15 Ability]",
-	[36] = "[Spectral Type Level 20 Ability]",
+	[36] = "[Spectral Type Level 20 Ability] Resurrect any target, but with reduced attributes.",
 	[37] = "[Insectile Type Level 5 Ability]",
 	[38] = "[Insectile Type Level 10 Ability]",
 	[39] = "[Insectile Type Level 15 Ability]",
@@ -1757,8 +1745,8 @@ stuff.abListNPC = {
 
 stuff.abTypeNPC = {
 	[1] = "[TRIGGERED]: SPECIFIC",
-	[2] = "[TRIGGERED]: ANYWHERE",
-	[3] = "[PASSIVE]",
+	[2] = "[TECHNIQUE]: TRAINING",
+	[3] = "[TECHNIQUE]: TRAINING",
 	[4] = "[TRIGGERED]: LEVEL UP",
 	[5] = "[COMBAT]",
 	[6] = "[TRIGGERED]: LEVEL UP",
@@ -1766,7 +1754,7 @@ stuff.abTypeNPC = {
 	[8] = "[AURA]",
 	[9] = "[AURA]",
 	[10] = "[PASSIVE]",
-	[11] = "[PASSIVE]",
+	[11] = "[TECHNIQUE]: TRAINING",
 	[12] = "[PASSIVE]",
 	[13] = "[PASSIVE]",
 	[14] = "[PASSIVE]",
@@ -1777,15 +1765,15 @@ stuff.abTypeNPC = {
 	[19] = "[TRIGGERED]: TOWN",
 	[20] = "[PASSIVE]",
 	[21] = "[PASSIVE]",
-	[22] = "[TECHNIQUE]",
+	[22] = "[TECHNIQUE]: SERVICE",
 	[23] = "[TRIGGERED]: ANYWHERE",
 	[24] = "[PASSIVE]",
-	[25] = "[TRIGGERED]: ANYWHERE",
-	[26] = "[TECHNIQUE]",
-	[27] = "[PASSIVE]",
+	[25] = "[TECHNIQUE]: TRAINING",
+	[26] = "[TECHNIQUE]: SERVICE",
+	[27] = "[TECHNIQUE]: TRAINING",
 	[28] = "[TRIGGERED]: WILDERNESS",
-	[29] = "[TRIGGERED]: ANYWHERE",
-	[30] = "[TECHNIQUE]",
+	[29] = "[TECHNIQUE]: TRAINING",
+	[30] = "[TECHNIQUE]: ACTIVE",
 	[31] = "[TRIGGERED]: ANYWHERE",
 	[32] = "[TRIGGERED]: ANYWHERE",
 	[33] = "[PASSIVE]",
@@ -1794,16 +1782,16 @@ stuff.abTypeNPC = {
 	[36] = "[TRIGGERED]: ANYWHERE",
 	[37] = "[PASSIVE]",
 	[38] = "[PASSIVE]",
-	[39] = "[PASSIVE]",
+	[39] = "[TECHNIQUE]: TRAINING",
 	[40] = "[PASSIVE]",
-	[41] = "[TECHNIQUE]",
-	[42] = "[TECHNIQUE]",
+	[41] = "[TECHNIQUE]: GATHERING",
+	[42] = "[TECHNIQUE]: ACTIVE",
 	[43] = "[TRIGGERED]: ANYWHERE",
 	[44] = "[TRIGGERED]: ANYWHERE",
 	[45] = "[TRIGGERED]: ANYWHERE",
 	[46] = "[TRIGGERED]: ANYWHERE",
 	[47] = "[TRIGGERED]: WILDERNESS",
-	[48] = "[TRIGGERED]: ANYWHERE",
+	[48] = "[TECHNIQUE]: TRAINING",
 	[49] = "[TRIGGERED]: SPECIFIC",
 	[50] = "[TRIGGERED]: ANYWHERE",
 	[51] = "[PASSIVE]",
@@ -1812,13 +1800,13 @@ stuff.abTypeNPC = {
 	[54] = "[PASSIVE]",
 	[55] = "[PASSIVE]",
 	[56] = "[PASSIVE]",
-	[57] = "[PASSIVE]",
+	[57] = "[TECHNIQUE]: TRAINING",
 	[58] = "[TRIGGERED]: TOWN",
 	[59] = "[PASSIVE]",
 	[60] = "[PASSIVE]",
-	[61] = "[TRIGGERED]: ANYWHERE",
+	[61] = "[TECHNIQUE]: TRAINING",
 	[62] = "[TRIGGERED]: WILDERNESS",
-	[63] = "[PASSIVE]",
+	[63] = "[TECHNIQUE]: TRAINING",
 	[64] = "[PASSIVE]",
 	[65] = "[PASSIVE]",
 	[66] = "[TRIGGERED]: TOWN",
@@ -1841,7 +1829,7 @@ stuff.abTypeNPC = {
 	[83] = "[TRIGGERED]: ANYWHERE",
 	[84] = "[PASSIVE]",
 	[85] = "[PASSIVE]",
-	[86] = "[TECHNIQUE]",
+	[86] = "[TECHNIQUE]: ACTIVE",
 	[87] = "[TRIGGERED]: ANYWHERE",
 	[88] = "[TRIGGERED]: EXPERIENCE",
 	[89] = "[PASSIVE]",
@@ -1868,9 +1856,9 @@ stuff.abTypeNPC = {
 	[110] = "[COMBAT]",
 	[111] = "[TRIGGERED]: SPECIFIC",
 	[112] = "[TRIGGERED]: WILDERNESS",
-	[113] = "[TECHNIQUE]",
+	[113] = "[TECHNIQUE]: ACTIVE",
 	[114] = "[TRIGGERED]: WILDERNESS",
-	[115] = "[TECHNIQUE]"
+	[115] = "[TECHNIQUE]: ACTIVE"
 }
 
 stuff.abDescriptionNPC = {
@@ -1993,19 +1981,19 @@ stuff.abDescriptionNPC = {
 
 stuff.abDescriptionNPC2 = {
 	[1] = "(Acrobatics) Acrobats fall with grace, reducing their fall damage and to a lesser extent, the party's.",
-	[2] = "(Security) Companions with this ability will attempt to train your Security.",
-	[3] = "",
+	[2] = "Agents will provide training in Sneak, Speechcraft, and Acrobatics.",
+	[3] = "Archers will provide Marksman training to companions.",
 	[4] = "Assassins will accept contracts once per level.",
 	[5] = "(Endurance) Barbarians become enraged when wounded. Higher Endurance increases rage frequency.",
 	[6] = "(Speechcraft) Adept at lyrical lore, those with a love for song will sing to and inspire their comrades.",
-	[7] = "",
+	[7] = "Special training as a Battlemage has increased Technique Points by 1.",
 	[8] = "(Willpower) Crusaders focus on maintaining an aura of protection which protects the party from harm.",
 	[9] = "(Restoration) Healers will confer a regenerating aura to their allies if they are skilled enough.",
 	[10] = "",
-	[11] = "",
+	[11] = "Mages offer companions training in all schools of magic.",
 	[12] = "",
 	[13] = "",
-	[14] = "",
+	[14] = "In their quest for enlightenment, Pilgrims become wise. Technique Points increased by 1.",
 	[15] = "",
 	[16] = "Scouts have a small chance to grant the party experience from exploration.",
 	[17] = "Sorcerers have drawn out their own latent abilities. Technique Points increased by 2.",
@@ -2016,11 +2004,11 @@ stuff.abDescriptionNPC2 = {
 	[22] = "(Alchemy) Alchemists will brew potions using their own skill and allow you to gain Alchemy experience.",
 	[23] = "(Alchemy) Apothecaries will sometimes brew their own potions which can increase in potency.",
 	[24] = "",
-	[25] = "Drillmasters will provide combat training to their employers.",
+	[25] = "Drillmasters will provide training in their class skills to companions. Training Sessions increase by 1.",
 	[26] = "(Enchant) Enchanters provide basic enchanting services and can create soul gems.",
-	[27] = "",
+	[27] = "Enforcers provide training in Light Armor.",
 	[28] = "(Marksman) Those trained as Hunters will seek out game and share the spoils.",
-	[29] = "(Mercantile) Merchants will train their investors in the art of Mercantile.",
+	[29] = "Merchants will train their companions in the art of Mercantile.",
 	[30] = "(Conjuration/Willpower) Practitioners of necromancy can raise nearby corpses as undead.",
 	[31] = "(Restoration) Priests will confer blessings to the party.",
 	[32] = "(Intelligence/Speechcraft) Savants will lecture you on just about anything that is knowable.",
@@ -2030,7 +2018,7 @@ stuff.abDescriptionNPC2 = {
 	[36] = "(Security) Smugglers will sometimes share a cut of their profits.",
 	[37] = "The esoteric knowledge of a Warlock increases Technique Points by 5.",
 	[38] = "",
-	[39] = "",
+	[39] = "Wise Women provide training in their class skills to companions. Technique Points increase by 1.",
 	[40] = "",
 	[41] = "Archeologists can potentially unearth artifacts or trash. Some sites are more promising than others.",
 	[42] = "(Armorer/Enchant) Artificers may construct mechanical minions.",
@@ -2039,7 +2027,7 @@ stuff.abDescriptionNPC2 = {
 	[45] = "(Speechcraft) Barristers are adept at reducing bounties through legal loopholes.",
 	[46] = "(Alchemy) Battle Alchemists may brew poisons which can increase in potency.",
 	[47] = "(Luck) Pearl Divers will find their prize, if they're lucky.",
-	[48] = "(Willpower) Beastmasters may train friendly creatures.",
+	[48] = "(Willpower/Personality) Beastmasters can train friendly creatures.",
 	[49] = "(Intelligence) Booksellers may provide an additional skill point when reading skill books.",
 	[50] = "(Personality) Courtesans influence others to be friendlier.",
 	[51] = "",
@@ -2048,13 +2036,13 @@ stuff.abDescriptionNPC2 = {
 	[54] = "",
 	[55] = "",
 	[56] = "",
-	[57] = "",
+	[57] = "Guards can train companions to wear Medium and Heavy Armor.",
 	[58] = "(Speechcraft) Journalists report on your actions, which may increase your reputation.",
 	[59] = "",
 	[60] = "",
-	[61] = "Masters-at-Arms will provide weapons training to their employers.",
+	[61] = "Masters-at-Arms will provide training in all weapons to companions.",
 	[62] = "(Endurance) Miners may seek and find ore.",
-	[63] = "",
+	[63] = "Nobles can train companions in Speechcraft.",
 	[64] = "",
 	[65] = "",
 	[66] = "(Mercantile) Pawnbrokers will sometimes use their gold to purchase items.",
@@ -2083,7 +2071,7 @@ stuff.abDescriptionNPC2 = {
 	[89] = "",
 	[90] = "",
 	[91] = "",
-	[92] = "",
+	[92] = "Hermits have mastered the art of self-reflection. Technique Points increased by 1.",
 	[93] = "",
 	[94] = "",
 	[95] = "",
@@ -2091,7 +2079,7 @@ stuff.abDescriptionNPC2 = {
 	[97] = "Bounty Hunters will accept bounties once per level.",
 	[98] = "(Enchant) Scribes can compose magical scrolls.",
 	[99] = "Members of the Silver Hand gain powerful bonuses when fighting werewolves.",
-	[100] = "(Speechcraft) Each stanza a poet utters may very well improve your own Speechcraft.",
+	[100] = "(Speechcraft) Each stanza a poet utters may improve your own Speechcraft.",
 	[101] = "(Speechcraft) Diresingers sing songs of woe to exhaust their opponents.",
 	[102] = "(Mercantile) Bankers may generate interest on the gold they carry.",
 	[103] = "Vampire Hunters hunt their quarry with a tremendous zeal.",
@@ -2109,7 +2097,7 @@ stuff.abDescriptionNPC2 = {
 	[115] = "Arcanists can redistribute magicka between you and themselves."
 }
 
-----NPC Ability Misc Tables----------------------------------------------------------------------------------------------
+----Misc Ability Tables----------------------------------------------------------------------------------------------
 
 
 stuff.alchemyPotionsB = {
@@ -2810,13 +2798,63 @@ stuff.scavengeList = {
 	[14] = stuff.huntedMeat
 }
 
+stuff.trainerAbilities = {
+	[2] = { 20, 18, 19 }, --Agent
+	[3] = { 23 }, --Archer
+	[11] = { 11, 13, 10, 12, 14, 15}, --Mage
+	[25] = { 20, 8, 6, 0, 4, 26, 5, 22, 7, 17}, --Drillmaster
+	[27] = { 21 }, --Enforcer
+	[29] = { 24 }, --Merchant
+	[39] = { 15, 14, 11, 26, 25, 12, 4, 21, 16, 17}, --Wise Woman
+	[57] = { 2, 3 }, --Guard
+	[61] = { 6, 4, 26, 5, 23, 22, 7 }, --Master-at-Arms
+	[63] = { 25 } --Noble
+	--Need Armorer, Enchant
+}
+
+stuff.trainingSounds = {
+    [0] = "Heavy Armor Hit",
+    [1] = "repair fail",
+    [2] = "Medium Armor Hit",
+    [3] = "Item Armor Heavy Up",
+    [4] = "Item Weapon Blunt Down",
+    [5] = "Item Weapon Longblade Down",
+    [6] = "Item Weapon Blunt Down",
+    [7] = "Item Weapon Spear Down",
+    [8] = "FootBareRight",
+    [9] = "enchant fail",
+    [10] = "destruction cast",
+    [11] = "alteration cast",
+    [12] = "illusion cast",
+    [13] = "conjuration cast",
+    [14] = "mysticism cast",
+    [15] = "restoration cast",
+    [16] = "potion fail",
+    [17] = "miss",
+    [18] = "LockedChest",
+    [19] = "corpDRAG",
+    [20] = "LeftS",
+    [21] = "Light Armor Hit",
+    [22] = "Item Weapon Shortblade Down",
+    [23] = "Item Weapon Bow Down",
+    [24] = "scroll",
+    [25] = "",
+    [26] = "Hand To Hand Hit"
+}
+
+stuff.digList = {
+	[1] = stuff.plants,
+	[2] = stuff.huntedMeat,
+	[3] = stuff.unearthedObjects
+}
+
 
 ----NPC Level Up Messages-------------------------------------------------------------------------------------------
 stuff.npcMessage = {
 	[1] = "You'll have to get along from now on.",
 	[2] = "The first step of a new journey can sometimes be the heaviest.",
 	[3] = "Slow going. But none of you can afford to be careless.",
-	[4] = "Thankfully, life on the road doesn't have to be a lonely one.",
+	[4] = "Thankfully, a life on the road need not be a lonely one.",
 	[5] = "You shake yourself from your reverie in time to catch your companion lost in their own.",
 	[6] = "It seems to be getting easier, thanks to some help.",
 	[7] = "You've realized over time that you have your own ways of doing things.",
@@ -2914,6 +2952,24 @@ stuff.npcMessage = {
 	[99] = "You can feel it now. They are soon to be at the apex. The summit.",
 	[100] = "Having left your mark on the world, you journey on with them at your side..."
 }
+
+
+----UI Stuff--------------------------------------------------------------------------------------------------------
+stuff.colors = {
+	["white"] = { 1.0, 1.0, 1.0 }, --White
+	["red"] = { 0.6, 0.2, 0.2 }, --Health Red
+	["blue"] = { 0.21, 0.27, 0.62 }, --Magicka Blue
+	["green"] = { 0.2, 0.6, 0.2 }, --Fatigue Green
+	["purple"] = { 0.50, 0.20, 0.66 }, --Technique Purple
+	["grey"] = { 0.35, 0.35, 0.35 }, --Grey
+	["yellow"] = { 1.0, 0.62, 0.0 }, --Yellow
+	["default_font"] = { 0.792, 0.647, 0.376 }, --Morrowind Font Color
+	["light_blue"] = { 0.18, 1.0, 0.95 }, --Light Blue
+	["gold"] = { 0.6, 0.6, 0.0 }, --Goldish
+	["dark_purple"] = { 0.38, 0.13, 0.36 }, --Text Purple
+	["ui_blue"] = { 0.3, 0.3, 0.7 } --Brighter UI Blue Text
+}
+
 
 
 return stuff

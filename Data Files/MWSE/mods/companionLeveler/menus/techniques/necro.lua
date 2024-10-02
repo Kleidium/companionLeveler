@@ -19,6 +19,7 @@ function necro.createWindow(ref)
 
 	local conjuration = ref.mobile:getSkillStatistic(13)
 	local willpower = ref.mobile.attributes[3]
+	local modData = func.getModData(ref)
 	necro.limit = 1
 
 	if willpower.current >= 75 then
@@ -33,7 +34,7 @@ function necro.createWindow(ref)
 	local menu = tes3ui.createMenu { id = necro.id_menu, fixedFrame = true }
 
 	-- Create layout
-	local input_label = menu:createLabel { text = "Use which corpse? Willpower Limit: " .. necro.limit .. "" }
+	local input_label = menu:createLabel { text = "Use which corpse? Willpower Limit: " .. necro.limit .. " TP: " .. modData.tp_current .. "/" .. modData.tp_max .. "" }
 	input_label.borderBottom = 5
 
 	-- Pane Block
@@ -99,6 +100,10 @@ function necro.createWindow(ref)
 
 				local a = pane:createTextSelect { text = "" .. mobileActor.reference.object.name .. "", id = "kl_necro_btn_" .. necro.total .. ""}
 				local lvl = mobileActor.reference.object.level
+				if func.checkModData(mobileActor.reference) == true then
+					local tempModData = func.getModData(mobileActor.reference)
+					lvl = tempModData.level
+				end
 				local obj
 				local req
 				local tp
@@ -175,6 +180,7 @@ function necro.createWindow(ref)
 	--Enchantments
 	local ench_title = ench_block:createLabel({ text = "Enhancements:" })
 	ench_title.color = { 1.0, 1.0, 1.0 }
+	func.clTooltip(ench_title, "skill:13")
 	ench_block:createLabel { text = "Health: +" .. necro.hthBonus .. "", id = "kl_necro_hth_e" }
 	ench_block:createLabel { text = "Magicka: +" .. necro.mgkBonus .. "", id = "kl_necro_mgk_e" }
 	ench_block:createLabel { text = "Fatigue: +" .. necro.fatBonus .. "", id = "kl_necro_fat_e" }
@@ -202,7 +208,6 @@ function necro.createWindow(ref)
 
 	--Events
 	button_ok:register("mouseClick", function()
-		local modData = func.getModData(ref)
 
 		if conjuration.current < necro.req then
 			tes3.messageBox("" .. ref.object.name .. " is not skilled enough to enthrall " .. necro.ref.object.name .. ".")

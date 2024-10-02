@@ -91,7 +91,7 @@ function typeModule.typeChange(reference)
 	for i = 1, #tables.typeTable do
 		if tables.typeTable[i] == deftype then
 			if modData.typelevels[i] >= 20 then
-				a.widget.idle = { 0.6, 0.6, 0.0 }
+				a.widget.idle = tables.colors["gold"]
 				local star = bloc:createImage({ path = "textures\\companionLeveler\\star.tga" })
 				star.height = 10
 				star.width = 10
@@ -111,7 +111,7 @@ function typeModule.typeChange(reference)
 		bl.height = 18
 		local b = bl:createTextSelect { text = tables.typeTable[i], id = "tChangeB_" .. i .. "" }
 		if modData.typelevels[i] >= 20 then
-			b.widget.idle = { 0.6, 0.6, 0.0 }
+			b.widget.idle = tables.colors["gold"]
 			local star = bl:createImage({ path = "textures\\companionLeveler\\star.tga" })
 			star.height = 10
 			star.width = 10
@@ -143,7 +143,7 @@ function typeModule.typeChange(reference)
 
 	--Attribute Text
 	local kl_att = spec_block:createLabel({ text = "Favored Attributes:", id = "kl_att_type" })
-	kl_att.color = { 1.0, 1.0, 1.0 }
+	kl_att.color = tables.colors["white"]
 	spec_block:createLabel({ text = "" .. tables.capitalization[mAtt1] .. "", id = "kl_att1_type" })
 	spec_block:createLabel({ text = "" .. tables.capitalization[mAtt2] .. "", id = "kl_att2_type" })
 	local extraAtt = spec_block:createLabel({ text = "", id = "kl_att3_type" })
@@ -153,7 +153,7 @@ function typeModule.typeChange(reference)
 
 	--Description Text
 	local kl_major = major_block:createLabel({ text = "Growth Type:" })
-	kl_major.color = { 1.0, 1.0, 1.0 }
+	kl_major.color = tables.colors["white"]
 	major_block:createLabel { text = mSkillType, id = "kl_type_desc" }
 
 	--Button Block

@@ -61,6 +61,10 @@ function buildMode.companionLevelBuild(companions)
 			end
 			----NPC Skills-----------------------------------------------------------------------------------------------------------------------
 			if companionRef.object.class ~= nil then
+				--Training Sessions Reset
+				modData.sessions_current = 0
+				log:debug("" .. name .. "'s training session limit reset.")
+
 				for n = 1, 27 do
 					local offset = (n - 1)
 					local skill = companionRef.mobile:getSkillStatistic(offset)

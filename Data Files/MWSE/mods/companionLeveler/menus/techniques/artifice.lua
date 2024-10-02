@@ -84,17 +84,17 @@ function artifice.createWindow(ref)
 
 	if armorer.current >= 25 then
 		local a = pane:createTextSelect { text = "" .. spider.name .. "", id = "kl_artifice_btn_0" }
-		a:register("mouseClick", function(e) artifice.onSelect(a, spider, 0, 2) end)
+		a:register("mouseClick", function(e) artifice.onSelect(a, spider, 0, 4) end)
 	end
 
 	if armorer.current >= 50 then
 		local a = pane:createTextSelect { text = "" .. sphere.name .. "", id = "kl_artifice_btn_1" }
-		a:register("mouseClick", function(e) artifice.onSelect(a, sphere, 1, 4) end)
+		a:register("mouseClick", function(e) artifice.onSelect(a, sphere, 1, 6) end)
 	end
 
 	if armorer.current >= 75 then
 		local a = pane:createTextSelect { text = "" .. steam.name .. "", id = "kl_artifice_btn_2" }
-		a:register("mouseClick", function(e) artifice.onSelect(a, steam, 2, 6) end)
+		a:register("mouseClick", function(e) artifice.onSelect(a, steam, 2, 8) end)
 	end
 
 	if armorer.current >= 100 and enchant.current >= 75 then
@@ -156,6 +156,7 @@ function artifice.createWindow(ref)
 	--Enchantments
 	local ench_title = ench_block:createLabel({ text = "Enchantments:" })
 	ench_title.color = { 1.0, 1.0, 1.0 }
+	func.clTooltip(ench_title, "skill:9")
 	ench_block:createLabel { text = "Health: +" .. artifice.hthBonus .. "", id = "kl_artifice_hth_e" }
 	ench_block:createLabel { text = "Magicka: +" .. artifice.mgkBonus .. "", id = "kl_artifice_mgk_e" }
 	ench_block:createLabel { text = "Fatigue: +" .. artifice.fatBonus .. "", id = "kl_artifice_fat_e" }

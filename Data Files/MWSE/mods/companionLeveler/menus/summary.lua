@@ -66,7 +66,7 @@ function sumr.createWindow(reference)
 		class = tes3.findClass("Nightblade")
 	end
 	local initSum = border2:createLabel({ text = modData.summary, id = "kl_text_sum" })
-	initSum.color = { 1.0, 1.0, 1.0 }
+	initSum.color = tables.colors["white"]
 
 	local button_block = menu:createBlock {}
 	button_block.widthProportional = 1.0

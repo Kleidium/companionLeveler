@@ -15,6 +15,7 @@ function this.creatureAbilities(cType, companionRef)
     local name = companionRef.object.name
     local modData = func.getModData(companionRef)
 
+
     if cType == "Normal" then
         if modData.typelevels[1] >= 5 then
             local ability = tables.abList[1]
@@ -127,7 +128,7 @@ function this.creatureAbilities(cType, companionRef)
                 log:info("" .. name .. " learned the Ability " .. tables.abList[9] .. ".")
                 tes3.playSound({ sound = "skeleton moan" })
                 modData.abilities[9] = true
-                modData.hth_gained = modData.hth_gained + 10
+                modData.hth_gained = modData.hth_gained + 15
             else
                 log:debug("" .. name .. " already has the " .. ability .. " Ability.")
             end
@@ -185,6 +186,7 @@ function this.creatureAbilities(cType, companionRef)
                 tes3.playSound({ sound = "ash vampire moan" })
                 modData.abilities[13] = true
                 modData.mgk_gained = modData.mgk_gained + 20
+                modData.tp_max = modData.tp_max + 1
             else
                 log:debug("" .. name .. " already has the " .. ability .. " Ability.")
             end
@@ -328,6 +330,7 @@ function this.creatureAbilities(cType, companionRef)
                 log:info("" .. name .. " learned the Ability " .. tables.abList[24] .. ".")
                 tes3.playSound({ sound = "sprigganmagic" })
                 modData.abilities[24] = true
+                modData.tp_max = modData.tp_max + 1
             else
                 log:debug("" .. name .. " already has the " .. ability .. " Ability.")
             end
@@ -407,6 +410,7 @@ function this.creatureAbilities(cType, companionRef)
                 modData.att_gained[1] = modData.att_gained[1] + 5
                 modData.att_gained[6] = modData.att_gained[6] + 10
                 modData.att_gained[8] = modData.att_gained[8] + 10
+                modData.tp_max = modData.tp_max + 1
             else
                 log:debug("" .. name .. " already has the " .. ability .. " Ability!")
             end
@@ -438,7 +442,7 @@ function this.creatureAbilities(cType, companionRef)
         end
     end
     if cType == "Domestic" then
-        if math.random(1, 160) < (companionRef.mobile.personality.base + modData.domlevel) then
+        if math.random(1, 160) < (companionRef.mobile.personality.base + modData.typelevels[8]) then
             local pLuck = tes3.player.mobile.luck
             local pAmount = 1
             if config.aboveMaxAtt == false then
@@ -1494,7 +1498,7 @@ function this.spectralWill(e)
 
         --Total Decay #12
         if modData.abilities[12] == true then
-            if math.random(0, 99) < modData.level + math.random(1, 20) then
+            if math.random(0, 99) < modData.level + math.random(1, 25) then
                 e.mobile:resurrect({ resetState = false })
                 tes3.setAIFollow({ reference = e.reference, target = tes3.player })
 
@@ -1520,11 +1524,11 @@ function this.spectralWill(e)
                 log:info("" .. e.reference.object.name .. " regained their form through your Grand Soul Gem!")
 
                 for i = 0, 7 do
-                    tes3.modStatistic({ attribute = i, value = -2, reference = e.reference, limit = true })
-                    modData.att_gained[i + 1] = modData.att_gained[i + 1] - 2
+                    tes3.modStatistic({ attribute = i, value = -3, reference = e.reference, limit = true })
+                    modData.att_gained[i + 1] = modData.att_gained[i + 1] - 3
                 end
 
-                log:info("" .. e.reference.object.name .. "'s attributes were reduced by 2 through resurrection.")
+                log:info("" .. e.reference.object.name .. "'s attributes were reduced by 3 through resurrection.")
             else
                 tes3.messageBox("" .. e.reference.object.name .. " could not regain their form.")
                 log:info("" .. e.reference.object.name .. " could not regain their form. (No Grand Soul Gem)")
@@ -2163,14 +2167,44 @@ function this.npcAbilities(class, companionRef)
                         end)
                     end
 
-                    --Forbidden Knowledge (Sorcerer Class)
+
+                    --TP--
+
+                    --Battlemage
+                    if spellObject.name == "Battle-Learned" then
+                        modData.tp_max = modData.tp_max + 1
+                    end
+
+                    --Hermit
+                    if spellObject.name == "Introspection" then
+                        modData.tp_max = modData.tp_max + 1
+                    end
+
+                    --Pilgrim
+                    if spellObject.name == "Enlightened" then
+                        modData.tp_max = modData.tp_max + 1
+                    end
+
+                    --Wise Woman
+                    if spellObject.name == "Wisdom of Ash" then
+                        modData.tp_max = modData.tp_max + 1
+                    end
+
+                    --Sorcerer
                     if spellObject.name == "Forbidden Knowledge" then
                         modData.tp_max = modData.tp_max + 2
                     end
 
-                    --Arcane Mastery (Warlock Class)
+                    --Warlock
                     if spellObject.name == "Arcane Mastery" then
                         modData.tp_max = modData.tp_max + 5
+                    end
+
+                    --Training Sessions--
+
+                    --Drillmaster
+                    if spellObject.name == "Gifted Instructor" then
+                        modData.sessions_max = modData.sessions_max + 1
                     end
 
                     --Mod Data Stats
@@ -2217,23 +2251,7 @@ function this.executeAbilities(companionRef)
 
     --Acrobat reduces fall damage based on their Acrobatics. See #1 Acrobatic
 
-    --Agent
-    if (modData.abilities[2] == true or class.name == "Agent") then
-        local value = 1
-
-        if modData.aboveMaxSkill == false then
-            local skillStat = tes3.player.mobile:getSkillStatistic(18)
-            if skillStat.base + value > 100 then
-                value = math.max(100 - skillStat.base, 0)
-            end
-        end
-
-        --Teach Security
-        if math.random(1, 140) < (security.current + modData.level) then
-            tes3.modStatistic({ skill = 18, value = value, reference = tes3.player })
-            tes3.messageBox("" .. companionRef.object.name .. " taught you a bit about security.")
-        end
-    end
+    --Agent provides training in Sneak, Speechcraft, and Acrobatics. (See train.lua)
 
     --Assassin accepts a contract once per level. (See this.contract) #4 Opportunist
 
@@ -2332,22 +2350,7 @@ function this.executeAbilities(companionRef)
         end
     end
 
-    --Drillmaster
-    if (modData.abilities[25] == true or class.name == "Drillmaster") then
-        local drillmaster = tes3.findClass("Drillmaster")
-        local randNum = math.random(1, 5)
-        local randNum2 = math.random(1, 5)
-
-        --Exercise 1 Major Skill and 1 Minor Skill from Drillmaster Class
-        tes3.player.mobile:exerciseSkill(drillmaster.majorSkills[randNum], (0.5 * modData.level))
-        tes3.player.mobile:exerciseSkill(drillmaster.minorSkills[randNum2], (0.5 * modData.level))
-
-        tes3.messageBox("" ..
-            companionRef.object.name ..
-            " instructed you in " ..
-            tes3.getSkillName(drillmaster.majorSkills[randNum]) ..
-            " and " .. tes3.getSkillName(drillmaster.minorSkills[randNum2]) .. ".")
-    end
+    --Drillmaster provides training in their class skills. (See train.lua)
 
     --Enchanters provide basic enchanting services and can fashion soul gems as techniques. (See this.techniques) #26 Power Reservoir
 
@@ -2367,23 +2370,7 @@ function this.executeAbilities(companionRef)
         end
     end
 
-    --Merchant
-    if (modData.abilities[29] == true or class.name == "Merchant") then
-        local value = 1
-
-        if modData.aboveMaxSkill == false then
-            local skillStat = tes3.player.mobile:getSkillStatistic(24)
-            if skillStat.base + value > 100 then
-                value = math.max(100 - skillStat.base, 0)
-            end
-        end
-
-        --Teach Mercantile
-        if math.random(1, 140) < (mercantile.current + modData.level) then
-            tes3.modStatistic({ skill = 24, value = value, reference = tes3.player })
-            tes3.messageBox("" .. companionRef.object.name .. " taught you a bit about economics.")
-        end
-    end
+    --Merchants train companions in Mercantile. (See train.lua)
 
     --Necromancer can raise undead minions as a technique. (see techniques.lua) #30 Dark Appetite
 
@@ -2739,22 +2726,7 @@ function this.executeAbilities(companionRef)
         end
     end
 
-    --Master-at-Arms
-    if (modData.abilities[61] == true or class.name == "Master-at-Arms") then
-        local master = tes3.findClass("Master-at-Arms")
-        local randNum = math.random(1, 5)
-        local randNum2 = math.random(1, 5)
-
-        --Exercise 1 Major Skill and 1 Minor Skill from Master-at-Arms Class
-        tes3.player.mobile:exerciseSkill(master.majorSkills[randNum], (0.5 * modData.level))
-        tes3.player.mobile:exerciseSkill(master.minorSkills[randNum2], (0.5 * modData.level))
-
-        tes3.messageBox("" ..
-            companionRef.object.name ..
-            " trained you in " ..
-            tes3.getSkillName(master.majorSkills[randNum]) ..
-            " and " .. tes3.getSkillName(master.minorSkills[randNum2]) .. ".")
-    end
+    --Master-at-Arms can train NPC party members in weapon skills as a technique. (see train.lua)
 
     --Miner/Ore Miner
     if (modData.abilities[62] == true or class.name == "Miner" or modData.abilities[74] == true or class.name == "Ore Miner") then
@@ -3105,6 +3077,8 @@ function this.executeAbilities(companionRef)
     --gladiators can fight in arena?
 
     --cat-catcher enslaves NPC enemies when they are heavily wounded Personality/Willpower
+
+    --guild guide can teleport as a service
 end
 
 

@@ -32,111 +32,52 @@ function this.getModData(ref)
 	log:trace("Checking " .. ref.object.name .. "'s Mod Data.")
 
 	if not ref.data.companionLeveler then
+		--General Data-------------------------------------------------------------------------------------------------------------------
+		log:info("Companion Mod Data not found, setting to base Mod Data values.")
+		ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level,
+		["summary"] = "No Summary.", ["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 }, ["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+		["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
+		["hth_gained"] = 0,
+		["mgk_gained"] = 0,
+		["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)),
+		["spellLearning"] = true, ["abilityLearning"] = true, ["tp_current"] = ref.object.level, ["tp_max"] = ref.object.level, ["abilities"] = {} }
 		--NPC Data-----------------------------------------------------------------------------------------------------------------------
 		if ref.object.objectType ~= tes3.objectType.creature then
 			log:info("NPC Mod Data not found, setting to base Mod Data values.")
-			ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level,
-				["class"] = ref.object.class.id,
-				["summary"] = "No Summary.", ["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 }, ["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
-				["skillMods"] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-				["skillModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-				["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
-				["skill_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-				["hth_gained"] = 0,
-				["mgk_gained"] = 0,
-				["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)),
-				["ignore_skill"] = 99, ["contracts"] = {}, ["bounties"] = {}, ["spellLearning"] = true, ["tp_current"] = ref.object.level, ["tp_max"] = ref.object.level,
-				["abilityLearning"] = true,
-				["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-					false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-					false, false, false, false, false } }
+
+			ref.data.companionLeveler["class"] = ref.object.class.id
+			ref.data.companionLeveler["skillMods"] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+			ref.data.companionLeveler["skillModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+			ref.data.companionLeveler["skill_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+			ref.data.companionLeveler["ignore_skill"] = 99
+			ref.data.companionLeveler["contracts"] = {}
+			ref.data.companionLeveler["bounties"] = {}
+			ref.data.companionLeveler["sessions_current"] = 0
+			ref.data.companionLeveler["sessions_max"] = 3
+			for i = 1, tables.npcAbilityAmount do
+				ref.data.companionLeveler["abilities"][i] = false
+			end
 		else
 			--Creature Data----------------------------------------------------------------------------------------------------------------
-
-			--Default: Normal
-			ref.data.companionLeveler = { ["version"] = tables.version, ["blacklist"] = false, ["level"] = ref.object.level,
-			["type"] = "Normal", ["typelevels"] = { ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-			["summary"] = "No Summary.", ["attMods"] = { 0, 0, 0, 0, 0, 0, 0, 0 }, ["attModsMax"] = { 0, 0, 0, 0, 0, 0, 0, 0 },
-			["abilities"] = { false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-				false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-				false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-				false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-				false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false },
-			["att_gained"] = { 0, 0, 0, 0, 0, 0, 0, 0 }, ["hth_gained"] = 0, ["mgk_gained"] = 0, ["fat_gained"] = 0, ["lvl_progress"] = 0,
-			["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)), ["spellLearning"] = true, ["abilityLearning"] = true,
-			["tp_current"] = ref.object.level, ["tp_max"] = ref.object.level }
-
-			--Type Detection----------------------------------------------------------------------------------------------------------------
-
+			log:info("Creature Mod Data not found, setting to base Mod Data values.")
 			local defType = this.determineDefault(ref)
 			ref.data.companionLeveler["type"] = defType
 
-			if defType == "Daedra" then
-				log:info("Daedra type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+			--Type Levels
+			ref.data.companionLeveler["typelevels"] = {}
+
+			for i = 1, #tables.typeTable do
+				ref.data.companionLeveler["typelevels"][i] = 1
+				if tables.typeTable[i] == defType then
+					log:info("" .. defType .. " type detected.")
+					ref.data.companionLeveler["typelevels"][i] = ref.object.level
+				end
 			end
-			if defType == "Undead" then
-				log:info("Undead type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+
+			--Creature Abilities
+			for i = 1, tables.creAbilityAmount do
+				ref.data.companionLeveler["abilities"][i] = false
 			end
-			if defType == "Humanoid" then
-				log:info("Humanoid type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Centurion" then
-				log:info("Centurion type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Spriggan" then
-				log:info("Spriggan type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Goblin" then
-				log:info("Goblin type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Domestic" then
-				log:info("Domestic type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Spectral" then
-				log:info("Spectral type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Insectile" then
-				log:info("Insectile type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Draconic" then
-				log:info("Draconic type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Brute" then
-				log:info("Brute type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Aquatic" then
-				log:info("Aquatic type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Avian" then
-				log:info("Avian type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Bestial" then
-				log:info("Bestial type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1, 1 }
-			end
-			if defType == "Impish" then
-				log:info("Bestial type detected.")
-				ref.data.companionLeveler["typelevels"] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ref.object.level, 1, 1, 1, 1 }
-			end
-			--Elemental Types will never be a deftype.
 		end
 
 		--Initialize Ideal Sheet values
@@ -250,17 +191,51 @@ function this.updateModData(ref)
 				modData["tp_current"] = modData.level
 				modData["tp_max"] = modData.level
 
-				if ref.object.objectType ~= tes3.objectType.creature then
-					--Sorcerer TP
-					if modData.abilities[17] == true then
-						modData.tp_current = modData.tp_current + 2
-						modData.tp_max = modData.tp_max + 2
+				if modData.abilities ~= nil then
+					local bonus = 0
+
+					if ref.object.objectType ~= tes3.objectType.creature then
+						--Battlemage
+						if modData.abilities[7] == true then
+							bonus = bonus + 1
+						end
+						--Hermit
+						if modData.abilities[93] == true then
+							bonus = bonus + 1
+						end
+						--Pilgrim
+						if modData.abilities[14] == true then
+							bonus = bonus + 1
+						end
+						--Wise Woman
+						if modData.abilities[39] == true then
+							bonus = bonus + 1
+						end
+						--Sorcerer
+						if modData.abilities[17] == true then
+							bonus = bonus + 2
+						end
+						--Warlock
+						if modData.abilities[37] == true then
+							bonus = bonus + 5
+						end
+					else
+						--Humanoid 5
+						if modData.abilities[13] == true  then
+							bonus = bonus + 1
+						end
+						--Spriggan 20
+						if modData.abilities[24] == true then
+							bonus = bonus + 1
+						end
+						--Goblin 15
+						if modData.abilities[30] == true then
+							bonus = bonus + 1
+						end
 					end
-					--Warlock TP
-					if modData.abilities[37] == true then
-						modData.tp_current = modData.tp_current + 5
-						modData.tp_max = modData.tp_max + 5
-					end
+
+					modData.tp_current = modData.tp_current + bonus
+					modData.tp_max = modData.tp_max + bonus
 				end
 				log:debug("" .. ref.object.name .. "'s technique point setting updated.")
 			end
@@ -303,6 +278,18 @@ function this.updateModData(ref)
 				if modData.bounties == nil then
 					modData["bounties"] = {}
 					log:debug("" .. ref.object.name .. "'s bounty feature updated.")
+				end
+
+				--Training Sessions
+				if modData.sessions_current == nil then
+					modData["sessions_current"] = 0
+					modData["sessions_max"] = 3
+
+					--Drillmaster
+					if modData.abilities[25] == true then
+						modData.sessions_max = modData.sessions_max + 1
+					end
+					log:debug("" .. ref.object.name .. "'s training session setting updated.")
 				end
 			else
 				--Creature Mod Data--
@@ -738,6 +725,39 @@ end
 ----UI--------------------------------------------------------------------------------------------------------------------
 --
 
+--Creates a TP Bar.
+--
+--1st: tes3uiElement
+--
+--2nd: string: small/standard
+--
+--3rd: string: red/blue/green/gold/purple
+function this.configureBar(ele, type, color)
+	ele.widget.showText = true
+	ele.widget.fillColor = tables.colors[color]
+
+	--Size
+	if type == "standard" then
+		ele.width = 180
+	elseif type == "small" then
+		ele.width = 120
+	end
+
+	--Tooltips
+	if color == "purple" then
+		this.clTooltip(ele, "tp")
+	elseif color == "gold" then
+		this.clTooltip(ele, "exp")
+	elseif color == "red" then
+		this.clTooltip(ele, "health")
+	elseif color == "blue" then
+		this.clTooltip(ele, "magicka")
+	elseif color == "green" then
+		this.clTooltip(ele, "fatigue")
+	end
+end
+
+--Ability Tooltips. displays class ability (spell) tooltips
 function this.abilityTooltip(ele, key, npc)
 	local spellObject
 	local type
@@ -767,17 +787,17 @@ function this.abilityTooltip(ele, key, npc)
 		tooltip:createDivider()
 
 		local typeLabel = tooltip:createLabel { text = type }
-		typeLabel.color = {1.0, 1.0, 1.0}
+		typeLabel.color = tables.colors["white"]
 
 		if string.match(typeLabel.text, "TRIGGER") then
 			--Green
-			typeLabel.color = { 0.2, 0.6, 0.2 }
+			typeLabel.color = tables.colors["green"]
 		elseif string.match(typeLabel.text, "COMBAT") then
 			--Red
-			typeLabel.color = { 0.6, 0.2, 0.2 }
+			typeLabel.color = tables.colors["red"]
 		elseif string.match(typeLabel.text, "TECHNIQUE") then
 			--Purple
-			typeLabel.color = { 0.38, 0.13, 0.36 }
+			typeLabel.color = tables.colors["dark_purple"]
 		elseif string.match(typeLabel.text, "AURA") then
 			--Blue
 			typeLabel.color = { 0.3, 0.3, 0.7 }
@@ -793,7 +813,11 @@ function this.abilityTooltip(ele, key, npc)
 	end)
 end
 
---CL Specific Tooltips
+--CL General Tooltips.
+--
+--1st: tes3uiElement
+--
+--2nd: string: tp/exp/health/magicka/fatigue/ignore_skill/skill:0/att:0
 function this.clTooltip(ele, type)
 	ele:register("help", function(e)
 		local tooltip = tes3ui.createTooltipMenu()
@@ -802,8 +826,8 @@ function this.clTooltip(ele, type)
 		contentElement.flowDirection = tes3.flowDirection.leftToRight
 		contentElement.paddingAllSides = 10
 
-		local icon
 		local label
+		local icon = nil
 
 		if type == "tp" then
 			icon = tooltip:createImage({ path = "textures\\companionLeveler\\tech_icon.tga" })
@@ -811,10 +835,79 @@ function this.clTooltip(ele, type)
 		elseif type == "exp" then
 			icon = tooltip:createImage({ path = "textures\\companionLeveler\\exp_icon.tga" })
 			label = tooltip:createLabel { text = "" .. tes3.findGMST("sLevelProgress").value .. ". Experience is gained through\nskill training, quests, and combat." }
+		elseif type == "health" then
+			icon = tooltip:createImage({ path = "Icons\\k\\Health.dds" })
+			label = tooltip:createLabel { text = "" .. tes3.findGMST("sHealthDesc").value .. "" }
+		elseif type == "magicka" then
+			icon = tooltip:createImage({ path = "Icons\\k\\Magicka.dds" })
+			label = tooltip:createLabel { text = "" .. tes3.findGMST("sMagDesc").value .. "" }
+		elseif type == "fatigue" then
+			icon = tooltip:createImage({ path = "Icons\\k\\Fatigue.dds" })
+			label = tooltip:createLabel { text = "" .. tes3.findGMST("sFatDesc").value .. "" }
+		elseif type == "ignore_skill" then
+			label = tooltip:createLabel { text = "Ignored skills are not trained at level up." }
+		elseif string.startswith(type, "skill:") then
+			for i = 0, 26 do
+				if type == "skill:" .. i .. "" then
+					local skill = tes3.getSkill(i)
+					label = tooltip:createLabel { text = "Based on " .. skill.name .. " " .. tes3.findGMST("sSkill").value .. "." }
+					break
+				end
+			end
+		elseif string.startswith(type, "att:") then
+			if type == "att:level" then
+				label = tooltip:createLabel { text = "Based on " .. tes3.findGMST("sLevel").value .. "." }
+			else
+				for i = 0, 7 do
+					if type == "att:" .. i .. "" then
+						label = tooltip:createLabel { text = "Based on " .. tes3.findGMST("sAttribute" .. tables.capitalization[i] .. "").value .. "." }
+					end
+				end
+			end
 		end
 
-		label.borderLeft = 10
+		if icon ~= nil then
+			label.borderLeft = 10
+		end
 	end)
 end
+
+--UI Ability Colors.
+--
+--1st: tes3uiElement
+--
+--2nd: int (the ability #)
+--
+--3rd: NPC? Boolean
+function this.abilityColor(ele, num, npc)
+	if config.abilityColors == true then
+		ele.widget.idle = tables.colors["white"]
+
+		local table
+
+		if npc == true then
+			table = tables.abTypeNPC
+		else
+			table = tables.abType
+		end
+
+		if string.match(table[num], "TRIGGER") then
+			--Green
+			ele.widget.idle = tables.colors["green"]
+		elseif string.match(table[num], "COMBAT") then
+			--Red
+			ele.widget.idle = tables.colors["red"]
+		elseif string.match(table[num], "TECHNIQUE") then
+			--Purple
+			ele.widget.idle = tables.colors["dark_purple"]
+		elseif string.match(table[num], "AURA") then
+			--UI Blue
+			ele.widget.idle = tables.colors["ui_blue"]
+		end
+	end
+end
+
+--pane sort function?
+--error handling?
 
 return this

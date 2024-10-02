@@ -420,18 +420,13 @@ event.register("jump", expTest)
 
 
 
+
 ----Planned Features----
-----gotta turn more triggered abilities into techniques/other stuff. more auras, better passives? warlord aura.
+----test all techniques lol
 ----make sure version control is updated
 ----remember to update readme
-----A class can negotiate better deals and get %off gold?
-----Training classes use TP to train you/themselves?
-----look at length of menus maybe make them dragframes if they too bige. ability list, special list
-----expensive revive tech, less expensive worse revive tech, beastmaster training tech, gathering tech?
 ----clean up some files, maybe check the modes to ensure all is good
-----another class gives tech points aside from warlock and sorcerer
-----clean up beast master
-
+---MCM/config control check
 
 
 
@@ -444,6 +439,7 @@ event.register("jump", expTest)
 --FIXED: modData code optimized a bit
 --FIXED: disabled right clicking out of character sheet
 --FIXED: partyTable was including player as a mobile instead of a reference
+--FIXED: fixed an issue where some classes weren't showing up in class change menu when using F&F_Ahead of the Classes.ESP.
 --CHANGED: removed redundant companion names in ability/spell/special lists, centered the titles
 --CHANGED: unused creature skills filler text in build mode changed from "N/A" to "--"
 --CHANGED: removed auto-calc from all spells
@@ -466,12 +462,18 @@ event.register("jump", expTest)
 --CHANGED: shipmaster reduces most travel costs by 25%.
 --CHANGED: archeologist is now a technique
 --CHANGED: beast master is now a technique
+--CHANGED: non-ideal stat color changed from purple to light blue because of technique bar being purple
+--CHANGED: master-at-arms/drillmaster/mage/archer/wise woman/merchant/guard/enforcer passives nerfed because of new training techs
+--CHANGED: normal 5 now gives dig technique
+--CHANGED: changed mentions of "yes", "no", and "cancel" to user GMST values
 --ADDED: Fiery, Frozen, Galvanic, Poisonous types.
 --ADDED: Scavenger, Vagabond, Ninja, Fisherman, and Arcanist abilities.
 --ADDED: Technique menu. Ninja, Stormcaller, Arcanist, Alchemist, Undead, Humanoid.
 --ADDED: Mastered classes and types are now colored yellow with a star indicator in Class/Type Change menus.
 --ADDED: Techniques are here, TP is equal to level and is regen on level up
 --ADDED: some helpful tooltips
+--ADDED: training session modData
+--ADDED: abilities colored by type in class change menu, controllable in MCM
 
 
 
@@ -490,6 +492,8 @@ event.register("jump", expTest)
 ----allow mix of build/exp/regular mode companions?
 ----maybe expand growth settings to skill/attribute leveling flags, other settings
 ----maybe provide a way for companions to train while away from the player or otherwise catch up to the player's level?
+----UI Overhaul, list learned abilities by type. search box for classes?
+----turn single character menu into multi-character party menu like final fantasy?
 ----more tooltips where needed
 ----trim tables maybe
 ----equip and unequip spells?
@@ -498,3 +502,7 @@ event.register("jump", expTest)
 ----tes3.getTrap/setTrap (Rogue?). rogue can use magicka to set a spell trap they have learned, tes3.showDialogueMenu (some sort of telepath?) maybe use distance check from necro
 ----friendly intervention compat? check for mod and require, add tele menu to technique/root menu
 ----traders TRADE random items for other items
+----A class can negotiate better deals and get %off gold?
+----a class teaches spells they know as a technique
+----expensive revive tech, less expensive worse revive tech, gathering tech? long lasting barrier tech
+----a class can recruit/find companions as a technique?

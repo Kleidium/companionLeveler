@@ -90,7 +90,7 @@ function spList.onSelect(id)
         local spell = tes3.getObject(id)
         spList.spell = spell
         tes3.messageBox({ message = "Forget " .. spell.name .. "?",
-            buttons = { "Yes", "No" },
+            buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = spList.forget })
     end
 end

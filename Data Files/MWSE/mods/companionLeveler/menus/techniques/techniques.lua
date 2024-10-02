@@ -4,7 +4,9 @@ local tables = require("companionLeveler.tables")
 local siphon = require("companionLeveler.menus.techniques.siphon")
 local artifice = require("companionLeveler.menus.techniques.artifice")
 local necro = require("companionLeveler.menus.techniques.necro")
+local rez = require("companionLeveler.menus.techniques.resurrect")
 local beast = require("companionLeveler.menus.techniques.beast")
+local train = require("companionLeveler.menus.techniques.train")
 local gem = require("companionLeveler.menus.techniques.gem")
 
 
@@ -23,10 +25,13 @@ function tech.createWindow(ref)
     tech.id_siphon = tes3ui.registerID("kl_tech_siphon_btn")
 	tech.id_artifice = tes3ui.registerID("kl_tech_artifice_btn")
 	tech.id_necro = tes3ui.registerID("kl_tech_necro_btn")
+	tech.id_rez = tes3ui.registerID("kl_tech_rez_btn")
 	tech.id_alch = tes3ui.registerID("kl_tech_alch_btn")
 	tech.id_ench = tes3ui.registerID("kl_tech_ench_btn")
 	tech.id_gem = tes3ui.registerID("kl_tech_gem_btn")
 	tech.id_dig = tes3ui.registerID("kl_tech_dig_btn")
+	tech.id_beast = tes3ui.registerID("kl_tech_beast_btn")
+	tech.id_train = tes3ui.registerID("kl_tech_train_btn")
 
 
     tech.log = logger.getLogger("Companion Leveler")
@@ -61,9 +66,7 @@ function tech.createWindow(ref)
 
 	--TP Bar
 	tech.tp = tech_block:createFillBar({ current = tech.modData.tp_current, max = tech.modData.tp_max, id = tech.id_tp })
-    tech.tp.widget.showText = true
-    tech.tp.widget.fillColor = { 0.50, 0.20, 0.66 } --purple
-    tech.tp.width = 180
+	func.configureBar(tech.tp, "standard", "purple")
     tech.tp.height = 21
 	tech.tp.borderBottom = 20
 
@@ -73,6 +76,11 @@ function tech.createWindow(ref)
     -- Main Buttons
 	if ref.object.objectType == tes3.objectType.creature then
 		--Creature Techniques
+		if tech.modData.abilities[1] == true then
+			--Normal Level 5
+			local button_dig = tech_block:createButton { id = tech.id_dig, text = "Dig" }
+			button_dig:register("mouseClick", function() tech.onDig("normal") end)
+		end
 		if tech.modData.abilities[10] == true then
 			--Undead Level 10
 			local msg = "Perform a Rite of Blood?\nTP Cost: 3"
@@ -90,6 +98,11 @@ function tech.createWindow(ref)
 			local msg = "Have " .. tech.ref.object.name .. " clear the skies?\nTP Cost: 2"
 			local button_sun = tech_block:createButton { id = tech.id_sun, text = "Clear Skies" }
 			button_sun:register("mouseClick", function() tech.onWeather(0, msg) end)
+		end
+		if tech.modData.abilities[36] == true then
+			--Spectral Level 20
+			local button_rez = tech_block:createButton { id = tech.id_rez, text = "Spectral Resurrection" }
+			button_rez:register("mouseClick", function() tech.menu:destroy() rez.createWindow(ref, "spectral") end)
 		end
 	else
 		--NPC Techniques
@@ -116,8 +129,8 @@ function tech.createWindow(ref)
 
 		if tech.modData.abilities[41] == true then
 			--Archeologist
-			local button_dig = tech_block:createButton { id = tech.id_dig, text = "Dig" }
-			button_dig:register("mouseClick", function() tech.onDig() end)
+			local button_dig = tech_block:createButton { id = tech.id_dig, text = "Archeological Dig" }
+			button_dig:register("mouseClick", function() tech.onDig("archeologist") end)
 		end
 
 		if tech.modData.abilities[42] == true then
@@ -130,6 +143,15 @@ function tech.createWindow(ref)
 			--Beastmaster
 			local button_beast = tech_block:createButton { id = tech.id_beast, text = "Train Creature" }
 			button_beast:register("mouseClick", function() tech.menu:destroy() beast.createWindow(ref) end)
+		end
+
+		for i = 1, #tables.abTypeNPC do
+			if tables.abTypeNPC[i] == "[TECHNIQUE]: TRAINING" and tech.modData.abilities[i] == true then
+				--Training Classes
+				local button_train = tech_block:createButton { id = tech.id_train, text = "Training" }
+				button_train:register("mouseClick", function() tech.menu:destroy() train.createWindow(ref) end)
+				break
+			end
 		end
 
 		if tech.modData.abilities[86] == true then
@@ -252,12 +274,19 @@ function tech.onServiceExit()
 	end
 end
 
---Archeologist
-function tech.onDig()
+--Archeologist/Normal Type
+function tech.onDig(type)
 	if tech.menu then
-        tes3.messageBox({ message = "Dig for artifacts?\nTP Cost: 3",
+		tech.digtype = type
+		if type == "archeologist" then
+			tes3.messageBox({ message = "Dig for artifacts?\nTP Cost: 3",
             buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = tech.onDigConfirm })
+		else
+			tes3.messageBox({ message = "Dig for items?\nTP Cost: 3",
+            buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
+            callback = tech.onDigConfirm })
+		end
     end
 end
 
@@ -268,15 +297,15 @@ function tech.onDigConfirm(e)
 		if tes3.player.cell.restingIsIllegal == false then
 			if func.spendTP(tech.ref, 3) == false then
 				return
-			else
-				--Dig
-				tech.menu:destroy()
-				tes3.fadeOut()
-				tech.fakeMenu = tes3ui.createMenu { id = "kl_fake_menu", fixedFrame = true }
-				tech.fakeMenu:createLabel({ text = "Digging..." })
-				tes3ui.enterMenuMode("kl_fake_menu")
-				timer.start({ type = timer.real, duration = 2, callback = tech.digResult })
 			end
+
+			--Dig
+			tech.menu:destroy()
+			tes3.fadeOut()
+			tech.fakeMenu = tes3ui.createMenu { id = "kl_fake_menu", fixedFrame = true }
+			tech.fakeMenu:createLabel({ text = "Digging..." })
+			tes3ui.enterMenuMode("kl_fake_menu")
+			timer.start({ type = timer.real, duration = 2, callback = tech.digResult })
 		else
 			tes3.messageBox("" .. tech.ref.object.name .. " cannot dig here.")
         end
@@ -290,46 +319,67 @@ function tech.digResult()
 	gameHour = gameHour + math.random(0.4, 1.0)
 	tes3.setGlobal('GameHour', gameHour)
 
-	if tes3.player.cell.isOrBehavesAsExterior then
-		--Roughly 60% Chance: Exterior
-		randNum = math.random(1, 45)
-		tech.log:debug("Exterior digsite detected.")
-	else
-		local cell = tes3.getPlayerCell()
-		local dwemer = 0
-		local other = 1
+	if tech.digtype == "normal" then
+		if math.random(1, 10) > 7 then
+			tes3.messageBox("" .. tech.ref.object.name .. " couldn't find anything.")
+			tech.log:debug("Dig roll failed.")
+		else
+			randNum = math.random(1, #tables.digList)
+			if randNum == 3 then
+				--Re roll once
+				randNum = math.random(1, #tables.digList)
+			end
+			local list = tables.digList[randNum]
+			local item = list[math.random(1, #list)]
 
-		--Check for Dwemeri Statics
-		for sta in cell:iterateReferences(tes3.objectType.static) do
-			if string.match(sta.id, "dwrv") or string.match(sta.id, "_dwe_") then
-				dwemer = dwemer + 1
+			--Dig Up Random Items
+			tes3.addItem({ item = item, reference = tes3.player })
+
+			local spoils = tes3.getObject(item)
+			tes3.messageBox("" .. tech.ref.object.name .. " dug something up for you. (" .. spoils.name .. ")")
+		end
+	else
+		if tes3.player.cell.isOrBehavesAsExterior then
+			--Roughly 60% Chance: Exterior
+			randNum = math.random(1, 45)
+			tech.log:debug("Exterior digsite detected.")
+		else
+			local cell = tes3.getPlayerCell()
+			local dwemer = 0
+			local other = 1
+
+			--Check for Dwemeri Statics
+			for sta in cell:iterateReferences(tes3.objectType.static) do
+				if string.match(sta.id, "dwrv") or string.match(sta.id, "_dwe_") then
+					dwemer = dwemer + 1
+				else
+					other = other + 1
+				end
+			end
+
+			if dwemer > other then
+				--Roughly 93% Chance + Increased Dwemeri Item Chance
+				randNum = math.random(13, 28)
+				tech.log:debug("Dwemer digsite detected.")
 			else
-				other = other + 1
+				--Roughly 87% Chance: Interior
+				randNum = math.random(1, 31)
+				tech.log:debug("Interior digsite detected.")
 			end
 		end
 
-		if dwemer > other then
-			--Roughly 93% Chance + Increased Dwemeri Item Chance
-			randNum = math.random(13, 28)
-			tech.log:debug("Dwemer digsite detected.")
+		--Dig
+		if randNum > 27 then
+			tes3.messageBox("" .. tech.ref.object.name .. " couldn't find anything.")
+			tech.log:debug("Dig roll failed.")
 		else
-			--Roughly 87% Chance: Interior
-			randNum = math.random(1, 31)
-			tech.log:debug("Interior digsite detected.")
+			--Find random artifacts
+			tes3.addItem({ item = tables.unearthedObjects[randNum], reference = tech.ref })
+
+			local spoils = tes3.getObject(tables.unearthedObjects[randNum])
+			tes3.messageBox("" .. tech.ref.object.name .. " dug something up. (" .. spoils.name .. ")")
+			tech.log:debug("Dig roll succeeded.")
 		end
-	end
-
-	--Dig
-	if randNum > 27 then
-		tes3.messageBox("" .. tech.ref.object.name .. " couldn't find anything.")
-		tech.log:debug("Dig roll failed.")
-	else
-		--Find random artifacts
-		tes3.addItem({ item = tables.unearthedObjects[randNum], reference = tech.ref })
-
-		local spoils = tes3.getObject(tables.unearthedObjects[randNum])
-		tes3.messageBox("" .. tech.ref.object.name .. " dug something up. (" .. spoils.name .. ")")
-		tech.log:debug("Dig roll succeeded.")
 	end
 
 	--Finish

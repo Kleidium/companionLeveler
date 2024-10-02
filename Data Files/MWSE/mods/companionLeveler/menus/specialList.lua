@@ -7,10 +7,6 @@ local specList = {}
 
 function specList.createWindow(reference)
     specList.id_menu = tes3ui.registerID("kl_specList_menu")
-    specList.id_label = tes3ui.registerID("kl_specList_label")
-    specList.id_title = tes3ui.registerID("kl_specList_ok")
-    specList.id_pane = tes3ui.registerID("kl_specList_pane")
-
 
     log = logger.getLogger("Companion Leveler")
     log:debug("Special List menu initialized.")
@@ -23,7 +19,7 @@ function specList.createWindow(reference)
     specList.modData = func.getModData(reference)
 
     --Create layout
-    local label = menu:createLabel { text = "Special Information:", id = specList.id_label }
+    local label = menu:createLabel { text = "Special Information:" }
     label.wrapText = true
     label.justifyText = "center"
     label.borderBottom = 12
@@ -98,7 +94,7 @@ function specList.createWindow(reference)
     button_block.childAlignX = 0.5
     button_block.borderTop = 12
 
-    local button_ok = button_block:createButton { id = specList.id_ok, text = tes3.findGMST("sOK").value }
+    local button_ok = button_block:createButton { text = tes3.findGMST("sOK").value }
 
     --Events
     menu:register(tes3.uiEvent.keyEnter, specList.onOK)
@@ -114,11 +110,11 @@ function specList.onSelect(id, type)
         if type == 1 then
             specList.obj = tes3.getObject(specList.modData.contracts[id])
             tes3.messageBox({ message = "Abandon contract for " .. specList.obj.name .. "?",
-            buttons = { "Yes", "No" },
+            buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = specList.abandon })
         else
             tes3.messageBox({ message = "Give up on the " .. specList.modData.bounties[id] .. " bounty?",
-            buttons = { "Yes", "No" },
+            buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = specList.abandon })
         end
     end

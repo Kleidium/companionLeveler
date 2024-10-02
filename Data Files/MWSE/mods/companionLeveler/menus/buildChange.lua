@@ -11,10 +11,6 @@ local buildModule = {}
 function buildModule.buildChange(reference)
     --Initialize IDs
     buildModule.id_menu = tes3ui.registerID("kl_build_menu")
-    buildModule.id_pane = tes3ui.registerID("kl_build_pane")
-    buildModule.id_pane2 = tes3ui.registerID("kl_build_pane2")
-    buildModule.id_input = tes3ui.registerID("kl_build_input")
-    buildModule.id_ok = tes3ui.registerID("kl_build_ok")
     buildModule.id_growth = tes3ui.registerID("kl_build_growth_btn")
     buildModule.id_root = tes3ui.registerID("kl_build_root_btn")
 
@@ -56,7 +52,7 @@ function buildModule.buildChange(reference)
 
     --Attribute Text
     local kl_att = att_block:createLabel({ text = "Attributes:", id = "kl_att_build" })
-    kl_att.color = { 1.0, 1.0, 1.0 }
+    kl_att.color = tables.colors["white"]
     kl_att.borderBottom = 13
     for i = 0, 7 do
         local atts = att_block:createLabel { text = "" .. tables.capitalization[i] .. " +", id = "aBuildL_" .. i .. "" }
@@ -125,7 +121,7 @@ function buildModule.buildChange(reference)
 
     --Combat Skills
     local kl_combat = combat_block:createLabel({ text = "Combat Skills:", id = "kl_combat_build" })
-    kl_combat.color = { 1.0, 1.0, 1.0 }
+    kl_combat.color = tables.colors["white"]
     kl_combat.borderBottom = 13
     for i = 0, 8 do
         local skills = combat_block:createLabel { text = "" .. tes3.skillName[i] .. " +", id = "sBuildL_" .. i .. "" }
@@ -202,7 +198,7 @@ function buildModule.buildChange(reference)
 
     --Magic Skills
     local kl_magic = magic_block:createLabel({ text = "Magic Skills:", id = "kl_magic_build" })
-    kl_magic.color = { 1.0, 1.0, 1.0 }
+    kl_magic.color = tables.colors["white"]
     kl_magic.borderBottom = 13
     for i = 9, 17 do
         local skills = magic_block:createLabel { text = "" .. tes3.skillName[i] .. " +", id = "sBuildL_" .. i .. "" }
@@ -279,7 +275,7 @@ function buildModule.buildChange(reference)
 
     --Stealth Skills
     local kl_stealth = stealth_block:createLabel({ text = "Stealth Skills:", id = "kl_stealth_build" })
-    kl_stealth.color = { 1.0, 1.0, 1.0 }
+    kl_stealth.color = tables.colors["white"]
     kl_stealth.borderBottom = 13
     for i = 18, 26 do
         local skills = stealth_block:createLabel { text = "" .. tes3.skillName[i] .. " +", id = "sBuildL_" .. i .. "" }
@@ -360,7 +356,7 @@ function buildModule.buildChange(reference)
     local button_growth = button_block:createButton { id = buildModule.id_growth, text = "Growth Settings" }
 	button_growth.borderRight = 302
 
-    local button_ok = button_block:createButton { id = buildModule.id_ok, text = tes3.findGMST("sOK").value }
+    local button_ok = button_block:createButton { text = tes3.findGMST("sOK").value }
 
     -- Events
     menu:register(tes3.uiEvent.keyEnter, buildModule.onOK)

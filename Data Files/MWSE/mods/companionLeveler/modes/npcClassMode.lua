@@ -34,6 +34,10 @@ function npcClassMode.companionLevelNPC(companions)
             func.calcEXP(companionRef)
             local storedLevel = modData.level
 
+            --Training Sessions Reset
+            modData.sessions_current = 0
+            log:debug("" .. name .. "'s training session limit reset.")
+
             --Class Data
             local class = companionRef.object.class
             if modData.class ~= class.id then

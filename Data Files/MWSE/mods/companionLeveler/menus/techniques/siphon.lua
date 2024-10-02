@@ -1,5 +1,6 @@
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
+local func = require("companionLeveler.functions.common")
 
 
 local siphon = {}
@@ -48,15 +49,15 @@ function siphon.createWindow(ref)
 	--Companion Values
     local comLabel = siphon_block:createLabel { text = "" .. ref.object.name .. "", id = siphon.id_comLabel }
     local comBar
+	local color
 	if ref.object.objectType == tes3.objectType.creature then
 		comBar = siphon_block:createFillBar({ current = ref.mobile.health.current, max = ref.mobile.health.base, id = siphon.id_comBar })
-		comBar.widget.fillColor = { 0.6, 0.2, 0.2 }
+		color = "red"
 	else
 		comBar = siphon_block:createFillBar({ current = ref.mobile.magicka.current, max = ref.mobile.magicka.base, id = siphon.id_comBar })
-		comBar.widget.fillColor = { 0.2, 0.2, 0.6 }
+		color = "blue"
 	end
-    comBar.widget.showText = true
-    comBar.width = 180
+	func.configureBar(comBar, "standard", color)
     comBar.borderBottom = 20
 	comBar.borderTop = 3
 
@@ -71,13 +72,12 @@ function siphon.createWindow(ref)
 	local pcBar
 	if ref.object.objectType == tes3.objectType.creature then
 		pcBar = siphon_block:createFillBar({ current = tes3.player.mobile.health.current, max = tes3.player.mobile.health.base, id = siphon.id_pcBar })
-		pcBar.widget.fillColor = { 0.6, 0.2, 0.2 }
+		color = "red"
 	else
 		pcBar = siphon_block:createFillBar({ current = tes3.player.mobile.magicka.current, max = tes3.player.mobile.magicka.base, id = siphon.id_pcBar })
-		pcBar.widget.fillColor = { 0.2, 0.2, 0.6 }
+		color = "blue"
 	end
-    pcBar.widget.showText = true
-    pcBar.width = 180
+   	func.configureBar(pcBar, "standard", color)
     pcBar.borderBottom = 20
 	pcBar.borderTop = 3
 

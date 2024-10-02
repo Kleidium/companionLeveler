@@ -672,3 +672,9 @@ abMod:createOnOffButton {
     description = "If this is enabled, all abilities will be shown in the character sheet regardless of whether or not the companion has learned them. Unlearned abilities are darker in color.\n\nDefault: Off",
     variable = mwse.mcm.createTableVariable { id = "showUnlearned", table = config }
 }
+
+abMod:createOnOffButton {
+    label = "Ability UI Colors",
+    description = "If this is enabled, all NPC classes will be displayed color coded by their ability type when seen in the Class Change menu.\n\nPassive: White\nTriggered: Green\nCombat: Red\nTechnique: Purple\nAura: Blue\n\nDefault: Off",
+    variable = mwse.mcm.createTableVariable { id = "abilityColors", table = config }
+}

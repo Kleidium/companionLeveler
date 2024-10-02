@@ -133,6 +133,7 @@ function gem.createWindow(ref)
 	--Enchantments
 	local ench_title = ench_block:createLabel({ text = "Cost Reduction:" })
 	ench_title.color = { 1.0, 1.0, 1.0 }
+	func.clTooltip(ench_title, "skill:9")
 	ench_block:createLabel { text = "Magicka: " .. gem.mgkReduction .. "%", id = "kl_gem_mgk_e" }
 
 	--Totals
