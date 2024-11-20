@@ -2037,7 +2037,7 @@ end
 
 --Ignition #68----------------------------------------------------------------------------------------------------------------------
 function this.ignition(e)
-    if config.triggeredAbilities == false then return end
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Ignition triggered.")
 
@@ -2055,7 +2055,7 @@ end
 
 --Permafrost #72--------------------------------------------------------------------------------------------------------------------
 function this.permafrost(e)
-    if config.triggeredAbilities == false then return end
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Permafrost triggered.")
 
@@ -2073,7 +2073,7 @@ end
 
 --Voltaic Grasp #76-----------------------------------------------------------------------------------------------------------------
 function this.voltaic(e)
-    if config.triggeredAbilities == false then return end
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Voltaic Grasp triggered.")
 
@@ -2093,7 +2093,7 @@ end
 
 --Venomous Kiss #80-----------------------------------------------------------------------------------------------------------------
 function this.venomous(e)
-    if config.triggeredAbilities == false then return end
+    if config.combatAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Venomous Kiss triggered.")
 
