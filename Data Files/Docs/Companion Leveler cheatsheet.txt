@@ -1,4 +1,4 @@
---------------------------------------------NPC Specialization Bonuses----------------------------------
+--------------------------------------------NPC Specialization Bonuses--------------------------------
 
 Stealth: Agility, Speed, Personality, Luck. 
 Acrobatics, Light Armor, Marksman, Sneak, Hand to Hand, Short Blade, Mercantile, Speechcraft, Security.
@@ -11,16 +11,16 @@ Unarmored, Illusion, Alchemy, Conjuration, Enchant, Alteration, Destruction, Mys
 
 
 
------------------------------------------------Creature Abilities---------------------------------------
+
+-----------------------------------------------Creature Abilities------------------------------------
 
 Normal:
 
 (Innate +1 Agility per level)
 
-[Level 5] Instinct: Fortify Attack 7 pts, Sanctuary 7 pts.
+[Level 5] Instinct: Fortify Attack 5 pts, Sanctuary 5 pts.
 [Level 10] Beast Blood: Resist Common Disease 75%, Resist Poison 25%, Resist Paralysis 25%.
 [Level 15] Greater Instinct: Fortify Attack 10 pts, Sanctuary 10 pts, Fortify Luck 10 pts.
-SPECIAL: Detects nearby creatures through the use of heightened instincts. Detect Animal 40pts and Sanctuary 3 pts for the player.
 [Level 20] Evolutionary Stamina: Constant Restore Fatigue 2 pts/sec. Fortify Endurance 20 pts. Fortify Speed 10 pts. Swift Swim 10 pts.
 
 
@@ -29,8 +29,7 @@ Daedra:
 [Level 5] Taste of Freedom: Feather 25 pts.
 [Level 10] Daedric Skin: Resist Normal Weapons 10%, Resist Magicka 10%.
 [Level 15] Sinful Freedom: Feather 25 pts, Slowfall 15 pts, Reflect 5%.
-[Level 20] Dark Barrier: Fire/Frost/Lightning Shield 3pts each.
-SPECIAL: Channels energy from Oblivion to erect a barrier around the party. Fire/Frost/Lightning Shield 3pts each for the entire party.
+[Level 20] Dark Barrier: Fire Shield 5 pts, Frost Shield 5 pts, Lightning Shield 5 pts.
 
 
 Undead:
@@ -39,19 +38,16 @@ Undead:
 [Level 10] Ancestral Memory: Fortify Willpower 10 pts. Fortify Intelligence 10 pts. Fortify Personality 10 pts. Fortifty Strength 5 pts.
 [Level 15] Still Breath: Water Breathing. Fortify Endurance 15 pts. Fortify Fatigue 25 pts.
 [Level 20] Total Decay: Resist Frost 25%, Resist Shock 25%, Resist Poison 25%, Resist Paralysis 25%, Resist Normal Weapons 25%.
-SPECIAL: When struck down, has a chance to rise again after death at no cost. This chance is calculated BEFORE soul gems are used for the Spectral Type ability.
-Chance is equal to (Creature Level + 1-20).
 
 
 Humanoid:
 
-(Innate +10% additional spell learning chance)
+(Innate +8% additional spell learning chance)
 
 [Level 5] Strange Dream: Fortify Magicka 20 pts.
 [Level 10] Abnormal Growth: Constant Restore Strength 1 pt/sec. Fortify Strength 5 pts. Resist Common Disease 25%. Resist Blight Disease 25%.
 [Level 15] Painfully Awake: Fortify Maximum Magicka 2.5x INT, Weakness to Corprus Disease 20%.
 [Level 20] Dream Mastery: Spell Absorption 15%, Resist Blight Disease 50%.
-SPECIAL: The party hears a distant melody. Resist Fire 7%, Resist Blight Disease 25%, Weakness to Corprus 5% for the entire party.
 
 
 Centurion:
@@ -62,7 +58,6 @@ Centurion:
 [Level 10] Insulated Exoskeleton: Resist Fire 50%. Fortify Health 25 pts.
 [Level 15] Augmented Grip: Fortify Attack 5 pts. Fortify Strength 20 pts.
 [Level 20] Dwemer Refractors: Resist Shock 50%. Fortify Endurance 25 pts. Reflect 10%.
-SPECIAL: Projects a static field around the party. Reflect 2% and Resist Shock 3% for the entire party.
 
 
 Spriggan:
@@ -71,7 +66,6 @@ Spriggan:
 
 [Level 5] Sap Secretion: Resist Frost 10%, Resist Poison 25%.
 [Level 10] Jade Wind: Sanctuary 15 pts. Fortify Luck 15 pts.
-SPECIAL: Winds of fortune fortify and restore the party's Luck. Fortify Luck 3pts and Constant Restore Luck 1pt/sec for the entire party.
 [Level 15] Synthesis: Constant Restore Health 1pt/sec. Constant Restore Fatigue 1pt/sec. Fortify Endurance 5 pts.
 [Level 20] Overgrowth: Constant Restore Health 1pt/sec. Constant Restore Magicka 1pt/sec. Resist Frost 25%. Resist Poison 25%.
 
@@ -82,19 +76,17 @@ Goblin:
 
 [Level 3] Quickness: Fortify Speed 10 pts.
 [Level 5] Springstep: Fortify Fatigue 10 pts. Sanctuary 5 pts. Jump 10 pts.
-SPECIAL: Jump and Feather 10pts for the entire party.
 [Level 7] Enduring Quickness: Constant Restore Speed 1pt/sec. Swift Swim 10 pts.
 [Level 10] Feral Parrying: Resist Normal Weapons 5%. Resist Magicka 5%. Resist Paralysis 5%.
 [Level 13] Chameleon Skin: Fortify Attack 5 pts. Chameleon 10 pts.
 [Level 15] Boon of Muluk: Fortify Strength 5 pts. Fortify Endurance 10 pts. Fortify Luck 10 pts.
 [Level 17] Freedom of Movement: Feather 25 pts. Swift Swim 15 pts. Jump 15 pts. Sanctuary 5 pts.
-SPECIAL: Fortify Speed 5pts and Resist Paralysis 25% for the entire party.
 [Level 20] Perfect Dodge: Sanctuary 20 pts. Fortify Attack 5 pts. Fortify Agility 10 pts.
 
 
 Domestic:
 
-(Innate +1 Personality per level. Learns no abilities, but has a chance to increase player Luck by 1 at level up! Based on Personality + Domestic Type level.)
+(Learns no abilities, but has a chance to increase player Luck by 1 at level up! Based on Personality + Domestic Type level.)
 
 
 Spectral:
@@ -102,8 +94,7 @@ Spectral:
 (Innate +1 Willpower per level. Learns to resurrect themselves.)
 
 [Level 5] Unafraid: Rally Creature 25 pts.
-[Level 10] Spectral Will: Fortify Willpower 5 pts. Constant Restore Willpower 1pt/sec. Resist Paralysis 25%. 
-SPECIAL: Creatures with this ability return to life at the cost of a grand soul gem and -2 to all Attributes.
+[Level 10] Spectral Will: Fortify Willpower 5 pts. Constant Restore Willpower 1pt/sec. Resist Paralysis 25%. SPECIAL: Creatures with this ability return to life at the cost of a grand soul gem and -2 to all Attributes.
 [Level 15] Aetherial Link: Fortify Maximum Magicka 1.0x INT, Constant Restore Magicka 1pt/sec, Spell Absorption 3%.
 [Level 20] Incorporeal: Fortify Agility 5 pts, Resist Normal Weapons 30%, Resist Poison 25%, Resist Fire 10%, Resist Frost 10%, Resist Shock 10%, Resist Magicka 5%, Chameleon 25%.
 
@@ -115,17 +106,15 @@ Insectile:
 [Level 5] Entomic: Resist Poison 25%, Resist Paralysis 15%.
 [Level 10] Jointed Legs: Fortify Speed 10 pts, Fortify Agility 5 pts, Sanctuary 10 pts.
 [Level 15] Venomous Mandibles: Fortify Strength 10 pts, Fortify Attack 10 pts, Resist Poison 25%.
-[Level 20] Pheromone: Resist Paralysis 25%, Constant Cure Poison.
-SPECIAL: Creatures with this ability cause nearby insects to be passive to the player.
+[Level 20] Pheromone: Resist Paralysis 25%, Constant Cure Poison. SPECIAL: Creatures with this ability cause nearby insects to be passive to the player.
 
 
 Draconic:
 
-(3 Major Attributes, no Random Attribute. Reduced spell learning chance. Learns to fly.)
+(3 Major Attributes, no Random Attribute. -8% spell learning chance. Learns to fly.)
 
 [Level 5] Dragon Scales: Resist Fire 15%, Resist Magicka 5%.
 [Level 10] Ancient Memory: Fortify Intelligence 10 pts, Fortify Personality 10 pts, Constant Restore Intelligence 1pt/sec.
-SPECIAL: A weak thu'um allows attacks to deal bonus damage. Higher Personality increases damage chance and amount.
 [Level 15] Burning Grip: Fortify Strength 10 pts, Fortify Attack 10 pts, Fire Shield 5 pts.
 [Level 20] Dragonflight: Fortify Speed 10 pts, Feather 20 pts, Levitate 50 pts.
 
@@ -136,57 +125,8 @@ Brute:
 
 [Level 5] Durable: Fortify Health 15 pts, Fortify Fatigue 15 pts.
 [Level 10] Short Temper: Fortify Strength 5 pts, Fortify Endurance 5 pts, Fortify Attack 5 pts, Rally Creature 5 pts.
-SPECIAL: Increases morale of the party. Fortify Attack 3pts, Rally Creature/Humanoid 12pts for the entire party.
 [Level 15] Stubborn Muscle: Constant Restore Strength 2pts/sec, Constant Restore Endurance 2pts/sec, Resist Common Disease 10%, Resist Blight Disease 10%, Resist Frost 10%, Resist Normal Weapons 10%.
 [Level 20] Fortify Strength 25 pts, Fortify Health 30 pts, Rally Creature 20 pts, Blind 10%.
-
-
-Aquatic:
-
-(Learns to confer a water breathing aura.)
-
-[Level 5] Buoyancy: Swift Swim 20pts.
-[Level 10] Gills: Water Breathing. Resist Poison 10%. Resist Paralysis 5%.
-[Level 15] Vaporizing Aura: Resist Fire 25%. Sanctuary 10pts. Frost Shield 7pts.
-[Level 20] Aquatic Ascendancy: Fortify Agility 10pts. Resist Frost 15%. Fortify Maximum Magicka 0.5xINT.
-SPECIAL: Confers an aura that allows the party to breathe water. Water Breathing and Swift Swim 15pts for the entire party.
-
-
-Avian:
-
-(Quickly learns to fly and learns to distract enemies while attacking.)
-
-[Level 5] Avian Eye: Fortify Luck 3 pts. Fortify Attack and Sanctuary 5 pts.
-[Level 10] Take to the Skies: Fortify Speed 10 pts. Levitate 75 pts. Feather 20 pts.
-[Level 15] Misdirection: Fortify Attack and Fortify Agility 10 pts.
-SPECIAL: Attacks have a chance to blind enemies. Blind 6-20 pts for 6 sec.
-[Level 20] Mental Misstep: Reflect 5%. Resist Magicka 10%.
-SPECIAL: Attacks have a chance to unfocus enemies. Sound 6-20 pts for 6 sec.
-
-
-Bestial:
-
-(Learns to assert dominance over creatures, causing them to flee.)
-
-[Level 5] Thickened Pelage: Fortify Endurance 5 pts. Resist Frost 10%.
-[Level 10] Beast Within: Fortify Strength, Endurance, Agility, and Speed 5 pts. Rally Creature 5 pts.
-[Level 15] Natural Selection: Fortify Attack 7 pts. Constant Restore Endurance and Speed 1pt/sec. Resist Frost 10%. Resist Common Disease 25%. Resist Blight Disease 5%.
-[Level 20] Dominance: Fortify Strength, Endurance, Agility, and Speed 5 pts. Rally Creature 50pts. Resist Normal Weapons and Frost 5%.
-SPECIAL: May cause creatures to flee. Higher Personality increases trigger chance. Higher Strength increases potency of demoralize.
-
-
-Impish:
-
-(Innate +1 Intelligence per level. Learns all types of magic. Health growth reduced by 50%. Auras.)
-
-[Level 5] Arcane Infused: Resist Fire, Frost, Shock, and Magicka 5%.
-[Level 10] Alchemical Composition: Resist Common Disease, Blight Disease, Paralysis, and Poison 7%. Feather 7 pts.
-SPECIAL: Fortify Alchemy and Enchant 5 pts for the entire party.
-[Level 15] Mysterious Aura: Fortify Maximum Magicka 1.0xINT. Light 3 pts.
-SPECIAL: Detect Enchantment 7 ft. Fortify Alteration, Conjuration, Destruction, Illusion, Mysticism, and Restoration 5 pts for the entire party.
-[Level 20] Aura of Manasponge: Resist Fire, Frost, Shock, and Magicka 10%. Spell Absorption 5%.
-SPECIAL: Resist Fire, Frost, Shock, and Magicka 5% for the entire party. Spell Absorption 3% for the entire party.
-
 
 
 ---------------------------------------------Creature Spell Tables-------------------------------------------------
@@ -592,100 +532,10 @@ Insectile Table = {
 }
 
 
-Draconic types learn all NPC spells below, but at a slow rate. Spells are rolled every other level!
+Draconic types learn all NPC spells below, but at a slow rate. (-8%)
 
 
 Brute types learn no spells.
-
-
-Aquatic Table = {
-	[1] = "Cure Poison",
-	[2] = "Quicksilver",
-	[3] = "Nimbleness",
-	[4] = "Vigor",
-	[5] = "Vitality",
-	[6] = "Mother's Kiss",
-	[7] = "Burden",
-	[8] = "Frost Barrier",
-	[9] = "First Barrier",
-	[10] = "Righteousness",
-	[11] = "Frostbite",
-	[12] = "Black Hand",
-	[13] = "Crushing Burden",
-	[14] = "Strong Frost Shield",
-	[15] = "Third Barrier",
-	[16] = "Fourth Barrier",
-	[17] = "Fifth Barrier",
-	[18] = "Strong Shock Shield",
-	[19] = "Turn of the Wheel",
-	[20] = "Troll Strength",
-	[21] = "Divine Aid",
-	[22] = "Blood Gift",
-	[23] = "Flameguard",
-	[24] = "Frostguard",
-	[25] = "Magickguard",
-	[26] = "Poisonguard",
-	[27] = "Stamina",
-	[28] = "Rapid Regenerate",
-	[29] = "Regenerate",
-	[30] = "Hearth Heal",
-	[31] = "Clench",
-	[32] = "Heartbite",
-	[33] = "Hornhand",
-	[34] = "Poisonous Touch",
-	[35] = "Sanctuary",
-	[36] = "Paralysis",
-	[37] = "Dire Weary",
-	[38] = "Restore Agility",
-	[39] = "Restore Speed",
-	[40] = "Restore Luck",
-	[41] = "Restore Strength",
-	[42] = "Frozen Aegis",
-	[43] = "Galvanic Aegis",
-	[44] = "Invisibility",
-	[45] = "Enduring Noise"
-}
-
-
-Avian Table = {
-	[1] = "Crying Eye",
-	[2] = "Demoralize Beast",
-	[3] = "Frenzy Beast",
-	[4] = "Frenzying Touch",
-	[5] = "Paralysis",
-	[6] = "Silence",
-	[7] = "Earwig",
-	[8] = "Burden",
-	[9] = "Alad's Caliginy",
-	[10] = "Sanctuary",
-	[11] = "Far Silence",
-	[12] = "Cruel Noise",
-	[13] = "Dire Noise",
-	[14] = "Enduring Noise",
-	[15] = "Enduring Silence",
-	[16] = "Heavy Burden",
-	[17] = "Weary",
-	[18] = "Medusa's Gaze",
-	[19] = "Debilitate"
-}
-
-
-Bestial Table = {
-	[1] = "Call Wolf",
-	[2] = "Call Bear",
-	[3] = "Clench",
-	[4] = "Fleabite",
-	[5] = "Frostbite",
-	[6] = "Emasculate",
-	[7] = "Intimidate",
-	[8] = "Troll Strength",
-	[9] = "Quicksilver",
-	[10] = "Vitality"
-}
-
-
-Impish types learn all NPC spells below.
-
 
 
 ------------------------------------------------------NPC Spell Tables-------------------------------------------------------------
@@ -875,7 +725,7 @@ Mysticism Table = {
 }
 
 
-------------------------------------------NPC Abilities------------------------------------------------------
+----------------------------------------NPC Abilities---------------------------------------
 
 (*Requires Ahead of the Classes by Danae)
 
@@ -893,14 +743,12 @@ Special: Occasionally brews potions. Higher Alchemy increases brew chance and po
 [APOTHECARY] Alchemical Resistance: Fortify Alchemy 10 pts, Resist Poison 25%, Resist Paralysis 25%, Resist Common Disease 25%.
 Special: Occasionally brews potions. Higher Alchemy increases brew chance and potion quality.
 
-*[ARCANE ARCHER] Arcane Augmentation: Fortify Marksman 5 pts, Fortify Attack 5 pts, Resist Magicka 5%.
-Special: Deals extra non-elemental magic damage with ranged attacks. Higher Enchant increases damage bonus.
+*[ARCANE ARCHER] Arcane Augmentation: Fortify Marksman 10 pts, Fortify Attack 20 pts, Resist Magicka 7%.
 
-*[ARCANE KNIGHT] Runic: Spell Absorption 5%.
-Special: Deals extra non-elemental magic damage with melee attacks. Higher Enchant increases damage bonus.
+*[ARCANE KNIGHT] Runic: Resist Magicka 25%, Spell Absorption 5%.
 
 *[ARCHEOLOGIST] Archeological Inclination: Fortify Intelligence 5 pts, Fortify Armorer 5 pts, Fortify Security 5 pts.
-Special: Occasionally digs up trash...or treasure. Only finds items outside of town.
+Special: Occasionally digs up trash...or treasure.
 
 [ARCHER] Sharp Eye: Fortify Marksman 10 pts, Fortify Attack 10 pts, Sanctuary 7 pts.
 
@@ -919,8 +767,7 @@ Special: Occasionally provides baked goods/jelly/eggs to the player.
 *[BANKER] Accountant: Fortify Intelligence 5 pts, Fortify Mercantile 5 pts, Feather 5 pts.
 Special: Occasionally generates interest on carried gold. Interest rate increases with higher Mercantile.
 
-[BARBARIAN] Inner Rage: Fortify Strength 7 pts, Fortify Athletics 10 pts, Fortify Attack 7 pts, Resist Normal Weapons 10%.
-Special: Barbarians become enraged when wounded. Higher Endurance increases rage frequency.
+[BARBARIAN] Inner Rage: Fortify Strength 10 pts, Fortify Athletics 10 pts, Fortify Attack 10 pts, Resist Normal Weapons 15%.
 
 [BARD] Jack-of-all-Trades: Fortify Strength 5 pts, Fortify Agility 5 pts, Fortify Intelligence 5 pts, Fortify Personality 5 pts, Fortify Speechcraft 10 pts, Fortify Illusion 5 pts, Fortify Long Blade 5 pts.
 Special: Occasionally sings an inspiring song, which fortifies a random attribute for the entire party. Effectiveness of song increases with level, duration increases with higher Speechcraft.
@@ -968,9 +815,6 @@ Special: Diresingers sing songs of woe to exhaust their enemies, damaging their 
 [DRILLMASTER] Gifted Instructor: Fortify Athletics, Acrobatics, Block, Hand-to-Hand, Unarmored 10 pts. Resist Normal Weapons 10%.
 Special: Occasionally provides skill experience to the player in 1 Major Skill and 1 Minor Skill from the Drillmaster class.
 
-*[DRUID] Natural Communion: Fortify Agility and Willpower 5 pts. Fortify Alchemy, Athletics, Conjuration 5pts. Resist Poison and Paralysis 10%.
-Special: Sometimes turns enemy creatures into temporary allies. Higher Willpower increases charm chance and potency.
-
 [ENCHANTER] Power Reservoir: Fortify Enchant 10 pts, Fortify Maximum Magicka 1.0xINT.
 Special: Occasionally fashions soul gems. Higher Enchant increases chance and soul gem quality.
 
@@ -992,7 +836,7 @@ Special: Occasionally gathers plants. Does not stack with Farmer.
 [GUARD] Arm of the Law: Fortify Strength and Endurance 7 pts; Fortify Heavy Armor, Medium Armor, Athletics 10 pts; Fortify Long Blade and Block 5 pts.
 
 [HEALER] Blessed: Resist Common Disease 25%, Resist Blight Disease 15%, Resist Poison 15%.
-Special: Confers a regenerating aura to the party as long as Restoration is 75 or above.
+Special: Occasionally provides a regenerative buff to the player. Higher Restoration increases duration of buff.
 
 [HERDER] Tranquility: Fortify Personality 5 pts, Fortify Willpower 5 pts, Fortify Blunt 5 pts, Rally Humanoid 15 pts.
 Special: The mere presence of a Herder will placate most guars and netch. Even aggressive guars and netch will now be passive.
@@ -1000,18 +844,13 @@ Special: The mere presence of a Herder will placate most guars and netch. Even a
 *[HERMIT] Introspection: Fortify Intelligence and Willpower 10 pts, Fortify Unarmored and Security 10 pts, Constant Restore Endurance and Willpower 1pt/sec.
 
 [HUNTER] Predator: Fortify Agility 10 pts, Fortify Sneak 20 pts, Fortify Marksman 10 pts, Resist Poison 10%.
-Special: Occasionally provides random meat and hides outside of town. Does not stack with Poacher.
-
-*[INCUBUS] Lady Killer: Fortify Personality 7 pts. Fortify Alteration and Destruction 7 pts. Resist Normal Weapons 5%.
-Special: Incubi deal extra damage to humanoids and drain the health of females. Personality increases trigger chance. Mysticism increases damage/drain. Resisted by Willpower.
+Special: Occasionally provides random meat and hides.
 
 *[JESTER] Jester's Privilege: Fortify Personality and Luck 7 pts, Fortify Speechcraft and Acrobatics 7 pts.
 Special: Provokes enemies in combat, draining their Agility and Luck. Cannot be stacked. Effectiveness increases with level (up to 30), higher Speechcraft increases chance and duration. Resisted by target Willpower.
 
 [JOURNALIST] Field Journalist: Fortify Personality 5 pts, Fortify Speechcraft 10 pts, Fortify Athletics and Sneak 7 pts.
 Special: Occasionally writes an article that increases reputation. Higher Speechcraft increases chance of reputation gain.
-
-*[JUGGLER] Sleight of Hand: Fortify Agility and Speed 10 pts. Fortify Acrobatics, Hand-to-Hand, and Marksman 7 pts. Fortify Unarmored 5 pts. Feather 10 pts.
 
 [KING] Royal Presence: Fortify Intelligence, Personality, Willpower 5 pts; Fortify Speechcraft 10 pts, Fortify Mercantile 5 pts, Restore Willpower 1pt/sec.
 
@@ -1028,7 +867,7 @@ Special: Occasionally provides skill experience to the player in 1 Major Skill a
 Special: Occasionally trains player in Mercantile. Higher Mercantile increases training chance.
 
 [MINER] Perseverance: Fortify Endurance 20 pts, Fortify Axe 7 pts, Feather 7 pts.
-Special: Occasionally gathers ebony or glass ore outside of town. Higher Endurance increases chance of gathering ore.
+Special: Occasionally gathers ebony or glass ore. Higher Endurance increases chance of gathering ore.
 
 [MONK] Fleet of Body: Fortify Speed 10 pts, Fortify Unarmored 10 pts, Fortify Hand-to-Hand 7 pts, Sanctuary 10 pts, Swift Swim 5 pts, Resist Paralysis 10%.
 
@@ -1042,14 +881,14 @@ Special: Occasionally raises an undead minion for free. Higher Conjuration incre
 [ORDINATOR] Servant of the Three: Fortify Health, Magicka, Fatigue 25 pts; Feather 15 pts, Resist Magicka and Blight Disease 5%.
 
 *[ORE MINER] Prospector: Fortify Endurance 15 pts, Fortify Willpower 10 pts, Fortify Axe 7 pts, Feather 7 pts.
-Special: Occasionally gathers ebony or glass ore outside of town. Higher Endurance increases chance of gathering ore. Does not stack with Miner.
+Special: Occasionally gathers ebony or glass ore. Higher Endurance increases chance of gathering ore. Does not stack with Miner.
 
 *[PALADIN] Benediction: Fortify Health 30 pts, Constant Restore Health 1pt/sec, Rally Humanoid 5 pts.
 
 [PAUPER] Lucky: Fortify Luck 25 pts, Fortify Sneak 7 pts.
 
 [PAWNBROKER] Pawn Star: Fortify Mercantile 15 pts, Fortify Speechcraft and Armorer 7 pts.
-Special: Occasionally spends their gold to purchase random items in town. Higher Mercantile increases chance of purchase and reduces price.
+Special: Occasionally spends their gold to purchase random items. Higher Mercantile increases chance of purchase and reduces price.
 
 *[PEARL DIVER] Deep Diver: Water Breathing, Swift Swim 5 pts, Fortify Fatigue 10 pts.
 Special: Occasionally dredges up pearls. Higher Luck increases chance of finding a pearl.
@@ -1060,7 +899,7 @@ Special: Occasionally dredges up pearls. Higher Luck increases chance of finding
 Special: Plagueheralds spread their diseases to enemies in battle. Diseases cannot stack. Higher Alchemy, Destruction, and Level increase chance of disease spread. Resisted by enemy Endurance.
 
 *[POACHER] Flayer: Fortify Agility 10 pts; Fortify Short Blade, Marksman, Sneak 10 pts; Fortify Athletics 5 pts.
-Special: Occasionally provides random meat and hides outside of town. Does not stack with Hunter.
+Special: Occasionally provides random meat and hides.
 
 *[POET] Soliloquy: Fortify Personality 10 pts, Fortify Speechcraft 10 pts, Constant Restore Personality and Speechcraft 1pt/sec.
 Special: Occasionally trains player in Speechcraft. Higher Speechcraft increases training chance.
@@ -1076,9 +915,6 @@ Special: Occasionally prepares bar drinks.
 *[PYROMANCER] Fire Keeper: Fortify Destruction 15 pts, Fire Shield 10 pts, Resist Fire 25%.
 
 *[QUEEN] Regality: Fortify Intelligence, Personality, Luck 7 pts; Fortify Speechcraft 10 pts, Fortify Mercantile 5 pts, Constant Restore Personality 1pt/sec.
-
-*[RANGER] Experienced Tracker: Fortify Agility and Intelligence 5 pts. Fortify Light Armor, Marksman, Sneak 5 pts. Resist Common Disease and Poison 5%.
-Special: Rangers detect nearby creatures. Higher Intelligence increases distance at which creatures are detected.
 
 [ROGUE] Natural Cunning: Fortify Luck and Personality 7 pts, Fortify Speechcraft and Sneak 7 pts, Fortify Attack 7 pts, Sanctuary 7 pts.
 
@@ -1126,9 +962,6 @@ Special: Occasionally shares smuggling profits. Higher Security increases amount
 
 *[STORMCALLER] Maelstrom Accord: Fortify Destruction 15 pts, Lightning Shield 10 pts, Resist Shock 25%.
 
-*[SUCCUBUS] Maneater: Fortify Personality 7 pts. Fortify Conjuration and Destruction 7 pts. Resist Magicka 5%.
-Special: Succubi deal extra damage to humanoids and drain the magicka of males. Personality increases trigger chance. Illusion increases damage/drain. Resisted by Willpower.
-
 *[SUMMONER] Mark of the Conjurer: Fortify Willpower 10 pts, Fortify Intelligence 5 pts, Fortify Conjuration 10 pts, Fortify Speechcraft 5 pts.
 Special: Occasionally summons a Daedric minion for free. Higher Conjuration increases duration and quality of minions.
 
@@ -1136,10 +969,10 @@ Special: Occasionally summons a Daedric minion for free. Higher Conjuration incr
 Special: Thaumaturges reduce enemy elemental resistances. Cannot be stacked. Higher Willpower increases duration and potency.
 
 [THIEF] Dipper: Fortify Luck and Speed 10 pts, Fortify Sneak and Security 10 pts, Fortify Athletics and Acrobatics 5 pts, Sanctuary 5 pts.
-Special: Occasionally steals an item while in town. Higher Sneak, Security, and Level increase chance of theft.
+Special: Occasionally steals an item. Higher Sneak, Security, and Level increase chance of theft.
 
 [TRADER] Give and Take: Fortify Personality 5 pts, Fortify Mercantile and Speechcraft 10 pts, Feather 5 pts.
-Special: Occasionally spends their gold to purchase random items in town. Higher Mercantile increases chance of purchase and reduces price. Cannot stack with Pawnbroker.
+Special: Occasionally spends their gold to purchase random items. Higher Mercantile increases chance of purchase and reduces price. Cannot stack with Pawnbroker.
 
 *[VAMPIRE HUNTER] Vampiric Nemesis: Fortify Agility, Intelligence, Willpower 5 pts; Fortify Short Blade, Hand-to-Hand, Marksman 5pts; Resist Common Disease 25%.
 Special: Whenever a Vampire is encountered, companions with this ability enter a frenzy and receive powerful temporary buffs. These buffs cannot stack.
@@ -1160,4 +993,4 @@ Special: Whenever a Vampire is encountered, companions with this ability enter a
 
 [WITCH HUNTER] Hatred for the Profane: Resist Poison 10%. Resist Fire, Frost, Shock, Magicka 5%. Reflect 3%.
 
--------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------

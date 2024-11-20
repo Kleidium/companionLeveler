@@ -15,7 +15,7 @@ local function createPage(label)
         noScroll = false,
     }
     page.sidebar:createInfo {
-        text = "                        [Companion Leveler]\n\nThis mod allows both NPC and Creature companions to level up based on their Class/Creature Type (Class Mode) or specific player selected build settings (Build Mode). \n\nCompanions level up when the player does (Default) or through experience gain (Experience Mode). \n\nIn Class Mode, you also have the choice of changing the Class/Creature Type your companions level as, or gaining Faction/Mentor and Specialization/Racial bonuses at a small chance. In Build Mode, the player chooses which attributes and skills their followers level and by how much.\n\nNPCs also have a chance of learning new spells when they train a spell school skill. Creatures have a lower chance to learn spells every level up."
+        text = "                        [Companion Leveler]\n\nThis mod allows both NPC and Creature companions to level up based on their Class/Creature Type (Class Mode) or specific player selected build settings (Build Mode). \n\nCompanions level up when the player does (Default) or through experience gain (Experience Mode). \n\nIn Class Mode, you also have the choice of changing the Class/Creature Type your companions level as, or gaining Faction/Mentor and Specialization/Racial bonuses at a small chance. In Build Mode, the player chooses which attributes and skills their followers level and by how much.\n\nNPCs also have a chance of learning new spells when they train a spell school skill. Creatures have a lower chance to learn spells every level up.\n\nCompanions may learn abilities, which have various effects."
     }
     page.sidebar:createHyperLink {
         text = "Made by Kleidium",
@@ -510,7 +510,7 @@ local expMod = pageEXP:createCategory("Experience Modifiers")
 
 expMod:createSlider {
     label = "Base Experience Requirement",
-    description = "The base amount of experience a follower requires to level up. \n\nDefault: 120",
+    description = "The base amount of experience a follower requires to level up. \n\nDefault: 130",
     max = 2000,
     min = 10,
     variable = EasyMCM:createTableVariable {
@@ -674,7 +674,7 @@ abMod:createOnOffButton {
 }
 
 abMod:createOnOffButton {
-    label = "Ability UI Colors",
+    label = "Ability UI Colors: NPC",
     description = "If this is enabled, all NPC classes will be displayed color coded by their ability type when seen in the Class Change menu.\n\nPassive: White\nTriggered: Green\nCombat: Red\nTechnique: Purple\nAura: Blue\n\nDefault: Off",
     variable = mwse.mcm.createTableVariable { id = "abilityColors", table = config }
 }

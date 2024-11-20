@@ -33,9 +33,28 @@ function necro.createWindow(ref)
 	-- Create window and frame
 	local menu = tes3ui.createMenu { id = necro.id_menu, fixedFrame = true }
 
-	-- Create layout
-	local input_label = menu:createLabel { text = "Use which corpse? Willpower Limit: " .. necro.limit .. " TP: " .. modData.tp_current .. "/" .. modData.tp_max .. "" }
-	input_label.borderBottom = 5
+	-- Heading Block
+	local head_block = menu:createBlock{ id = "kl_header_necro" }
+	head_block.autoWidth = true
+	head_block.autoHeight = true
+	head_block.borderBottom = 5
+
+	--Title/TP Bar Blocks
+	local title_block = head_block:createBlock{}
+	title_block.width = 265
+	title_block.autoHeight = true
+
+	local tp_block = head_block:createBlock{}
+	tp_block.width = 265
+	tp_block.autoHeight = true
+
+	-- Title
+	title_block:createLabel { text = "Use which corpse? Willpower Limit: " .. necro.limit .. "" }
+
+	-- TP Bar
+	necro.tp_bar = tp_block:createFillBar({ current = modData.tp_current, max = modData.tp_max, id = necro.id_tp_bar })
+	func.configureBar(necro.tp_bar, "small", "purple")
+	necro.tp_bar.borderLeft = 145
 
 	-- Pane Block
 	local pane_block = menu:createBlock { id = "pane_block_necro" }

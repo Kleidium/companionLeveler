@@ -54,6 +54,8 @@ function this.getModData(ref)
 			ref.data.companionLeveler["bounties"] = {}
 			ref.data.companionLeveler["sessions_current"] = 0
 			ref.data.companionLeveler["sessions_max"] = 3
+			
+			--NPC Abilities
 			for i = 1, tables.npcAbilityAmount do
 				ref.data.companionLeveler["abilities"][i] = false
 			end
@@ -220,16 +222,32 @@ function this.updateModData(ref)
 							bonus = bonus + 5
 						end
 					else
+						--Daedric 5
+						if modData.abilities[5] == true  then
+							bonus = bonus + 1
+						end
+						--Daedric 15
+						if modData.abilities[7] == true  then
+							bonus = bonus + 2
+						end
 						--Humanoid 5
 						if modData.abilities[13] == true  then
 							bonus = bonus + 1
 						end
-						--Spriggan 20
-						if modData.abilities[24] == true then
-							bonus = bonus + 1
-						end
 						--Goblin 15
 						if modData.abilities[30] == true then
+							bonus = bonus + 2
+						end
+						--Insectile 10
+						if modData.abilities[38] == true then
+							bonus = bonus + 1
+						end
+						--Aquatic 15
+						if modData.abilities[51] == true then
+							bonus = bonus + 1
+						end
+						--Bestial 15
+						if modData.abilities[59] == true then
 							bonus = bonus + 1
 						end
 					end
@@ -725,7 +743,7 @@ end
 ----UI--------------------------------------------------------------------------------------------------------------------
 --
 
---Creates a TP Bar.
+--Creates a Bar.
 --
 --1st: tes3uiElement
 --
@@ -741,6 +759,9 @@ function this.configureBar(ele, type, color)
 		ele.width = 180
 	elseif type == "small" then
 		ele.width = 120
+		ele.height = 15
+		local text = ele:findChild("PartFillbar_text_ptr")
+		text.positionY = 3
 	end
 
 	--Tooltips

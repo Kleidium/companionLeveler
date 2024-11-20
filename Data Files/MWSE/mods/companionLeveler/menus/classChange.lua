@@ -3,7 +3,7 @@ local tables = require("companionLeveler.tables")
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
 local func = require("companionLeveler.functions.common")
-local growth = require("companionLeveler.menus.growthSettings")
+
 
 
 local classModule = {}
@@ -343,15 +343,30 @@ function classModule.classChange(reference)
 	button_block.borderTop = 16
 
 	local button_root = button_block:createButton { id = classModule.id_root, text = "Main Menu" }
-	button_root.borderRight = 85
-	local button_growth = button_block:createButton { id = classModule.id_growth, text = "Growth Settings" }
-	button_growth.borderRight = 92
+	local button_color = button_block:createButton { id = classModule.id_color, text = "Color:" }
+	if config.abilityColors == true then
+		button_color.text = "Color: By Ability"
+		button_root.borderRight = 72
+		button_color.borderRight = 105
+	else
+		button_color.text = "Color: Default"
+		button_root.borderRight = 78
+		button_color.borderRight = 122
+	end
 	local button_ok = button_block:createButton { id = classModule.id_ok, text = tes3.findGMST("sOK").value }
 
 	-- Events
 	menu:register(tes3.uiEvent.keyEnter, classModule.onOK)
 	button_ok:register(tes3.uiEvent.mouseClick, classModule.onOK)
-	button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
+	button_color:register("mouseClick", function()
+		if config.abilityColors == true then
+			config.abilityColors = false
+		else
+			config.abilityColors = true
+		end
+		menu:destroy()
+		classModule.classChange(reference)
+	end)
 	button_root:register("mouseClick",
 		function() menu:destroy()
 			tes3.messageBox { message = "" ..

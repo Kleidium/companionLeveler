@@ -8,10 +8,7 @@ local siphon = {}
 
 function siphon.createWindow(ref)
     siphon.id_menu = tes3ui.registerID("kl_siphon_menu")
-    siphon.id_title = tes3ui.registerID("kl_siphon_title")
-    siphon.id_comLabel = tes3ui.registerID("kl_siphon_comLabel")
 	siphon.id_comBar = tes3ui.registerID("kl_siphon_comBar")
-    siphon.id_pcLabel = tes3ui.registerID("kl_siphon_pcLabel")
 	siphon.id_pcBar = tes3ui.registerID("kl_siphon_pcBar")
 	siphon.id_plus = tes3ui.registerID("kl_siphon_plus")
 	siphon.id_interval = tes3ui.registerID("kl_siphon_interval")
@@ -39,7 +36,7 @@ function siphon.createWindow(ref)
 	siphon_block.childAlignX = 0.5
 
 	--Title
-    local title = siphon_block:createLabel { text = "Siphon Magicka", id = siphon.id_title }
+    local title = siphon_block:createLabel { text = "Siphon Magicka" }
 	if ref.object.objectType == tes3.objectType.creature then
 		title.text = "Blood Rite"
 	end
@@ -47,7 +44,7 @@ function siphon.createWindow(ref)
     divider.borderBottom = 28
 
 	--Companion Values
-    local comLabel = siphon_block:createLabel { text = "" .. ref.object.name .. "", id = siphon.id_comLabel }
+    local comLabel = siphon_block:createLabel { text = "" .. ref.object.name .. "" }
     local comBar
 	local color
 	if ref.object.objectType == tes3.objectType.creature then
@@ -67,7 +64,7 @@ function siphon.createWindow(ref)
 	local comMinus = siphon_block:createButton {text = "-", id = siphon.id_minus}
 
 	--Player Values
-    local pcLabel = siphon_block:createLabel { text = "" .. tes3.player.object.name .. "", id = siphon.id_pcLabel }
+    local pcLabel = siphon_block:createLabel { text = "" .. tes3.player.object.name .. "" }
 	pcLabel.borderTop = 20
 	local pcBar
 	if ref.object.objectType == tes3.objectType.creature then

@@ -78,6 +78,7 @@ function this.creatureAbilities(cType, companionRef)
                 log:info("" .. name .. " learned the Ability " .. tables.abList[5] .. ".")
                 tes3.playSound({ sound = "dremora scream" })
                 modData.abilities[5] = true
+                modData.tp_max = modData.tp_max + 1
             else
                 log:debug("" .. name .. " already has the " .. ability .. " Ability.")
             end
@@ -102,6 +103,7 @@ function this.creatureAbilities(cType, companionRef)
                 log:info("" .. name .. " learned the Ability " .. tables.abList[7] .. ".")
                 tes3.playSound({ sound = "dremora scream" })
                 modData.abilities[7] = true
+                modData.tp_max = modData.tp_max + 2
             else
                 log:debug("" .. name .. " already has the " .. ability .. " Ability.")
             end
@@ -330,7 +332,6 @@ function this.creatureAbilities(cType, companionRef)
                 log:info("" .. name .. " learned the Ability " .. tables.abList[24] .. ".")
                 tes3.playSound({ sound = "sprigganmagic" })
                 modData.abilities[24] = true
-                modData.tp_max = modData.tp_max + 1
             else
                 log:debug("" .. name .. " already has the " .. ability .. " Ability.")
             end
@@ -410,7 +411,7 @@ function this.creatureAbilities(cType, companionRef)
                 modData.att_gained[1] = modData.att_gained[1] + 5
                 modData.att_gained[6] = modData.att_gained[6] + 10
                 modData.att_gained[8] = modData.att_gained[8] + 10
-                modData.tp_max = modData.tp_max + 1
+                modData.tp_max = modData.tp_max + 2
             else
                 log:debug("" .. name .. " already has the " .. ability .. " Ability!")
             end
@@ -531,6 +532,7 @@ function this.creatureAbilities(cType, companionRef)
                 log:info("" .. name .. " learned the Ability " .. tables.abList[38] .. ".")
                 tes3.playSound({ sound = "kwamQ scream" })
                 modData.abilities[38] = true
+                modData.tp_max = modData.tp_max + 1
                 modData.att_gained[5] = modData.att_gained[5] + 10
                 modData.att_gained[4] = modData.att_gained[4] + 5
             else
@@ -702,10 +704,11 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[51]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Aquatic Type Ability Vaporizing Aura!")
+                tes3.messageBox("" .. name .. " learned the Aquatic Type Ability Vaporous Aura!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[51] .. ".")
                 tes3.playSound({ sound = "dreugh scream" })
                 modData.abilities[51] = true
+                modData.tp_max = modData.tp_max + 1
             else
                 log:debug("" .. name .. " already has the " .. ability .. " Ability.")
             end
@@ -816,6 +819,7 @@ function this.creatureAbilities(cType, companionRef)
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "wolf moan" })
                 modData.abilities[59] = true
+                modData.tp_max = modData.tp_max + 1
             else
                 log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
             end
@@ -3052,7 +3056,7 @@ function this.executeAbilities(companionRef)
             tes3.addItem({ item = item, reference = companionRef })
 
             local spoils = tes3.getObject(item)
-            tes3.messageBox("" .. companionRef.object.name .. " seems to have fished something up. (" .. spoils.name .. ")")
+            tes3.messageBox("" .. companionRef.object.name .. " fished something up. (" .. spoils.name .. ")")
         end
     end
 
@@ -3072,11 +3076,11 @@ function this.executeAbilities(companionRef)
 
     --cook can maybe make ashfall type cooked goods
 
-    --duelists can maybe duel npcs or something
+    --duelists can maybe duel npcs or something idk
 
     --gladiators can fight in arena?
 
-    --cat-catcher enslaves NPC enemies when they are heavily wounded Personality/Willpower
+    --cat-catcher enslaves NPC enemies when they are heavily wounded Personality/Willpower? probably something else
 
     --guild guide can teleport as a service
 end
@@ -3860,7 +3864,7 @@ function this.bountyCheck()
                     log:trace("" .. reference.object.name .. "'s Bounty Cell List #" .. n .. ": " .. modData.bounties[n] .. "")
 
                     if tes3.player.cell.id == modData.bounties[n] then
-                        local choice = math.random(1, 10)
+                        local choice = math.random(1, 11)
 
                         tes3.createReference({ object = "kl_npc_fugitive_" .. choice .. "", position = tes3.getCameraPosition(), orientation = tes3.player.orientation:copy(), cell = modData.bounties[n] })
                         table.remove(modData.bounties, n)

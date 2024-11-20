@@ -1,4 +1,5 @@
 local logger = require("logging.logger")
+local config = require("companionLeveler.config")
 local log = logger.getLogger("Companion Leveler")
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
@@ -25,13 +26,33 @@ function train.createWindow(ref)
 	train.skill_choices = 0
 	train.skills_added = {}
 	train.ratio = 6
+	train.amount = 1
 
-	-- Create window and frame
+	-- Create Menu
 	local menu = tes3ui.createMenu { id = train.id_menu, fixedFrame = true }
 
-	-- Create layout
-	local input_label = menu:createLabel { text = "Train which companion? TP: " .. modData.tp_current .. "/" .. modData.tp_max .. "" }
-	input_label.borderBottom = 5
+	-- Heading Block
+	local head_block = menu:createBlock{ id = "kl_header_train" }
+	head_block.autoWidth = true
+	head_block.autoHeight = true
+	head_block.borderBottom = 5
+
+	--Title/TP Bar Blocks
+	local title_block = head_block:createBlock{}
+	title_block.width = 275
+	title_block.autoHeight = true
+
+	local tp_block = head_block:createBlock{}
+	tp_block.width = 275
+	tp_block.autoHeight = true
+
+	-- Title
+	title_block:createLabel { text = "Train which companion?" }
+
+	-- TP Bar
+	train.tp_bar = tp_block:createFillBar({ current = modData.tp_current, max = modData.tp_max, id = train.id_tp_bar })
+	func.configureBar(train.tp_bar, "small", "purple")
+	train.tp_bar.borderLeft = 155
 
 	-- Pane Block
 	local pane_block = menu:createBlock { id = "pane_block_train" }
@@ -84,7 +105,7 @@ function train.createWindow(ref)
 			local dist = pos:distance(tes3.player.position)
 			log:debug("" .. mobileActor.reference.object.name .. "'s distance: " .. dist .. "")
 
-			if dist < 1000 and mobileActor.reference.object.name ~= "" and mobileActor.reference ~= train.trainer then
+			if dist < 750 and mobileActor.reference.object.name ~= "" and mobileActor.reference ~= train.trainer then
 				train.npc_choices = train.npc_choices + 1
 
 				local a = pane:createTextSelect { text = "" .. mobileActor.reference.object.name .. "", id = "kl_train_npc_btn_" .. train.npc_choices .. ""}
@@ -196,8 +217,8 @@ function train.createWindow(ref)
 			return
 		end
 
-		if train.req > train.trainer.mobile:getSkillStatistic(train.trainedSkill).base then
-			tes3.messageBox("" .. train.trainee.object.name .. " can't learn any more about " .. train.skillName .. " from " .. train.trainer.object.name .. ".")
+		if train.req > train.trainer.mobile:getSkillStatistic(train.trainedSkill).base or train.amount == 0 then
+			tes3.messageBox("" .. tes3.findGMST(tes3.gmst.sServiceTrainingWords).value .. "")
 			return
 		end
 
@@ -367,6 +388,14 @@ function train.onSelectSkill(elem, id)
 			if btn and btn.widget.state == 4 then
 				local traineeSkill = train.trainee:getSkillStatistic(id)
 				local trainerSkill = train.trainer.mobile:getSkillStatistic(id)
+
+				if config.aboveMaxSkill == false then
+					if traineeSkill.base >= 100 then
+						train.amount = 0
+					else
+						train.amount = 1
+					end
+				end
 
 				train.tp = math.round((traineeSkill.base / train.ratio) + (modData.level / 5))
 				if train.tp < 4 then

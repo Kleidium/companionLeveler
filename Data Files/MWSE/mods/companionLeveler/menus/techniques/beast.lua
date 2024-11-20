@@ -1,4 +1,5 @@
 local logger = require("logging.logger")
+local config = require("companionLeveler.config")
 local log = logger.getLogger("Companion Leveler")
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
@@ -24,6 +25,7 @@ function beast.createWindow(ref)
 	local modData = func.getModData(ref)
 
 	beast.ratio = 7
+	beast.amount = 1
 	beast.efficiency = math.round(personality.current * 0.5)
 
 	if beast.efficiency > 75 then
@@ -33,9 +35,28 @@ function beast.createWindow(ref)
 	-- Create window and frame
 	local menu = tes3ui.createMenu { id = beast.id_menu, fixedFrame = true }
 
-	-- Create layout
-	local input_label = menu:createLabel { text = "Train which creature? TP: " .. modData.tp_current .. "/" .. modData.tp_max .. "" }
-	input_label.borderBottom = 5
+	-- Heading Block
+	local head_block = menu:createBlock{ id = "kl_header_beast" }
+	head_block.autoWidth = true
+	head_block.autoHeight = true
+	head_block.borderBottom = 5
+
+	--Title/TP Bar Blocks
+	local title_block = head_block:createBlock{}
+	title_block.width = 275
+	title_block.autoHeight = true
+
+	local tp_block = head_block:createBlock{}
+	tp_block.width = 275
+	tp_block.autoHeight = true
+
+	-- Title
+	title_block:createLabel { text = "Train which creature?" }
+
+	-- TP Bar
+	beast.tp_bar = tp_block:createFillBar({ current = modData.tp_current, max = modData.tp_max, id = beast.id_tp_bar })
+	func.configureBar(beast.tp_bar, "small", "purple")
+	beast.tp_bar.borderLeft = 155
 
 	-- Pane Block
 	local pane_block = menu:createBlock { id = "pane_block_beast" }
@@ -135,15 +156,6 @@ function beast.createWindow(ref)
 		beast.base_atts[i] = att_block:createLabel({ text = "" .. tables.capitalization[i] .. ": ", id = "kl_beast_att_" .. i .. "" })
 	end
 
-	-- beast.base_str = att_block:createLabel({ text = "Strength: ", id = "kl_beast_str" })
-	-- beast.base_int = att_block:createLabel({ text = "Intelligence: ", id = "kl_beast_int" })
-	-- beast.base_will = att_block:createLabel({ text = "Willpower: ", id = "kl_beast_will" })
-	-- beast.base_agi = att_block:createLabel({ text = "Agility: ", id = "kl_beast_agi" })
-	-- beast.base_spd = att_block:createLabel({ text = "Speed: ", id = "kl_beast_spd" })
-	-- beast.base_end = att_block:createLabel({ text = "Endurance: ", id = "kl_beast_end" })
-	-- beast.base_per = att_block:createLabel({ text = "Personality: ", id = "kl_beast_per" })
-	-- beast.base_luck = att_block:createLabel({ text = "Luck: ", id = "kl_beast_luck" })
-
 	--TP Costs
 	local cost_title = cost_block:createLabel({ text = "TP Costs:" })
 	cost_title.color = tables.colors["white"]
@@ -153,14 +165,6 @@ function beast.createWindow(ref)
 		beast.tp_costs[i] = cost_block:createLabel { text = "" .. tables.capitalization[i] .. ": ", id = "kl_beast_tp_cost_" .. i .. "" }
 	end
 
-	-- beast.tp_str = cost_block:createLabel { text = "Strength:", id = "kl_beast_str_c" }
-	-- beast.tp_int = cost_block:createLabel { text = "Intelligence:", id = "kl_beast_int_c" }
-	-- beast.tp_will = cost_block:createLabel { text = "Willpower:", id = "kl_beast_will_c" }
-	-- beast.tp_agi = cost_block:createLabel { text = "Agility:", id = "kl_beast_agi_c" }
-	-- beast.tp_spd = cost_block:createLabel { text = "Speed:", id = "kl_beast_spd_c" }
-	-- beast.tp_end = cost_block:createLabel { text = "Endurance:", id = "kl_beast_end_c" }
-	-- beast.tp_per = cost_block:createLabel { text = "Personality:", id = "kl_beast_per_c" }
-	-- beast.tp_luck = cost_block:createLabel { text = "Luck:", id = "kl_beast_luck_c" }
 	cost_block:createLabel { text = "" }
 	beast.will_req = cost_block:createLabel { text = "Willpower Required: ", id = "kl_beast_will_req" }
 	beast.per_bonus = cost_block:createLabel { text = "Time Efficiency: " .. beast.efficiency .. "%" , id = "kl_beast_per_bonus" }
@@ -176,14 +180,6 @@ function beast.createWindow(ref)
 		beast.time_costs[i] = time_block:createLabel { text = "" .. tables.capitalization[i] .. ": ", id = "kl_beast_time_cost_" .. i .. "" }
 	end
 
-	-- beast.time_str = time_block:createLabel { text = "Strength:", id = "kl_beast_str_t" }
-	-- beast.time_int = time_block:createLabel { text = "Intelligence:", id = "kl_beast_int_t" }
-	-- beast.time_will = time_block:createLabel { text = "Willpower:", id = "kl_beast_will_t" }
-	-- beast.time_agi = time_block:createLabel { text = "Agility:", id = "kl_beast_agi_t" }
-	-- beast.time_spd = time_block:createLabel { text = "Speed:", id = "kl_beast_spd_t" }
-	-- beast.time_end = time_block:createLabel { text = "Endurance:", id = "kl_beast_end_t" }
-	-- beast.time_per = time_block:createLabel { text = "Personality:", id = "kl_beast_per_t" }
-	-- beast.time_luck = time_block:createLabel { text = "Luck:", id = "kl_beast_luck_t" }
 
 	----Bottom Button Block------------------------------------------------------------------------------------------
 	local button_block = menu:createBlock {}
@@ -217,6 +213,11 @@ function beast.createWindow(ref)
 			return
 		end
 
+		if beast.amount == 0 then
+			tes3.messageBox("" .. tes3.findGMST(tes3.gmst.sServiceTrainingWords).value .. "")
+			return
+		end
+
 		--Spend TP
 		modData.tp_current = modData.tp_current - beast.tp
 
@@ -226,6 +227,7 @@ function beast.createWindow(ref)
 		--Train Attribute
 		tes3.modStatistic{ reference = beast.ref, attribute = beast.att, value = 1}
 		creModData.att_gained[beast.att + 1] = creModData.att_gained[beast.att + 1] + 1
+		tes3.playSound({ soundPath = "companionLeveler\\levelUP2.wav" })
 		tes3.messageBox("" .. ref.object.name .. " trained " .. beast.ref.object.name .. "'s " .. beast.attName .. " to " .. beast.ref.mobile.attributes[beast.att + 1].base .. "!")
 
 		--Pass Time
@@ -266,7 +268,7 @@ function beast.onSelect(elem, ref)
 		for i = 0, 7 do
 			local btn = menu:findChild("kl_beast_btn_" .. tables.capitalization[i] .. "")
 			if btn and btn.widget.state == 4 then
-				beast.tp = math.round((att[i + 1].base / beast.ratio) + (modData.level / 4))
+				beast.tp = math.round((att[i + 1].base / beast.ratio) + (modData.level / 4) + 1)
 				beast.req = math.round((att[i + 1].base / 2) + (modData.level * 2) + 10)
 				beast.attName = "" .. tables.capitalization[i] .. ""
 				beast.att = i
@@ -286,39 +288,9 @@ function beast.onSelect(elem, ref)
 		--Base Attributes
 		for i = 0, 7 do
 			beast.base_atts[i].text = "" .. tables.capitalization[i] .. ": " .. att[i + 1].base .. ""
-			beast.tp_costs[i].text = "" .. tables.capitalization[i] .. ": " .. math.round((att[i + 1].base / beast.ratio) + (modData.level / 4)) .. " TP"
+			beast.tp_costs[i].text = "" .. tables.capitalization[i] .. ": " .. math.round((att[i + 1].base / beast.ratio) + (modData.level / 4) + 1) .. " TP"
 			beast.time_costs[i].text = "" .. tables.capitalization[i] .. ": " .. math.round(((att[i + 1].base / beast.ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
 		end
-
-		-- beast.base_atts[i].text = "Strength: " .. att[1].base .. ""
-		-- beast.base_int.text = "Intelligence: " .. att[2].base .. ""
-		-- beast.base_will.text = "Willpower: " .. att[3].base .. ""
-		-- beast.base_agi.text = "Agility: " .. att[4].base .. ""
-		-- beast.base_spd.text = "Speed: " .. att[5].base .. ""
-		-- beast.base_end.text = "Endurance: " .. att[6].base .. ""
-		-- beast.base_per.text = "Personality: " .. att[7].base .. ""
-		-- beast.base_luck.text = "Luck: " .. att[8].base .. ""
-
-		--Technique Point Costs
-		-- beast.tp_str.text = "Strength: " .. math.round((att[1].base / beast.ratio) + (modData.level / 4)) .. " TP"
-		-- beast.tp_int.text = "Intelligence: " .. math.round((att[2].base / beast.ratio) + (modData.level / 4)) .. " TP"
-		-- beast.tp_will.text = "Willpower: " .. math.round((att[3].base / beast.ratio) + (modData.level / 4)) .. " TP"
-		-- beast.tp_agi.text = "Agility: " .. math.round((att[4].base / beast.ratio) + (modData.level / 4)) .. " TP"
-		-- beast.tp_spd.text = "Speed: " .. math.round((att[5].base / beast.ratio) + (modData.level / 4)) .. " TP"
-		-- beast.tp_end.text = "Endurance: " .. math.round((att[6].base / beast.ratio) + (modData.level / 4)) .. " TP"
-		-- beast.tp_per.text = "Personality: " .. math.round((att[7].base / beast.ratio) + (modData.level / 4)) .. " TP"
-		-- beast.tp_luck.text = "Luck: " .. math.round((att[8].base / beast.ratio) + (modData.level / 4)) .. " TP"
-
-		--Time Costs
-		-- beast.time_str.text = "Strength: " .. math.round(((att[1].base / beast.ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
-		-- beast.time_int.text = "Intelligence: " .. math.round(((att[2].base / beast.ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
-		-- beast.time_will.text = "Willpower: " .. math.round(((att[3].base / beast.ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
-		-- beast.time_agi.text = "Agility: " .. math.round(((att[4].base / beast.ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
-		-- beast.time_spd.text = "Speed: " .. math.round(((att[5].base / beast.ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
-		-- beast.time_end.text = "Endurance: " .. math.round(((att[6].base / beast.ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
-		-- beast.time_per.text = "Personality: " .. math.round(((att[7].base / beast.ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
-		-- beast.time_luck.text = "Luck: " .. math.round(((att[8].base / beast.ratio) + 1) * (1 - (beast.efficiency / 100))) .. " hours"
-
 
 		menu:updateLayout()
 	end
@@ -341,7 +313,14 @@ function beast.onSelect2(elem)
 		for i = 0, 7 do
 			local btn = menu:findChild("kl_beast_btn_" .. tables.capitalization[i] .. "")
 			if btn and btn.widget.state == 4 then
-				beast.tp = math.round((att[i + 1].base / beast.ratio) + (modData.level / 4))
+				if config.aboveMaxAtt == false then
+					if att[i + 1].base >= 100 then
+						beast.amount = 0
+					else
+						beast.amount = 1
+					end
+				end
+				beast.tp = math.round((att[i + 1].base / beast.ratio) + (modData.level / 4) + 1)
 				beast.req = math.round((att[i + 1].base / 2) + (modData.level * 2) + 10)
 				beast.attName = "" .. tables.capitalization[i] .. ""
 				beast.att = i

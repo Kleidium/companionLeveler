@@ -289,7 +289,6 @@ function sheet.createWindow(reference)
             typeList.justifyText = "center"
             typeList.color = tables.colors["grey"]
             typeList.borderTop = 8
-
             if i == 1 then
                 typeList.borderTop = 12
             end
@@ -299,7 +298,7 @@ function sheet.createWindow(reference)
             end
 
             if modData.typelevels[i] >= 20 then
-                typeList.color = tables.colors["yellow"]
+                typeList.color = tables.colors["gold"]
                 typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. " (Mastered)"
             end
         end
@@ -554,8 +553,8 @@ function sheet.onCurrent()
                     end
 
                     if modData.typelevels[i] >= 20 then
-                        typeList.color = tables.colors["yellow"]
-                        typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. " (Mastered)"
+                        typeList.color = tables.colors["gold"]
+                        --typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. " (Mastered)"
                     end
                 end
             end
@@ -669,8 +668,8 @@ function sheet.onIdeal()
                     end
 
                     if modData.typelevels[i] >= 20 then
-                        typeList.color = tables.colors["yellow"]
-                        typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. " (Mastered)"
+                        typeList.color = tables.colors["gold"]
+                        --typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. " (Mastered)"
                     end
                 end
             end
@@ -849,6 +848,24 @@ function sheet.fixStats(e)
 
             tes3.messageBox("" .. sheet.reference.object.name .. " has forgotten their spells.")
         end
+        if e.button == 5 then
+            --Remove All Contracts
+            if sheet.reference.object.objectType == tes3.objectType.creature then
+                tes3.messageBox("" .. sheet.reference.object.name .. " is incapable of accepting contracts!")
+            else
+                modData.contracts = {}
+                tes3.messageBox("" .. sheet.reference.object.name .. " has abandoned all contracts.")
+            end
+        end
+        if e.button == 6 then
+            --Remove All Bounties
+            if sheet.reference.object.objectType == tes3.objectType.creature then
+                tes3.messageBox("" .. sheet.reference.object.name .. " is incapable of accepting bounties!")
+            else
+                modData.bounties = {}
+                tes3.messageBox("" .. sheet.reference.object.name .. " has given up on all bounties.")
+            end
+        end
     end
 end
 
@@ -856,7 +873,7 @@ function sheet.onFix()
     local menu = tes3ui.findMenu(sheet.id_menu)
     if menu then
         tes3.messageBox({ message = "Fix " .. sheet.reference.object.name .. "'s stats?",
-            buttons = { "Reset Stats to Original", "Fix Stats to Ideal", "Set Ideal to Current", "Remove All Abilities", "Remove All Spells", "Cancel" },
+            buttons = { "Reset Stats to Original", "Fix Stats to Ideal", "Set Ideal to Current", "Remove All Abilities", "Remove All Spells", "Abandon Contracts", "Forsake Bounties", "" .. tes3.findGMST("sCancel").value .. "" },
             callback = sheet.fixStats })
     end
 end

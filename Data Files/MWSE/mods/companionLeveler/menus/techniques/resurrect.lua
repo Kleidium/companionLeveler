@@ -27,9 +27,9 @@ function rez.createWindow(ref, type)
 	if type == "spectral" then
 		rez.requirement = true
 
-		rez.tp = math.round(rez.tp / 4)
-		if rez.tp < 4 then
-			rez.tp = 4
+		rez.tp = math.round(rez.tp / 5)
+		if rez.tp < 5 then
+			rez.tp = 5
 		end
 
 		rez.changes = -3
@@ -38,9 +38,28 @@ function rez.createWindow(ref, type)
 	-- Create window and frame
 	local menu = tes3ui.createMenu { id = rez.id_menu, fixedFrame = true }
 
-	-- Create layout
-	local input_label = menu:createLabel { text = "Resurrect which corpse? TP: " .. modData.tp_current .. "/" .. modData.tp_max .. "" }
-	input_label.borderBottom = 5
+	-- Heading Block
+	local head_block = menu:createBlock{ id = "kl_header_rez" }
+	head_block.autoWidth = true
+	head_block.autoHeight = true
+	head_block.borderBottom = 5
+
+	--Title/TP Bar Blocks
+	local title_block = head_block:createBlock{}
+	title_block.width = 275
+	title_block.autoHeight = true
+
+	local tp_block = head_block:createBlock{}
+	tp_block.width = 275
+	tp_block.autoHeight = true
+
+	-- Title
+	title_block:createLabel { text = "Resurrect which corpse?" }
+
+	-- TP Bar
+	rez.tp_bar = tp_block:createFillBar({ current = modData.tp_current, max = modData.tp_max, id = rez.id_tp_bar })
+	func.configureBar(rez.tp_bar, "small", "purple")
+	rez.tp_bar.borderLeft = 155
 
 	-- Pane Block
 	local pane_block = menu:createBlock { id = "pane_block_rez" }
@@ -120,9 +139,11 @@ function rez.createWindow(ref, type)
 					else
 						req = 75
 					end
+
+					tp = tp + math.round(lvl / 2)
 				end
 
-				a:register("mouseClick", function(e) rez.onSelect(a, mobileActor.reference, chg, lvl, tp, req) end)
+				a:register("mouseClick", function(e) rez.onSelect(a, mobileActor.reference, chg, lvl, tp, req, mobileActor.reference.object.id) end)
 			end
 		end
 	end
@@ -211,13 +232,18 @@ function rez.createWindow(ref, type)
 			return
 		end
 
+		if rez.id == "vivec_god" or rez.id == "almalexia" or rez.id == "Almalexia_warrior" or string.startswith(rez.id, "dagoth") or string.startswith(rez.id, "Dagoth") then
+			tes3.messageBox("Some fates cannot be avoided.")
+			return
+		end
+
 		--Spend TP
 		modData.tp_current = modData.tp_current - rez.tp
 
 		--Resurrect
 		rez.ref.mobile:resurrect({ resetState = false })
-		tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 3, reference = rez.ref })
-		tes3.playSound({ sound = "conjuration hit", reference = rez.ref })
+		tes3.createVisualEffect({ object = "VFX_RestorationHit", lifespan = 3, reference = rez.ref })
+		tes3.playSound({ sound = "restoration hit", reference = rez.ref })
 		tes3.messageBox("" .. rez.ref.object.name .. " was resurrected!")
 
 		--Apply Changes
@@ -249,7 +275,7 @@ function rez.createWindow(ref, type)
 	tes3ui.enterMenuMode(rez.id_menu)
 end
 
-function rez.onSelect(elem, ref, chg, lvl, tp, req)
+function rez.onSelect(elem, ref, chg, lvl, tp, req, id)
 	local menu = tes3ui.findMenu(rez.id_menu)
 
 	if menu then
@@ -267,6 +293,7 @@ function rez.onSelect(elem, ref, chg, lvl, tp, req)
 		rez.tp = tp
 		rez.changes = chg
 		rez.req = req
+		rez.id = id
 
 		for i = 0, 7 do
 			rez.base_atts[i].text = "" .. tables.capitalization[i] .. ": " .. att[i + 1].base .. ""

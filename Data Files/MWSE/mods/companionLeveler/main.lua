@@ -191,6 +191,7 @@ end, { filter = "MenuDialog" })
 
 event.register(tes3.event.keyDown, function(e)
 	if e.keyCode ~= config.typeBind.keyCode then return end
+	if config.modEnabled == false then return end
 
 	local t = tes3.getPlayerTarget()
 	if not t then return end
@@ -221,6 +222,9 @@ local function abilityClear(e)
 	log:trace("Ability Check triggered on " .. e.reference.object.name .. ". (Activated)")
 	if not func.validCompanionCheck(e.mobile) then
 		func.removeAbilities(e.reference)
+
+		if config.modEnabled == false then return end
+
 		abilities.tranquility(e.reference)
 		abilities.pheromone(e.reference)
 	else
@@ -409,100 +413,11 @@ event.register("modConfigReady", function()
 end)
 
 --for testing:
-local function expTest()
-	if config.expMode == false then return end
-	tes3.player.mobile:exerciseSkill(10, 100)
-end
+-- local function expTest()
+-- 	if config.expMode == false then return end
+-- 	tes3.player.mobile:exerciseSkill(10, 100)
+-- end
 
-event.register("jump", onLevelUp)
-event.register("jump", expTest)
-
-
-
-
-
-----Planned Features----
-----test all techniques lol
-----make sure version control is updated
-----remember to update readme
-----clean up some files, maybe check the modes to ensure all is good
----MCM/config control check
-
-
-
-
-
---CHANGES--
---FIXED: Nightblade ability increases short blade rather than long blade now.
---FIXED: assassins are getting contracts when other party members level up, as well as when the player levels up supposedly. The same has been fixed for Bounty Hunter.
---FIXED: a typo in ability 9 flavor text (Healer)
---FIXED: modData code optimized a bit
---FIXED: disabled right clicking out of character sheet
---FIXED: partyTable was including player as a mobile instead of a reference
---FIXED: fixed an issue where some classes weren't showing up in class change menu when using F&F_Ahead of the Classes.ESP.
---CHANGED: removed redundant companion names in ability/spell/special lists, centered the titles
---CHANGED: unused creature skills filler text in build mode changed from "N/A" to "--"
---CHANGED: removed auto-calc from all spells
---CHANGED: changed lower end of triggered ability timer to 8 from 7
---CHANGED: growth settings menu no longer overlaps with root menu
---CHANGED: root menu now sized dynamically and centered
---CHANGED: tooltip common function for NPC abilities
---CHANGED: NPC Abilities now split between ability type/town, wilderness, anywhere. some abilities changed to town/wilderness only
---CHANGED: Trance nerfed because of Arcanist technique synergy
---CHANGED: Acrobat buffed, reduces their fall damage by a lot and the party's by half as much. Reduced Acrobatics passive by 10.
---CHANGED: k menu can't be opened in combat.
---CHANGED: Crusader passive nerfed, added dmg reduction aura based on Willpower
---CHANGED: overlapping menus have 1.0 alpha now
---CHANGED: Baker gives 5 blunt weapon now
---CHANGED: forget bounties/contracts, contracts show reward
---CHANGED: artificer turns into a technique which requires ingredients
---CHANGED: necromancer turns into a technique which raises undead
---CHANGED: warlock increases TP by 5 and no longer has additional magicka
---CHANGED: added star icon to mastered classes/types
---CHANGED: shipmaster reduces most travel costs by 25%.
---CHANGED: archeologist is now a technique
---CHANGED: beast master is now a technique
---CHANGED: non-ideal stat color changed from purple to light blue because of technique bar being purple
---CHANGED: master-at-arms/drillmaster/mage/archer/wise woman/merchant/guard/enforcer passives nerfed because of new training techs
---CHANGED: normal 5 now gives dig technique
---CHANGED: changed mentions of "yes", "no", and "cancel" to user GMST values
---ADDED: Fiery, Frozen, Galvanic, Poisonous types.
---ADDED: Scavenger, Vagabond, Ninja, Fisherman, and Arcanist abilities.
---ADDED: Technique menu. Ninja, Stormcaller, Arcanist, Alchemist, Undead, Humanoid.
---ADDED: Mastered classes and types are now colored yellow with a star indicator in Class/Type Change menus.
---ADDED: Techniques are here, TP is equal to level and is regen on level up
---ADDED: some helpful tooltips
---ADDED: training session modData
---ADDED: abilities colored by type in class change menu, controllable in MCM
-
-
-
-
-
-
-
-
-
-
-
---ON HOLD--
-----TR ingredient/item integration. can check for TR and add items/make lists?
-----GMST text values for other languages OR i18n support
-----golem type? arachnid type? reptile? homuncular: able to pick creature major attributes? +1 to both? or also pick random attribute? can change attributes in type change menu.
-----allow mix of build/exp/regular mode companions?
-----maybe expand growth settings to skill/attribute leveling flags, other settings
-----maybe provide a way for companions to train while away from the player or otherwise catch up to the player's level?
-----UI Overhaul, list learned abilities by type. search box for classes?
-----turn single character menu into multi-character party menu like final fantasy?
-----more tooltips where needed
-----trim tables maybe
-----equip and unequip spells?
-----specialization techs have a % chance to be learned when leveling up as a class with that specialization? e.g. stealth learns a dash tech?
-----hybrid class/type techs? like level 10 spriggan level 10 frozen type hybrid tech?
-----tes3.getTrap/setTrap (Rogue?). rogue can use magicka to set a spell trap they have learned, tes3.showDialogueMenu (some sort of telepath?) maybe use distance check from necro
-----friendly intervention compat? check for mod and require, add tele menu to technique/root menu
-----traders TRADE random items for other items
-----A class can negotiate better deals and get %off gold?
-----a class teaches spells they know as a technique
-----expensive revive tech, less expensive worse revive tech, gathering tech? long lasting barrier tech
-----a class can recruit/find companions as a technique?
+-- event.register("jump", onLevelUp)
+-- event.register("jump", expTest)
+--

@@ -17,14 +17,37 @@ function gem.createWindow(ref)
 
 	local tech = require("companionLeveler.menus.techniques.techniques")
 
+	local modData = func.getModData(ref)
 	local enchant = ref.mobile:getSkillStatistic(tes3.skill.enchant)
+	gem.magickaText = tes3.findGMST(tes3.gmst.sMagic).value
+	gem.enchantText = tes3.findGMST(tes3.gmst.sSkillEnchant).value
+	--gem.resinText = tes3.getObject("ingred_resin_01").name
 
 	-- Create window and frame
 	local menu = tes3ui.createMenu { id = gem.id_menu, fixedFrame = true }
 
-	-- Create layout
-	local input_label = menu:createLabel { text = "Soul Gem Synthesis" }
-	input_label.borderBottom = 5
+	-- Heading Block
+	local head_block = menu:createBlock{ id = "kl_header_gem" }
+	head_block.autoWidth = true
+	head_block.autoHeight = true
+	head_block.borderBottom = 5
+
+	--Title/TP Bar Blocks
+	local title_block = head_block:createBlock{}
+	title_block.width = 265
+	title_block.autoHeight = true
+
+	local tp_block = head_block:createBlock{}
+	tp_block.width = 265
+	tp_block.autoHeight = true
+
+	-- Title
+	title_block:createLabel { text = "Soul Gem Synthesis" }
+
+	-- TP Bar
+	gem.tp_bar = tp_block:createFillBar({ current = modData.tp_current, max = modData.tp_max, id = gem.id_tp_bar })
+	func.configureBar(gem.tp_bar, "small", "purple")
+	gem.tp_bar.borderLeft = 145
 
 	-- Pane Block
 	local pane_block = menu:createBlock { id = "pane_block_gem" }
@@ -71,22 +94,23 @@ function gem.createWindow(ref)
 	pane.widget.scrollbarVisible = true
 
 	--Populate Pane
-	local petty = tes3.getObject("misc_SoulGem_Petty")
-	local common = tes3.getObject("misc_SoulGem_Common")
-	local greater = tes3.getObject("misc_SoulGem_Greater")
-	local grand = tes3.getObject("misc_SoulGem_Grand")
+	gem.petty = tes3.getObject("misc_SoulGem_Petty")
+	gem.lesser = tes3.getObject("misc_SoulGem_Lesser")
+	gem.common = tes3.getObject("misc_SoulGem_Common")
+	gem.greater = tes3.getObject("misc_SoulGem_Greater")
+	gem.grand = tes3.getObject("misc_SoulGem_Grand")
 
-	local p = pane:createTextSelect { text = "" .. petty.name .. "", id = "kl_gem_btn_0" }
-	p:register("mouseClick", function(e) gem.onSelect(p, petty, 25, 2, 25, 0.25) end)
+	local l = pane:createTextSelect { text = "" .. gem.lesser.name .. "", id = "kl_gem_btn_0" }
+	l:register("mouseClick", function(e) gem.onSelect(l, gem.lesser, 25, 1, 25, 0.25) end)
 
-	local c = pane:createTextSelect { text = "" .. common.name .. "", id = "kl_gem_btn_1" }
-	c:register("mouseClick", function(e) gem.onSelect(c, common, 50, 4, 50, 0.5) end)
+	local c = pane:createTextSelect { text = "" .. gem.common.name .. "", id = "kl_gem_btn_1" }
+	c:register("mouseClick", function(e) gem.onSelect(c, gem.common, 50, 2, 50, 0.5) end)
 
-	local g = pane:createTextSelect { text = "" .. greater.name .. "", id = "kl_gem_btn_2" }
-	g:register("mouseClick", function(e) gem.onSelect(g, greater, 75, 7, 75, 1) end)
+	local g = pane:createTextSelect { text = "" .. gem.greater.name .. "", id = "kl_gem_btn_2" }
+	g:register("mouseClick", function(e) gem.onSelect(g, gem.greater, 75, 4, 75, 1) end)
 
-	local gd = pane:createTextSelect { text = "" .. grand.name .. "", id = "kl_gem_btn_3" }
-	gd:register("mouseClick", function(e) gem.onSelect(gd, grand, 100, 10, 100, 2) end)
+	local gd = pane:createTextSelect { text = "" .. gem.grand.name .. "", id = "kl_gem_btn_3" }
+	gd:register("mouseClick", function(e) gem.onSelect(gd, gem.grand, 100, 6, 125, 2) end)
 
 
 
@@ -128,18 +152,18 @@ function gem.createWindow(ref)
 	--Base Statistics
 	local base_title = base_block:createLabel({ text = "Base Cost:", id = "kl_att_gem" })
 	base_title.color = { 1.0, 1.0, 1.0 }
-	gem.base_mgk = base_block:createLabel({ text = "Magicka: ", id = "kl_gem_mgk" })
+	gem.base_mgk = base_block:createLabel({ text = "" .. gem.magickaText .. ": ", id = "kl_gem_mgk" })
 
 	--Enchantments
 	local ench_title = ench_block:createLabel({ text = "Cost Reduction:" })
 	ench_title.color = { 1.0, 1.0, 1.0 }
 	func.clTooltip(ench_title, "skill:9")
-	ench_block:createLabel { text = "Magicka: " .. gem.mgkReduction .. "%", id = "kl_gem_mgk_e" }
+	ench_block:createLabel { text = "" .. gem.magickaText .. ": " .. gem.mgkReduction .. "%", id = "kl_gem_mgk_e" }
 
 	--Totals
 	local total_title = total_block:createLabel({ text = "Total Cost:" })
 	total_title.color = { 1.0, 1.0, 1.0 }
-	gem.total_mgk = total_block:createLabel { text = "Magicka: ", id = "kl_gem_mgk_t" }
+	gem.total_mgk = total_block:createLabel { text = "" .. gem.magickaText .. ": ", id = "kl_gem_mgk_t" }
 
 	----Bottom Button Block------------------------------------------------------------------------------------------
 	local button_block = menu:createBlock {}
@@ -155,8 +179,6 @@ function gem.createWindow(ref)
 
 	--Events
 	button_ok:register("mouseClick", function()
-		local modData = func.getModData(ref)
-
 		if enchant.current < gem.req then
 			tes3.messageBox("" .. ref.object.name .. " is not skilled enough to synthesize " .. gem.obj.name .. ".")
 			return
@@ -168,7 +190,7 @@ function gem.createWindow(ref)
 		end
 
 		if ref.mobile.magicka.current < gem.mgkCost then
-			tes3.messageBox("Not enough Magicka!")
+			tes3.messageBox("Not enough " .. gem.magickaText .. "!")
 			return
 		end
 
@@ -177,19 +199,6 @@ function gem.createWindow(ref)
 
 		--Check Materials
 		if gem.req == 25 then
-			item = func.checkReq(true, "ingred_resin_01", 1, tes3.player)
-
-			if item then
-				item = func.checkReq(false, "ingred_resin_01", 1, tes3.player)
-				success = true
-			else
-				item = func.checkReq(true, "ingred_resin_01", 1, ref)
-				if item then
-					item = func.checkReq(false, "ingred_resin_01", 1, ref)
-					success = true
-				end
-			end
-		elseif gem.req == 50 then
 			item = func.checkReq(true, "misc_SoulGem_Petty", 2, tes3.player)
 
 			if item then
@@ -202,16 +211,29 @@ function gem.createWindow(ref)
 					success = true
 				end
 			end
-		elseif gem.req == 75 then
-			item = func.checkReq(true, "misc_SoulGem_Common", 3, tes3.player)
+		elseif gem.req == 50 then
+			item = func.checkReq(true, "misc_SoulGem_Lesser", 2, tes3.player)
 
 			if item then
-				item = func.checkReq(false, "misc_SoulGem_Common", 3, tes3.player)
+				item = func.checkReq(false, "misc_SoulGem_Lesser", 2, tes3.player)
 				success = true
 			else
-				item = func.checkReq(true, "misc_SoulGem_Common", 3, ref)
+				item = func.checkReq(true, "misc_SoulGem_Lesser", 2, ref)
 				if item then
-					item = func.checkReq(false, "misc_SoulGem_Common", 3, ref)
+					item = func.checkReq(false, "misc_SoulGem_Lesser", 2, ref)
+					success = true
+				end
+			end
+		elseif gem.req == 75 then
+			item = func.checkReq(true, "misc_SoulGem_Common", 2, tes3.player)
+
+			if item then
+				item = func.checkReq(false, "misc_SoulGem_Common", 2, tes3.player)
+				success = true
+			else
+				item = func.checkReq(true, "misc_SoulGem_Common", 2, ref)
+				if item then
+					item = func.checkReq(false, "misc_SoulGem_Common", 2, ref)
 					success = true
 				end
 			end
@@ -239,13 +261,15 @@ function gem.createWindow(ref)
 
 			--Spend TP
 			modData.tp_current = modData.tp_current - gem.tp
+			gem.tp_bar.widget.current = modData.tp_current
 
 			--Spend Magicka
 			tes3.modStatistic({ reference = ref, name = "magicka", current = (gem.mgkCost * -1) })
 
 			--Synthesize Gem
 			tes3.addItem({ reference = tes3.player, item = gem.obj, count = 1 })
-			tes3.messageBox("" .. gem.obj.name .. " created.")
+			tes3.messageBox("" .. gem.obj.name .. " synthesized.")
+			menu:updateLayout()
 		else
 			--Not Enough Materials
 			tes3.messageBox("Not enough materials.")
@@ -277,18 +301,18 @@ function gem.onSelect(elem, obj, req, tp, mgkCost, time)
 		gem.mgkCost = math.round(mgkCost * (1 - (gem.mgkReduction * 0.01)))
 		gem.time = time
 
-		gem.base_mgk.text = "Magicka: " .. mgkCost .. ""
+		gem.base_mgk.text = "" .. gem.magickaText .. ": " .. mgkCost .. ""
 
-		gem.total_mgk.text = "Magicka: " .. gem.mgkCost .. ""
+		gem.total_mgk.text = "" .. gem.magickaText .. ": " .. gem.mgkCost .. ""
 
 		if req == 25 then
-			gem.mats.text = "Resin: 1\nTime: 15 minutes\nEnchant Required: 25\nTP: " .. tp .. ""
+			gem.mats.text = "" .. gem.petty.name .. ": 2\nTime: 15 minutes\n" .. gem.enchantText .. " Required: 25\nTP: " .. tp .. ""
 		elseif req == 50 then
-			gem.mats.text = "Petty Soul Gem: 2\nTime: 30 minutes\nEnchant Required: 50\nTP: " .. tp .. ""
+			gem.mats.text = "" .. gem.lesser.name .. ": 2\nTime: 30 minutes\n" .. gem.enchantText .. " Required: 50\nTP: " .. tp .. ""
 		elseif req == 75 then
-			gem.mats.text = "Common Soul Gem: 3\nTime: 1 hour\nEnchant Required: 75\nTP: " .. tp .. ""
+			gem.mats.text = "" .. gem.common.name .. ": 2\nTime: 1 hour\n" .. gem.enchantText .. " Required: 75\nTP: " .. tp .. ""
 		elseif req == 100 then
-			gem.mats.text = "Greater Soul Gem: 2\nTime: 2 hours\nEnchant Required: 100\nTP: " .. tp .. ""
+			gem.mats.text = "" .. gem.greater.name .. ": 2\nTime: 2 hours\n" .. gem.enchantText .. " Required: 100\nTP: " .. tp .. ""
 		end
 
 		gem.ok.widget.state = 1

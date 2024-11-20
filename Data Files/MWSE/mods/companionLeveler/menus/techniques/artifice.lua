@@ -21,12 +21,54 @@ function artifice.createWindow(ref)
 		artifice.ref = ref
 	end
 
+	--GMST Strings
+	artifice.healthText = tes3.findGMST(tes3.gmst.sHealth).value
+	artifice.magickaText = tes3.findGMST(tes3.gmst.sMagic).value
+	artifice.fatigueText = tes3.findGMST(tes3.gmst.sFatigue).value
+	artifice.strengthText = tes3.findGMST(tes3.gmst.sAttributeStrength).value
+	artifice.lesser = tes3.getObject("misc_SoulGem_Lesser")
+	artifice.common = tes3.getObject("misc_SoulGem_Common")
+	artifice.greater = tes3.getObject("misc_SoulGem_Greater")
+	artifice.grand = tes3.getObject("misc_SoulGem_Grand")
+	artifice.scrap = tes3.getObject("ingred_scrap_metal_01")
+	--artifice.cloth = tes3.getObject("misc_de_foldedcloth00")
+	artifice.skin = tes3.getObject("ingred_scamp_skin_01")
+	artifice.sword = tes3.getObject("dwarven shortsword")
+	artifice.mace = tes3.getObject("dwarven mace")
+	artifice.coherer = tes3.getObject("misc_dwrv_artifact50")
+	artifice.tube = tes3.getObject("misc_dwrv_artifact60")
+	artifice.gear = tes3.getObject("misc_dwrv_gear00")
+	artifice.diamond = tes3.getObject("ingred_diamond_01")
+	artifice.scarab = tes3.getObject("misc_dwrv_artifact40")
+	artifice.robot = tes3.getObject("misc_dwrv_artifact80")
+	artifice.anumidium = tes3.getObject("misc_dwrv_artifact30")
+
 	-- Create window and frame
 	local menu = tes3ui.createMenu { id = artifice.id_menu, fixedFrame = true }
+	local modData = func.getModData(ref)
 
-	-- Create layout
-	local input_label = menu:createLabel { text = "Construct which golem?" }
-	input_label.borderBottom = 5
+	-- Heading Block
+	local head_block = menu:createBlock{ id = "kl_header_artifice" }
+	head_block.autoWidth = true
+	head_block.autoHeight = true
+	head_block.borderBottom = 5
+
+	--Title/TP Bar Blocks
+	local title_block = head_block:createBlock{}
+	title_block.width = 271
+	title_block.autoHeight = true
+
+	local tp_block = head_block:createBlock{}
+	tp_block.width = 271
+	tp_block.autoHeight = true
+
+	-- Title
+	title_block:createLabel { text = "Construct which golem?" }
+
+	-- TP Bar
+	artifice.tp_bar = tp_block:createFillBar({ current = modData.tp_current, max = modData.tp_max, id = artifice.id_tp_bar })
+	func.configureBar(artifice.tp_bar, "small", "purple")
+	artifice.tp_bar.borderLeft = 151
 
 	-- Pane Block
 	local pane_block = menu:createBlock { id = "pane_block_artifice" }
@@ -37,8 +79,8 @@ function artifice.createWindow(ref)
 	local border = pane_block:createThinBorder { id = "kl_border_artifice" }
 	border.positionX = 4
 	border.positionY = -4
-	border.width = 210
-	border.height = 160
+	border.width = 216
+	border.height = 175
 	border.borderAllSides = 4
 	border.paddingAllSides = 4
 
@@ -46,8 +88,8 @@ function artifice.createWindow(ref)
 	local border2 = pane_block:createThinBorder { id = "kl_border2_artifice" }
 	border2.positionX = 202
 	border2.positionY = 0
-	border2.width = 308
-	border2.height = 170
+	border2.width = 314
+	border2.height = 185
 	border2.paddingAllSides = 4
 	border2.wrapText = true
 	border2.flowDirection = tes3.flowDirection.topToBottom
@@ -70,7 +112,7 @@ function artifice.createWindow(ref)
 	local pane = border:createVerticalScrollPane { id = artifice.id_pane }
 	pane.height = 148
 	pane.width = 210
-	pane.widget.scrollbarVisible = true
+	pane.widget.scrollbarVisible = false
 
 	--Populate Pane
 	local spider = tes3.getObject("centurion_spider")
@@ -84,27 +126,27 @@ function artifice.createWindow(ref)
 
 	if armorer.current >= 25 then
 		local a = pane:createTextSelect { text = "" .. spider.name .. "", id = "kl_artifice_btn_0" }
-		a:register("mouseClick", function(e) artifice.onSelect(a, spider, 0, 4) end)
+		a:register("mouseClick", function(e) artifice.onSelect(a, spider, 1, 4) end)
 	end
 
 	if armorer.current >= 50 then
 		local a = pane:createTextSelect { text = "" .. sphere.name .. "", id = "kl_artifice_btn_1" }
-		a:register("mouseClick", function(e) artifice.onSelect(a, sphere, 1, 6) end)
+		a:register("mouseClick", function(e) artifice.onSelect(a, sphere, 3, 6) end)
 	end
 
 	if armorer.current >= 75 then
 		local a = pane:createTextSelect { text = "" .. steam.name .. "", id = "kl_artifice_btn_2" }
-		a:register("mouseClick", function(e) artifice.onSelect(a, steam, 2, 8) end)
+		a:register("mouseClick", function(e) artifice.onSelect(a, steam, 5, 8) end)
 	end
 
 	if armorer.current >= 100 and enchant.current >= 75 then
 		local a = pane:createTextSelect { text = "" .. archer.name .. "", id = "kl_artifice_btn_3" }
-		a:register("mouseClick", function(e) artifice.onSelect(a, archer, 3, 12) end)
+		a:register("mouseClick", function(e) artifice.onSelect(a, archer, 6, 12) end)
 	end
 
 	if armorer.current >= 150 and enchant.current >= 100 then
 		local a = pane:createTextSelect { text = "" .. advanced.name .. "", id = "kl_artifice_btn_4" }
-		a:register("mouseClick", function(e) artifice.onSelect(a, advanced, 4, 20) end)
+		a:register("mouseClick", function(e) artifice.onSelect(a, advanced, 8, 20) end)
 	end
 
 	--Calculate Bonuses
@@ -148,27 +190,27 @@ function artifice.createWindow(ref)
 	--Base Statistics
 	local base_title = base_block:createLabel({ text = "Base Statistics:", id = "kl_att_artifice" })
 	base_title.color = { 1.0, 1.0, 1.0 }
-	artifice.base_hth = base_block:createLabel({ text = "Health: ", id = "kl_artifice_hth" })
-	artifice.base_mgk = base_block:createLabel({ text = "Magicka: ", id = "kl_artifice_mgk" })
-	artifice.base_fat = base_block:createLabel({ text = "Fatigue: ", id = "kl_artifice_fat" })
-	artifice.base_str = base_block:createLabel({ text = "Strength: ", id = "kl_artifice_str" })
+	artifice.base_hth = base_block:createLabel({ text = "" .. artifice.healthText .. ": ", id = "kl_artifice_hth" })
+	artifice.base_mgk = base_block:createLabel({ text = "" .. artifice.magickaText .. ": ", id = "kl_artifice_mgk" })
+	artifice.base_fat = base_block:createLabel({ text = "" .. artifice.fatigueText .. ": ", id = "kl_artifice_fat" })
+	artifice.base_str = base_block:createLabel({ text = "" .. artifice.strengthText .. ": ", id = "kl_artifice_str" })
 
 	--Enchantments
 	local ench_title = ench_block:createLabel({ text = "Enchantments:" })
 	ench_title.color = { 1.0, 1.0, 1.0 }
 	func.clTooltip(ench_title, "skill:9")
-	ench_block:createLabel { text = "Health: +" .. artifice.hthBonus .. "", id = "kl_artifice_hth_e" }
-	ench_block:createLabel { text = "Magicka: +" .. artifice.mgkBonus .. "", id = "kl_artifice_mgk_e" }
-	ench_block:createLabel { text = "Fatigue: +" .. artifice.fatBonus .. "", id = "kl_artifice_fat_e" }
-	ench_block:createLabel { text = "Strength: +" .. artifice.strBonus .. "", id = "kl_artifice_str_e" }
+	ench_block:createLabel { text = "" .. artifice.healthText .. ": +" .. artifice.hthBonus .. "", id = "kl_artifice_hth_e" }
+	ench_block:createLabel { text = "" .. artifice.magickaText .. ": +" .. artifice.mgkBonus .. "", id = "kl_artifice_mgk_e" }
+	ench_block:createLabel { text = "" .. artifice.fatigueText .. ": +" .. artifice.fatBonus .. "", id = "kl_artifice_fat_e" }
+	ench_block:createLabel { text = "" .. artifice.strengthText .. ": +" .. artifice.strBonus .. "", id = "kl_artifice_str_e" }
 
 	--Totals
 	local total_title = total_block:createLabel({ text = "Total Statistics:" })
 	total_title.color = { 1.0, 1.0, 1.0 }
-	artifice.total_hth = total_block:createLabel { text = "Health: ", id = "kl_artifice_hth_t" }
-	artifice.total_mgk = total_block:createLabel { text = "Magicka: ", id = "kl_artifice_mgk_t" }
-	artifice.total_fat = total_block:createLabel { text = "Fatigue: ", id = "kl_artifice_fat_t" }
-	artifice.total_str = total_block:createLabel { text = "Strength: ", id = "kl_artifice_str_t" }
+	artifice.total_hth = total_block:createLabel { text = "" .. artifice.healthText .. ": ", id = "kl_artifice_hth_t" }
+	artifice.total_mgk = total_block:createLabel { text = "" .. artifice.magickaText .. ": ", id = "kl_artifice_mgk_t" }
+	artifice.total_fat = total_block:createLabel { text = "" .. artifice.fatigueText .. ": ", id = "kl_artifice_fat_t" }
+	artifice.total_str = total_block:createLabel { text = "" .. artifice.strengthText .. ": ", id = "kl_artifice_str_t" }
 
 	----Bottom Button Block------------------------------------------------------------------------------------------
 	local button_block = menu:createBlock {}
@@ -184,20 +226,18 @@ function artifice.createWindow(ref)
 
 	--Events
 	button_ok:register("mouseClick", function()
-		local modData = func.getModData(ref)
-
 		if modData.tp_current < artifice.tp then
 			tes3.messageBox("Not enough Technique Points!")
 			return
 		end
 
-		local metal, gem, misc
+		local blueprint, blueprint2, metal, gem, misc
 		local success = false
 		local limit = false
 
 		for mobileActor in tes3.iterate(tes3.mobilePlayer.friendlyActors) do
 			if (mobileActor.reference.object.objectType == tes3.objectType.creature) and string.match(mobileActor.object.name, "Centurion")
-			and string.startswith(mobileActor.object.name, "Summoned")  == false then
+			and string.startswith(mobileActor.object.name, "Summoned") == false then
 				tes3.messageBox("You can only have one construct at a time!")
 				limit = true
 				break
@@ -210,125 +250,139 @@ function artifice.createWindow(ref)
 
 		if tes3.canRest then
 			--Centurion Spider
-			if artifice.id == 0 then
-				metal = func.checkReq(true, "ingred_scrap_metal_01", 2, tes3.player)
-				gem = func.checkReq(true, "Misc_SoulGem_Petty", 1, tes3.player)
-				misc = func.checkReq(true, "misc_de_foldedcloth00", 2, tes3.player)
+			if artifice.id == 1 then
+				blueprint = func.checkReq(true, artifice.scarab.id, 1, tes3.player)
+				metal = func.checkReq(true, artifice.scrap.id, 2, tes3.player)
+				gem = func.checkReq(true, artifice.lesser.id, 1, tes3.player)
+				misc = func.checkReq(true, artifice.skin.id, 2, tes3.player)
 
-				if metal and gem and misc then
-					func.checkReq(false, "ingred_scrap_metal_01", 2, tes3.player)
-					func.checkReq(false, "Misc_SoulGem_Petty", 1, tes3.player)
-					func.checkReq(false, "misc_de_foldedcloth00", 2, tes3.player)
+				if blueprint and metal and gem and misc then
+					func.checkReq(false, artifice.scrap.id, 2, tes3.player)
+					func.checkReq(false, artifice.lesser.id, 1, tes3.player)
+					func.checkReq(false, artifice.skin.id, 2, tes3.player)
 					success = true
 				else
-					metal = func.checkReq(true, "ingred_scrap_metal_01", 2, ref)
-					gem = func.checkReq(true, "Misc_SoulGem_Petty", 1, ref)
-					misc = func.checkReq(true, "misc_de_foldedcloth00", 2, ref)
+					blueprint = func.checkReq(true, artifice.scarab.id, 1, ref)
+					metal = func.checkReq(true, artifice.scrap.id, 2, ref)
+					gem = func.checkReq(true, artifice.lesser.id, 1, ref)
+					misc = func.checkReq(true, artifice.skin.id, 2, ref)
 
-					if metal and gem and misc then
-						func.checkReq(false, "ingred_scrap_metal_01", 2, ref)
-						func.checkReq(false, "Misc_SoulGem_Petty", 1, ref)
-						func.checkReq(false, "misc_de_foldedcloth00", 2, ref)
+					if blueprint and metal and gem and misc then
+						func.checkReq(false, artifice.scrap.id, 2, ref)
+						func.checkReq(false, artifice.lesser.id, 1, ref)
+						func.checkReq(false, artifice.skin.id, 2, ref)
 						success = true
 					end
 				end
 			--Centurion Sphere
-			elseif artifice.id == 1 then
-				metal = func.checkReq(true, "ingred_scrap_metal_01", 3, tes3.player)
-				gem = func.checkReq(true, "Misc_SoulGem_Common", 1, tes3.player)
-				misc = func.checkReq(true, "misc_com_silverware_knife", 1, tes3.player)
+			elseif artifice.id == 3 then
+				blueprint = func.checkReq(true, artifice.scarab.id, 1, tes3.player)
+				metal = func.checkReq(true, artifice.scrap.id, 3, tes3.player)
+				gem = func.checkReq(true, artifice.common.id, 1, tes3.player)
+				misc = func.checkReq(true, artifice.sword.id, 1, tes3.player)
 
-				if metal and gem and misc then
-					func.checkReq(false, "ingred_scrap_metal_01", 3, tes3.player)
-					func.checkReq(false, "Misc_SoulGem_Common", 1, tes3.player)
-					func.checkReq(false, "misc_com_silverware_knife", 1, tes3.player)
+				if blueprint and metal and gem and misc then
+					func.checkReq(false, artifice.scrap.id, 3, tes3.player)
+					func.checkReq(false, artifice.common.id, 1, tes3.player)
+					func.checkReq(false, artifice.sword.id, 1, tes3.player)
 					success = true
 				else
-					metal = func.checkReq(true, "ingred_scrap_metal_01", 3, ref)
-					gem = func.checkReq(true, "Misc_SoulGem_Common", 1, ref)
-					misc = func.checkReq(true, "misc_com_silverware_knife", 1, ref)
+					blueprint = func.checkReq(true, artifice.scarab.id, 1, ref)
+					metal = func.checkReq(true, artifice.scrap.id, 3, ref)
+					gem = func.checkReq(true, artifice.common.id, 1, ref)
+					misc = func.checkReq(true, artifice.sword.id, 1, ref)
 
-					if metal and gem and misc then
-						func.checkReq(false, "ingred_scrap_metal_01", 3, ref)
-						func.checkReq(false, "Misc_SoulGem_Common", 1, ref)
-						func.checkReq(false, "misc_com_silverware_knife", 1, ref)
+					if blueprint and metal and gem and misc then
+						func.checkReq(false, artifice.scrap.id, 3, ref)
+						func.checkReq(false, artifice.common.id, 1, ref)
+						func.checkReq(false, artifice.sword.id, 1, ref)
 						success = true
 					end
 				end
 			--Steam Centurion
-			elseif artifice.id == 2 then
-				metal = func.checkReq(true, "ingred_scrap_metal_01", 5, tes3.player)
-				gem = func.checkReq(true, "Misc_SoulGem_Greater", 1, tes3.player)
-				misc = func.checkReq(true, "misc_dwrv_gear00", 1, tes3.player)
+			elseif artifice.id == 5 then
+				blueprint = func.checkReq(true, artifice.robot.id, 1, tes3.player)
+				metal = func.checkReq(true, artifice.scrap.id, 5, tes3.player)
+				gem = func.checkReq(true, artifice.greater.id, 1, tes3.player)
+				misc = func.checkReq(true, artifice.mace.id, 1, tes3.player)
 
-				if metal and gem and misc then
-					func.checkReq(false, "ingred_scrap_metal_01", 5, tes3.player)
-					func.checkReq(false, "Misc_SoulGem_Greater", 1, tes3.player)
-					func.checkReq(false, "misc_dwrv_gear00", 1, tes3.player)
+				if blueprint and metal and gem and misc then
+					func.checkReq(false, artifice.scrap.id, 5, tes3.player)
+					func.checkReq(false, artifice.greater.id, 1, tes3.player)
+					func.checkReq(false, artifice.mace.id, 1, tes3.player)
 					success = true
 				else
-					metal = func.checkReq(true, "ingred_scrap_metal_01", 5, ref)
-					gem = func.checkReq(true, "Misc_SoulGem_Greater", 1, ref)
-					misc = func.checkReq(true, "misc_dwrv_gear00", 1, ref)
+					blueprint = func.checkReq(true, artifice.robot.id, 1, ref)
+					metal = func.checkReq(true, artifice.scrap.id, 5, ref)
+					gem = func.checkReq(true, artifice.greater.id, 1, ref)
+					misc = func.checkReq(true, artifice.mace.id, 1, ref)
 
-					if metal and gem and misc then
-						func.checkReq(false, "ingred_scrap_metal_01", 5, ref)
-						func.checkReq(false, "Misc_SoulGem_Greater", 1, ref)
-						func.checkReq(false, "misc_dwrv_gear00", 1, ref)
+					if blueprint and metal and gem and misc then
+						func.checkReq(false, artifice.scrap.id, 5, ref)
+						func.checkReq(false, artifice.greater.id, 1, ref)
+						func.checkReq(false, artifice.mace.id, 1, ref)
 						success = true
 					end
 				end
 			--Centurion Archer
-			elseif artifice.id == 3 then
-				metal = func.checkReq(true, "ingred_scrap_metal_01", 7, tes3.player)
-				gem = func.checkReq(true, "Misc_SoulGem_Grand", 1, tes3.player)
-				misc = func.checkReq(true, "misc_dwrv_artifact50", 1, tes3.player)
-				local diamond = func.checkReq(true, "ingred_diamond_01", 1, tes3.player)
+			elseif artifice.id == 6 then
+				blueprint = func.checkReq(true, artifice.scarab.id, 1, tes3.player)
+				blueprint2 = func.checkReq(true, artifice.robot.id, 1, tes3.player)
+				metal = func.checkReq(true, artifice.scrap.id, 7, tes3.player)
+				gem = func.checkReq(true, artifice.grand.id, 1, tes3.player)
+				misc = func.checkReq(true, artifice.coherer.id, 1, tes3.player)
+				local diamond = func.checkReq(true, artifice.diamond.id, 1, tes3.player)
 
-				if metal and gem and misc and diamond then
-					func.checkReq(false, "ingred_scrap_metal_01", 7, tes3.player)
-					func.checkReq(false, "Misc_SoulGem_Grand", 1, tes3.player)
-					func.checkReq(false, "misc_dwrv_artifact50", 1, tes3.player)
-					func.checkReq(false, "ingred_diamond_01", 1, tes3.player)
+				if blueprint and blueprint2 and metal and gem and misc and diamond then
+					func.checkReq(false, artifice.scrap.id, 7, tes3.player)
+					func.checkReq(false, artifice.grand.id, 1, tes3.player)
+					func.checkReq(false, artifice.coherer.id, 1, tes3.player)
+					func.checkReq(false, artifice.diamond.id, 1, tes3.player)
 					success = true
 				else
-					metal = func.checkReq(true, "ingred_scrap_metal_01", 7, ref)
-					gem = func.checkReq(true, "Misc_SoulGem_Grand", 1, ref)
-					misc = func.checkReq(true, "misc_dwrv_artifact50", 1, ref)
-					diamond = func.checkReq(true, "ingred_diamond_01", 1, ref)
+					blueprint = func.checkReq(true, artifice.scarab.id, 1, ref)
+					blueprint2 = func.checkReq(true, artifice.robot.id, 1, ref)
+					metal = func.checkReq(true, artifice.scrap.id, 7, ref)
+					gem = func.checkReq(true, artifice.grand.id, 1, ref)
+					misc = func.checkReq(true, artifice.coherer.id, 1, ref)
+					diamond = func.checkReq(true, artifice.diamond.id, 1, ref)
 
-					if metal and gem and misc and diamond then
-						func.checkReq(false, "ingred_scrap_metal_01", 7, ref)
-						func.checkReq(false, "Misc_SoulGem_Grand", 1, ref)
-						func.checkReq(false, "misc_dwrv_artifact50", 1, ref)
-						func.checkReq(false, "ingred_diamond_01", 1, ref)
+					if blueprint and blueprint2 and metal and gem and misc and diamond then
+						func.checkReq(false, artifice.scrap.id, 7, ref)
+						func.checkReq(false, artifice.grand.id, 1, ref)
+						func.checkReq(false, artifice.coherer.id, 1, ref)
+						func.checkReq(false, artifice.diamond.id, 1, ref)
 						success = true
 					end
 				end
 			--Advanced Steam Centurion
-			elseif artifice.id == 4 then
-				metal = func.checkReq(true, "ingred_scrap_metal_01", 10, tes3.player)
-				gem = func.checkReq(true, "Misc_SoulGem_Grand", 2, tes3.player)
-				misc = func.checkReq(true, "misc_dwrv_gear00", 1, tes3.player)
-				local tube = func.checkReq(true, "misc_dwrv_artifact60", 2, tes3.player)
+			elseif artifice.id == 8 then
+				blueprint = func.checkReq(true, artifice.robot.id, 1, tes3.player)
+				blueprint2 = func.checkReq(true, artifice.anumidium.id, 1, tes3.player)
+				metal = func.checkReq(true, artifice.scrap.id, 10, tes3.player)
+				gem = func.checkReq(true, artifice.grand.id, 2, tes3.player)
+				misc = func.checkReq(true, artifice.mace.id, 1, tes3.player)
+				local tube = func.checkReq(true, artifice.tube.id, 2, tes3.player)
 
-				if metal and gem and misc and tube then
-					func.checkReq(false, "ingred_scrap_metal_01", 10, tes3.player)
-					func.checkReq(false, "Misc_SoulGem_Grand", 2, tes3.player)
-					func.checkReq(false, "misc_dwrv_gear00", 1, tes3.player)
-					func.checkReq(false, "misc_dwrv_artifact60", 2, tes3.player)
+				if blueprint and blueprint2 and metal and gem and misc and tube then
+					func.checkReq(false, artifice.scrap.id, 10, tes3.player)
+					func.checkReq(false, artifice.grand.id, 2, tes3.player)
+					func.checkReq(false, artifice.mace.id, 1, tes3.player)
+					func.checkReq(false, artifice.tube.id, 2, tes3.player)
 					success = true
 				else
-					metal = func.checkReq(true, "ingred_scrap_metal_01", 10, ref)
-					gem = func.checkReq(true, "Misc_SoulGem_Grand", 2, ref)
-					misc = func.checkReq(true, "misc_dwrv_gear00", 1, ref)
-					tube = func.checkReq(true, "misc_dwrv_artifact60", 2, ref)
+					blueprint = func.checkReq(true, artifice.robot.id, 1, ref)
+					blueprint2 = func.checkReq(true, artifice.anumidium.id, 1, ref)
+					metal = func.checkReq(true, artifice.scrap.id, 10, ref)
+					gem = func.checkReq(true, artifice.grand.id, 2, ref)
+					misc = func.checkReq(true, artifice.mace.id, 1, ref)
+					tube = func.checkReq(true, artifice.tube.id, 2, ref)
 
-					if metal and gem and misc and tube then
-						func.checkReq(false, "ingred_scrap_metal_01", 10, ref)
-						func.checkReq(false, "Misc_SoulGem_Grand", 2, ref)
-						func.checkReq(false, "misc_dwrv_gear00", 1, ref)
-						func.checkReq(false, "misc_dwrv_artifact60", 2, ref)
+					if blueprint and blueprint2 and metal and gem and misc and tube then
+						func.checkReq(false, artifice.scrap.id, 10, ref)
+						func.checkReq(false, artifice.grand.id, 2, ref)
+						func.checkReq(false, artifice.mace.id, 1, ref)
+						func.checkReq(false, artifice.tube.id, 2, ref)
 						success = true
 					end
 				end
@@ -337,7 +391,7 @@ function artifice.createWindow(ref)
 			if success then
 				--Pass Time
 				local gameHour = tes3.getGlobal('GameHour')
-				gameHour = (gameHour + 1 + artifice.id)
+				gameHour = (gameHour + artifice.id)
 				tes3.setGlobal('GameHour', gameHour)
 				tes3.playSound({sound = "spiderRIGHT"})
 
@@ -350,7 +404,7 @@ function artifice.createWindow(ref)
 				tes3.setAIFollow({ reference = golem, target = ref })
 
 				--Apply Bonuses
-				if artifice.id == 0 then
+				if artifice.id == 1 then
 					tes3.setStatistic({ attribute = tes3.attribute.speed, value = 200, reference = golem })
 				end
 				tes3.modStatistic({ name = "health", value = artifice.hthBonus, reference = golem })
@@ -362,7 +416,7 @@ function artifice.createWindow(ref)
 				tes3ui.leaveMenuMode()
 			else
 				--Not Enough Materials
-				tes3.messageBox("Not enough materials.")
+				tes3.messageBox("Not enough materials or blueprints.")
 			end
 		else
 			--Unsuitable Conditions
@@ -393,26 +447,26 @@ function artifice.onSelect(elem, obj, id, tp)
 		artifice.id = id
 		artifice.tp = tp
 
-		artifice.base_hth.text = "Health: " .. obj.health .. ""
-		artifice.base_mgk.text = "Magicka: " .. obj.magicka .. ""
-		artifice.base_fat.text = "Fatigue: " .. obj.fatigue .. ""
-		artifice.base_str.text = "Strength: " .. obj.attributes[1] .. ""
+		artifice.base_hth.text = "" .. artifice.healthText .. ": " .. obj.health .. ""
+		artifice.base_mgk.text = "" .. artifice.magickaText .. ": " .. obj.magicka .. ""
+		artifice.base_fat.text = "" .. artifice.fatigueText .. ": " .. obj.fatigue .. ""
+		artifice.base_str.text = "" .. artifice.strengthText .. ": " .. obj.attributes[1] .. ""
 
-		artifice.total_hth.text = "Health: " .. obj.health + artifice.hthBonus .. ""
-		artifice.total_mgk.text = "Magicka: " .. obj.magicka + artifice.mgkBonus .. ""
-		artifice.total_fat.text = "Fatigue: " .. obj.fatigue + artifice.fatBonus .. ""
-		artifice.total_str.text = "Strength: " .. obj.attributes[1] + artifice.strBonus .. ""
+		artifice.total_hth.text = "" .. artifice.healthText .. ": " .. obj.health + artifice.hthBonus .. ""
+		artifice.total_mgk.text = "" .. artifice.magickaText .. ": " .. obj.magicka + artifice.mgkBonus .. ""
+		artifice.total_fat.text = "" .. artifice.fatigueText .. ": " .. obj.fatigue + artifice.fatBonus .. ""
+		artifice.total_str.text = "" .. artifice.strengthText .. ": " .. obj.attributes[1] + artifice.strBonus .. ""
 
-		if id == 0 then
-			artifice.mats.text = "Scrap Metal: 2\nPetty Soul Gem: 1\nFolded Cloth: 2\nTime: 1 hour\nTP: " .. tp .. ""
-		elseif id == 1 then
-			artifice.mats.text = "Scrap Metal: 3\nCommon Soul Gem: 1\nKnife (silverware): 1\nTime: 2 hours\nTP: " .. tp .. ""
-		elseif id == 2 then
-			artifice.mats.text = "Scrap Metal: 5\nGreater Soul Gem: 1\nRusty Dwemer Cog: 1\nTime: 3 hours\nTP: " .. tp .. ""
+		if id == 1 then
+			artifice.mats.text = "" .. artifice.scrap.name .. ": 2\n" .. artifice.lesser.name .. ": 1\n" .. artifice.skin.name .. ": 2\nTime: " .. artifice.id .. " hour(s)\nTP: " .. tp .. "\nBlueprint: " .. artifice.scarab.name .. ""
 		elseif id == 3 then
-			artifice.mats.text = "Scrap Metal: 7\nGrand Soul Gem: 1\nDwemer Coherer: 1\nDiamond: 1\nTime: 4 hours\nTP: " .. tp .. ""
-		elseif id == 4 then
-			artifice.mats.text = "Scrap Metal: 10\nGrand Soul Gem: 2\nRusty Dwemer Cog: 1\nDwemer Tube: 2\nTime: 5 hours\nTP: " .. tp .. ""
+			artifice.mats.text = "" .. artifice.scrap.name .. ": 3\n" .. artifice.common.name .. ": 1\n" .. artifice.sword.name .. ": 1\nTime: " .. artifice.id .. " hour(s)\nTP: " .. tp .. "\nBlueprint: " .. artifice.scarab.name .. ""
+		elseif id == 5 then
+			artifice.mats.text = "" .. artifice.scrap.name .. ": 5\n" .. artifice.greater.name .. ": 1\n" .. artifice.mace.name .. ": 1\nTime: " .. artifice.id .. " hour(s)\nTP: " .. tp .. "\nBlueprint: " .. artifice.robot.name .. ""
+		elseif id == 6 then
+			artifice.mats.text = "" .. artifice.scrap.name .. ": 7\n" .. artifice.grand.name .. ": 1\n" .. artifice.coherer.name .. ": 1\n" .. artifice.diamond.name .. ": 1\nTime: " .. artifice.id .. " hour(s)\nTP: " .. tp .. "\nBlueprint: " .. artifice.scarab.name .. ",\n" .. artifice.robot.name .. ""
+		elseif id == 8 then
+			artifice.mats.text = "" .. artifice.scrap.name .. ": 10\n" .. artifice.grand.name .. ": 2\n" .. artifice.mace.name .. ": 1\n" .. artifice.tube.name .. ": 2\nTime: " .. artifice.id .. " hour(s)\nTP: " .. tp .. "\nBlueprint: " .. artifice.robot.name .. ",\n" .. artifice.anumidium.name .. ""
 		end
 
 		artifice.ok.widget.state = 1

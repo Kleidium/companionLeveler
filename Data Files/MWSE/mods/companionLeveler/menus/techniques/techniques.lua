@@ -70,7 +70,7 @@ function tech.createWindow(ref)
     tech.tp.height = 21
 	tech.tp.borderBottom = 20
 
-	func.clTooltip(tech.tp, "tp")
+	--func.clTooltip(tech.tp, "tp")
 
 
     -- Main Buttons
@@ -103,6 +103,70 @@ function tech.createWindow(ref)
 			--Spectral Level 20
 			local button_rez = tech_block:createButton { id = tech.id_rez, text = "Spectral Resurrection" }
 			button_rez:register("mouseClick", function() tech.menu:destroy() rez.createWindow(ref, "spectral") end)
+		end
+		if tech.modData.abilities[67] == true then
+			--Fiery Level 15
+			local id = "kl_spell_fiery_aspect"
+			local aspect = tes3.getObject(id)
+			local msg = "Draw out the " .. aspect.name .. "?\nTP Cost: 3"
+			local button_fire = tech_block:createButton { id = tech.id_fire, text = "" .. aspect.name .. ""}
+			button_fire:register("help", function(e)
+				local tooltip = tes3ui.createTooltipMenu { spell = aspect }
+	
+				local contentElement = tooltip:getContentElement()
+				contentElement.paddingAllSides = 12
+				contentElement.childAlignX = 0.5
+				contentElement.childAlignY = 0.5
+			end)
+			button_fire:register("mouseClick", function() tech.onAspect(id, msg) end)
+		end
+		if tech.modData.abilities[71] == true then
+			--Frozen Level 15
+			local id = "kl_spell_frozen_aspect"
+			local aspect = tes3.getObject(id)
+			local msg = "Draw out the " .. aspect.name .. "?\nTP Cost: 3"
+			local button_fire = tech_block:createButton { id = tech.id_fire, text = "" .. aspect.name .. ""}
+			button_fire:register("help", function(e)
+				local tooltip = tes3ui.createTooltipMenu { spell = aspect }
+	
+				local contentElement = tooltip:getContentElement()
+				contentElement.paddingAllSides = 12
+				contentElement.childAlignX = 0.5
+				contentElement.childAlignY = 0.5
+			end)
+			button_fire:register("mouseClick", function() tech.onAspect(id, msg) end)
+		end
+		if tech.modData.abilities[75] == true then
+			--Galvanic Level 15
+			local id = "kl_spell_galvanic_aspect"
+			local aspect = tes3.getObject(id)
+			local msg = "Draw out the " .. aspect.name .. "?\nTP Cost: 3"
+			local button_fire = tech_block:createButton { id = tech.id_fire, text = "" .. aspect.name .. ""}
+			button_fire:register("help", function(e)
+				local tooltip = tes3ui.createTooltipMenu { spell = aspect }
+	
+				local contentElement = tooltip:getContentElement()
+				contentElement.paddingAllSides = 12
+				contentElement.childAlignX = 0.5
+				contentElement.childAlignY = 0.5
+			end)
+			button_fire:register("mouseClick", function() tech.onAspect(id, msg) end)
+		end
+		if tech.modData.abilities[79] == true then
+			--Poisonous Level 15
+			local id = "kl_spell_poisonous_aspect"
+			local aspect = tes3.getObject(id)
+			local msg = "Draw out the " .. aspect.name .. "?\nTP Cost: 3"
+			local button_fire = tech_block:createButton { id = tech.id_fire, text = "" .. aspect.name .. ""}
+			button_fire:register("help", function(e)
+				local tooltip = tes3ui.createTooltipMenu { spell = aspect }
+	
+				local contentElement = tooltip:getContentElement()
+				contentElement.paddingAllSides = 12
+				contentElement.childAlignX = 0.5
+				contentElement.childAlignY = 0.5
+			end)
+			button_fire:register("mouseClick", function() tech.onAspect(id, msg) end)
 		end
 	else
 		--NPC Techniques
@@ -180,7 +244,7 @@ function tech.createWindow(ref)
 	button_block.widthProportional = 1.0
 	button_block.autoHeight = true
 	button_block.childAlignX = 1.0
-	button_block.borderTop = 10
+	button_block.borderTop = 20
 
 	local button_root = button_block:createButton { text = "Main Menu" }
 	button_root.borderRight = 30
@@ -306,6 +370,9 @@ function tech.onDigConfirm(e)
 			tech.fakeMenu:createLabel({ text = "Digging..." })
 			tes3ui.enterMenuMode("kl_fake_menu")
 			timer.start({ type = timer.real, duration = 2, callback = tech.digResult })
+			timer.start({ type = timer.real, duration = 1, callback = function()
+				tes3.playSound({ soundPath = "companionLeveler\\rock_shatter.wav" })
+			end })
 		else
 			tes3.messageBox("" .. tech.ref.object.name .. " cannot dig here.")
         end
@@ -428,6 +495,7 @@ function tech.onWeatherConfirm(e)
 
 				local region = cell.region
 				region:changeWeather(tech.weatherType)
+				tes3.playSound({ sound = "alteration hit", reference = tech.ref })
 
 				if tech.weatherType == 0 then
 					tes3.messageBox("" .. tech.ref.object.name .. " cleared the skies!")
@@ -495,6 +563,28 @@ function tech.onSmokeConfirm(e)
 				tes3.messageBox("You are already outside.")
 				tech.log:debug("You are already outside. Smoke Bomb failed.")
 			end
+		end
+    end
+end
+
+--Elemental Types Level 15
+function tech.onAspect(id, msg)
+    if tech.menu then
+		tech.aspectID = id
+		tes3.messageBox({ message = msg, buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value }, callback = tech.onAspectConfirm })
+    end
+end
+
+function tech.onAspectConfirm(e)
+	if (tech.menu) then
+		if e.button == 0 then
+			if func.spendTP(tech.ref, 3) == false then return end
+
+			tes3ui.leaveMenuMode()
+			tech.menu:destroy()
+
+			tes3.cast({ reference = tes3.player, spell = tech.aspectID, instant = true, bypassResistances = true })
+			tes3.cast({ reference = tech.ref, target = tech.ref, spell = tech.aspectID, instant = true, bypassResistances = true })
 		end
     end
 end

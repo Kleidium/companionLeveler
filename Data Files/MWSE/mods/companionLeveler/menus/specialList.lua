@@ -62,7 +62,7 @@ function specList.createWindow(reference)
                 contentElement.childAlignX = 0.5
                 contentElement.childAlignY = 0.5
 
-                tooltip:createLabel({ text = "Reward: " .. reward .. "" })
+                tooltip:createLabel({ text = "" .. tes3.findGMST(tes3.gmst.sValue).value .. ": " .. reward .. " " .. tes3.findGMST(tes3.gmst.sGold).value .. "" })
             end)
             listItem:register("mouseClick", function() specList.onSelect(i, 1) end)
         end
@@ -109,11 +109,11 @@ function specList.onSelect(id, type)
 
         if type == 1 then
             specList.obj = tes3.getObject(specList.modData.contracts[id])
-            tes3.messageBox({ message = "Abandon contract for " .. specList.obj.name .. "?",
+            tes3.messageBox({ message = "Abandon the contract on \"" .. specList.obj.name .. "\"?",
             buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = specList.abandon })
         else
-            tes3.messageBox({ message = "Give up on the " .. specList.modData.bounties[id] .. " bounty?",
+            tes3.messageBox({ message = "Give up on the \"" .. specList.modData.bounties[id] .. "\" bounty?",
             buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = specList.abandon })
         end
