@@ -5,16 +5,20 @@ local func = require("companionLeveler.functions.common")
 
 local growth = {}
 
+
 function growth.createWindow(reference)
     growth.id_menu = tes3ui.registerID("kl_growth_menu")
     growth.id_label = tes3ui.registerID("kl_growth_label")
     growth.id_spell = tes3ui.registerID("kl_growth_spell_btn")
     growth.id_ability = tes3ui.registerID("kl_growth_ability_btn")
     growth.id_blacklist = tes3ui.registerID("kl_growth_blacklist_btn")
+    growth.id_power_level = tes3ui.registerID("kl_growth_power_btn")
 
 
     log = logger.getLogger("Companion Leveler")
     log:debug("Growth Settings menu initialized.")
+
+    local root = require("companionLeveler.menus.root")
 
     growth.reference = reference
 
@@ -29,48 +33,58 @@ function growth.createWindow(reference)
     label.borderBottom = 34
 
 
-    --Button Block
+    --Main Button Block---------------------------------------------------------------------------------------------
     local growth_block = menu:createBlock { id = "kl_growth_block" }
     growth_block.width = 236
-    growth_block.height = 150
+    growth_block.height = 130
     growth_block.flowDirection = "top_to_bottom"
 
 
-    -- Buttons
+    --Buttons
     local button_spell = growth_block:createButton { id = growth.id_spell, text = "Spell Learning" }
     button_spell.borderLeft = 41
     if modData.spellLearning == true then
-        button_spell.text = "Spell Learning: Yes"
+        button_spell.text = "Spell Learning: " .. tes3.findGMST("sYes").value .. ""
     else
-        button_spell.text = "Spell Learning: No"
+        button_spell.text = "Spell Learning: " .. tes3.findGMST("sNo").value .. ""
     end
 
     local button_ability = growth_block:createButton { id = growth.id_ability, text = "Ability Learning" }
     button_ability.borderLeft = 34
     if modData.abilityLearning == true then
-        button_ability.text = "Ability Learning: Yes"
+        button_ability.text = "Ability Learning: " .. tes3.findGMST("sYes").value .. ""
     else
-        button_ability.text = "Ability Learning: No"
+        button_ability.text = "Ability Learning: " .. tes3.findGMST("sNo").value .. ""
     end
 
     local button_blacklist = growth_block:createButton { id = growth.id_blacklist, text = "Blacklist" }
     button_blacklist.borderLeft = 61
     if modData.blacklist == true then
-        button_blacklist.text = "Blacklist: Yes"
+        button_blacklist.text = "Blacklist: " .. tes3.findGMST("sYes").value .. ""
     else
-        button_blacklist.text = "Blacklist: No"
+        button_blacklist.text = "Blacklist: " .. tes3.findGMST("sNo").value .. ""
     end
 
-    local button_cancel = growth_block:createButton { id = growth.id_cancel, text = tes3.findGMST("sCancel").value }
-    button_cancel.borderLeft = 84
+    ----Bottom Button Block-----------------------------------------------------------------------------------------
+	local button_block = menu:createBlock {}
+	button_block.widthProportional = 1.0
+	button_block.autoHeight = true
+	button_block.childAlignX = 1.0
+
+	local button_root = button_block:createButton { text = "Main Menu" }
+	button_root.borderRight = 66
+
+	local button_cancel = button_block:createButton { id = growth.id_cancel, text = tes3.findGMST("sCancel").value }
 
 
+    --Events
     button_spell:register(tes3.uiEvent.mouseClick, growth.onSpell)
     button_ability:register(tes3.uiEvent.mouseClick, growth.onAbility)
     button_blacklist:register(tes3.uiEvent.mouseClick, growth.onBlacklist)
-    button_cancel:register("mouseClick", function() menu:destroy() end)
+    button_root:register("mouseClick", function() menu:destroy() root.createWindow(reference) end)
+    button_cancel:register("mouseClick", function() tes3ui.leaveMenuMode() menu:destroy() end)
 
-    -- Final setup
+    --Final Setup
     menu:updateLayout()
     tes3ui.enterMenuMode(growth.id_menu)
 end
@@ -82,12 +96,12 @@ function growth.onSpell(e)
     if (menu) then
         local button = menu:findChild(growth.id_spell)
 
-        if button.text == "Spell Learning: Yes" then
-            button.text = "Spell Learning: No"
+        if button.text == "Spell Learning: " .. tes3.findGMST("sYes").value .. "" then
+            button.text = "Spell Learning: " .. tes3.findGMST("sNo").value .. ""
             modData.spellLearning = false
             log:info("" .. growth.reference.object.name .. ": spell learning feature disabled.")
         else
-            button.text = "Spell Learning: Yes"
+            button.text = "Spell Learning: " .. tes3.findGMST("sYes").value .. ""
             modData.spellLearning = true
             log:info("" .. growth.reference.object.name .. ": spell learning feature enabled.")
         end
@@ -101,12 +115,12 @@ function growth.onAbility(e)
     if (menu) then
         local button = menu:findChild(growth.id_ability)
 
-        if button.text == "Ability Learning: Yes" then
-            button.text = "Ability Learning: No"
+        if button.text == "Ability Learning: " .. tes3.findGMST("sYes").value .. "" then
+            button.text = "Ability Learning: " .. tes3.findGMST("sNo").value .. ""
             modData.abilityLearning = false
             log:info("" .. growth.reference.object.name .. ": ability learning feature disabled.")
         else
-            button.text = "Ability Learning: Yes"
+            button.text = "Ability Learning: " .. tes3.findGMST("sYes").value .. ""
             modData.abilityLearning = true
             log:info("" .. growth.reference.object.name .. ": ability learning feature enabled.")
         end
@@ -120,16 +134,17 @@ function growth.onBlacklist(e)
     if (menu) then
         local button = menu:findChild(growth.id_blacklist)
         
-        if button.text == "Blacklist: Yes" then
-            button.text = "Blacklist: No"
+        if button.text == "Blacklist: " .. tes3.findGMST("sYes").value .. "" then
+            button.text = "Blacklist: " .. tes3.findGMST("sNo").value .. ""
             modData.blacklist = false
             log:info("" .. growth.reference.object.name .. " removed from blacklist.")
         else
-            button.text = "Blacklist: Yes"
+            button.text = "Blacklist: " .. tes3.findGMST("sYes").value .. ""
             modData.blacklist = true
             log:info("" .. growth.reference.object.name .. " added to blacklist.")
         end
     end
 end
+
 
 return growth

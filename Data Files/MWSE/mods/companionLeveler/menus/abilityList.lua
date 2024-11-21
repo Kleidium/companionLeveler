@@ -8,9 +8,6 @@ local abList = {}
 
 function abList.createWindow(reference)
     abList.id_menu = tes3ui.registerID("kl_abList_menu")
-    abList.id_label = tes3ui.registerID("kl_abList_label")
-    abList.id_title = tes3ui.registerID("kl_abList_ok")
-    abList.id_pane = tes3ui.registerID("kl_abList_pane")
     abList.reference = reference
 
 
@@ -19,11 +16,14 @@ function abList.createWindow(reference)
 
 
     local menu = tes3ui.createMenu { id = abList.id_menu, fixedFrame = true }
+    menu.alpha = 1.0
 
     local modData = func.getModData(reference)
 
     --Create layout
-    local label = menu:createLabel { text = "" .. reference.object.name .. "'s Ability List:", id = abList.id_label }
+    local label = menu:createLabel { text = "Ability List:" }
+    label.wrapText = true
+    label.justifyText = "center"
     label.borderBottom = 12
 
 
@@ -50,28 +50,13 @@ function abList.createWindow(reference)
 
             if modData.abilities[i] == true then
                 listItem = pane:createTextSelect({ text = spellObject.name, id = "kl_abList_listItem_" .. i .. "" })
+                func.abilityColor(listItem, i, true)
             else
                 listItem = pane:createLabel({ text = spellObject.name, id = "kl_abList_listItem_" .. i .. "" })
-                listItem.color = { 0.35, 0.35, 0.35 }
+                listItem.color = tables.colors["grey"]
             end
 
-            listItem:register("help", function(e)
-                local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
-
-                local contentElement = tooltip:getContentElement()
-                contentElement.paddingAllSides = 12
-                contentElement.childAlignX = 0.5
-                contentElement.childAlignY = 0.5
-
-                tooltip:createDivider()
-
-                tooltip:createLabel { text = tables.abDescriptionNPC[i] }
-
-                if tables.abDescriptionNPC2[i] ~= "" then
-                    local helpLabel2 = tooltip:createLabel { text = tables.abDescriptionNPC2[i] }
-                    helpLabel2.borderTop = 8
-                end
-            end)
+            func.abilityTooltip(listItem, i, true)
 
             if modData.abilities[i] == true then
                 listItem:register("mouseClick", function() abList.onSelect(spellObject.id) end)
@@ -91,30 +76,16 @@ function abList.createWindow(reference)
 
             if modData.abilities[i] == true then
                 listItem = pane:createTextSelect({ text = spellObject.name, id = "kl_abList_listItem_" .. i .. "" })
+                func.abilityColor(listItem, i, false)
             else
                 listItem = pane:createLabel({ text = spellObject.name, id = "kl_abList_listItem_" .. i .. "" })
-                listItem.color = { 0.35, 0.35, 0.35 }
+                listItem.color = tables.colors["grey"]
             end
 
-            listItem:register("help", function(e)
-                local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
-
-                local contentElement = tooltip:getContentElement()
-                contentElement.paddingAllSides = 12
-                contentElement.childAlignX = 0.5
-                contentElement.childAlignY = 0.5
-
-                tooltip:createDivider()
-
-                tooltip:createLabel { text = tables.abDescription[i] }
-
-                local helpLabel2 = tooltip:createLabel { text = tables.abDescription2[i] }
-                helpLabel2.borderTop = 8
-            end)
+            func.abilityTooltip(listItem, i, false)
 
             if modData.abilities[i] == true then
                 listItem:register("mouseClick", function() abList.onSelect(spellObject.id) end)
-                --listItem.color = { 1.0, 1.0, 1.0 }
             end
 
             --Show Unlearned?
@@ -138,7 +109,7 @@ function abList.createWindow(reference)
     button_block.childAlignX = 0.5
     button_block.borderTop = 12
 
-    local button_ok = button_block:createButton { id = abList.id_ok, text = tes3.findGMST("sOK").value }
+    local button_ok = button_block:createButton { text = tes3.findGMST("sOK").value }
 
     --Events
     button_ok:register(tes3.uiEvent.mouseClick, abList.onOK)
@@ -170,22 +141,23 @@ function abList.forget(e)
                 end
             end
 
-            tes3.messageBox("" .. abList.reference.object.name .. " forgot the " .. abList.spell.name .. " ability. Checking Ideal Stats is recommended.")
+            tes3.messageBox("" .. abList.reference.object.name .. " forgot the " .. abList.spell.name .. " ability.")
 
             abList.onOK()
+            local sMenu = tes3ui.findMenu("kl_sheet_menu")
+            sMenu:destroy()
 
             --Dialogue prevents leaveMenuMode for some reason
             if dialog then
                 dialog:destroy()
             end
 
-            --Update Statistics after simulating
             tes3ui.leaveMenuMode()
+
             timer.delayOneFrame(function()
                 timer.delayOneFrame(function()
                     timer.delayOneFrame(function()
-                        tes3ui.enterMenuMode("kl_sheet_menu")
-                        abList.createWindow(abList.reference)
+                        func.updateIdealSheet(abList.reference)
                     end)
                 end)
             end)
@@ -199,7 +171,7 @@ function abList.onSelect(id)
         local spell = tes3.getObject(id)
         abList.spell = spell
         tes3.messageBox({ message = "Forget " .. spell.name .. "?",
-            buttons = { "Yes", "No" },
+            buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = abList.forget })
     end
 end
@@ -211,5 +183,6 @@ function abList.onOK()
         menu:destroy()
     end
 end
+
 
 return abList

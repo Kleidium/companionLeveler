@@ -3,7 +3,7 @@ local tables = require("companionLeveler.tables")
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
 local func = require("companionLeveler.functions.common")
-local growth = require("companionLeveler.menus.growthSettings")
+
 
 
 local classModule = {}
@@ -11,12 +11,12 @@ local classModule = {}
 
 function classModule.classChange(reference)
 	--Initialize IDs
-	classModule.id_menu = tes3ui.registerID("kl_class_menu")
-	classModule.id_pane = tes3ui.registerID("kl_class_pane")
-	classModule.id_ok = tes3ui.registerID("kl_class_ok")
-	classModule.id_growth = tes3ui.registerID("kl_class_growth_btn")
-	classModule.id_root = tes3ui.registerID("kl_class_root")
-	classModule.id_image = tes3ui.registerID("kl_class_image")
+	classModule.id_menu = tes3ui.registerID("kl_class_change_menu")
+	classModule.id_pane = tes3ui.registerID("kl_class_change_pane")
+	classModule.id_ok = tes3ui.registerID("kl_class_change_ok")
+	classModule.id_growth = tes3ui.registerID("kl_class_change_growth_btn")
+	classModule.id_root = tes3ui.registerID("kl_class_change_root")
+	classModule.id_image = tes3ui.registerID("kl_class_change_image")
 
 	local root = require("companionLeveler.menus.root")
 
@@ -52,12 +52,12 @@ function classModule.classChange(reference)
 
 	local border = pane_block:createThinBorder { id = "kl_border" }
 	border.width = 190
-	border.height = 134
+	border.height = 133
 	border.borderRight = 12
 
 	local border2 = pane_block:createThinBorder { id = "kl_border2" }
-	border2.width = 262
-	border2.height = 134
+	border2.width = 261
+	border2.height = 133
 	border2.paddingAllSides = 2
 
 	--Image
@@ -77,26 +77,89 @@ function classModule.classChange(reference)
 	pane.widget.scrollbarVisible = true
 
 	--Populate Pane
-	local a = pane:createTextSelect { text = "Default: " .. reference.object.class.name .. "", id = "cChangeB_D" }
+	local bloc = pane:createBlock {}
+	bloc.flowDirection = tes3.flowDirection.leftToRight
+	bloc.width = 180
+	bloc.height = 18
+	local a = bloc:createTextSelect { text = "Default: " .. reference.object.class.name .. "", id = "cChangeB_D" }
 	a:register("mouseClick", function() classModule.defSelect() end)
 
-	pane:createDivider()
+	for int = 1, #tables.classesSpecial do
+		if reference.object.class.name == tables.classesSpecial[int] then
+			if modData.abilities[int] == true then
+				a.widget.idle = tables.colors["gold"]
+				local star = bloc:createImage({ path = "textures\\companionLeveler\\star.tga" })
+				star.height = 10
+				star.width = 10
+				star.borderLeft = 4
+				star.borderTop = 1
+			end
+
+			func.abilityColor(a, int, true)
+		end
+	end
+
+	local bloc2 = pane:createBlock {}
+	bloc2.flowDirection = tes3.flowDirection.leftToRight
+	bloc2.width = 180
+	bloc2.height = 18
+
+	bloc2:createDivider()
 
 	if config.allClasses == true then
 		--list all available classes
 		for n, k in pairs(tes3.dataHandler.nonDynamicData.classes) do
+			log:debug("Class: " .. k.name .. ", Source Mod: " .. tostring(k.sourceMod) .. "")
+	
 			local num = classModule.total
-			local b = pane:createTextSelect { text = k.name, id = "cChangeB_" .. num .. "" }
+			local bl = pane:createBlock {}
+			bl.flowDirection = tes3.flowDirection.leftToRight
+			bl.width = 180
+			bl.height = 18
+			local b = bl:createTextSelect { text = k.name, id = "cChangeB_" .. num .. "" }
 			b:register("mouseClick", function() classModule.onSelect(num, k.id) end)
 			classModule.total = classModule.total + 1
+			for int = 1, #tables.classesSpecial do
+				if k.name == tables.classesSpecial[int] then
+					if modData.abilities[int] == true then
+						b.widget.idle = tables.colors["gold"]
+						local star = bl:createImage({ path = "textures\\companionLeveler\\star.tga" })
+						star.height = 10
+						star.width = 10
+						star.borderLeft = 4
+						star.borderTop = 1
+					end
+
+					func.abilityColor(b, int, true)
+				end
+			end
 		end
 	else
 		--list most vanilla classes
 		for i = 1, #tables.classes do
 			local num = classModule.total
-			local b = pane:createTextSelect { text = tables.classes[i], id = "cChangeB_" .. num .. "" }
+			local bl = pane:createBlock {}
+			bl.flowDirection = tes3.flowDirection.leftToRight
+			bl.width = 180
+			bl.height = 18
+			local b = bl:createTextSelect { text = tables.classes[i], id = "cChangeB_" .. num .. "" }
 			b:register("mouseClick", function() classModule.onSelect(num, tables.classes[i]) end)
 			classModule.total = classModule.total + 1
+			for int = 1, #tables.classesSpecial do
+				if b.text == tables.classesSpecial[int] then
+					if modData.abilities[int] == true then
+						b.widget.idle = tables.colors["gold"]
+						local star = bl:createImage({ path = "textures\\companionLeveler\\star.tga" })
+						star.height = 10
+						star.width = 10
+						star.borderLeft = 4
+						star.borderTop = 1
+					end
+
+					func.abilityColor(b, int, true)
+
+				end
+			end
 		end
 		--Ahead of the Classes
 		if config.aheadClasses == true then
@@ -104,7 +167,8 @@ function classModule.classChange(reference)
 			for i, v in pairs(modList) do
 				if v == "Ahead of the Classes.ESP" then
 					for n, k in pairs(tes3.dataHandler.nonDynamicData.classes) do
-						if k.sourceMod == "Ahead of the Classes.ESP" then
+						log:debug("Class: " .. k.name .. ", Source Mod: " .. tostring(k.sourceMod) .. "")
+						if k.sourceMod == "Ahead of the Classes.ESP" or k.sourceMod == "F&F_Ahead of the Classes.ESP" then
 							local dupe = false
 							for int = 1, #tables.classes do
 								if k.name == tables.classes[int] then
@@ -114,9 +178,28 @@ function classModule.classChange(reference)
 							end
 							if dupe == false then
 								local num = classModule.total
-								local b = pane:createTextSelect { text = "" .. k.name .. "", id = "cChangeB_" .. num .. "" }
+								local bl = pane:createBlock {}
+								bl.flowDirection = tes3.flowDirection.leftToRight
+								bl.width = 180
+								bl.height = 18
+								local b = bl:createTextSelect { text = "" .. k.name .. "", id = "cChangeB_" .. num .. "" }
 								b:register("mouseClick", function() classModule.onSelect(num, k.id) end)
 								classModule.total = classModule.total + 1
+								for int = 1, #tables.classesSpecial do
+									if k.name == tables.classesSpecial[int] then
+										if modData.abilities[int] == true then
+											b.widget.idle = tables.colors["gold"]
+											local star = bl:createImage({ path = "textures\\companionLeveler\\star.tga" })
+											star.height = 10
+											star.width = 10
+											star.borderLeft = 4
+											star.borderTop = 1
+										end
+
+										func.abilityColor(b, int, true)
+
+									end
+								end
 							end
 						end
 					end
@@ -128,8 +211,28 @@ function classModule.classChange(reference)
 
 	--Sort
 	pane:getContentElement():sortChildren(function(c, d)
-		if not string.startswith(c.text, "Default") and not string.startswith(d.text, "Default") then
-			return c.text < d.text
+		local cText
+		local dText
+
+		for int = 0, classModule.total do
+			cText = ""
+			local cChild = c:findChild("cChangeB_" .. int .. "")
+			if cChild == nil then
+				cChild = c:findChild("cChangeB_D")
+			end
+			if cChild ~= nil then cText = cChild.text break end
+		end
+		for num = 0, classModule.total do
+			dText = ""
+			local dChild = d:findChild("cChangeB_" .. num .. "")
+			if dChild == nil then
+				dChild = d:findChild("cChangeB_D")
+			end
+			if dChild ~= nil then dText = dChild.text break end
+		end
+
+		if not string.startswith(cText, "Default") and not string.startswith(dText, "Default") then
+			return cText < dText
 		end
 	end)
 
@@ -159,12 +262,12 @@ function classModule.classChange(reference)
 
 	--Specialization
 	local kl_spec = spec_block:createLabel({ text = "Specialization:", id = "kl_spec" })
-	kl_spec.color = { 1.0, 1.0, 1.0 }
+	kl_spec.color = tables.colors["white"]
 	spec_block:createLabel({ text = tables.capitalization2[cClass.specialization], id = "kl_spec1" })
 
 	--Attributes
 	local kl_att = spec_block:createLabel({ text = "Favored Attributes:", id = "kl_att" })
-	kl_att.color = { 1.0, 1.0, 1.0 }
+	kl_att.color = tables.colors["white"]
 	kl_att.borderTop = 18
 
 	local mAtt1 = cClass.attributes[1]
@@ -174,26 +277,26 @@ function classModule.classChange(reference)
 
 	--Major skills
 	local kl_major = major_block:createLabel({ text = "Major Skills:", id = "kl_major" })
-	kl_major.color = { 1.0, 1.0, 1.0 }
+	kl_major.color = tables.colors["white"]
 	local mSkills = cClass.majorSkills
 	for i = 1, 7 do
 		local skill = major_block:createLabel { text = tes3.skillName[mSkills[i]], id = "kl_major" .. i .. "" }
 		if modData.ignore_skill ~= 99 then
 			if skill.text == (tes3.getSkillName(modData.ignore_skill)) then
-				skill.color = { 1.0, 0.62, 0.0 }
+				skill.color = tables.colors["yellow"]
 			end
 		end
 	end
 
 	--Minor Skills
 	local kl_minor = minor_block:createLabel({ text = "Minor Skills:", id = "kl_minor" })
-	kl_minor.color = { 1.0, 1.0, 1.0 }
+	kl_minor.color = tables.colors["white"]
 	local minSkills = cClass.minorSkills
 	for i = 1, 7 do
 		local skill = minor_block:createLabel { text = tes3.skillName[minSkills[i]], id = "kl_minor" .. i .. "" }
 		if modData.ignore_skill ~= 99 then
 			if skill.text == (tes3.getSkillName(modData.ignore_skill)) then
-				skill.color = { 1.0, 0.62, 0.0 }
+				skill.color = tables.colors["yellow"]
 			end
 		end
 	end
@@ -208,7 +311,7 @@ function classModule.classChange(reference)
 
 	--Ability
 	local kl_ability = ability_block:createLabel({ text = "Ability:", id = "kl_ability_title" })
-	kl_ability.color = { 1.0, 1.0, 1.0 }
+	kl_ability.color = tables.colors["white"]
 
 	local abilityName = ability_block:createLabel({ text = "", id = "kl_ability_name" })
 	abilityName.borderLeft = 4
@@ -227,25 +330,10 @@ function classModule.classChange(reference)
 				learned.text = "(Unlearned)"
 			end
 
-			abilityName:register("help", function(e)
-				local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
-
-				local contentElement = tooltip:getContentElement()
-				contentElement.paddingAllSides = 12
-				contentElement.childAlignX = 0.5
-				contentElement.childAlignY = 0.5
-
-				tooltip:createDivider()
-
-				local helpLabel = tooltip:createLabel { text = tables.abDescriptionNPC[i] }
-
-				if tables.abDescriptionNPC2[i] ~= "" then
-					local helpLabel2 = tooltip:createLabel { text = tables.abDescriptionNPC2[i] }
-					helpLabel2.borderTop = 8
-				end
-			end)
+			func.abilityTooltip(abilityName, i, true)
 		end
 	end
+
 
 	--Button Block
 	local button_block = menu:createBlock {}
@@ -255,15 +343,30 @@ function classModule.classChange(reference)
 	button_block.borderTop = 16
 
 	local button_root = button_block:createButton { id = classModule.id_root, text = "Main Menu" }
-	button_root.borderRight = 85
-	local button_growth = button_block:createButton { id = classModule.id_growth, text = "Growth Settings" }
-	button_growth.borderRight = 92
+	local button_color = button_block:createButton { id = classModule.id_color, text = "Color:" }
+	if config.abilityColors == true then
+		button_color.text = "Color: By Ability"
+		button_root.borderRight = 72
+		button_color.borderRight = 105
+	else
+		button_color.text = "Color: Default"
+		button_root.borderRight = 78
+		button_color.borderRight = 122
+	end
 	local button_ok = button_block:createButton { id = classModule.id_ok, text = tes3.findGMST("sOK").value }
 
 	-- Events
 	menu:register(tes3.uiEvent.keyEnter, classModule.onOK)
 	button_ok:register(tes3.uiEvent.mouseClick, classModule.onOK)
-	button_growth:register("mouseClick", function() growth.createWindow(reference) end)
+	button_color:register("mouseClick", function()
+		if config.abilityColors == true then
+			config.abilityColors = false
+		else
+			config.abilityColors = true
+		end
+		menu:destroy()
+		classModule.classChange(reference)
+	end)
 	button_root:register("mouseClick",
 		function() menu:destroy()
 			tes3.messageBox { message = "" ..
@@ -339,10 +442,10 @@ function classModule.onSelect(i, id)
 		for n = 1, 7 do
 			local text = menu:findChild("kl_major" .. n .. "")
 			text.text = tes3.skillName[mSkills[n]]
-			text.color = { 0.792, 0.647, 0.376 }
+			text.color = tables.colors["default_font"]
 			if modData.ignore_skill ~= 99 then
 				if text.text == (tes3.getSkillName(modData.ignore_skill)) then
-					text.color = { 1.0, 0.62, 0.0 }
+					text.color = tables.colors["yellow"]
 				end
 			end
 		end
@@ -351,10 +454,10 @@ function classModule.onSelect(i, id)
 		for n = 1, 7 do
 			local text = menu:findChild("kl_minor" .. n .. "")
 			text.text = tes3.skillName[minSkills[n]]
-			text.color = { 0.792, 0.647, 0.376 }
+			text.color = tables.colors["default_font"]
 			if modData.ignore_skill ~= 99 then
 				if text.text == (tes3.getSkillName(modData.ignore_skill)) then
-					text.color = { 1.0, 0.62, 0.0 }
+					text.color = tables.colors["yellow"]
 				end
 			end
 		end
@@ -376,23 +479,7 @@ function classModule.onSelect(i, id)
 					learned.text = "(Unlearned)"
 				end
 
-				ability:register("help", function(e)
-					local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
-
-					local contentElement = tooltip:getContentElement()
-					contentElement.paddingAllSides = 12
-					contentElement.childAlignX = 0.5
-					contentElement.childAlignY = 0.5
-
-					tooltip:createDivider()
-
-					local helpLabel = tooltip:createLabel { text = tables.abDescriptionNPC[n] }
-
-					if tables.abDescriptionNPC2[n] ~= "" then
-						local helpLabel2 = tooltip:createLabel { text = tables.abDescriptionNPC2[n] }
-						helpLabel2.borderTop = 8
-					end
-				end)
+				func.abilityTooltip(ability, n, true)
 			end
 		end
 
@@ -447,10 +534,10 @@ function classModule.defSelect()
 		for n = 1, 7 do
 			local text = menu:findChild("kl_major" .. n .. "")
 			text.text = tes3.skillName[mSkills[n]]
-			text.color = { 0.792, 0.647, 0.376 }
+			text.color = tables.colors["default_font"]
 			if modData.ignore_skill ~= 99 then
 				if text.text == (tes3.getSkillName(modData.ignore_skill)) then
-					text.color = { 1.0, 0.62, 0.0 }
+					text.color = tables.colors["yellow"]
 				end
 			end
 		end
@@ -459,10 +546,10 @@ function classModule.defSelect()
 		for n = 1, 7 do
 			local text = menu:findChild("kl_minor" .. n .. "")
 			text.text = tes3.skillName[minSkills[n]]
-			text.color = { 0.792, 0.647, 0.376 }
+			text.color = tables.colors["default_font"]
 			if modData.ignore_skill ~= 99 then
 				if text.text == (tes3.getSkillName(modData.ignore_skill)) then
-					text.color = { 1.0, 0.62, 0.0 }
+					text.color = tables.colors["yellow"]
 				end
 			end
 		end
@@ -484,23 +571,7 @@ function classModule.defSelect()
 					learned.text = "(Unlearned)"
 				end
 
-				ability:register("help", function(e)
-					local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
-
-					local contentElement = tooltip:getContentElement()
-					contentElement.paddingAllSides = 12
-					contentElement.childAlignX = 0.5
-					contentElement.childAlignY = 0.5
-
-					tooltip:createDivider()
-
-					local helpLabel = tooltip:createLabel { text = tables.abDescriptionNPC[n] }
-
-					if tables.abDescriptionNPC2[n] ~= "" then
-						local helpLabel2 = tooltip:createLabel { text = tables.abDescriptionNPC2[n] }
-						helpLabel2.borderTop = 8
-					end
-				end)
+				func.abilityTooltip(ability, n, true)
 			end
 		end
 
@@ -508,5 +579,6 @@ function classModule.defSelect()
 		menu:updateLayout()
 	end
 end
+
 
 return classModule

@@ -4,8 +4,8 @@ local defaultConfig = {
 	buildMode = false,
 	expMode = false,
 	levelSummary = true,
-	aboveMaxSkill = false,
-	aboveMaxAtt = false,
+	aboveMaxSkill = true,
+	aboveMaxAtt = true,
 	levelHealth = true,
 	levelMagicka = false,
 	racialBonus = true,
@@ -22,7 +22,7 @@ local defaultConfig = {
 	triggerChance = 35,
 	showUnlearned = false,
 	ignoreSummon = true,
-	expRequirement = 120,
+	expRequirement = 130,
 	expRate = 10,
 	expClassSkill = 10,
 	expMiscSkill = 2,
@@ -66,7 +66,8 @@ local defaultConfig = {
 	},
 	aheadClasses = true,
 	allClasses = false,
-	bMessages = true
+	bMessages = true,
+	abilityColors = false
 }
 
 local mwseConfig = mwse.loadConfig("Companion Leveler", defaultConfig)

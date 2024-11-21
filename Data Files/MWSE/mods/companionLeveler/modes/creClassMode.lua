@@ -59,10 +59,10 @@ function creClassMode.companionLevelCre(companions)
                             chance = chance + 10
                         end
                         if cName == "Spriggan" then
-                            chance = chance + 3
+                            chance = chance + 5
                         end
                         if cName == "Spectral" then
-                            chance = chance + 3
+                            chance = chance + 5
                         end
                         if cName == "Draconic" then
                             if modData.level % 2 ~= 0 then
@@ -75,7 +75,7 @@ function creClassMode.companionLevelCre(companions)
                             chance = chance + 2
                         end
                         if cName == "Impish" then
-                            chance = chance + 3
+                            chance = chance + 5
                         end
                     end
                 end
@@ -90,6 +90,10 @@ function creClassMode.companionLevelCre(companions)
                 if (config.abilityLearning == true and modData.abilityLearning == true) then
                     abilities.creatureAbilities(cName, companionRef)
                 end
+
+                --Technique Points
+				modData.tp_max = modData.tp_max + 1
+				modData.tp_current = modData.tp_max
                 ----1st major attribute trained-------------------------------------------------------------------------------------------------
                 local mAtt1 = tables.capitalization[trainedAtt1]
                 local min1 = config.minMajorAtt1

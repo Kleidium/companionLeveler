@@ -22,6 +22,7 @@ function npcClassMode.companionLevelNPC(companions)
         --Companion Data
         local companionRef = companions[i]
         local modData = func.getModData(companionRef)
+
         if modData.blacklist == false then
             leveled = leveled + 1
             local name = companionRef.object.name
@@ -32,6 +33,10 @@ function npcClassMode.companionLevelNPC(companions)
             log:debug("" .. name .. "'s level data increased by 1.")
             func.calcEXP(companionRef)
             local storedLevel = modData.level
+
+            --Training Sessions Reset
+            modData.sessions_current = 0
+            log:debug("" .. name .. "'s training session limit reset.")
 
             --Class Data
             local class = companionRef.object.class
@@ -148,6 +153,7 @@ function npcClassMode.companionLevelNPC(companions)
                     race.name .. " heritage increased " .. tes3.skillName[trainedSkillR] .. " by " .. rBonusAmount .. "!"
             }
             ----Faction Bonus----------------------------------------------------------------------------------------------------------
+            log:trace("Fetching " .. name .. "'s Faction information...")
             local selectionF = 0
             local selectionMgk = 0
             local nFaction = "placeholder"
@@ -155,10 +161,10 @@ function npcClassMode.companionLevelNPC(companions)
             local fSkills = {}
             local trainedAttF = 0
             local trainedSkillF = 0
-            log:trace("Fetching " .. name .. "'s Faction information...")
             local faction = companionRef.object.faction
             local fBonusAmountA = config.factionBonusMod
             local fBonusAmountS = config.factionBonusMod
+
             if faction ~= nil then
                 if config.factionBonus == true then
                     selectionF = 2
@@ -200,6 +206,7 @@ function npcClassMode.companionLevelNPC(companions)
                     end
                 end
             end
+            
             local fSummary = {
                 [0] = "" .. name .. " has no Faction.",
                 [1] = "" ..
@@ -638,8 +645,14 @@ function npcClassMode.companionLevelNPC(companions)
             end
             if config.triggeredAbilities == true then
                 abilities.executeAbilities(companionRef)
+                abilities.contract(companionRef)
+                abilities.bounty(companionRef)
+                --To Be Removed Completely
                 --timer.start({ type = timer.game, duration = math.random(12, 72), iterations = 1, callback = "companionLeveler:abilityTimer", data = { name = name } })
             end
+            --Technique Points
+            modData.tp_max = modData.tp_max + 1
+            modData.tp_current = modData.tp_max
             ----Derived Stat Mod Data--------------------------------------------------------------------------------------------------------
             modData.mgk_gained = (companionRef.mobile.magicka.base - companionRef.baseObject.magicka)
             modData.fat_gained = (companionRef.mobile.fatigue.base - companionRef.baseObject.fatigue)
@@ -718,8 +731,6 @@ function npcClassMode.companionLevelNPC(companions)
     if leveled > 0 then
         tes3.playSound({ sound = "skillraise" })
     end
-    abilities.contract()
-    abilities.bounty()
 
     --Start Recurring Ability Timer
     local modDataP = func.getModDataP(tes3.player)

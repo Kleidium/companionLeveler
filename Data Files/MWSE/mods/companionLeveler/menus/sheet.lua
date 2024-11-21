@@ -1,4 +1,4 @@
-local config = require("companionLeveler.config")
+--local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
@@ -11,6 +11,7 @@ local growth = require("companionLeveler.menus.growthSettings")
 
 local sheet = {}
 
+
 function sheet.createWindow(reference)
     sheet.id_menu = tes3ui.registerID("kl_sheet_menu")
     sheet.id_label = tes3ui.registerID("kl_sheet_label")
@@ -21,7 +22,7 @@ function sheet.createWindow(reference)
     sheet.id_hth = tes3ui.registerID("kl_sheet_hth_bar")
     sheet.id_mgk = tes3ui.registerID("kl_sheet_mgk_bar")
     sheet.id_fat = tes3ui.registerID("kl_sheet_fat_bar")
-    sheet.id_exp = tes3ui.registerID("kl_sheet_exp_bar")
+    sheet.id_tp = tes3ui.registerID("kl_sheet_tp_bar")
     sheet.id_ok = tes3ui.registerID("kl_sheet_ok_btn")
     sheet.id_original = tes3ui.registerID("kl_sheet_orig_btn")
     sheet.id_current = tes3ui.registerID("kl_sheet_current_btn")
@@ -51,9 +52,15 @@ function sheet.createWindow(reference)
     menu.width = viewportWidth * 0.95
     menu.height = viewportHeight * 0.95
     menu.text = reference.object.name
+
     local modData = func.getModData(reference)
     local attTable = reference.mobile.attributes
     local faction = reference.object.faction
+
+    --Fix right click bullshit
+    menu:register("unfocus", function(e)
+        return false
+    end)
 
     -- Create layout
     local label = menu:createLabel { text = "Current Statistics:", id = sheet.id_label }
@@ -75,7 +82,7 @@ function sheet.createWindow(reference)
     border.widthProportional = 1.0
     border.heightProportional = 1.0
     border.width = 469
-    border.height = 778
+    border.height = 769
     border.maxHeight = 778
     border.paddingAllSides = 4
     border.flowDirection = "top_to_bottom"
@@ -85,13 +92,6 @@ function sheet.createWindow(reference)
     mainScroll.height = 778
     mainScroll.maxHeight = 778
 
-    if config.expMode == false then
-        menu.maxHeight = 900
-        border.height = 758
-        border.maxHeight = 758
-        mainScroll.height = 758
-        mainScroll.maxHeight = 758
-    end
 
     ----Headers-----------------------------------------------------------------------------------------------
     local title = mainScroll:createThinBorder {}
@@ -111,7 +111,7 @@ function sheet.createWindow(reference)
     titleLabel.wrapText = true
     titleLabel.justifyText = "center"
     titleLabel.borderTop = 8
-    titleLabel.color = { 1.0, 1.0, 1.0 }
+    titleLabel.color = tables.colors["white"]
 
     local header = mainScroll:createThinBorder {}
     header.width = 440
@@ -126,7 +126,7 @@ function sheet.createWindow(reference)
     attHeadLabel.wrapText = true
     attHeadLabel.justifyText = "center"
     attHeadLabel.borderTop = 6
-    attHeadLabel.color = { 1.0, 1.0, 1.0 }
+    attHeadLabel.color = tables.colors["white"]
 
     local skillHead = header:createThinBorder {}
     skillHead.width = 220
@@ -136,7 +136,7 @@ function sheet.createWindow(reference)
     skillHeadLabel.wrapText = true
     skillHeadLabel.justifyText = "center"
     skillHeadLabel.borderTop = 6
-    skillHeadLabel.color = { 1.0, 1.0, 1.0 }
+    skillHeadLabel.color = tables.colors["white"]
 
     if reference.object.objectType == tes3.objectType.creature then
         skillHeadLabel.text = "Type Levels"
@@ -145,66 +145,48 @@ function sheet.createWindow(reference)
     ----Content Blocks------------------------------------------------------------------------------------------------------
     local main = mainScroll:createThinBorder {}
     main.width = 440
-    main.height = 672
+    main.height = 697
     main.flowDirection = "left_to_right"
 
     local leftBlock = main:createThinBorder { id = "text_block_sheet_left" }
     leftBlock.flowDirection = "top_to_bottom"
     leftBlock.width = 220
-    leftBlock.height = 672
+    leftBlock.height = 697
 
     local rightBlock = main:createThinBorder { id = "text_block_sheet_right" }
     rightBlock.flowDirection = "top_to_bottom"
     rightBlock.width = 220
-    rightBlock.height = 672
+    rightBlock.height = 697
 
     ----Attribute Block---------------------------------------------------------------------------------------------------
 
-    local lvl = leftBlock:createLabel({ text = "Level: " .. modData.level .. "", id = sheet.id_lvl })
-    lvl.borderTop = 10
-    lvl.wrapText = true
-    lvl.justifyText = "center"
+    sheet.lvl = leftBlock:createLabel({ text = "Level: " .. modData.level .. "", id = sheet.id_lvl })
+    sheet.lvl.borderTop = 10
+    sheet.lvl.wrapText = true
+    sheet.lvl.justifyText = "center"
 
-    local hth = leftBlock:createFillBar({ current = reference.mobile.health.current, max = reference.mobile.health.base,
+    sheet.hth = leftBlock:createFillBar({ current = reference.mobile.health.current, max = reference.mobile.health.base,
         id = sheet.id_hth })
-    hth.widget.showText = true
-    hth.widget.fillColor = { 0.6, 0.2, 0.2 }
-    hth.width = 180
-    hth.borderTop = 10
-    hth.borderLeft = 20
-    hth.borderBottom = 4
+    func.configureBar(sheet.hth, "standard", "red")
+    sheet.hth.borderTop = 10
+    sheet.hth.borderLeft = 20
+    sheet.hth.borderBottom = 4
 
-    local mgk = leftBlock:createFillBar({ current = reference.mobile.magicka.current, max = reference.mobile.magicka.base, id = sheet.id_mgk })
-    mgk.widget.showText = true
-    mgk.widget.fillColor = { 0.2, 0.2, 0.6 }
-    mgk.width = 180
-    mgk.borderLeft = 20
-    mgk.borderBottom = 4
+    sheet.mgk = leftBlock:createFillBar({ current = reference.mobile.magicka.current, max = reference.mobile.magicka.base, id = sheet.id_mgk })
+    func.configureBar(sheet.mgk, "standard", "blue")
+    sheet.mgk.borderLeft = 20
+    sheet.mgk.borderBottom = 4
 
-    local fat = leftBlock:createFillBar({ current = reference.mobile.fatigue.current, max = reference.mobile.fatigue.base, id = sheet.id_fat })
-    fat.widget.showText = true
-    fat.widget.fillColor = { 0.2, 0.6, 0.2 }
-    fat.width = 180
-    fat.borderLeft = 20
-    fat.borderBottom = 2
+    sheet.fat = leftBlock:createFillBar({ current = reference.mobile.fatigue.current, max = reference.mobile.fatigue.base, id = sheet.id_fat })
+    func.configureBar(sheet.fat, "standard", "green")
+    sheet.fat.borderLeft = 20
+    sheet.fat.borderBottom = 2
 
-    if config.expMode == true then
-        border.height = 769
-        main.height = 697
-        leftBlock.height = 697
-        rightBlock.height = 697
-
-        local exp = leftBlock:createFillBar({ current = modData.lvl_progress,
-            max = modData.lvl_req,
-            id = sheet.id_exp })
-        exp.widget.showText = true
-        exp.widget.fillColor = { 0.6, 0.6, 0.0 }
-        exp.width = 180
-        exp.height = 21
-        exp.borderLeft = 20
-        exp.borderBottom = 2
-        exp.borderTop = 2
-    end
+    sheet.tp = leftBlock:createFillBar({ current = modData.tp_current, max = modData.tp_max, id = sheet.id_tp })
+    func.configureBar(sheet.tp, "standard", "purple")
+    sheet.tp.borderLeft = 20
+    sheet.tp.borderBottom = 2
+    sheet.tp.borderTop = 2
 
     leftBlock:createDivider()
 
@@ -217,10 +199,10 @@ function sheet.createWindow(reference)
         attList.borderLeft = 8
 
         if attTable[i + 1].current < attTable[i + 1].base then
-            attList.color = { 0.6, 0.2, 0.2 }
+            attList.color = tables.colors["red"]
         end
         if attTable[i + 1].current > attTable[i + 1].base then
-            attList.color = { 0.2, 0.6, 0.2 }
+            attList.color = tables.colors["green"]
         end
     end
 
@@ -234,7 +216,7 @@ function sheet.createWindow(reference)
     backgroundHeadLabel.wrapText = true
     backgroundHeadLabel.justifyText = "center"
     backgroundHeadLabel.borderTop = 6
-    backgroundHeadLabel.color = { 1.0, 1.0, 1.0 }
+    backgroundHeadLabel.color = tables.colors["white"]
 
     local txt_2 = ""
     if reference.object.objectType == tes3.objectType.creature then
@@ -286,7 +268,7 @@ function sheet.createWindow(reference)
     commandHeadLabel.wrapText = true
     commandHeadLabel.justifyText = "center"
     commandHeadLabel.borderTop = 6
-    commandHeadLabel.color = { 1.0, 1.0, 1.0 }
+    commandHeadLabel.color = tables.colors["white"]
 
     local button_current = leftBlock:createButton { id = sheet.id_current, text = "Current" }
     button_current.borderLeft = 73
@@ -305,35 +287,37 @@ function sheet.createWindow(reference)
             local typeList = rightBlock:createLabel({ text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. "", id = "kl_sheet_creType_" .. i .. "" })
             typeList.wrapText = true
             typeList.justifyText = "center"
-            typeList.color = { 0.35, 0.35, 0.35 }
-            --typeList.borderLeft = 12
+            typeList.color = tables.colors["grey"]
             typeList.borderTop = 8
-
             if i == 1 then
                 typeList.borderTop = 12
             end
 
             if modData.typelevels[i] > 1 then
-                typeList.color = { 1.0, 1.0, 1.0 }
+                typeList.color = tables.colors["white"]
             end
 
             if modData.typelevels[i] >= 20 then
-                typeList.color = { 1.0, 0.62, 0.0 }
+                typeList.color = tables.colors["gold"]
                 typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. " (Mastered)"
             end
         end
     else
         local ignoreLabel = rightBlock:createLabel({ text = "Ignored Skill: None", id = "kl_sheet_ignore_label" })
-        ignoreLabel.borderTop = 8
-        ignoreLabel.color = { 1.0, 0.62, 0.0 }
+        ignoreLabel.borderTop = 10
+        ignoreLabel.color = tables.colors["yellow"]
         ignoreLabel.wrapText = true
         ignoreLabel.justifyText = "center"
+        func.clTooltip(ignoreLabel, "ignore_skill")
 
         if modData.ignore_skill ~= 99 then
             ignoreLabel.text = "Ignored Skill: " .. tes3.getSkillName(modData.ignore_skill) .. ""
         end
 
-        for i = 0, 8 do
+        for i = 0, 26 do
+            if i == 9 or i == 18 then
+                rightBlock:createDivider()
+            end
             local tempSkill = reference.mobile:getSkillStatistic(i)
             local skillList = rightBlock:createTextSelect({ text = "" ..
                 tes3.getSkillName(i) .. ": " .. tempSkill.current .. " / " .. tempSkill.base .. "",
@@ -342,67 +326,19 @@ function sheet.createWindow(reference)
             skillList.justifyText = "center"
             skillList.borderBottom = 1
             if tempSkill.current < tempSkill.base then
-                skillList.widget.idle = { 0.6, 0.2, 0.2 }
+                skillList.widget.idle = tables.colors["red"]
             end
             if tempSkill.current > tempSkill.base then
-                skillList.widget.idle = { 0.2, 0.6, 0.2 }
+                skillList.widget.idle = tables.colors["green"]
             end
             if i == modData.ignore_skill then
-                skillList.widget.idle = { 1.0, 0.62, 0.0 }
-            end
-            skillList:register("mouseClick", function() sheet.onIgnore(i) end)
-        end
-
-        rightBlock:createDivider()
-
-        for i = 9, 17 do
-            local tempSkill = reference.mobile:getSkillStatistic(i)
-            local skillList = rightBlock:createTextSelect({ text = "" ..
-                tes3.getSkillName(i) .. ": " .. tempSkill.current .. " / " .. tempSkill.base .. "",
-                id = "kl_sheet_skill_" .. i .. "" })
-            skillList.wrapText = true
-            skillList.justifyText = "center"
-            skillList.borderBottom = 1
-            if tempSkill.current < tempSkill.base then
-                skillList.widget.idle = { 0.6, 0.2, 0.2 }
-            end
-            if tempSkill.current > tempSkill.base then
-                skillList.widget.idle = { 0.2, 0.6, 0.2 }
-            end
-            if i == modData.ignore_skill then
-                skillList.widget.idle = { 1.0, 0.62, 0.0 }
-            end
-            skillList:register("mouseClick", function() sheet.onIgnore(i) end)
-        end
-
-        rightBlock:createDivider()
-
-        for i = 18, 26 do
-            local tempSkill = reference.mobile:getSkillStatistic(i)
-            local skillList = rightBlock:createTextSelect({ text = "" ..
-                tes3.getSkillName(i) .. ": " .. tempSkill.current .. " / " .. tempSkill.base .. "",
-                id = "kl_sheet_skill_" .. i .. "" })
-            skillList.wrapText = true
-            skillList.justifyText = "center"
-            skillList.borderBottom = 1
-            if tempSkill.current < tempSkill.base then
-                skillList.widget.idle = { 0.6, 0.2, 0.2 }
-            end
-            if tempSkill.current > tempSkill.base then
-                skillList.widget.idle = { 0.2, 0.6, 0.2 }
-            end
-            if i == modData.ignore_skill then
-                skillList.widget.idle = { 1.0, 0.62, 0.0 }
+                skillList.widget.idle = tables.colors["yellow"]
             end
             skillList:register("mouseClick", function() sheet.onIgnore(i) end)
         end
 
         local listTop = menu:findChild("kl_sheet_skill_0")
-        if config.expMode == true then
-            listTop.borderTop = 40
-        else
-            listTop.borderTop = 30
-        end
+        listTop.borderTop = 40
 
         local lastCombat = menu:findChild("kl_sheet_skill_8")
         lastCombat.borderBottom = 6
@@ -435,7 +371,7 @@ function sheet.createWindow(reference)
     button_current:register(tes3.uiEvent.mouseClick, sheet.onCurrent)
     button_ideal:register(tes3.uiEvent.mouseClick, sheet.onIdeal)
     button_fix:register(tes3.uiEvent.mouseClick, sheet.onFix)
-    button_growth:register("mouseClick", function() growth.createWindow(reference) end)
+    button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
     button_root:register("mouseClick", function() menu:destroy() root.createWindow(reference) end)
     button_ability:register("mouseClick", function() abilityList.createWindow(reference) end)
     button_spell:register("mouseClick", function() spellList.createWindow(reference) end)
@@ -461,10 +397,6 @@ function sheet.onOriginal()
         local label = menu:findChild(sheet.id_label)
         local label2 = menu:findChild(sheet.id_label2)
         local title = menu:findChild(sheet.id_title)
-        local lvl = menu:findChild(sheet.id_lvl)
-        local hth = menu:findChild(sheet.id_hth)
-        local mgk = menu:findChild(sheet.id_mgk)
-        local fat = menu:findChild(sheet.id_fat)
         local cur = menu:findChild(sheet.id_current)
         local ide = menu:findChild(sheet.id_ideal)
         local ori = menu:findChild(sheet.id_original)
@@ -483,37 +415,44 @@ function sheet.onOriginal()
             title.text = "" .. sheet.reference.object.name .. ", the " .. sheet.reference.object.class.name .. ""
         end
 
-        lvl.text = "Level: " .. sheet.reference.baseObject.level .. ""
+        sheet.lvl.text = "Level: " .. sheet.reference.baseObject.level .. ""
 
         --Fill Bars
-        hth.widget.current = sheet.reference.mobile.health.current
-        mgk.widget.current = sheet.reference.mobile.magicka.current
-        fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.hth.widget.current = sheet.reference.mobile.health.current
+        sheet.mgk.widget.current = sheet.reference.mobile.magicka.current
+        sheet.fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.tp.widget.current = sheet.reference.baseObject.level
 
-        hth.widget.max = sheet.reference.baseObject.health
-        mgk.widget.max = sheet.reference.baseObject.magicka
-        fat.widget.max = sheet.reference.baseObject.fatigue
+        sheet.hth.widget.max = sheet.reference.baseObject.health
+        sheet.mgk.widget.max = sheet.reference.baseObject.magicka
+        sheet.fat.widget.max = sheet.reference.baseObject.fatigue
+        sheet.tp.widget.max = sheet.reference.baseObject.level
 
-        if hth.widget.current > hth.widget.max then
-            hth.widget.current = hth.widget.max
+        -- if config.expMode == true then
+        --     sheet.exp.widget.current = 0
+        --     sheet.exp.widget.max = (config.expRequirement + (sheet.reference.baseObject.level * config.expRate))
+        -- end
+
+        if sheet.hth.widget.current > sheet.hth.widget.max then
+            sheet.hth.widget.current = sheet.hth.widget.max
         end
-        if mgk.widget.current > mgk.widget.max then
-            mgk.widget.current = mgk.widget.max
+        if sheet.mgk.widget.current > sheet.mgk.widget.max then
+            sheet.mgk.widget.current = sheet.mgk.widget.max
         end
-        if fat.widget.current > fat.widget.max then
-            fat.widget.current = fat.widget.max
+        if sheet.fat.widget.current > sheet.fat.widget.max then
+            sheet.fat.widget.current = sheet.fat.widget.max
         end
 
-        hth.widget.fillColor = { 0.6, 0.2, 0.2 }
-        mgk.widget.fillColor = { 0.2, 0.2, 0.6 }
-        fat.widget.fillColor = { 0.2, 0.6, 0.2 }
+        sheet.hth.widget.fillColor = tables.colors["red"]
+        sheet.mgk.widget.fillColor = tables.colors["blue"]
+        sheet.fat.widget.fillColor = tables.colors["green"]
 
         --Attributes
         for i = 0, 7 do
             local attList = menu:findChild("kl_sheet_att_" .. i .. "")
             attList.text = "" ..
                 tables.capitalization[i] .. ": " .. baseTable[i + 1] .. ""
-            attList.color = { 0.792, 0.647, 0.376 }
+            attList.color = tables.colors["default_font"]
         end
 
         if sheet.reference.object.objectType == tes3.objectType.creature then
@@ -523,12 +462,12 @@ function sheet.onOriginal()
             for i = 1, #tables.typeTable do
                 local typeList = menu:findChild("kl_sheet_creType_" .. i .. "")
                 if typeList then
-                    typeList.color = { 0.35, 0.35, 0.35 }
+                    typeList.color = tables.colors["grey"]
                 end
 
                 if string.startswith(typeList.text, default) then
                     typeList.text = "" .. tables.typeTable[i] .. ": Level " .. sheet.reference.object.level .. ""
-                    typeList.color = { 1.0, 1.0, 1.0 }
+                    typeList.color = tables.colors["white"]
                 else
                     typeList.text = "" .. tables.typeTable[i] .. ": Level 1"
                 end
@@ -538,7 +477,7 @@ function sheet.onOriginal()
             for i = 0, 26 do
                 local skillList = menu:findChild("kl_sheet_skill_" .. i .. "")
                 skillList.text = "" .. tes3.getSkillName(i) .. ": " .. baseSkillTable[i + 1] .. ""
-                skillList.widget.idle = { 0.792, 0.647, 0.376 }
+                skillList.widget.idle = tables.colors["default_font"]
             end
         end
         menu:updateLayout()
@@ -553,10 +492,6 @@ function sheet.onCurrent()
         local title = menu:findChild(sheet.id_title)
         local label = menu:findChild(sheet.id_label)
         local label2 = menu:findChild(sheet.id_label2)
-        local lvl = menu:findChild(sheet.id_lvl)
-        local hth = menu:findChild(sheet.id_hth)
-        local mgk = menu:findChild(sheet.id_mgk)
-        local fat = menu:findChild(sheet.id_fat)
         local cur = menu:findChild(sheet.id_current)
         local ide = menu:findChild(sheet.id_ideal)
         local ori = menu:findChild(sheet.id_original)
@@ -574,32 +509,34 @@ function sheet.onCurrent()
             title.text = "" .. sheet.reference.object.name .. ", the " .. sheet.class.name .. ""
         end
 
-        lvl.text = "Level: " .. modData.level .. ""
+        sheet.lvl.text = "Level: " .. modData.level .. ""
 
         --Fill Bars
-        hth.widget.current = sheet.reference.mobile.health.current
-        mgk.widget.current = sheet.reference.mobile.magicka.current
-        fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.hth.widget.current = sheet.reference.mobile.health.current
+        sheet.mgk.widget.current = sheet.reference.mobile.magicka.current
+        sheet.fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.tp.widget.current = modData.tp_current
 
-        hth.widget.max = sheet.reference.mobile.health.base
-        mgk.widget.max = sheet.reference.mobile.magicka.base
-        fat.widget.max = sheet.reference.mobile.fatigue.base
+        sheet.hth.widget.max = sheet.reference.mobile.health.base
+        sheet.mgk.widget.max = sheet.reference.mobile.magicka.base
+        sheet.fat.widget.max = sheet.reference.mobile.fatigue.base
+        sheet.tp.widget.max = modData.tp_max
 
-        hth.widget.fillColor = { 0.6, 0.2, 0.2 }
-        mgk.widget.fillColor = { 0.2, 0.2, 0.6 }
-        fat.widget.fillColor = { 0.2, 0.6, 0.2 }
+        sheet.hth.widget.fillColor = tables.colors["red"]
+        sheet.mgk.widget.fillColor = tables.colors["blue"]
+        sheet.fat.widget.fillColor = tables.colors["green"]
 
         --Attributes
         for i = 0, 7 do
             local attList = menu:findChild("kl_sheet_att_" .. i .. "")
             attList.text = "" .. tables.capitalization[i] .. ": " .. math.round(attTable[i + 1].current) .. " / " .. attTable[i + 1].base .. ""
 
-            attList.color = { 0.792, 0.647, 0.376 }
+            attList.color = tables.colors["default_font"]
             if attTable[i + 1].current < attTable[i + 1].base then
-                attList.color = { 0.6, 0.2, 0.2 }
+                attList.color = tables.colors["red"]
             end
             if attTable[i + 1].current > attTable[i + 1].base then
-                attList.color = { 0.2, 0.6, 0.2 }
+                attList.color = tables.colors["green"]
             end
         end
 
@@ -608,16 +545,16 @@ function sheet.onCurrent()
             for i = 1, #tables.typeTable do
                 local typeList = menu:findChild("kl_sheet_creType_" .. i .. "")
                 if typeList then
-                    typeList.color = { 0.35, 0.35, 0.35 }
+                    typeList.color = tables.colors["grey"]
                     typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. ""
 
                     if modData.typelevels[i] > 1 then
-                        typeList.color = { 1.0, 1.0, 1.0 }
+                        typeList.color = tables.colors["white"]
                     end
 
                     if modData.typelevels[i] >= 20 then
-                        typeList.color = { 1.0, 0.62, 0.0 }
-                        typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. " (Mastered)"
+                        typeList.color = tables.colors["gold"]
+                        --typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. " (Mastered)"
                     end
                 end
             end
@@ -627,15 +564,15 @@ function sheet.onCurrent()
                 local tempSkill = sheet.reference.mobile:getSkillStatistic(i)
                 local skillList = menu:findChild("kl_sheet_skill_" .. i .. "")
                 skillList.text = "" .. tes3.getSkillName(i) .. ": " .. tempSkill.current .. " / " .. tempSkill.base .. ""
-                skillList.widget.idle = { 0.792, 0.647, 0.376 }
+                skillList.widget.idle = tables.colors["default_font"]
                 if tempSkill.current < tempSkill.base then
-                    skillList.widget.idle = { 0.6, 0.2, 0.2 }
+                    skillList.widget.idle = tables.colors["red"]
                 end
                 if tempSkill.current > tempSkill.base then
-                    skillList.widget.idle = { 0.2, 0.6, 0.2 }
+                    skillList.widget.idle = tables.colors["green"]
                 end
                 if i == modData.ignore_skill then
-                    skillList.widget.idle = { 1.0, 0.62, 0.0 }
+                    skillList.widget.idle = tables.colors["yellow"]
                 end
             end
         end
@@ -653,10 +590,6 @@ function sheet.onIdeal()
         local title = menu:findChild(sheet.id_title)
         local label = menu:findChild(sheet.id_label)
         local label2 = menu:findChild(sheet.id_label2)
-        local lvl = menu:findChild(sheet.id_lvl)
-        local hth = menu:findChild(sheet.id_hth)
-        local mgk = menu:findChild(sheet.id_mgk)
-        local fat = menu:findChild(sheet.id_fat)
         local cur = menu:findChild(sheet.id_current)
         local ide = menu:findChild(sheet.id_ideal)
         local ori = menu:findChild(sheet.id_original)
@@ -674,38 +607,40 @@ function sheet.onIdeal()
         label.text = "Ideal Statistics:"
         label2.text = "(original + total Companion Leveler stats = Ideal Stats)"
 
-        lvl.text = "Level: " .. sheet.reference.baseObject.level .. " + " .. (modData.level - sheet.reference.baseObject.level) .. " = " .. modData.level .. ""
+        sheet.lvl.text = "Level: " .. sheet.reference.baseObject.level .. " + " .. (modData.level - sheet.reference.baseObject.level) .. " = " .. modData.level .. ""
 
         --Fill Bars
-        hth.widget.max = sheet.reference.baseObject.health + modData.hth_gained
-        mgk.widget.max = sheet.reference.baseObject.magicka + modData.mgk_gained
-        fat.widget.max = sheet.reference.baseObject.fatigue + modData.fat_gained
+        sheet.hth.widget.max = sheet.reference.baseObject.health + modData.hth_gained
+        sheet.mgk.widget.max = sheet.reference.baseObject.magicka + modData.mgk_gained
+        sheet.fat.widget.max = sheet.reference.baseObject.fatigue + modData.fat_gained
+        sheet.tp.widget.max = modData.tp_max
 
-        hth.widget.current = sheet.reference.mobile.health.current
-        mgk.widget.current = sheet.reference.mobile.magicka.current
-        fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.hth.widget.current = sheet.reference.mobile.health.current
+        sheet.mgk.widget.current = sheet.reference.mobile.magicka.current
+        sheet.fat.widget.current = sheet.reference.mobile.fatigue.current
+        sheet.tp.widget.current = modData.tp_current
 
-        if sheet.reference.mobile.health.base ~= hth.widget.max then
-            hth.widget.fillColor = { 0.46, 0.21, 0.44 }
+        if sheet.reference.mobile.health.base ~= sheet.hth.widget.max then
+            sheet.hth.widget.fillColor = tables.colors["light_blue"]
         end
 
-        if sheet.reference.mobile.magicka.base ~= mgk.widget.max then
-            mgk.widget.fillColor = { 0.46, 0.21, 0.44 }
+        if sheet.reference.mobile.magicka.base ~= sheet.mgk.widget.max then
+            sheet.mgk.widget.fillColor = tables.colors["light_blue"]
         end
 
-        if sheet.reference.mobile.fatigue.base ~= fat.widget.max then
-            fat.widget.fillColor = { 0.46, 0.21, 0.44 }
+        if sheet.reference.mobile.fatigue.base ~= sheet.fat.widget.max then
+            sheet.fat.widget.fillColor = tables.colors["light_blue"]
         end
 
 
-        if hth.widget.current > hth.widget.max then
-            hth.widget.current = hth.widget.max
+        if sheet.hth.widget.current > sheet.hth.widget.max then
+            sheet.hth.widget.current = sheet.hth.widget.max
         end
-        if mgk.widget.current > mgk.widget.max then
-            mgk.widget.current = mgk.widget.max
+        if sheet.mgk.widget.current > sheet.mgk.widget.max then
+            sheet.mgk.widget.current = sheet.mgk.widget.max
         end
-        if fat.widget.current > fat.widget.max then
-            fat.widget.current = fat.widget.max
+        if sheet.fat.widget.current > sheet.fat.widget.max then
+            sheet.fat.widget.current = sheet.fat.widget.max
         end
 
         for i = 0, 7 do
@@ -715,9 +650,9 @@ function sheet.onIdeal()
                 ": " ..
                 baseTable[i + 1] ..
                 " + " .. modData.att_gained[i + 1] .. " = " .. (baseTable[i + 1] + modData.att_gained[i + 1]) .. ""
-            attList.color = { 0.792, 0.647, 0.376 }
+            attList.color = tables.colors["default_font"]
             if attTable[i + 1].base ~= (baseTable[i + 1] + modData.att_gained[i + 1]) then
-                attList.color = { 0.46, 0.21, 0.44 }
+                attList.color = tables.colors["light_blue"]
             end
         end
 
@@ -725,16 +660,16 @@ function sheet.onIdeal()
             for i = 1, #tables.typeTable do
                 local typeList = menu:findChild("kl_sheet_creType_" .. i .. "")
                 if typeList then
-                    typeList.color = { 0.35, 0.35, 0.35 }
+                    typeList.color = tables.colors["grey"]
                     typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. ""
 
                     if modData.typelevels[i] > 1 then
-                        typeList.color = { 1.0, 1.0, 1.0 }
+                        typeList.color = tables.colors["white"]
                     end
 
                     if modData.typelevels[i] >= 20 then
-                        typeList.color = { 1.0, 0.62, 0.0 }
-                        typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. " (Mastered)"
+                        typeList.color = tables.colors["gold"]
+                        --typeList.text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. " (Mastered)"
                     end
                 end
             end
@@ -748,9 +683,9 @@ function sheet.onIdeal()
                     baseSkillTable[i + 1] ..
                     " + " ..
                     modData.skill_gained[i + 1] .. " = " .. (baseSkillTable[i + 1] + modData.skill_gained[i + 1]) .. ""
-                skillList.widget.idle = { 0.792, 0.647, 0.376 }
+                skillList.widget.idle = tables.colors["default_font"]
                 if tempSkill.base ~= (baseSkillTable[i + 1] + modData.skill_gained[i + 1]) then
-                    skillList.widget.idle = { 0.46, 0.21, 0.44 }
+                    skillList.widget.idle = tables.colors["light_blue"]
                 end
             end
         end
@@ -815,6 +750,14 @@ function sheet.fixStats(e)
                                 modData.skill_gained[i + 1] = 0
                             end
                         end
+
+                        --Reset EXP
+                        modData.lvl_progress = 0
+                        func.calcEXP(sheet.reference)
+
+                        --Reset TP
+                        modData.tp_current = sheet.reference.baseObject.level
+                        modData.tp_max = sheet.reference.baseObject.level
 
                         sheet.onCurrent()
                     end)
@@ -905,6 +848,24 @@ function sheet.fixStats(e)
 
             tes3.messageBox("" .. sheet.reference.object.name .. " has forgotten their spells.")
         end
+        if e.button == 5 then
+            --Remove All Contracts
+            if sheet.reference.object.objectType == tes3.objectType.creature then
+                tes3.messageBox("" .. sheet.reference.object.name .. " is incapable of accepting contracts!")
+            else
+                modData.contracts = {}
+                tes3.messageBox("" .. sheet.reference.object.name .. " has abandoned all contracts.")
+            end
+        end
+        if e.button == 6 then
+            --Remove All Bounties
+            if sheet.reference.object.objectType == tes3.objectType.creature then
+                tes3.messageBox("" .. sheet.reference.object.name .. " is incapable of accepting bounties!")
+            else
+                modData.bounties = {}
+                tes3.messageBox("" .. sheet.reference.object.name .. " has given up on all bounties.")
+            end
+        end
     end
 end
 
@@ -912,7 +873,7 @@ function sheet.onFix()
     local menu = tes3ui.findMenu(sheet.id_menu)
     if menu then
         tes3.messageBox({ message = "Fix " .. sheet.reference.object.name .. "'s stats?",
-            buttons = { "Reset Stats to Original", "Fix Stats to Ideal", "Set Ideal to Current", "Remove All Abilities", "Remove All Spells", "Cancel" },
+            buttons = { "Reset Stats to Original", "Fix Stats to Ideal", "Set Ideal to Current", "Remove All Abilities", "Remove All Spells", "Abandon Contracts", "Forsake Bounties", "" .. tes3.findGMST("sCancel").value .. "" },
             callback = sheet.fixStats })
     end
 end
@@ -934,7 +895,7 @@ function sheet.setIgnore(e)
                 if modData.ignore_skill ~= 99 then
                     --Clear previous Ignore Skill color
                     if string.startswith(label.text, tes3.getSkillName(modData.ignore_skill)) then
-                        label.widget.idle = { 0.792, 0.647, 0.376 }
+                        label.widget.idle = tables.colors["default_font"]
 
                         --Check page, update colors
                         local title = menu:findChild(sheet.id_label)
@@ -943,16 +904,16 @@ function sheet.setIgnore(e)
                         if string.endswith(title.text, "Ideal Statistics:") then
                             local baseSkillTable = sheet.reference.baseObject.skills
                             if tempSkill.base ~= (baseSkillTable[n + 1] + modData.skill_gained[n + 1]) then
-                                label.widget.idle = { 0.46, 0.21, 0.44 }
+                                label.widget.idle = tables.colors["light_blue"]
                             end
                         end
 
                         if string.endswith(title.text, "Current Statistics:") then
                             if tempSkill.current < tempSkill.base then
-                                label.widget.idle = { 0.6, 0.2, 0.2 }
+                                label.widget.idle = tables.colors["red"]
                             end
                             if tempSkill.current > tempSkill.base then
-                                label.widget.idle = { 0.2, 0.6, 0.2 }
+                                label.widget.idle = tables.colors["green"]
                             end
                         end
                     end
@@ -960,7 +921,7 @@ function sheet.setIgnore(e)
 
                 --Indicate Ignored Skill
                 if n == sheet.ignore_skill then
-                    label.widget.idle = { 1.0, 0.62, 0.0 }
+                    label.widget.idle = tables.colors["yellow"]
                 end
             end
 
@@ -980,7 +941,7 @@ function sheet.setIgnore(e)
             for n = 0, 26 do
                 local label = menu:findChild("kl_sheet_skill_" .. n .. "")
                 if string.startswith(label.text, tes3.getSkillName(modData.ignore_skill)) then
-                    label.widget.idle = { 0.792, 0.647, 0.376 }
+                    label.widget.idle = tables.colors["default_font"]
 
                     --Check Page, Update Colors
                     local title = menu:findChild(sheet.id_label)
@@ -989,16 +950,16 @@ function sheet.setIgnore(e)
                     if string.endswith(title.text, "Ideal Statistics:") then
                         local baseSkillTable = sheet.reference.baseObject.skills
                         if tempSkill.base ~= (baseSkillTable[n + 1] + modData.skill_gained[n + 1]) then
-                            label.widget.idle = { 0.46, 0.21, 0.44 }
+                            label.widget.idle = tables.colors["light_blue"]
                         end
                     end
 
                     if string.endswith(title.text, "Current Statistics:") then
                         if tempSkill.current < tempSkill.base then
-                            label.widget.idle = { 0.6, 0.2, 0.2 }
+                            label.widget.idle = tables.colors["red"]
                         end
                         if tempSkill.current > tempSkill.base then
-                            label.widget.idle = { 0.2, 0.6, 0.2 }
+                            label.widget.idle = tables.colors["green"]
                         end
                     end
                 end
@@ -1022,9 +983,10 @@ function sheet.onIgnore(i)
 
         tes3.messageBox({ message = "Tell " ..
             sheet.reference.object.name .. " not to train " .. tes3.getSkillName(i) .. "?",
-            buttons = { "Yes", "Unset Ignore Skill", "Cancel" },
+            buttons = { tes3.findGMST("sYes").value, "Unset Ignore Skill", tes3.findGMST("sCancel").value },
             callback = sheet.setIgnore })
     end
 end
+
 
 return sheet

@@ -24,8 +24,6 @@ function typeModule.typeChange(reference)
 		typeModule.reference = reference
 	end
 
-	log:debug("Type menu triggered.")
-
 	-- Create window and frame
 	local menu = tes3ui.createMenu { id = typeModule.id_menu, fixedFrame = true }
 
@@ -84,14 +82,42 @@ function typeModule.typeChange(reference)
 	pane.widget.scrollbarVisible = true
 
 	--Populate Pane
+	local bloc = pane:createBlock {}
+	bloc.flowDirection = tes3.flowDirection.leftToRight
+	bloc.width = 180
+	bloc.height = 18
 	local deftype = func.determineDefault(reference)
-	local a = pane:createTextSelect { text = "Default: " .. deftype .. "", id = "tChangeB_D" }
+	local a = bloc:createTextSelect { text = "Default: " .. deftype .. "", id = "tChangeB_D" }
+	for i = 1, #tables.typeTable do
+		if tables.typeTable[i] == deftype then
+			if modData.typelevels[i] >= 20 then
+				a.widget.idle = tables.colors["gold"]
+				local star = bloc:createImage({ path = "textures\\companionLeveler\\star.tga" })
+				star.height = 10
+				star.width = 10
+				star.borderLeft = 4
+				star.borderTop = 1
+			end
+		end
+	end
 	a:register("mouseClick", function(e) typeModule.defSelect() end)
 
 	pane:createDivider()
 
 	for i = 1, #tables.typeTable do
-		local b = pane:createTextSelect { text = tables.typeTable[i], id = "tChangeB_" .. i .. "" }
+		local bl = pane:createBlock {}
+		bl.flowDirection = tes3.flowDirection.leftToRight
+		bl.width = 180
+		bl.height = 18
+		local b = bl:createTextSelect { text = tables.typeTable[i], id = "tChangeB_" .. i .. "" }
+		if modData.typelevels[i] >= 20 then
+			b.widget.idle = tables.colors["gold"]
+			local star = bl:createImage({ path = "textures\\companionLeveler\\star.tga" })
+			star.height = 10
+			star.width = 10
+			star.borderLeft = 4
+			star.borderTop = 1
+		end
 		b:register("mouseClick", function() typeModule.onSelect(i) end)
 	end
 
@@ -117,7 +143,7 @@ function typeModule.typeChange(reference)
 
 	--Attribute Text
 	local kl_att = spec_block:createLabel({ text = "Favored Attributes:", id = "kl_att_type" })
-	kl_att.color = { 1.0, 1.0, 1.0 }
+	kl_att.color = tables.colors["white"]
 	spec_block:createLabel({ text = "" .. tables.capitalization[mAtt1] .. "", id = "kl_att1_type" })
 	spec_block:createLabel({ text = "" .. tables.capitalization[mAtt2] .. "", id = "kl_att2_type" })
 	local extraAtt = spec_block:createLabel({ text = "", id = "kl_att3_type" })
@@ -127,7 +153,7 @@ function typeModule.typeChange(reference)
 
 	--Description Text
 	local kl_major = major_block:createLabel({ text = "Growth Type:" })
-	kl_major.color = { 1.0, 1.0, 1.0 }
+	kl_major.color = tables.colors["white"]
 	major_block:createLabel { text = mSkillType, id = "kl_type_desc" }
 
 	--Button Block
@@ -147,8 +173,12 @@ function typeModule.typeChange(reference)
 	-- Events
 	menu:register(tes3.uiEvent.keyEnter, typeModule.onOK)
 	button_ok:register(tes3.uiEvent.mouseClick, typeModule.onOK)
-	button_growth:register("mouseClick", function() growth.createWindow(reference) end)
-	button_root:register("mouseClick", function() menu:destroy() root.createWindow(reference) end)
+	button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
+	button_root:register("mouseClick", function()
+		menu:destroy()
+		root.createWindow(reference)
+		tes3.messageBox { message = "" .. typeModule.reference.object.name .. " changed to " .. modData.type .. "." }
+	end)
 
 	-- Final setup
 	menu:updateLayout()

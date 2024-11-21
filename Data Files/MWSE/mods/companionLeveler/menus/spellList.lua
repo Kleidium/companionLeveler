@@ -16,9 +16,12 @@ function spList.createWindow(reference)
 
 
     local menu = tes3ui.createMenu { id = spList.id_menu, fixedFrame = true }
+    menu.alpha = 1.0
 
     --Create layout
-    local label = menu:createLabel { text = "" .. reference.object.name .. "'s Spell List:", id = spList.id_label }
+    local label = menu:createLabel { text = "Spell List:", id = spList.id_label }
+    label.wrapText = true
+    label.justifyText = "center"
     label.borderBottom = 12
 
 
@@ -87,7 +90,7 @@ function spList.onSelect(id)
         local spell = tes3.getObject(id)
         spList.spell = spell
         tes3.messageBox({ message = "Forget " .. spell.name .. "?",
-            buttons = { "Yes", "No" },
+            buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = spList.forget })
     end
 end

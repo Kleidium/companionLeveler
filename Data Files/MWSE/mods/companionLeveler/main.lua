@@ -24,11 +24,14 @@ end
 event.register("initialized", initialized)
 
 local function versionCheck()
-	local partyTable = func.buildTable()
+	log:info("Checking version...")
+	local partyTable = func.partyTable()
 
 	for i = 1, #partyTable do
 		func.updateModData(partyTable[i])
 	end
+
+	log:info("Version check complete.")
 end
 event.register("loaded", versionCheck)
 
@@ -177,7 +180,7 @@ event.register("uiActivated", function()
 
 	local actor = tes3ui.getServiceActor()
 
-	if actor and func.validCompanionCheck(actor) then
+	if actor and func.validCompanionCheck(actor) and actor.inCombat == false then
 		log:debug("NPC Follower detected. Giving class change topic.")
 		tes3.setGlobal("kl_companion", 1)
 	else
@@ -188,17 +191,21 @@ end, { filter = "MenuDialog" })
 
 event.register(tes3.event.keyDown, function(e)
 	if e.keyCode ~= config.typeBind.keyCode then return end
+	if config.modEnabled == false then return end
 
 	local t = tes3.getPlayerTarget()
 	if not t then return end
+	if t.mobile.inCombat then return end
 
 	if func.validCompanionCheck(t.mobile) then
 		log:trace("Ability Check triggered on " .. t.object.name .. ". (Key Press)")
+
 		if t.object.objectType == tes3.objectType.creature then
 			func.addAbilities(t)
 		else
 			func.addAbilitiesNPC(t)
 		end
+
 		root.createWindow(t)
 	end
 end)
@@ -215,6 +222,9 @@ local function abilityClear(e)
 	log:trace("Ability Check triggered on " .. e.reference.object.name .. ". (Activated)")
 	if not func.validCompanionCheck(e.mobile) then
 		func.removeAbilities(e.reference)
+
+		if config.modEnabled == false then return end
+
 		abilities.tranquility(e.reference)
 		abilities.pheromone(e.reference)
 	else
@@ -247,7 +257,7 @@ local function abilityTimer2()
 	log:trace("Recurring ability timer triggered.")
 
 	local float = math.random()
-	local int = math.random(7, 23)
+	local int = math.random(8, 23)
 	timer.start({ type = timer.game, duration = (float + int), iterations = 1, callback = "companionLeveler:abilityTimer2" })
 
 	if config.modEnabled == false then return end
@@ -285,10 +295,14 @@ event.register(tes3.event.combatStarted, onCombat)
 local function onDamage(e)
 	if config.modEnabled == false then return end
 
-	if math.random(0, 99) < config.combatChance then
-		local result = 0
+	if e.source == "attack" then
+		--Reliable
+		abilities.ignition(e)
 
-		if e.source == "attack" then
+		--Combat Chance
+		if math.random(0, 99) < config.combatChance then
+			local result = 0
+
 			result = result + abilities.thuum(e)
 			result = result + abilities.maneater(e)
 			result = result + abilities.ladykiller(e)
@@ -301,9 +315,11 @@ local function onDamage(e)
 			else
 				abilities.arcaneK(e)
 			end
-		end
 
-		e.damage = e.damage + result
+			e.damage = e.damage + result
+		end
+	elseif e.source == "fall" then
+		e.damage = abilities.acrobatic(e)
 	end
 end
 event.register("damage", onDamage)
@@ -324,13 +340,14 @@ local function onCellChanged(e)
 	abilities.composition()
 	abilities.mystery()
 	abilities.manasponge()
+	abilities.resolve()
 	abilities.blessed()
 	abilities.bountyCheck()
 	abilities.track()
 
 	if config.expMode == false then return end
 
-	local exp = abilities.survey()
+	local exp = abilities.survey(e)
 
 	if exp > 0 then
 		--Award EXP
@@ -350,6 +367,40 @@ local function onCellChanged(e)
 end
 event.register(tes3.event.cellChanged, onCellChanged)
 
+--On Rest Abilities
+local function onCalcRestInterrupt(e)
+	if config.modEnabled == false then return end
+
+	abilities.cunning(e)
+end
+event.register(tes3.event.calcRestInterrupt, onCalcRestInterrupt)
+
+--On Door Activate
+local function onDoor(e)
+	if e.activator ~= tes3.player then return end
+
+	if (e.target.baseObject.objectType == tes3.objectType.door) then
+		log:trace("Door callback triggered.")
+		local cell = tes3.player.cell
+
+		if cell.isOrBehavesAsExterior then
+			local vector = tes3.getLastExteriorPosition()
+			local modData = func.getModDataP(tes3.player)
+			modData.lastExteriorPosition = {vector.x, vector.y, vector.z}
+
+			log:debug("Last Exterior Position Assigned: " .. tostring(vector) .. "")
+		end
+	end
+end
+event.register("activate", onDoor)
+
+--Bartering
+local function onCalcTravelPrice(e)
+	if config.modEnabled == false then return end
+
+	abilities.navigator(e)
+end
+event.register("calcTravelPrice", onCalcTravelPrice)
 
 
 --
@@ -369,3 +420,4 @@ end)
 
 -- event.register("jump", onLevelUp)
 -- event.register("jump", expTest)
+--
