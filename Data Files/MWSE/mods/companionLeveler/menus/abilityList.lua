@@ -43,7 +43,7 @@ function abList.createWindow(reference)
     pane.widget.scrollbarVisible = true
 
     --Populate Pane
-    if reference.object.objectType ~= tes3.objectType.creature then
+    if reference.object.objectType ~= tes3.objectType.creature and modData.metamorph == false then
         for i = 1, #tables.abListNPC do
             local spellObject = tes3.getObject(tables.abListNPC[i])
             local listItem

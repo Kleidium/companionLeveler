@@ -7,6 +7,8 @@ local abilityList = require("companionLeveler.menus.abilityList")
 local spellList = require("companionLeveler.menus.spellList")
 local specialList = require("companionLeveler.menus.specialList")
 local growth = require("companionLeveler.menus.growthSettings")
+local npcMode = require("companionLeveler.modes.npcClassMode")
+local creMode = require("companionLeveler.modes.creClassMode")
 
 
 local sheet = {}
@@ -54,6 +56,7 @@ function sheet.createWindow(reference)
     menu.text = reference.object.name
 
     local modData = func.getModData(reference)
+    sheet.modData = modData
     local attTable = reference.mobile.attributes
     local faction = reference.object.faction
 
@@ -99,7 +102,7 @@ function sheet.createWindow(reference)
     title.height = 40
 
     local txt = ""
-    if reference.object.objectType == tes3.objectType.creature then
+    if reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
         txt = modData.type
     else
         sheet.class = tes3.findClass(modData.class)
@@ -138,7 +141,7 @@ function sheet.createWindow(reference)
     skillHeadLabel.borderTop = 6
     skillHeadLabel.color = tables.colors["white"]
 
-    if reference.object.objectType == tes3.objectType.creature then
+    if reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
         skillHeadLabel.text = "Type Levels"
     end
 
@@ -282,7 +285,7 @@ function sheet.createWindow(reference)
     button_original.borderLeft = 71
 
     ----Skill Block--------------------------------------------------------------------------------------------------------
-    if reference.object.objectType == tes3.objectType.creature then
+    if reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
         for i = 1, #tables.typeTable do
             local typeList = rightBlock:createLabel({ text = "" .. tables.typeTable[i] .. ": Level " .. modData.typelevels[i] .. "", id = "kl_sheet_creType_" .. i .. "" })
             typeList.wrapText = true
@@ -455,9 +458,14 @@ function sheet.onOriginal()
             attList.color = tables.colors["default_font"]
         end
 
-        if sheet.reference.object.objectType == tes3.objectType.creature then
+        if sheet.reference.object.objectType == tes3.objectType.creature or sheet.modData.metamorph == true then
             --Creature Types
-            local default = func.determineDefault(sheet.reference)
+            local default
+            if sheet.reference.object.objectType == tes3.objectType.creature then
+                default = func.determineDefault(sheet.reference)
+            else
+                default = "Normal"
+            end
 
             for i = 1, #tables.typeTable do
                 local typeList = menu:findChild("kl_sheet_creType_" .. i .. "")
@@ -503,7 +511,7 @@ function sheet.onCurrent()
         label.text = "Current Statistics:"
         label2.text = "(current value / base value)"
 
-        if sheet.reference.object.objectType == tes3.objectType.creature then
+        if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
             title.text = "" .. sheet.reference.object.name .. ", the " .. modData.type .. ""
         else
             title.text = "" .. sheet.reference.object.name .. ", the " .. sheet.class.name .. ""
@@ -540,7 +548,7 @@ function sheet.onCurrent()
             end
         end
 
-        if sheet.reference.object.objectType == tes3.objectType.creature then
+        if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
             --Creature Types
             for i = 1, #tables.typeTable do
                 local typeList = menu:findChild("kl_sheet_creType_" .. i .. "")
@@ -598,7 +606,7 @@ function sheet.onIdeal()
         ide.widget.state = 4
         ori.widget.state = 1
 
-        if sheet.reference.object.objectType == tes3.objectType.creature then
+        if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
             title.text = "" .. sheet.reference.object.name .. ", the " .. modData.type .. ""
         else
             title.text = "" .. sheet.reference.object.name .. ", the " .. sheet.class.name .. ""
@@ -656,7 +664,7 @@ function sheet.onIdeal()
             end
         end
 
-        if sheet.reference.object.objectType == tes3.objectType.creature then
+        if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
             for i = 1, #tables.typeTable do
                 local typeList = menu:findChild("kl_sheet_creType_" .. i .. "")
                 if typeList then
@@ -721,6 +729,10 @@ function sheet.fixStats(e)
                 end
             else
                 func.removeAbilitiesNPC(sheet.reference)
+                modData.metamorph = false
+                for i = 1, #modData.typelevels do
+                    modData.typelevels[i] = 1
+                end
             end
 
             --Update Statistics after simulating
@@ -771,7 +783,7 @@ function sheet.fixStats(e)
             --Fix Stats
 
             --Add Abilities first
-            if sheet.reference.object.objectType == tes3.objectType.creature then
+            if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
                 func.addAbilities(sheet.reference)
             else
                 func.addAbilitiesNPC(sheet.reference)
@@ -821,6 +833,7 @@ function sheet.fixStats(e)
                 func.removeAbilities(sheet.reference)
             else
                 func.removeAbilitiesNPC(sheet.reference)
+                modData.metamorph = false
             end
 
             --Update Statistics after simulating
@@ -846,6 +859,8 @@ function sheet.fixStats(e)
                 tes3.removeSpell({ reference = sheet.reference, spell = spells[i].id })
             end
 
+            modData.unusedSpells = {}
+
             tes3.messageBox("" .. sheet.reference.object.name .. " has forgotten their spells.")
         end
         if e.button == 5 then
@@ -866,6 +881,19 @@ function sheet.fixStats(e)
                 tes3.messageBox("" .. sheet.reference.object.name .. " has given up on all bounties.")
             end
         end
+        if e.button == 7 then
+            --Level Up
+            if modData.level < tes3.player.object.level then
+                menu:destroy()
+                if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
+                    creMode.levelUp({sheet.reference})
+                else
+                    npcMode.levelUp({sheet.reference})
+                end
+            else
+                tes3.messageBox("" .. sheet.reference.object.name .. " is caught up.")
+            end
+        end
     end
 end
 
@@ -873,7 +901,7 @@ function sheet.onFix()
     local menu = tes3ui.findMenu(sheet.id_menu)
     if menu then
         tes3.messageBox({ message = "Fix " .. sheet.reference.object.name .. "'s stats?",
-            buttons = { "Reset Stats to Original", "Fix Stats to Ideal", "Set Ideal to Current", "Remove All Abilities", "Remove All Spells", "Abandon Contracts", "Forsake Bounties", "" .. tes3.findGMST("sCancel").value .. "" },
+            buttons = { "Reset Stats to Original", "Fix Stats to Ideal", "Set Ideal to Current", "Remove All Abilities", "Remove All Spells", "Abandon Contracts", "Forsake Bounties", "Catch Up (Instant Level)", "" .. tes3.findGMST("sCancel").value .. "" },
             callback = sheet.fixStats })
     end
 end

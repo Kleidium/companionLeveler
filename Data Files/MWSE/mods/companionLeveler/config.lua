@@ -67,7 +67,8 @@ local defaultConfig = {
 	aheadClasses = true,
 	allClasses = false,
 	bMessages = true,
-	abilityColors = false
+	abilityColors = false,
+	expCatchUp = false
 }
 
 local mwseConfig = mwse.loadConfig("Companion Leveler", defaultConfig)

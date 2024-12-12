@@ -6,7 +6,7 @@ local func = require("companionLeveler.functions.common")
 local siphon = {}
 
 
-function siphon.createWindow(ref)
+function siphon.createWindow(ref, type)
     siphon.id_menu = tes3ui.registerID("kl_siphon_menu")
 	siphon.id_comBar = tes3ui.registerID("kl_siphon_comBar")
 	siphon.id_pcBar = tes3ui.registerID("kl_siphon_pcBar")
@@ -20,6 +20,7 @@ function siphon.createWindow(ref)
 	local tech = require("companionLeveler.menus.techniques.techniques")
 
     siphon.ref = ref
+	siphon.type = type
 	siphon.interval = 1
 
     local menu = tes3ui.createMenu { id = siphon.id_menu, fixedFrame = true }
@@ -36,10 +37,7 @@ function siphon.createWindow(ref)
 	siphon_block.childAlignX = 0.5
 
 	--Title
-    local title = siphon_block:createLabel { text = "Siphon Magicka" }
-	if ref.object.objectType == tes3.objectType.creature then
-		title.text = "Blood Rite"
-	end
+    local title = siphon_block:createLabel { text = "" }
     local divider = siphon_block:createDivider{}
     divider.borderBottom = 28
 
@@ -47,12 +45,12 @@ function siphon.createWindow(ref)
     local comLabel = siphon_block:createLabel { text = "" .. ref.object.name .. "" }
     local comBar
 	local color
-	if ref.object.objectType == tes3.objectType.creature then
-		comBar = siphon_block:createFillBar({ current = ref.mobile.health.current, max = ref.mobile.health.base, id = siphon.id_comBar })
-		color = "red"
-	else
+	if type == 1 then
 		comBar = siphon_block:createFillBar({ current = ref.mobile.magicka.current, max = ref.mobile.magicka.base, id = siphon.id_comBar })
 		color = "blue"
+	else
+		comBar = siphon_block:createFillBar({ current = ref.mobile.health.current, max = ref.mobile.health.base, id = siphon.id_comBar })
+		color = "red"
 	end
 	func.configureBar(comBar, "standard", color)
     comBar.borderBottom = 20
@@ -67,11 +65,14 @@ function siphon.createWindow(ref)
     local pcLabel = siphon_block:createLabel { text = "" .. tes3.player.object.name .. "" }
 	pcLabel.borderTop = 20
 	local pcBar
-	if ref.object.objectType == tes3.objectType.creature then
+	if type == 1 then
+		pcBar = siphon_block:createFillBar({ current = tes3.player.mobile.magicka.current, max = tes3.player.mobile.magicka.base, id = siphon.id_pcBar })
+		color = "blue"
+	elseif type == 2 then
 		pcBar = siphon_block:createFillBar({ current = tes3.player.mobile.health.current, max = tes3.player.mobile.health.base, id = siphon.id_pcBar })
 		color = "red"
-	else
-		pcBar = siphon_block:createFillBar({ current = tes3.player.mobile.magicka.current, max = tes3.player.mobile.magicka.base, id = siphon.id_pcBar })
+	elseif type == 3 then
+		pcBar = siphon_block:createFillBar({ current = ref.mobile.magicka.current, max = ref.mobile.magicka.base, id = siphon.id_pcBar })
 		color = "blue"
 	end
    	func.configureBar(pcBar, "standard", color)
@@ -95,6 +96,16 @@ function siphon.createWindow(ref)
 
 
     --Final setup
+	if type == 1 then
+		title.text = "Siphon Magicka"
+	elseif type == 2 then
+		title.text = "Blood Rite"
+	elseif type == 3 then
+		title.text = "Life Tap"
+		comPlus:destroy()
+		pcLabel.text = "" .. ref.object.name .. ""
+	end
+
     menu:updateLayout()
     tes3ui.enterMenuMode(siphon.id_menu)
 end
@@ -110,7 +121,7 @@ function siphon.onPlus()
 		local pcBar = menu:findChild(siphon.id_pcBar)
 		local resource = "magicka"
 
-		if siphon.ref.object.objectType == tes3.objectType.creature then
+		if siphon.type == 2 then
 			--Undead
 			comValue = siphon.ref.mobile.health
 			pcValue = tes3.mobilePlayer.health
@@ -119,7 +130,9 @@ function siphon.onPlus()
 
 		if ((comValue.current + siphon.interval) <= comValue.base and pcValue.current >= siphon.interval) then
 			--Success
-			tes3.modStatistic({ name = resource, reference = tes3.player, current = (siphon.interval * -1) })
+			if siphon.type == 1 or siphon.type == 2 then
+				tes3.modStatistic({ name = resource, reference = tes3.player, current = (siphon.interval * -1) })
+			end
 			tes3.modStatistic({ name = resource, reference = siphon.ref, current = siphon.interval })
 			comBar.widget.current = comValue.current
 			pcBar.widget.current = pcValue.current
@@ -142,21 +155,31 @@ function siphon.onMinus()
 		local comBar = menu:findChild(siphon.id_comBar)
 		local pcBar = menu:findChild(siphon.id_pcBar)
 		local resource = "magicka"
+		local msg = "" .. siphon.ref.object.name .. " gave " .. siphon.interval .. " " .. resource .. " to " .. tes3.player.object.name .. "."
 
-		if siphon.ref.object.objectType == tes3.objectType.creature then
+		if siphon.type == 2 then
 			--Undead
 			comValue = siphon.ref.mobile.health
 			pcValue = tes3.mobilePlayer.health
 			resource = "health"
+		elseif siphon.type == 3 then
+			comValue = siphon.ref.mobile.health
+			pcValue = siphon.ref.mobile.magicka
+			resource = "health"
+			msg = "" .. siphon.ref.object.name .. " sacrificed " .. siphon.interval .. " " .. resource .. " for " .. siphon.interval .. " magicka."
 		end
 
 		if ((pcValue.current  + siphon.interval) <= pcValue.base and comValue.current >= siphon.interval) then
 			--Success
 			tes3.modStatistic({ name = resource, reference = siphon.ref, current = (siphon.interval * -1) })
-			tes3.modStatistic({ name = resource, reference = tes3.player, current = siphon.interval })
+			if siphon.type == 1 or siphon.type == 2 then
+				tes3.modStatistic({ name = resource, reference = tes3.player, current = siphon.interval })
+			elseif siphon.type == 3 then
+				tes3.modStatistic({ name = "magicka", reference = siphon.ref, current = siphon.interval * 0.5 })
+			end
 			comBar.widget.current = comValue.current
 			pcBar.widget.current = pcValue.current
-			log:trace("" .. siphon.ref.object.name .. " gave " .. siphon.interval .. " " .. resource .. " to " .. tes3.player.object.name .. ".")
+			log:trace(msg)
 		else
 			--Failure
 			tes3.playSound({ sound = "Spell Failure Mysticism" })
@@ -178,11 +201,14 @@ function siphon.onInterval()
             button.text = string.gsub(button.text, "5pts", "10pts")
             siphon.interval = 10
 		elseif string.match(button.text, "10pts") then
-			button.text = string.gsub(button.text, "10pts", "100pts")
+			button.text = string.gsub(button.text, "10pts", "50pts")
+            siphon.interval = 50
+		elseif string.match(button.text, "50pts") then
+			button.text = string.gsub(button.text, "50pts", "100pts")
             siphon.interval = 100
 		elseif string.match(button.text, "100pts") then
 			button.text = string.gsub(button.text, "100pts", "1pt")
-            siphon.interval = 1
+			siphon.interval = 1
 		end
 		menu:updateLayout()
 	end

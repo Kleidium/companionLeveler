@@ -4,6 +4,7 @@ local tables = require("companionLeveler.tables")
 local siphon = require("companionLeveler.menus.techniques.siphon")
 local artifice = require("companionLeveler.menus.techniques.artifice")
 local necro = require("companionLeveler.menus.techniques.necro")
+local daedra = require("companionLeveler.menus.techniques.daedra")
 local rez = require("companionLeveler.menus.techniques.resurrect")
 local beast = require("companionLeveler.menus.techniques.beast")
 local train = require("companionLeveler.menus.techniques.train")
@@ -12,7 +13,7 @@ local gem = require("companionLeveler.menus.techniques.gem")
 
 local tech = {}
 
-
+--Main Menu
 function tech.createWindow(ref)
     tech.id_menu = tes3ui.registerID("kl_tech_menu")
     tech.id_label = tes3ui.registerID("kl_tech_label")
@@ -32,6 +33,7 @@ function tech.createWindow(ref)
 	tech.id_dig = tes3ui.registerID("kl_tech_dig_btn")
 	tech.id_beast = tes3ui.registerID("kl_tech_beast_btn")
 	tech.id_train = tes3ui.registerID("kl_tech_train_btn")
+	tech.id_daedra = tes3ui.registerID("kl_tech_daedra_btn")
 
 
     tech.log = logger.getLogger("Companion Leveler")
@@ -85,7 +87,7 @@ function tech.createWindow(ref)
 			--Undead Level 10
 			local msg = "Perform a Rite of Blood?\nTP Cost: 3"
 			local button_rite = tech_block:createButton { id = tech.id_rite, text = "Blood Rite" }
-			button_rite:register("mouseClick", function() tech.onSiphon(msg) end)
+			button_rite:register("mouseClick", function() tech.onSiphon(msg, 2) end)
 		end
 		if tech.modData.abilities[15] == true then
 			--Humanoid Level 15
@@ -235,7 +237,20 @@ function tech.createWindow(ref)
 			--Arcanist
 			local msg = "Siphon Magicka?\nTP Cost: 3"
 			local button_siphon = tech_block:createButton { id = tech.id_siphon, text = "Siphon Magicka" }
-			button_siphon:register("mouseClick", function() tech.onSiphon(msg) end)
+			button_siphon:register("mouseClick", function() tech.onSiphon(msg, 1) end)
+		end
+
+		if tech.modData.abilities[118] == true then
+			--Daedrologist
+			local button_daedra = tech_block:createButton { id = tech.id_daedra, text = "Summon Daedra" }
+			button_daedra:register("mouseClick", function() tech.menu:destroy() daedra.createWindow(ref) end)
+		end
+
+		if tech.modData.abilities[121] == true then
+			--Dark Knight
+			local msg = "Life Tap?\nTP Cost: 3"
+			local button_siphon = tech_block:createButton { id = tech.id_siphon, text = "Life Tap" }
+			button_siphon:register("mouseClick", function() tech.onSiphon(msg, 3) end)
 		end
 	end
 
@@ -456,8 +471,9 @@ function tech.digResult()
 end
 
 --Arcanist / Undead Level 10
-function tech.onSiphon(msg)
+function tech.onSiphon(msg, type)
 	if tech.menu then
+		tech.type = type
         tes3.messageBox({ message = msg,
             buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = tech.onSiphonConfirm })
@@ -469,7 +485,7 @@ function tech.onSiphonConfirm(e)
 		if func.spendTP(tech.ref, 3) == false then return end
 
 		tech.menu:destroy()
-		siphon.createWindow(tech.ref)
+		siphon.createWindow(tech.ref, tech.type)
 	end
 end
 

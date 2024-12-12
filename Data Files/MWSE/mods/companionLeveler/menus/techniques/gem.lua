@@ -44,10 +44,15 @@ function gem.createWindow(ref)
 	-- Title
 	title_block:createLabel { text = "Soul Gem Synthesis" }
 
+	-- Magicka Bar
+	gem.mgk_bar = tp_block:createFillBar({ current = ref.mobile.magicka.current, max = ref.mobile.magicka.base, id = gem.id_mgk_bar })
+	func.configureBar(gem.mgk_bar, "small", "blue")
+	gem.mgk_bar.borderLeft = 20
+
 	-- TP Bar
 	gem.tp_bar = tp_block:createFillBar({ current = modData.tp_current, max = modData.tp_max, id = gem.id_tp_bar })
 	func.configureBar(gem.tp_bar, "small", "purple")
-	gem.tp_bar.borderLeft = 145
+	gem.tp_bar.borderLeft = 5
 
 	-- Pane Block
 	local pane_block = menu:createBlock { id = "pane_block_gem" }

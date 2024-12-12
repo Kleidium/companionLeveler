@@ -11,6 +11,8 @@ function growth.createWindow(reference)
     growth.id_label = tes3ui.registerID("kl_growth_label")
     growth.id_spell = tes3ui.registerID("kl_growth_spell_btn")
     growth.id_ability = tes3ui.registerID("kl_growth_ability_btn")
+    growth.id_attribute = tes3ui.registerID("kl_growth_att_btn")
+    growth.id_skill = tes3ui.registerID("kl_growth_skill_btn")
     growth.id_blacklist = tes3ui.registerID("kl_growth_blacklist_btn")
     growth.id_power_level = tes3ui.registerID("kl_growth_power_btn")
 
@@ -36,7 +38,7 @@ function growth.createWindow(reference)
     --Main Button Block---------------------------------------------------------------------------------------------
     local growth_block = menu:createBlock { id = "kl_growth_block" }
     growth_block.width = 236
-    growth_block.height = 130
+    growth_block.height = 165
     growth_block.flowDirection = "top_to_bottom"
 
 
@@ -55,6 +57,22 @@ function growth.createWindow(reference)
         button_ability.text = "Ability Learning: " .. tes3.findGMST("sYes").value .. ""
     else
         button_ability.text = "Ability Learning: " .. tes3.findGMST("sNo").value .. ""
+    end
+
+    local button_attribute = growth_block:createButton { id = growth.id_attribute, text = "Attribute Training" }
+    button_attribute.borderLeft = 26
+    if modData.attributeTraining == true then
+        button_attribute.text = "Attribute Training: " .. tes3.findGMST("sYes").value .. ""
+    else
+        button_attribute.text = "Attribute Training: " .. tes3.findGMST("sNo").value .. ""
+    end
+
+    local button_skill = growth_block:createButton { id = growth.id_skill, text = "Skill Training" }
+    button_skill.borderLeft = 41
+    if modData.skillTraining == true then
+        button_skill.text = "Skill Training: " .. tes3.findGMST("sYes").value .. ""
+    else
+        button_skill.text = "Skill Training: " .. tes3.findGMST("sNo").value .. ""
     end
 
     local button_blacklist = growth_block:createButton { id = growth.id_blacklist, text = "Blacklist" }
@@ -80,6 +98,8 @@ function growth.createWindow(reference)
     --Events
     button_spell:register(tes3.uiEvent.mouseClick, growth.onSpell)
     button_ability:register(tes3.uiEvent.mouseClick, growth.onAbility)
+    button_attribute:register(tes3.uiEvent.mouseClick, growth.onAttribute)
+    button_skill:register(tes3.uiEvent.mouseClick, growth.onSkill)
     button_blacklist:register(tes3.uiEvent.mouseClick, growth.onBlacklist)
     button_root:register("mouseClick", function() menu:destroy() root.createWindow(reference) end)
     button_cancel:register("mouseClick", function() tes3ui.leaveMenuMode() menu:destroy() end)
@@ -123,6 +143,44 @@ function growth.onAbility(e)
             button.text = "Ability Learning: " .. tes3.findGMST("sYes").value .. ""
             modData.abilityLearning = true
             log:info("" .. growth.reference.object.name .. ": ability learning feature enabled.")
+        end
+    end
+end
+
+function growth.onAttribute(e)
+    local menu = tes3ui.findMenu(growth.id_menu)
+    local modData = func.getModData(growth.reference)
+
+    if (menu) then
+        local button = menu:findChild(growth.id_attribute)
+
+        if button.text == "Attribute Training: " .. tes3.findGMST("sYes").value .. "" then
+            button.text = "Attribute Training: " .. tes3.findGMST("sNo").value .. ""
+            modData.attributeTraining = false
+            log:info("" .. growth.reference.object.name .. ": will no longer train attributes.")
+        else
+            button.text = "Attribute Training: " .. tes3.findGMST("sYes").value .. ""
+            modData.attributeTraining = true
+            log:info("" .. growth.reference.object.name .. ": will now train attributes.")
+        end
+    end
+end
+
+function growth.onSkill(e)
+    local menu = tes3ui.findMenu(growth.id_menu)
+    local modData = func.getModData(growth.reference)
+
+    if (menu) then
+        local button = menu:findChild(growth.id_skill)
+
+        if button.text == "Skill Training: " .. tes3.findGMST("sYes").value .. "" then
+            button.text = "Skill Training: " .. tes3.findGMST("sNo").value .. ""
+            modData.skillTraining = false
+            log:info("" .. growth.reference.object.name .. ": will no longer train skills.")
+        else
+            button.text = "Skill Training: " .. tes3.findGMST("sYes").value .. ""
+            modData.skillTraining = true
+            log:info("" .. growth.reference.object.name .. ": will now train skills.")
         end
     end
 end

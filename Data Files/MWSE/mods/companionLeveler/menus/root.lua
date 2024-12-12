@@ -8,6 +8,7 @@ local buildChange = require("companionLeveler.menus.buildChange")
 local sheet = require("companionLeveler.menus.sheet")
 local growth = require("companionLeveler.menus.growthSettings")
 local tech = require("companionLeveler.menus.techniques.techniques")
+local cast = require("companionLeveler.menus.cast")
 
 local root = {}
 
@@ -21,6 +22,7 @@ function root.createWindow(reference)
     root.id_change = tes3ui.registerID("kl_root_change_btn")
     root.id_build = tes3ui.registerID("kl_root_build_btn")
     root.id_growth = tes3ui.registerID("kl_root_growth_btn")
+    root.id_cast = tes3ui.registerID("kl_root_cast_btn")
     root.id_tech = tes3ui.registerID("kl_root_tech_btn")
     root.id_exp = tes3ui.registerID("kl_root_exp_bar")
 
@@ -33,7 +35,7 @@ function root.createWindow(reference)
     local modData = func.getModData(reference)
     local class
 
-    if reference.object.objectType ~= tes3.objectType.creature then
+    if reference.object.objectType ~= tes3.objectType.creature and modData.metamorph == false then
         class = "Class: " .. tes3.findClass(modData.class).name .. ""
     else
         class = "Type: " .. modData.type .. ""
@@ -76,9 +78,13 @@ function root.createWindow(reference)
     -- Buttons
     local button_sheet = root_block:createButton { id = root.id_sheet, text = "Character Sheet" }
     local button_change = root_block:createButton { id = root.id_change, text = "Change Class/Type" }
-    local button_build = root_block:createButton { id = root.id_build, text = "Change Build" }
+    local button_tech = root_block:createButton { id = root.id_tech, text = "Use Techniques" }
+    local button_cast = root_block:createButton { id = root.id_cast, text = "Cast Spells"}
+    if config.buildMode == true then
+        local button_build = root_block:createButton { id = root.id_build, text = "Change Build" }
+        button_build:register("mouseClick", function() menu:destroy() buildChange.buildChange(reference) end)
+    end
     local button_growth = root_block:createButton { id = root.id_growth, text = "Growth Settings" }
-    local button_tech = root_block:createButton { id = root.id_tech, text = "Techniques" }
     local button_cancel = root_block:createButton { id = root.id_cancel, text = tes3.findGMST("sCancel").value }
 
     --EXP Bar
@@ -97,15 +103,15 @@ function root.createWindow(reference)
     -- Events
     button_sheet:register("mouseClick", function() menu:destroy() sheet.createWindow(reference) end)
 
-    if reference.object.objectType == tes3.objectType.creature then
+    if reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
         button_change:register("mouseClick", function() menu:destroy() typeChange.typeChange(reference) end)
     else
         button_change:register("mouseClick", function() menu:destroy() classChange.classChange(reference) end)
     end
 
-    button_build:register("mouseClick", function() menu:destroy() buildChange.buildChange(reference) end)
     button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
     button_tech:register("mouseClick", function() menu:destroy() tech.createWindow(reference) end)
+    button_cast:register("mouseClick", function() menu:destroy() cast.createWindow(reference) end)
     button_cancel:register("mouseClick", function() tes3ui.leaveMenuMode() menu:destroy() end)
 
     -- Final setup

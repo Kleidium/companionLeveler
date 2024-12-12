@@ -57,11 +57,11 @@ local function onLevelUp()
 		local creTable = func.creTable()
 
 		if #npcTable > 0 then
-			npcMode.companionLevelNPC(npcTable)
+			npcMode.levelUp(npcTable)
 		end
 
 		if #creTable > 0 then
-			creMode.companionLevelCre(creTable)
+			creMode.levelUp(creTable)
 		end
 	end
 end
@@ -109,10 +109,10 @@ local function onSkillRaised(e)
 		buildMode.companionLevelBuild(build)
 	else
 		if #npc > 0 then
-			npcMode.companionLevelNPC(npc)
+			npcMode.levelUp(npc)
 		end
 		if #creature > 0 then
-			creMode.companionLevelCre(creature)
+			creMode.levelUp(creature)
 		end
 	end
 end
@@ -138,10 +138,10 @@ local function onDeath(e)
 		buildMode.companionLevelBuild(build)
 	else
 		if #npc > 0 then
-			npcMode.companionLevelNPC(npc)
+			npcMode.levelUp(npc)
 		end
 		if #creature > 0 then
-			creMode.companionLevelCre(creature)
+			creMode.levelUp(creature)
 		end
 	end
 end
@@ -160,10 +160,10 @@ local function onJournal(e)
 			buildMode.companionLevelBuild(build)
 		else
 			if #npc > 0 then
-				npcMode.companionLevelNPC(npc)
+				npcMode.levelUp(npc)
 			end
 			if #creature > 0 then
-				creMode.companionLevelCre(creature)
+				creMode.levelUp(creature)
 			end
 		end
 	end
@@ -291,24 +291,28 @@ local function onCombat(e)
 end
 event.register(tes3.event.combatStarted, onCombat)
 
---Damage Abilities
+--Before Damage Abilities
 local function onDamage(e)
 	if config.modEnabled == false then return end
 
 	if e.source == "attack" then
+		local result = 0
+
 		--Reliable
 		abilities.ignition(e)
+		abilities.permafrost(e)
+		abilities.venomous(e)
+		result = result + abilities.poach(e)
 
 		--Combat Chance
 		if math.random(0, 99) < config.combatChance then
-			local result = 0
-
 			result = result + abilities.thuum(e)
 			result = result + abilities.maneater(e)
 			result = result + abilities.ladykiller(e)
 			abilities.misdirection(e)
 			abilities.misstep(e)
 			abilities.rage(e)
+			abilities.voltaic(e)
 
 			if e.projectile then
 				abilities.arcaneA(e)
@@ -323,6 +327,20 @@ local function onDamage(e)
 	end
 end
 event.register("damage", onDamage)
+
+--After Damage Abilities
+local function damaged(e)
+	if config.modEnabled == false then return end
+
+	--Reliable
+	abilities.beastwithin(e)
+
+	--Combat Chance
+	if math.random(0, 99) < config.combatChance then
+		abilities.adrenaline(e)
+	end
+end
+event.register("damaged", damaged)
 
 --Cell Change Abilities
 local function onCellChanged(e)
@@ -344,6 +362,8 @@ local function onCellChanged(e)
 	abilities.blessed()
 	abilities.bountyCheck()
 	abilities.track()
+	abilities.wont()
+	abilities.intuition()
 
 	if config.expMode == false then return end
 
@@ -357,10 +377,10 @@ local function onCellChanged(e)
 			buildMode.companionLevelBuild(build)
 		else
 			if #npc > 0 then
-				npcMode.companionLevelNPC(npc)
+				npcMode.levelUp(npc)
 			end
 			if #creature > 0 then
-				creMode.companionLevelCre(creature)
+				creMode.levelUp(creature)
 			end
 		end
 	end
@@ -375,8 +395,8 @@ local function onCalcRestInterrupt(e)
 end
 event.register(tes3.event.calcRestInterrupt, onCalcRestInterrupt)
 
---On Door Activate
-local function onDoor(e)
+--On Activate Abilities
+local function onActivate(e)
 	if e.activator ~= tes3.player then return end
 
 	if (e.target.baseObject.objectType == tes3.objectType.door) then
@@ -390,9 +410,12 @@ local function onDoor(e)
 
 			log:debug("Last Exterior Position Assigned: " .. tostring(vector) .. "")
 		end
+	elseif (e.target.baseObject.objectType == tes3.objectType.npc) then
+		log:trace("Delivery callback triggered.")
+		abilities.deliveryCheck(e.target)
 	end
 end
-event.register("activate", onDoor)
+event.register("activate", onActivate)
 
 --Bartering
 local function onCalcTravelPrice(e)
@@ -413,11 +436,50 @@ event.register("modConfigReady", function()
 end)
 
 --for testing:
--- local function expTest()
--- 	if config.expMode == false then return end
--- 	tes3.player.mobile:exerciseSkill(10, 100)
--- end
+local function expTest()
+	if config.expMode == false then return end
+	tes3.player.mobile:exerciseSkill(10, 100)
+end
 
--- event.register("jump", onLevelUp)
--- event.register("jump", expTest)
+event.register("jump", onLevelUp)
+event.register("jump", expTest)
 --
+
+
+--CHANGES--
+--Added TR baked goods, ores, drinks
+--Added skill/att training setting in growth settings, changed in npc/cre class modes
+--Courier, Astrologer, Daedrologist, Caretaker, Gladiator Abilities
+--CL Classes: Dark Knight, Metamorph, Metallurgist, Negator, Seer
+--Added hints to contracts and deliveries
+--Changed how contracts work so cleared them on update
+--Poacher does extra dmg to normal type creatures, and to a lesser extent, magical creatures.
+--Bestial 10 is now combat ability
+--You can now "Catch Up" to player level in fix stats menu, and EXP can be increased for companions 3+ levels weaker than you.
+--Renamed mode names to "levelUp"
+--Ability to give x3 EXP to companions 3+ levels below player.
+--Ability to give free level-ups until companions are caught up with the player (Fix Stats)
+----equip and unequip spells.
+---build mode does not appear unless it is activated in root menu.
+---spell command added to root menu
+--spells are learned 10 levels earlier at 15 skill
+
+
+
+
+
+--PLANNED FEATURES--
+----turn thief into technique
+----golem type? arachnid type? reptile? homuncular?
+----allow mix of build/exp/regular mode companions?
+----turn single character menu into multi-character party menu like final fantasy?
+----more tooltips where needed
+----trim tables maybe
+----specialization techs have a % chance to be learned when leveling up as a class with that specialization? e.g. stealth learns a dash tech?
+----hybrid class/type techs? like level 10 spriggan level 10 frozen type hybrid tech?
+----tes3.getTrap/setTrap (Rogue?). rogue can use magicka to set a spell trap they have learned, tes3.showDialogueMenu (some sort of telepath?) maybe use distance check from necro
+----friendly intervention compat? check for mod and require, add tele menu to technique/root menu
+----traders TRADE random items for other items
+----A class can negotiate better deals and get %off gold?
+----a class teaches spells they know as a technique
+----expensive revive tech, less expensive worse revive tech, gathering tech? long lasting barrier tech
