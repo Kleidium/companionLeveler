@@ -436,50 +436,11 @@ event.register("modConfigReady", function()
 end)
 
 --for testing:
-local function expTest()
-	if config.expMode == false then return end
-	tes3.player.mobile:exerciseSkill(10, 100)
-end
+-- local function expTest()
+-- 	if config.expMode == false then return end
+-- 	tes3.player.mobile:exerciseSkill(10, 100)
+-- end
 
-event.register("jump", onLevelUp)
-event.register("jump", expTest)
+-- event.register("jump", onLevelUp)
+-- event.register("jump", expTest)
 --
-
-
---CHANGES--
---Added TR baked goods, ores, drinks
---Added skill/att training setting in growth settings, changed in npc/cre class modes
---Courier, Astrologer, Daedrologist, Caretaker, Gladiator Abilities
---CL Classes: Dark Knight, Metamorph, Metallurgist, Negator, Seer
---Added hints to contracts and deliveries
---Changed how contracts work so cleared them on update
---Poacher does extra dmg to normal type creatures, and to a lesser extent, magical creatures.
---Bestial 10 is now combat ability
---You can now "Catch Up" to player level in fix stats menu, and EXP can be increased for companions 3+ levels weaker than you.
---Renamed mode names to "levelUp"
---Ability to give x3 EXP to companions 3+ levels below player.
---Ability to give free level-ups until companions are caught up with the player (Fix Stats)
-----equip and unequip spells.
----build mode does not appear unless it is activated in root menu.
----spell command added to root menu
---spells are learned 10 levels earlier at 15 skill
-
-
-
-
-
---PLANNED FEATURES--
-----turn thief into technique
-----golem type? arachnid type? reptile? homuncular?
-----allow mix of build/exp/regular mode companions?
-----turn single character menu into multi-character party menu like final fantasy?
-----more tooltips where needed
-----trim tables maybe
-----specialization techs have a % chance to be learned when leveling up as a class with that specialization? e.g. stealth learns a dash tech?
-----hybrid class/type techs? like level 10 spriggan level 10 frozen type hybrid tech?
-----tes3.getTrap/setTrap (Rogue?). rogue can use magicka to set a spell trap they have learned, tes3.showDialogueMenu (some sort of telepath?) maybe use distance check from necro
-----friendly intervention compat? check for mod and require, add tele menu to technique/root menu
-----traders TRADE random items for other items
-----A class can negotiate better deals and get %off gold?
-----a class teaches spells they know as a technique
-----expensive revive tech, less expensive worse revive tech, gathering tech? long lasting barrier tech
