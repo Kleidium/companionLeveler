@@ -7,6 +7,7 @@ local func = require("companionLeveler.functions.common")
 local spells = require("companionLeveler.functions.spells")
 local abilities = require("companionLeveler.functions.abilities")
 local sumr = require("companionLeveler.menus.summary")
+local cre = require("companionLeveler.modes.creClassMode")
 
 
 local npcClassMode = {}
@@ -14,7 +15,7 @@ local npcClassMode = {}
 --
 ----NPC Class Mode----------------------------------------------------------------------------------------------------------------------
 --
-function npcClassMode.companionLevelNPC(companions)
+function npcClassMode.levelUp(companions)
     log = logger.getLogger("Companion Leveler")
     local leveled = 0
 
@@ -23,7 +24,7 @@ function npcClassMode.companionLevelNPC(companions)
         local companionRef = companions[i]
         local modData = func.getModData(companionRef)
 
-        if modData.blacklist == false then
+        if modData.blacklist == false and modData.metamorph == false then
             leveled = leveled + 1
             local name = companionRef.object.name
             local attTable = companionRef.mobile.attributes
@@ -97,8 +98,13 @@ function npcClassMode.companionLevelNPC(companions)
             local trainedSkillP = playerClass.majorSkills[math.random(1, #playerClass.majorSkills)]
             local skillP = companionRef.mobile:getSkillStatistic(trainedSkillP)
             local mSkillP = tes3.skillName[trainedSkillP]
-            local mSkillModP = config.mentorBonusMod
             local selectionMen = 0
+
+            local mSkillModP = config.mentorBonusMod
+            if modData.skillTraining == false then
+                mSkillModP = 0
+            end
+
             if config.mentorBonus == true then
                 if math.random(0, 99) < config.mentorChance then
                     selectionMen = 1
@@ -125,7 +131,12 @@ function npcClassMode.companionLevelNPC(companions)
             local race = companionRef.object.race
             local selectionR = 0
             local trainedSkillR = 0
+
             local rBonusAmount = config.racialBonusMod
+            if modData.skillTraining == false then
+                rBonusAmount = 0
+            end
+
             if config.racialBonus == true then
                 if math.random(0, 99) < config.racialChance then
                     log:debug("" .. name .. "'s Racial Bonus roll succeeded.")
@@ -162,8 +173,16 @@ function npcClassMode.companionLevelNPC(companions)
             local trainedAttF = 0
             local trainedSkillF = 0
             local faction = companionRef.object.faction
+
             local fBonusAmountA = config.factionBonusMod
+            if modData.attributeTraining == false then
+                fBonusAmountA = 0
+            end
+
             local fBonusAmountS = config.factionBonusMod
+            if modData.skillTraining == false then
+                fBonusAmountS = 0
+            end
 
             if faction ~= nil then
                 if config.factionBonus == true then
@@ -225,6 +244,10 @@ function npcClassMode.companionLevelNPC(companions)
                 max1 = min1
             end
             local mSkillMod1 = math.random(min1, max1)
+            if modData.skillTraining == false then
+                mSkillMod1 = 0
+            end
+            
             if config.aboveMaxSkill == false then
                 if majSkillStat1.base + mSkillMod1 > 100 then
                     mSkillMod1 = math.max(100 - majSkillStat1.base, 0)
@@ -242,6 +265,9 @@ function npcClassMode.companionLevelNPC(companions)
                 max2 = min2
             end
             local mSkillMod2 = math.random(min2, max2)
+            if modData.skillTraining == false then
+                mSkillMod2 = 0
+            end
             if config.aboveMaxSkill == false then
                 if majSkillStat2.base + mSkillMod2 > 100 then
                     mSkillMod2 = math.max(100 - majSkillStat2.base, 0)
@@ -259,6 +285,9 @@ function npcClassMode.companionLevelNPC(companions)
                 max3 = min3
             end
             local mSkillMod3 = math.random(min3, max3)
+            if modData.skillTraining == false then
+                mSkillMod3 = 0
+            end
             if config.aboveMaxSkill == false then
                 if majSkillStat3.base + mSkillMod3 > 100 then
                     mSkillMod3 = math.max(100 - majSkillStat3.base, 0)
@@ -276,6 +305,9 @@ function npcClassMode.companionLevelNPC(companions)
                 max4 = min4
             end
             local minSkillMod1 = math.random(min4, max4)
+            if modData.skillTraining == false then
+                minSkillMod1 = 0
+            end
             if config.aboveMaxSkill == false then
                 if minSkillStat1.base + minSkillMod1 > 100 then
                     minSkillMod1 = math.max(100 - minSkillStat1.base, 0)
@@ -293,6 +325,9 @@ function npcClassMode.companionLevelNPC(companions)
                 max5 = min5
             end
             local minSkillMod2 = math.random(min5, max5)
+            if modData.skillTraining == false then
+                minSkillMod2 = 0
+            end
             if config.aboveMaxSkill == false then
                 if minSkillStat2.base + minSkillMod2 > 100 then
                     minSkillMod2 = math.max(100 - minSkillStat2.base, 0)
@@ -316,6 +351,9 @@ function npcClassMode.companionLevelNPC(companions)
                 max6 = min6
             end
             local rSkillMod1 = math.random(min6, max6)
+            if modData.skillTraining == false then
+                rSkillMod1 = 0
+            end
             if config.aboveMaxSkill == false then
                 if rSkillStat1.base + rSkillMod1 > 100 then
                     rSkillMod1 = math.max(100 - rSkillStat1.base, 0)
@@ -339,6 +377,9 @@ function npcClassMode.companionLevelNPC(companions)
                 max7 = min7
             end
             local rSkillMod2 = math.random(min7, max7)
+            if modData.skillTraining == false then
+                rSkillMod2 = 0
+            end
             if config.aboveMaxSkill == false then
                 if rSkillStat2.base + rSkillMod2 > 100 then
                     rSkillMod2 = math.max(100 - rSkillStat2.base, 0)
@@ -355,6 +396,9 @@ function npcClassMode.companionLevelNPC(companions)
                 max8 = min8
             end
             local mAttMod1 = math.random(min8, max8)
+            if modData.attributeTraining == false then
+                mAttMod1 = 0
+            end
             local tAtt1 = attTable[trainedAtt1 + 1]
             if config.aboveMaxAtt == false then
                 if tAtt1.base + mAttMod1 > 100 then
@@ -372,6 +416,9 @@ function npcClassMode.companionLevelNPC(companions)
                 max9 = min9
             end
             local mAttMod2 = math.random(min9, max9)
+            if modData.attributeTraining == false then
+                mAttMod2 = 0
+            end
             local tAtt2 = attTable[trainedAtt2 + 1]
             if config.aboveMaxAtt == false then
                 if tAtt2.base + mAttMod2 > 100 then
@@ -394,6 +441,9 @@ function npcClassMode.companionLevelNPC(companions)
                 max10 = min10
             end
             local mAttMod3 = math.random(min10, max10)
+            if modData.attributeTraining == false then
+                mAttMod3 = 0
+            end
             local tAtt3 = attTable[valueRand + 1]
             if config.aboveMaxAtt == false then
                 if tAtt3.base + mAttMod3 > 100 then
@@ -419,7 +469,13 @@ function npcClassMode.companionLevelNPC(companions)
             local tSkillMagic = companionRef.mobile:getSkillStatistic(magicSkillBonus)
             local tSkillCombat = companionRef.mobile:getSkillStatistic(combatSkillBonus)
             local bonusAmountS = config.specialBonusMod
+            if modData.skillTraining == false then
+                bonusAmountS = 0
+            end
             local bonusAmountA = config.specialBonusMod
+            if modData.attributeTraining == false then
+                bonusAmountA = 0
+            end
             if config.specialBonus == true then
                 if math.random(0, 99) < config.specialChance then
                     log:debug("" .. name .. "'s Specialization Bonus roll succeeded.")
@@ -647,6 +703,7 @@ function npcClassMode.companionLevelNPC(companions)
                 abilities.executeAbilities(companionRef)
                 abilities.contract(companionRef)
                 abilities.bounty(companionRef)
+                abilities.delivery(companionRef)
                 --To Be Removed Completely
                 --timer.start({ type = timer.game, duration = math.random(12, 72), iterations = 1, callback = "companionLeveler:abilityTimer", data = { name = name } })
             end
@@ -726,6 +783,8 @@ function npcClassMode.companionLevelNPC(companions)
             else
                 tes3.messageBox("" .. name .. " ascended to Level " .. storedLevel .. "!")
             end
+        else
+            cre.levelUp({ companions[i] })
         end
     end
     if leveled > 0 then

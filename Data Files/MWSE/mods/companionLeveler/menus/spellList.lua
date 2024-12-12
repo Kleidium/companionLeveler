@@ -1,5 +1,6 @@
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
+local func = require("companionLeveler.functions.common")
 
 local spList = {}
 
@@ -9,7 +10,7 @@ function spList.createWindow(reference)
     spList.id_title = tes3ui.registerID("kl_spList_ok")
     spList.id_pane = tes3ui.registerID("kl_spList_pane")
     spList.reference = reference
-
+    spList.modData = func.getModData(reference)
 
     log = logger.getLogger("Companion Leveler")
     log:debug("Spell List menu initialized.")
@@ -43,8 +44,12 @@ function spList.createWindow(reference)
     --Populate Pane
     local spellList = tes3.getSpells({ target = reference, spellType = 0, getRaceSpells = false, getBirthsignSpells = false })
 
-    for i = 1, #spellList do
+    --Equipped Spells
+    local equippedLabel = pane:createLabel({ text = "Equipped:" })
+    equippedLabel.borderBottom = 12
+    equippedLabel.color = { 1.0, 1.0, 1.0 }
 
+    for i = 1, #spellList do
         local listItem = pane:createTextSelect({ text = spellList[i].name, id = "kl_spList_listItem_" .. i .. "" })
 
         listItem:register("help", function(e)
@@ -57,6 +62,28 @@ function spList.createWindow(reference)
         end)
 
         listItem:register("mouseClick", function() spList.onSelect(spellList[i].id) end)
+    end
+
+    --Unequipped Spells
+    local unequippedLabel = pane:createLabel({ text = "Unequipped:" })
+    unequippedLabel.borderBottom = 12
+    unequippedLabel.borderTop = 12
+    unequippedLabel.color = { 1.0, 1.0, 1.0 }
+
+    for i = 1, #spList.modData.unusedSpells do
+        local spell = tes3.getObject(spList.modData.unusedSpells[i])
+        local listItem = pane:createTextSelect({ text = spell.name, id = "kl_spList_listItem_" .. i .. "" })
+
+        listItem:register("help", function(e)
+            local tooltip = tes3ui.createTooltipMenu { spell = spell }
+
+            local contentElement = tooltip:getContentElement()
+            contentElement.paddingAllSides = 12
+            contentElement.childAlignX = 0.5
+            contentElement.childAlignY = 0.5
+        end)
+
+        listItem:register("mouseClick", function() spList.onSelect2(spell.id) end)
     end
 
     --Button Block
@@ -77,7 +104,26 @@ function spList.forget(e)
     if menu then
         if e.button == 0 then
             tes3.removeSpell({ reference = spList.reference, spell = spList.spell.id})
-            tes3.messageBox("" .. spList.reference.object.name .. " forgot the " .. spList.spell.name .. " spell.")
+            spList.modData.unusedSpells[#spList.modData.unusedSpells + 1] = spList.spell.id
+            tes3.messageBox("" .. spList.reference.object.name .. " unequipped the " .. spList.spell.name .. " spell.")
+            menu:destroy()
+            spList.createWindow(spList.reference)
+        end
+    end
+end
+
+function spList.remember(e)
+    local menu = tes3ui.findMenu(spList.id_menu)
+    if menu then
+        if e.button == 0 then
+            tes3.addSpell({ reference = spList.reference, spell = spList.spell.id})
+            for i = 1, #spList.modData.unusedSpells do
+                if spList.modData.unusedSpells[i] == spList.spell.id then
+                    table.remove(spList.modData.unusedSpells, i)
+                    break
+                end
+            end
+            tes3.messageBox("" .. spList.reference.object.name .. " equipped the " .. spList.spell.name .. " spell.")
             menu:destroy()
             spList.createWindow(spList.reference)
         end
@@ -89,9 +135,20 @@ function spList.onSelect(id)
     if menu then
         local spell = tes3.getObject(id)
         spList.spell = spell
-        tes3.messageBox({ message = "Forget " .. spell.name .. "?",
+        tes3.messageBox({ message = "Unequip " .. spell.name .. "?",
             buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = spList.forget })
+    end
+end
+
+function spList.onSelect2(id)
+    local menu = tes3ui.findMenu(spList.id_menu)
+    if menu then
+        local spell = tes3.getObject(id)
+        spList.spell = spell
+        tes3.messageBox({ message = "Equip " .. spell.name .. "?",
+            buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
+            callback = spList.remember })
     end
 end
 

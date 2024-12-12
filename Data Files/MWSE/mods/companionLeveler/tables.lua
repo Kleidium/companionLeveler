@@ -3,8 +3,8 @@ local stuff = {}
 ----Version Control---------------------------------------------------------------------------------------------------------------------------
 
 --Always make sure these values are correct.
-stuff.version = 3.00
-stuff.npcAbilityAmount = 115
+stuff.version = 3.10
+stuff.npcAbilityAmount = 125
 stuff.creAbilityAmount = 80
 stuff.creTypeAmount = 20
 
@@ -1313,7 +1313,7 @@ stuff.abType = {
 	[55] = "[COMBAT]",
 	[56] = "[COMBAT]",
 	[57] = "[PASSIVE]",
-	[58] = "[PASSIVE]",
+	[58] = "[COMBAT]",
 	[59] = "[PASSIVE]",
 	[60] = "[COMBAT]",
 	[61] = "[PASSIVE]",
@@ -1479,7 +1479,7 @@ stuff.abDescription2 = {
 	[55] = "[Avian Type Level 15 Ability] Attacks may distract enemies, reducing accuracy.",
 	[56] = "[Avian Type Level 20 Ability] Attacks may unfocus enemies, reducing casting chance.",
 	[57] = "[Bestial Type Level 5 Ability]",
-	[58] = "[Bestial Type Level 10 Ability]",
+	[58] = "[Bestial Type Level 10 Ability] Killing blows restore a little health and fatigue.",
 	[59] = "[Bestial Type Level 15 Ability] Technique Points increase by 1.",
 	[60] = "[Bestial Type Level 20 Ability] (Strength/Personality) May display dominance, causing creatures to flee.",
 	[61] = "[Impish Type Level 5 Ability]",
@@ -1493,7 +1493,7 @@ stuff.abDescription2 = {
 	[69] = "[Frozen Type Level 5 Ability]",
 	[70] = "[Frozen Type Level 10 Ability]",
 	[71] = "[Frozen Type Level 15 Ability] May bestow the Aspect of Frost upon its master.",
-	[72] = "[Frozen Type Level 20 Ability] A frigid touch allows attacks to deal small bonus frost and fatigue damage.",
+	[72] = "[Frozen Type Level 20 Ability] A frigid touch allows attacks to deal light bonus frost and fatigue damage.",
 	[73] = "[Galvanic Type Level 5 Ability]",
 	[74] = "[Galvanic Type Level 10 Ability]",
 	[75] = "[Galvanic Type Level 15 Ability] May bestow the Aspect of Shock upon its master.",
@@ -1622,7 +1622,17 @@ stuff.classesSpecial = {
 	[112] = "Scavenger",
 	[113] = "Ninja",
 	[114] = "Fisherman",
-	[115] = "Arcanist"
+	[115] = "Arcanist",
+	[116] = "Courier",
+	[117] = "Astrologer",
+	[118] = "Daedrologist",
+	[119] = "Caretaker",
+	[120] = "Gladiator",
+	[121] = "Dark Knight",
+	[122] = "Metamorph",
+	[123] = "Metallurgist",
+	[124] = "Negator",
+	[125] = "Seer"
 }
 
 stuff.abListNPC = {
@@ -1740,14 +1750,24 @@ stuff.abListNPC = {
 	[112] = "kl_ab_npc_scavenger",
 	[113] = "kl_ab_npc_ninja",
 	[114] = "kl_ab_npc_fisherman",
-	[115] = "kl_ab_npc_arcanist"
+	[115] = "kl_ab_npc_arcanist",
+	[116] = "kl_ab_npc_courier",
+	[117] = "kl_ab_npc_astrologer",
+	[118] = "kl_ab_npc_daedrologist",
+	[119] = "kl_ab_npc_caretaker",
+	[120] = "kl_ab_npc_gladiator",
+	[121] = "kl_ab_npc_darkknight",
+	[122] = "kl_ab_npc_metamorph",
+	[123] = "kl_ab_npc_metallurgist",
+	[124] = "kl_ab_npc_negator",
+	[125] = "kl_ab_npc_seer"
 }
 
 stuff.abTypeNPC = {
 	[1] = "[TRIGGERED]: SPECIFIC",
 	[2] = "[TECHNIQUE]: TRAINING",
 	[3] = "[TECHNIQUE]: TRAINING",
-	[4] = "[TRIGGERED]: LEVEL UP",
+	[4] = "[TRIGGERED]: JOB",
 	[5] = "[COMBAT]",
 	[6] = "[TRIGGERED]: LEVEL UP",
 	[7] = "[PASSIVE]",
@@ -1818,7 +1838,7 @@ stuff.abTypeNPC = {
 	[72] = "[AURA]",
 	[73] = "[COMBAT]",
 	[74] = "[TRIGGERED]: WILDERNESS",
-	[75] = "[TRIGGERED]: WILDERNESS",
+	[75] = "[COMBAT]",
 	[76] = "[PASSIVE]",
 	[77] = "[COMBAT]",
 	[78] = "[COMBAT]",
@@ -1840,7 +1860,7 @@ stuff.abTypeNPC = {
 	[94] = "[PASSIVE]",
 	[95] = "[PASSIVE]",
 	[96] = "[COMBAT]",
-	[97] = "[TRIGGERED]: LEVEL UP",
+	[97] = "[TRIGGERED]: JOB",
 	[98] = "[TRIGGERED]: ANYWHERE",
 	[99] = "[COMBAT]",
 	[100] = "[TRIGGERED]: ANYWHERE",
@@ -1858,7 +1878,17 @@ stuff.abTypeNPC = {
 	[112] = "[TRIGGERED]: WILDERNESS",
 	[113] = "[TECHNIQUE]: ACTIVE",
 	[114] = "[TRIGGERED]: WILDERNESS",
-	[115] = "[TECHNIQUE]: ACTIVE"
+	[115] = "[TECHNIQUE]: ACTIVE",
+	[116] = "[TRIGGERED]: JOB",
+	[117] = "[AURA]",
+	[118] = "[TECHNIQUE]: ACTIVE",
+	[119] = "[AURA]",
+	[120] = "[COMBAT]",
+	[121] = "[TECHNIQUE]: ACTIVE",
+	[122] = "[PASSIVE]: METAMORPHOSIS",
+	[123] = "[TECHNIQUE]: TRAINING",
+	[124] = "[PASSIVE]",
+	[125] = "[PASSIVE]"
 }
 
 stuff.abDescriptionNPC = {
@@ -1898,7 +1928,7 @@ stuff.abDescriptionNPC = {
 	[34] = "Hope and despair are but two sides of the same coin.",
 	[35] = "Hours upon hours spent in the forge, tempering skill and steel both.",
 	[36] = "Discretion is our watchword. Ask no questions, and answer just as many.",
-	[37] = "Mastery of the arts requires both talent and knowledge.",
+	[37] = "Mastery of the arts requires talent, knowledge, and ambition.",
 	[38] = "Rhythmic chants and incantations are but sweet melodies of the mad.",
 	[39] = "Ancient tradition bespeaks an equally ancient wisdom.",
 	[40] = "Darkness is no less divine than light.",
@@ -1976,7 +2006,17 @@ stuff.abDescriptionNPC = {
 	[112] = "Make do with that which was left behind.",
 	[113] = "Some wars are best waged from the shadows.",
 	[114] = "Dangle a prize just within reach, and they will take the bait without fail.",
-	[115] = "Those with talent must do their best to share their gifts with others."
+	[115] = "Those with talent must do their best to share their gifts with others.",
+	[116] = "\"Now that is a delivery service you can count on!\"",
+	[117] = "\"Blame yourself or God.\"",
+	[118] = "To make a deal with the devil, be prepared to outsmart the devil.",
+	[119] = "\"I keep things clean and running smoothly. I keep an eye on things.\"",
+	[120] = "\"Are you not entertained? Is this not why you are here?\"",
+	[121] = "\"You must suffer me to go my own dark way.\"",
+	[122] = "\"All animals are equal, but some animals are more equal than others.\"",
+	[123] = "Science and magic are, in truth, one and the same.",
+	[124] = "Never lose sight of what makes yourself you.",
+	[125] = "What the eyes had seen could not be erased."
 }
 
 stuff.abDescriptionNPC2 = {	
@@ -2054,7 +2094,7 @@ stuff.abDescriptionNPC2 = {
 	[72] = "The mere presence of a Herder will pacify most guars and netch.",
 	[73] = "(Speechcraft) Jesters will attempt to distract their enemies, lowering their Luck and Agility.",
 	[74] = "(Endurance) Ore Miners may seek and find ore.",
-	[75] = "(Marksman) Those trained as Poachers will seek out game and share the spoils.",
+	[75] = "Poachers deal bonus damage to normal creatures, and to a lesser extent, magical creatures.",
 	[76] = "",
 	[77] = "(Enchant) Arcane Knights deal extra non-elemental magic damage when using melee weapons.",
 	[78] = "(Enchant) Arcane Archers deal extra non-elemental magic damage when using projectiles.",
@@ -2094,7 +2134,17 @@ stuff.abDescriptionNPC2 = {
 	[112] = "(Luck) Scavengers occasionally ferret out all sorts of random things when outside town.",
 	[113] = "Ninjas will facilitate escape from most interiors with the use of a smoke bomb.",
 	[114] = "Fishermen will sometimes catch fish or gather aquatic items.",
-	[115] = "Arcanists can redistribute magicka between you and themselves."
+	[115] = "Arcanists can redistribute magicka between you and themselves.",
+	[116] = "(Speechcraft) Couriers will accept delivery jobs once per level.",
+	[117] = "The celestial powers of constellations are drawn out by Astrologers and shared amongst party members.",
+	[118] = "(Intelligence/Conjuration) Daedrologists can summon various augmented daedra as a technique.",
+	[119] = "Caretakers have a knack for finding things, and can help you detect keys.",
+	[120] = "(Endurance) Killing an enemy in combat may trigger a gladiator's adrenaline rush.",
+	[121] = "Dark Knights can sacrifice health for half as much magicka.",
+	[122] = "Metamorphs forsake all current abilities in order to learn the ways and abilities of creatures.",
+	[123] = "Metallurgists provide training in Alchemy, Armorer, and Enchant.",
+	[124] = "",
+	[125] = ""
 }
 
 ----Misc Ability Tables----------------------------------------------------------------------------------------------
@@ -2458,6 +2508,21 @@ stuff.bakedGoods = {
 	[5] = "ingred_bread_01_UNI3"
 }
 
+stuff.bakedGoodsTR = {
+	[1] = "ingred_bread_01",
+	[2] = "ingred_scrib_jelly_01",
+	[3] = "ingred_scrib_jerky_01",
+	[4] = "food_kwama_egg_01",
+	[5] = "ingred_bread_01_UNI3",
+	[6] = "T_IngFood_BreadColovian_01",
+	[7] = "T_IngFood_BreadColovian_02",
+	[8] = "T_IngFood_BreadDeshaan_01",
+	[9] = "T_IngFood_BreadFlat_01",
+	[10] = "T_IngFood_Cookie_01",
+	[11] = "T_IngFood_ScribPie_01",
+	[12] = "T_IngFood_Sweetroll_01"
+}
+
 stuff.poisonsB = {
 	[1] = "p_burden_b",
 	[2] = "p_paralyze_b",
@@ -2550,6 +2615,26 @@ stuff.ore = {
 	[2] = "ingred_raw_glass_01"
 }
 
+stuff.TRore = {
+	[1] = "ingred_raw_ebony_01",
+	[2] = "ingred_raw_glass_01",
+	[3] = "T_IngMine_Charcoal_01",
+	[4] = "T_IngMine_Coal_01",
+	[5] = "T_IngMine_OreCopper_01",
+	[6] = "T_IngMine_OreGold_01",
+	[7] = "T_IngMine_OreIron_01",
+	[8] = "T_IngMine_OreLead_01",
+	[9] = "T_IngMine_OreOrichalcum_01",
+	[10] = "T_IngMine_OreSilver_01",
+	[11] = "T_IngMine_OreSulfur_01",
+	[12] = "T_IngMine_OreTin_01",
+	[13] = "T_IngMine_OreZinc_01",
+	[14] = "T_IngMine_Rockcrystal_01",
+	[15] = "T_IngMine_RoseQuartz_01",
+	[16] = "T_IngMine_Salt_01",
+	[17] = "T_IngMine_SmokyQuartz_01"
+}
+
 stuff.drinks = {
 	[1] = "potion_cyro_brandy_01",
 	[2] = "Potion_Cyro_Whiskey_01",
@@ -2558,6 +2643,34 @@ stuff.drinks = {
 	[5] = "potion_comberry_wine_01",
 	[6] = "potion_local_liquor_01",
 	[7] = "potion_nord_mead"
+}
+
+stuff.TRdrinks = {
+	[1] = "potion_cyro_brandy_01",
+	[2] = "Potion_Cyro_Whiskey_01",
+	[3] = "potion_comberry_brandy_01",
+	[4] = "Potion_Local_Brew_01",
+	[5] = "potion_comberry_wine_01",
+	[6] = "potion_local_liquor_01",
+	[7] = "potion_nord_mead",
+	[8] = "T_Imp_Drink_AleAkul_01",
+	[9] = "T_Imp_Drink_CherryBrandy_01",
+	[10] = "T_Imp_Drink_CiderAliyew_01",
+	[11] = "T_Imp_Drink_RicebeerMori_01",
+	[12] = "T_Imp_Drink_WineBattle_01",
+	[13] = "T_Imp_Drink_WineBlackhill_01",
+	[14] = "T_Imp_Drink_WineFreeEstat_01",
+	[15] = "T_Imp_Drink_WinePlalloVin_01",
+	[16] = "T_Imp_Drink_WineSurilieBr_01",
+	[17] = "T_Imp_Drink_WineSweet",
+	[18] = "T_Imp_Drink_WineWolfsbl_01",
+	[19] = "T_Nor_Drink_Beer_01",
+	[20] = "T_Nor_Drink_BeerLight_01",
+	[21] = "T_Nor_Drink_Bodja_01",
+	[22] = "T_Nor_Drink_SnowberryaleVeig_01",
+	[23] = "T_De_Drink_BourbonGoya_01",
+	[24] = "T_De_Drink_GuarMilk_01",
+	[25] = "T_Rga_Drink_Sift"
 }
 
 stuff.tradeLists = {
@@ -2690,7 +2803,8 @@ stuff.contractBlacklist = {
 	[8] = "Roamer",
 	[9] = "Hunter",
 	[10] = "Test",
-	[11] = "Smuggler"
+	[11] = "Smuggler",
+	[12] = "<Template>"
 }
 
 stuff.bountyBlacklist = {
@@ -2808,8 +2922,8 @@ stuff.trainerAbilities = {
 	[39] = { 15, 14, 11, 26, 25, 12, 4, 21, 16, 17}, --Wise Woman
 	[57] = { 2, 3 }, --Guard
 	[61] = { 6, 4, 26, 5, 23, 22, 7 }, --Master-at-Arms
-	[63] = { 25 } --Noble
-	--Need Armorer, Enchant
+	[63] = { 25 }, --Noble
+	[123] = { 1, 9, 16 } --Metallurgist
 }
 
 stuff.trainingSounds = {

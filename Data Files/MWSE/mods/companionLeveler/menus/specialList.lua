@@ -30,13 +30,13 @@ function specList.createWindow(reference)
     specList_block.autoHeight = true
 
     local border = specList_block:createThinBorder {}
-    border.width = 270
+    border.width = 380
     border.height = 566
     border.flowDirection = "top_to_bottom"
 
     --Create Pane
     local pane = border:createVerticalScrollPane()
-    pane.width = 270
+    pane.width = 380
     pane.height = 566
     pane.widget.scrollbarVisible = true
 
@@ -48,12 +48,19 @@ function specList.createWindow(reference)
 		contractLabel.color = { 1.0, 1.0, 1.0 }
 
         for i = 1, #specList.modData.contracts do
-			local npc = tes3.getObject(specList.modData.contracts[i])
-            local reward = npc.level * 100
-            if reward > 4000 then
-                reward = 4000
+			local npc = tes3.getObject(specList.modData.contracts[i][1])
+            local msg = "Location unknown."
+            if npc.sourceMod == "Morrowind.esm" then
+                msg = "Likely somewhere in Vvardenfell..."
+            elseif npc.sourceMod == "Tamriel_Data.esm" or npc.sourceMod == "Tribunal.esm" or npc.sourceMod == "TR_Mainland.esm" then
+                msg = "Could be somewhere on the mainland..."
+            elseif string.startswith(npc.sourceMod, "Wares") then
+                msg = "In Vvardenfell, or somewhere just outside of it..."
+            else
+                msg = "Located somewhere outside of Morrowind..?"
             end
-            local listItem = pane:createTextSelect({ text = "#" .. i .. ": " .. npc.name .. "", id = "kl_contract_listItem_" .. i .. "" })
+            local listItem = pane:createTextSelect({ text = "#" .. i .. ": " .. npc.name .. "\n " .. msg .. "", id = "kl_contract_listItem_" .. i .. "" })
+            listItem.borderBottom = 12
             listItem:register("help", function(e)
                 local tooltip = tes3ui.createTooltipMenu()
 
@@ -62,7 +69,7 @@ function specList.createWindow(reference)
                 contentElement.childAlignX = 0.5
                 contentElement.childAlignY = 0.5
 
-                tooltip:createLabel({ text = "" .. tes3.findGMST(tes3.gmst.sValue).value .. ": " .. reward .. " " .. tes3.findGMST(tes3.gmst.sGold).value .. "" })
+                tooltip:createLabel({ text = "" .. tes3.findGMST(tes3.gmst.sValue).value .. ": " .. specList.modData.contracts[i][2] .. " " .. tes3.findGMST(tes3.gmst.sGold).value .. "" })
             end)
             listItem:register("mouseClick", function() specList.onSelect(i, 1) end)
         end
@@ -70,7 +77,7 @@ function specList.createWindow(reference)
         --Bounty Hunter Bounties
 		local bountyLabel = pane:createLabel({ text = "Bounty Locations:" })
 		bountyLabel.borderBottom = 12
-		bountyLabel.borderTop = 12
+		bountyLabel.borderTop = 14
 		bountyLabel.color = { 1.0, 1.0, 1.0 }
 
         --Remove text after comma
@@ -82,6 +89,39 @@ function specList.createWindow(reference)
             end
             local listItem = pane:createTextSelect({ text = "#" .. i .. ": " .. cellName .. "", id = "kl_bounty_listItem_" .. i .."" })
             listItem:register("mouseClick", function() specList.onSelect(i, 2) end)
+        end
+
+        --Courier Deliveries
+        local deliveryLabel = pane:createLabel({ text = "Deliveries:" })
+        deliveryLabel.borderBottom = 12
+        deliveryLabel.borderTop = 14
+        deliveryLabel.color = { 1.0, 1.0, 1.0 }
+
+        for i = 1, #specList.modData.deliveries do
+            local npc = tes3.getObject(specList.modData.deliveries[i][1])
+            local msg = "Location unknown."
+            if npc.sourceMod == "Morrowind.esm" then
+                msg = "Likely somewhere in Vvardenfell..."
+            elseif npc.sourceMod == "Tamriel_Data.esm" or npc.sourceMod == "Tribunal.esm" or npc.sourceMod == "TR_Mainland.esm" then
+                msg = "Could be somewhere on the mainland..."
+            elseif string.startswith(npc.sourceMod, "Wares") then
+                msg = "In Vvardenfell, or somewhere just outside of it..."
+            else
+                msg = "Located somewhere outside of Morrowind..?"
+            end
+            local listItem = pane:createTextSelect({ text = "#" .. i .. ": " .. tes3.getObject(specList.modData.deliveries[i][3]).name .. "\n " .. msg .. "", id = "kl_delivery_listItem_" .. i .. "" })
+            listItem.borderBottom = 12
+            listItem:register("help", function(e)
+                local tooltip = tes3ui.createTooltipMenu()
+
+                local contentElement = tooltip:getContentElement()
+                contentElement.paddingAllSides = 12
+                contentElement.childAlignX = 0.5
+                contentElement.childAlignY = 0.5
+
+                tooltip:createLabel({ text = "" .. tes3.findGMST(tes3.gmst.sValue).value .. ": " .. specList.modData.deliveries[i][2] .. " " .. tes3.findGMST(tes3.gmst.sGold).value .. "" })
+            end)
+            listItem:register("mouseClick", function() specList.onSelect(i, 3) end)
         end
     else
 		--Creature special information
@@ -108,12 +148,17 @@ function specList.onSelect(id, type)
         specList.type = type
 
         if type == 1 then
-            specList.obj = tes3.getObject(specList.modData.contracts[id])
+            specList.obj = tes3.getObject(specList.modData.contracts[id][1])
             tes3.messageBox({ message = "Abandon the contract on \"" .. specList.obj.name .. "\"?",
             buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = specList.abandon })
-        else
+        elseif type == 2 then
             tes3.messageBox({ message = "Give up on the \"" .. specList.modData.bounties[id] .. "\" bounty?",
+            buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
+            callback = specList.abandon })
+        else
+            specList.obj = tes3.getObject(specList.modData.deliveries[id][3])
+            tes3.messageBox({ message = "Forsake the " .. specList.obj.name .. "?",
             buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = specList.abandon })
         end
@@ -127,9 +172,13 @@ function specList.abandon(e)
             if specList.type == 1 then
                 table.remove(specList.modData.contracts, specList.id)
                 tes3.messageBox("" .. specList.reference.object.name .. " abandoned the " .. specList.obj.name .. " contract.")
-            else
+            elseif specList.type == 2 then
                 tes3.messageBox("" .. specList.reference.object.name .. " abandoned the " .. specList.modData.bounties[specList.id] .. " bounty.")
                 table.remove(specList.modData.bounties, specList.id)
+            else
+                tes3.removeItem({ reference = specList.reference, item = specList.modData.deliveries[specList.id][3], count = 1, playSound = true })
+                table.remove(specList.modData.deliveries, specList.id)
+                tes3.messageBox("" .. specList.reference.object.name .. " abandoned the " .. specList.obj.name .. " delivery.")
             end
             menu:destroy()
             specList.createWindow(specList.reference)

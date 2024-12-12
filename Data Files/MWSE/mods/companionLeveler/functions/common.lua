@@ -40,7 +40,8 @@ function this.getModData(ref)
 		["hth_gained"] = 0,
 		["mgk_gained"] = 0,
 		["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)),
-		["spellLearning"] = true, ["abilityLearning"] = true, ["tp_current"] = ref.object.level, ["tp_max"] = ref.object.level, ["abilities"] = {} }
+		["spellLearning"] = true, ["abilityLearning"] = true, ["attributeTraining"] = true,
+		["tp_current"] = ref.object.level, ["tp_max"] = ref.object.level, ["abilities"] = {}, ["unusedSpells"] = {} }
 		--NPC Data-----------------------------------------------------------------------------------------------------------------------
 		if ref.object.objectType ~= tes3.objectType.creature then
 			log:info("NPC Mod Data not found, setting to base Mod Data values.")
@@ -52,8 +53,17 @@ function this.getModData(ref)
 			ref.data.companionLeveler["ignore_skill"] = 99
 			ref.data.companionLeveler["contracts"] = {}
 			ref.data.companionLeveler["bounties"] = {}
+			ref.data.companionLeveler["deliveries"] = {}
 			ref.data.companionLeveler["sessions_current"] = 0
 			ref.data.companionLeveler["sessions_max"] = 3
+			ref.data.companionLeveler["skillTraining"] = true
+			ref.data.companionLeveler["metamorph"] = false
+			ref.data.companionLeveler["type"] = "Normal"
+			ref.data.companionLeveler["typelevels"] = {}
+
+			for i = 1, #tables.typeTable do
+				ref.data.companionLeveler["typelevels"][i] = 1
+			end
 			
 			--NPC Abilities
 			for i = 1, tables.npcAbilityAmount do
@@ -188,6 +198,18 @@ function this.updateModData(ref)
 				log:debug("" .. ref.object.name .. "'s ability learning setting updated.")
 			end
 
+			--Train Attributes
+			if modData.attributeTraining == nil then
+				modData["attributeTraining"] = true
+				log:debug("" .. ref.object.name .. " 's attribute training setting updated.")
+			end
+
+			--Spell Tracking
+			if modData.unusedSpells == nil then
+				modData["unusedSpells"] = {}
+				log:debug("" .. ref.object.name .. " 's spell track feature updated.")
+			end
+
 			--Technique Points
 			if modData.tp_current == nil then
 				modData["tp_current"] = modData.level
@@ -286,6 +308,12 @@ function this.updateModData(ref)
 					log:debug("" .. ref.object.name .. "'s ignore skill feature updated.")
 				end
 
+				--Train Skills
+				if modData.skillTraining == nil then
+					modData["skillTraining"] = true
+					log:debug("" .. ref.object.name .. " 's skill training setting updated.")
+				end
+
 				--Contracts
 				if modData.contracts == nil then
 					modData["contracts"] = {}
@@ -296,6 +324,32 @@ function this.updateModData(ref)
 				if modData.bounties == nil then
 					modData["bounties"] = {}
 					log:debug("" .. ref.object.name .. "'s bounty feature updated.")
+				end
+
+				--Deliveries
+				if modData.deliveries == nil then
+					local abilities = require("companionLeveler.abilities")
+					local num = #modData.contracts
+					modData["deliveries"] = {}
+					modData["contracts"] = {}
+					for n = 1, num do
+						abilities.contract(ref)
+					end
+
+					log:debug("" .. ref.object.name .. "'s delivery feature updated. Contracts also rerolled.")
+				end
+
+				--Metamorph
+				if modData.metamorph == nil then
+					modData["metamorph"] = false
+					modData["type"] = "Normal"
+					ref.data.companionLeveler["typelevels"] = {}
+
+					for i = 1, #tables.typeTable do
+						ref.data.companionLeveler["typelevels"][i] = 1
+					end
+					
+					log:debug("" .. ref.object.name .. "'s metamorph feature updated.")
 				end
 
 				--Training Sessions
@@ -637,6 +691,9 @@ function this.awardEXP(amount)
 		for i = 1, #buildTable do
 			local modData = this.getModData(buildTable[i])
 			if modData.blacklist == false then
+				if config.expCatchUp == true and modData.level < (tes3.player.object.level - 2) then
+					amount = amount * 3
+				end
 				modData.lvl_progress = modData.lvl_progress + amount
 				log:debug("" .. buildTable[i].object.name .. " gained " .. amount .. " experience.")
 
@@ -665,6 +722,9 @@ function this.awardEXP(amount)
 		for i = 1, #npcTable do
 			local modData = this.getModData(npcTable[i])
 			if modData.blacklist == false then
+				if config.expCatchUp == true and modData.level < (tes3.player.object.level - 2) then
+					amount = amount * 3
+				end
 				modData.lvl_progress = modData.lvl_progress + amount
 				log:debug("" .. npcTable[i].object.name .. " gained " .. amount .. " experience.")
 
@@ -682,6 +742,9 @@ function this.awardEXP(amount)
 		for i = 1, #creTable do
 			local modData = this.getModData(creTable[i])
 			if modData.blacklist == false then
+				if config.expCatchUp == true and modData.level < (tes3.player.object.level - 2) then
+					amount = amount * 3
+				end
 				modData.lvl_progress = modData.lvl_progress + amount
 				log:debug("" .. creTable[i].object.name .. " gained " .. amount .. " experience.")
 

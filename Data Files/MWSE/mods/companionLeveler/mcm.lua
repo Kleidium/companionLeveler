@@ -507,6 +507,11 @@ attMod:createSlider {
 ----Experience Mode Page--------------------------------------------------------------------------------------------------------------------------
 local expMod = pageEXP:createCategory("Experience Modifiers")
 
+expMod:createOnOffButton {
+    label = "Catch-Up EXP",
+    description = "If this is enabled, followers that are 3 levels or more weaker than you gain x3 EXP in Experience Mode.\n\nExample: You are level 10. Your followers level 7 and below gain x3 EXP.\n\nDefault: Off",
+    variable = mwse.mcm.createTableVariable { id = "expCatchUp", table = config }
+}
 
 expMod:createSlider {
     label = "Base Experience Requirement",

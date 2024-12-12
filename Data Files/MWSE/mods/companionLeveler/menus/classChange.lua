@@ -162,8 +162,9 @@ function classModule.classChange(reference)
 			end
 		end
 		--Ahead of the Classes
+		local modList = tes3.getModList()
+
 		if config.aheadClasses == true then
-			local modList = tes3.getModList()
 			for i, v in pairs(modList) do
 				if v == "Ahead of the Classes.ESP" then
 					for n, k in pairs(tes3.dataHandler.nonDynamicData.classes) do
@@ -205,6 +206,50 @@ function classModule.classChange(reference)
 					end
 					break
 				end
+			end
+		end
+
+		--Companion Leveler Classes
+		for i, v in pairs(modList) do
+			if v == "companionLeveler.ESP" then
+				for n, k in pairs(tes3.dataHandler.nonDynamicData.classes) do
+					log:debug("Class: " .. k.name .. ", Source Mod: " .. tostring(k.sourceMod) .. "")
+					if k.sourceMod == "companionLeveler.ESP" then
+						local dupe = false
+						for int = 1, #tables.classes do
+							if k.name == tables.classes[int] then
+								dupe = true
+								break
+							end
+						end
+						if dupe == false then
+							local num = classModule.total
+							local bl = pane:createBlock {}
+							bl.flowDirection = tes3.flowDirection.leftToRight
+							bl.width = 180
+							bl.height = 18
+							local b = bl:createTextSelect { text = "" .. k.name .. "", id = "cChangeB_" .. num .. "" }
+							b:register("mouseClick", function() classModule.onSelect(num, k.id) end)
+							classModule.total = classModule.total + 1
+							for int = 1, #tables.classesSpecial do
+								if k.name == tables.classesSpecial[int] then
+									if modData.abilities[int] == true then
+										b.widget.idle = tables.colors["gold"]
+										local star = bl:createImage({ path = "textures\\companionLeveler\\star.tga" })
+										star.height = 10
+										star.width = 10
+										star.borderLeft = 4
+										star.borderTop = 1
+									end
+
+									func.abilityColor(b, int, true)
+
+								end
+							end
+						end
+					end
+				end
+				break
 			end
 		end
 	end

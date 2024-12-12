@@ -15,7 +15,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
     if resto == true then
         local mrValue = companionRef.mobile:getSkillStatistic(15)
         if math.random(0, 99) < config.spellChance then
-            if mrValue.base >= 25 and mrValue.base < 50 then
+            if mrValue.base >= 15 and mrValue.base < 40 then
                 local iterations = 0
                 repeat
                     local rSpell = math.random(1, 5)
@@ -32,7 +32,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
                     end
                 until (wasAdded == true or iterations == 15)
             end
-            if mrValue.base >= 50 and mrValue.base < 75 then
+            if mrValue.base >= 40 and mrValue.base < 75 then
                 local iterations = 0
                 repeat
                     local rSpell = math.random(1, 14)
@@ -88,7 +88,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
     if destro == true then
         local mdValue = companionRef.mobile:getSkillStatistic(10)
         if math.random(0, 99) < config.spellChance then
-            if mdValue.base >= 25 and mdValue.base < 50 then
+            if mdValue.base >= 15 and mdValue.base < 40 then
                 local iterations = 0
                 repeat
                     local dSpell = math.random(1, 7)
@@ -105,7 +105,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
                     end
                 until (wasAdded == true or iterations == 15)
             end
-            if mdValue.base >= 50 and mdValue.base < 75 then
+            if mdValue.base >= 40 and mdValue.base < 75 then
                 local iterations = 0
                 repeat
                     local dSpell = math.random(1, 17)
@@ -161,7 +161,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
     if alter == true then
         local maValue = companionRef.mobile:getSkillStatistic(11)
         if math.random(0, 99) < config.spellChance then
-            if maValue.base >= 25 and maValue.base < 50 then
+            if maValue.base >= 15 and maValue.base < 40 then
                 local iterations = 0
                 repeat
                     local aSpell = math.random(1, 5)
@@ -178,7 +178,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
                     end
                 until (wasAdded == true or iterations == 15)
             end
-            if maValue.base >= 50 and maValue.base < 75 then
+            if maValue.base >= 40 and maValue.base < 75 then
                 local iterations = 0
                 repeat
                     local aSpell = math.random(1, 12)
@@ -234,7 +234,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
     if conj == true then
         local mcValue = companionRef.mobile:getSkillStatistic(13)
         if math.random(0, 99) < config.spellChance then
-            if mcValue.base >= 25 and mcValue.base < 50 then
+            if mcValue.base >= 15 and mcValue.base < 40 then
                 local iterations = 0
                 repeat
                     local cSpell = math.random(1, 6)
@@ -251,7 +251,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
                     end
                 until (wasAdded == true or iterations == 15)
             end
-            if mcValue.base >= 50 and mcValue.base < 75 then
+            if mcValue.base >= 40 and mcValue.base < 75 then
                 local iterations = 0
                 repeat
                     local cSpell = math.random(1, 14)
@@ -307,7 +307,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
     if illu == true then
         local miValue = companionRef.mobile:getSkillStatistic(12)
         if math.random(0, 99) < config.spellChance then
-            if miValue.base >= 25 and miValue.base < 50 then
+            if miValue.base >= 15 and miValue.base < 40 then
                 local iterations = 0
                 repeat
                     local iSpell = math.random(1, 6)
@@ -324,7 +324,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
                     end
                 until (wasAdded == true or iterations == 15)
             end
-            if miValue.base >= 50 and miValue.base < 75 then
+            if miValue.base >= 40 and miValue.base < 75 then
                 local iterations = 0
                 repeat
                     local iSpell = math.random(1, 12)
@@ -380,7 +380,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
     if myst == true then
         local mmValue = companionRef.mobile:getSkillStatistic(14)
         if math.random(0, 99) < config.spellChance then
-            if mmValue.base >= 25 and mmValue.base < 50 then
+            if mmValue.base >= 15 and mmValue.base < 40 then
                 local iterations = 0
                 repeat
                     local mSpell = math.random(1, 5)
@@ -397,7 +397,7 @@ function this.spellRoll(resto, destro, alter, conj, illu, myst, companionRef)
                     end
                 until (wasAdded == true or iterations == 15)
             end
-            if mmValue.base >= 50 and mmValue.base < 75 then
+            if mmValue.base >= 40 and mmValue.base < 75 then
                 local iterations = 0
                 repeat
                     local mSpell = math.random(1, 11)
