@@ -36,6 +36,7 @@ function classModule.classChange(reference)
 
 	-- Create window and frame
 	local menu = tes3ui.createMenu { id = classModule.id_menu, fixedFrame = true }
+	menu.alpha = 1.0
 
 	-- Create layout
 	local name = reference.object.name
@@ -43,21 +44,35 @@ function classModule.classChange(reference)
 	local cClass = tes3.findClass(modData.class)
 
 	local input_label = menu:createLabel { text = "Select " .. name .. "'s Class:" }
-	input_label.borderBottom = 5
+	input_label.borderBottom = 10
 
-	--Pane and Image Block
-	local pane_block = menu:createBlock { id = "pane_block" }
+	--new main block
+	local block = menu:createBlock { id = "main_block" }
+	block.autoHeight = true
+	block.autoWidth = true
+	block.flowDirection = tes3.flowDirection.leftToRight
+	--pane
+	local pane_block = block:createBlock { id = "kl_pane_block" }
 	pane_block.autoWidth = true
 	pane_block.autoHeight = true
+	pane_block.borderRight = 12
 
 	local border = pane_block:createThinBorder { id = "kl_border" }
 	border.width = 190
-	border.height = 133
+	border.height = 314
 	border.borderRight = 12
 
-	local border2 = pane_block:createThinBorder { id = "kl_border2" }
-	border2.width = 261
-	border2.height = 133
+	local right_block = block:createBlock { id = "kl_right_block"}
+	right_block.autoWidth = true
+	right_block.autoHeight = true
+	right_block.flowDirection = tes3.flowDirection.topToBottom
+	local img_block = right_block:createBlock { id = "kl_img_block" }
+	img_block.autoWidth = true
+	img_block.autoHeight = true
+	img_block.borderLeft = 19
+	local border2 = img_block:createThinBorder { id = "kl_border2" }
+	border2.width = 260
+	border2.height = 132
 	border2.paddingAllSides = 2
 
 	--Image
@@ -72,7 +87,7 @@ function classModule.classChange(reference)
 
 	--Pane
 	local pane = border:createVerticalScrollPane { id = classModule.id_pane }
-	pane.height = 128
+	pane.height = 314
 	pane.width = 190
 	pane.widget.scrollbarVisible = true
 
@@ -168,7 +183,8 @@ function classModule.classChange(reference)
 			for i, v in pairs(modList) do
 				if v == "Ahead of the Classes.ESP" then
 					for n, k in pairs(tes3.dataHandler.nonDynamicData.classes) do
-						log:debug("Class: " .. k.name .. ", Source Mod: " .. tostring(k.sourceMod) .. "")
+						--Rare error for some reason, problem with formatting
+						--log:debug("Class: " .. k.name .. ", Source Mod: " .. k.sourceMod .. "")
 						if k.sourceMod == "Ahead of the Classes.ESP" or k.sourceMod == "F&F_Ahead of the Classes.ESP" then
 							local dupe = false
 							for int = 1, #tables.classes do
@@ -213,7 +229,7 @@ function classModule.classChange(reference)
 		for i, v in pairs(modList) do
 			if v == "companionLeveler.ESP" then
 				for n, k in pairs(tes3.dataHandler.nonDynamicData.classes) do
-					log:debug("Class: " .. k.name .. ", Source Mod: " .. tostring(k.sourceMod) .. "")
+					--log:debug("Class: " .. k.name .. ", Source Mod: " .. tostring(k.sourceMod) .. "")
 					if k.sourceMod == "companionLeveler.ESP" then
 						local dupe = false
 						for int = 1, #tables.classes do
@@ -281,51 +297,43 @@ function classModule.classChange(reference)
 		end
 	end)
 
-	--Text Blocks
-	local text_block = menu:createBlock { id = "text_block" }
-	text_block.width = 470
-	text_block.height = 116
-	text_block.flowDirection = "left_to_right"
+	--Text Blocks--
+	local text_block = right_block:createBlock { id = "text_block" }
+	text_block.autoHeight = true
+	text_block.autoWidth = true
+	text_block.flowDirection = tes3.flowDirection.leftToRight
+	text_block.borderTop = 10
 
-	local spec_block = text_block:createBlock {}
-	spec_block.width = 155
-	spec_block.height = 108
-	spec_block.borderAllSides = 4
-	spec_block.flowDirection = "top_to_bottom"
+	local text_left = text_block:createBlock { id = "text_left" }
+	text_left.height = 172
+	text_left.width = 155
+	text_left.flowDirection = tes3.flowDirection.topToBottom
 
-	local major_block = text_block:createBlock {}
-	major_block.width = 155
-	major_block.height = 108
-	major_block.borderAllSides = 4
-	major_block.flowDirection = "top_to_bottom"
-
-	local minor_block = text_block:createBlock {}
-	minor_block.width = 155
-	minor_block.height = 108
-	minor_block.borderAllSides = 4
-	minor_block.flowDirection = "top_to_bottom"
+	local text_right = text_block:createBlock { id = "text_right" }
+	text_right.height = 172
+	text_right.width = 155
+	text_right.flowDirection = tes3.flowDirection.topToBottom
 
 	--Specialization
-	local kl_spec = spec_block:createLabel({ text = "Specialization:", id = "kl_spec" })
+	local kl_spec = text_left:createLabel({ text = "Specialization:", id = "kl_spec_title" })
 	kl_spec.color = tables.colors["white"]
-	spec_block:createLabel({ text = tables.capitalization2[cClass.specialization], id = "kl_spec1" })
+	text_left:createLabel({ text = tables.capitalization2[cClass.specialization], id = "kl_spec1" })
 
 	--Attributes
-	local kl_att = spec_block:createLabel({ text = "Favored Attributes:", id = "kl_att" })
+	local kl_att = text_right:createLabel({ text = "Favored Attributes:", id = "kl_att_title" })
 	kl_att.color = tables.colors["white"]
-	kl_att.borderTop = 18
-
 	local mAtt1 = cClass.attributes[1]
 	local mAtt2 = cClass.attributes[2]
-	spec_block:createLabel({ text = "" .. tables.capitalization[mAtt1] .. "", id = "kl_att1" })
-	spec_block:createLabel({ text = "" .. tables.capitalization[mAtt2] .. "", id = "kl_att2" })
+	text_right:createLabel({ text = "" .. tables.capitalization[mAtt1] .. "", id = "kl_att1" })
+	text_right:createLabel({ text = "" .. tables.capitalization[mAtt2] .. "", id = "kl_att2" })
 
-	--Major skills
-	local kl_major = major_block:createLabel({ text = "Major Skills:", id = "kl_major" })
+	--Major Skills
+	local kl_major = text_left:createLabel({ text = "Major Skills:", id = "kl_major_title" })
 	kl_major.color = tables.colors["white"]
+	kl_major.borderTop = 29
 	local mSkills = cClass.majorSkills
-	for i = 1, 7 do
-		local skill = major_block:createLabel { text = tes3.skillName[mSkills[i]], id = "kl_major" .. i .. "" }
+	for i = 1, 5 do
+		local skill = text_left:createLabel { text = tes3.skillName[mSkills[i]], id = "kl_major" .. i .. "" }
 		if modData.ignore_skill ~= 99 then
 			if skill.text == (tes3.getSkillName(modData.ignore_skill)) then
 				skill.color = tables.colors["yellow"]
@@ -334,11 +342,12 @@ function classModule.classChange(reference)
 	end
 
 	--Minor Skills
-	local kl_minor = minor_block:createLabel({ text = "Minor Skills:", id = "kl_minor" })
+	local kl_minor = text_right:createLabel({ text = "Minor Skills:", id = "kl_minor_title" })
 	kl_minor.color = tables.colors["white"]
+	kl_minor.borderTop = 10
 	local minSkills = cClass.minorSkills
-	for i = 1, 7 do
-		local skill = minor_block:createLabel { text = tes3.skillName[minSkills[i]], id = "kl_minor" .. i .. "" }
+	for i = 1, 5 do
+		local skill = text_right:createLabel { text = tes3.skillName[minSkills[i]], id = "kl_minor" .. i .. "" }
 		if modData.ignore_skill ~= 99 then
 			if skill.text == (tes3.getSkillName(modData.ignore_skill)) then
 				skill.color = tables.colors["yellow"]
@@ -352,7 +361,7 @@ function classModule.classChange(reference)
 	ability_block.autoHeight = true
 	ability_block.childAlignX = 0.5
 	ability_block.flowDirection = "left_to_right"
-	ability_block.borderTop = 16
+	ability_block.borderTop = 20
 
 	--Ability
 	local kl_ability = ability_block:createLabel({ text = "Ability:", id = "kl_ability_title" })
@@ -384,8 +393,9 @@ function classModule.classChange(reference)
 	local button_block = menu:createBlock {}
 	button_block.widthProportional = 1.0 -- width is 100% parent width
 	button_block.autoHeight = true
-	button_block.childAlignX = 1.0 -- right content alignment
-	button_block.borderTop = 16
+	button_block.childAlignY = 0.5
+	button_block.borderTop = 20
+	button_block.childOffsetX = 20
 
 	local button_root = button_block:createButton { id = classModule.id_root, text = "Main Menu" }
 	local button_color = button_block:createButton { id = classModule.id_color, text = "Color:" }
@@ -484,7 +494,7 @@ function classModule.onSelect(i, id)
 		end
 
 		local mSkills = cClass.majorSkills
-		for n = 1, 7 do
+		for n = 1, 5 do
 			local text = menu:findChild("kl_major" .. n .. "")
 			text.text = tes3.skillName[mSkills[n]]
 			text.color = tables.colors["default_font"]
@@ -496,7 +506,7 @@ function classModule.onSelect(i, id)
 		end
 
 		local minSkills = cClass.minorSkills
-		for n = 1, 7 do
+		for n = 1, 5 do
 			local text = menu:findChild("kl_minor" .. n .. "")
 			text.text = tes3.skillName[minSkills[n]]
 			text.color = tables.colors["default_font"]
@@ -576,7 +586,7 @@ function classModule.defSelect()
 		end
 
 		local mSkills = class.majorSkills
-		for n = 1, 7 do
+		for n = 1, 5 do
 			local text = menu:findChild("kl_major" .. n .. "")
 			text.text = tes3.skillName[mSkills[n]]
 			text.color = tables.colors["default_font"]
@@ -588,7 +598,7 @@ function classModule.defSelect()
 		end
 
 		local minSkills = class.minorSkills
-		for n = 1, 7 do
+		for n = 1, 5 do
 			local text = menu:findChild("kl_minor" .. n .. "")
 			text.text = tes3.skillName[minSkills[n]]
 			text.color = tables.colors["default_font"]

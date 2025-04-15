@@ -1,6 +1,7 @@
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
 local func = require("companionLeveler.functions.common")
+local tables = require("companionLeveler.tables")
 
 local specList = {}
 
@@ -74,10 +75,11 @@ function specList.createWindow(reference)
             listItem:register("mouseClick", function() specList.onSelect(i, 1) end)
         end
 
+
         --Bounty Hunter Bounties
 		local bountyLabel = pane:createLabel({ text = "Bounty Locations:" })
 		bountyLabel.borderBottom = 12
-		bountyLabel.borderTop = 14
+		bountyLabel.borderTop = 24
 		bountyLabel.color = { 1.0, 1.0, 1.0 }
 
         --Remove text after comma
@@ -91,10 +93,11 @@ function specList.createWindow(reference)
             listItem:register("mouseClick", function() specList.onSelect(i, 2) end)
         end
 
+
         --Courier Deliveries
         local deliveryLabel = pane:createLabel({ text = "Deliveries:" })
         deliveryLabel.borderBottom = 12
-        deliveryLabel.borderTop = 14
+        deliveryLabel.borderTop = 24
         deliveryLabel.color = { 1.0, 1.0, 1.0 }
 
         for i = 1, #specList.modData.deliveries do
@@ -110,7 +113,7 @@ function specList.createWindow(reference)
                 msg = "Located somewhere outside of Morrowind..?"
             end
             local listItem = pane:createTextSelect({ text = "#" .. i .. ": " .. tes3.getObject(specList.modData.deliveries[i][3]).name .. "\n " .. msg .. "", id = "kl_delivery_listItem_" .. i .. "" })
-            listItem.borderBottom = 12
+            listItem.borderBottom = 4
             listItem:register("help", function(e)
                 local tooltip = tes3ui.createTooltipMenu()
 
@@ -123,6 +126,207 @@ function specList.createWindow(reference)
             end)
             listItem:register("mouseClick", function() specList.onSelect(i, 3) end)
         end
+
+
+        --Friendly Relations
+        local diploLabel = pane:createLabel ({ text = "Friendly Relations:" })
+        diploLabel.borderBottom = 12
+        diploLabel.borderTop = 24
+        diploLabel.color = { 1.0, 1.0, 1.0 }
+
+        --Diplomat
+        if specList.modData.consulate ~= nil then
+            local faction = tes3.getFaction(specList.modData.consulate)
+            local speech = reference.mobile:getSkillStatistic(25)
+            local mod = math.round(speech.current * 0.1)
+            if mod > 15 then
+                mod = 15
+            end
+            if mod < 0 then
+                mod = 0
+            end
+            local listItem = pane:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_label" })
+            listItem.widget.idle = tables.colors["pink"]
+            listItem.borderBottom = 4
+            listItem:register("help", function(e)
+                local tooltip = tes3ui.createTooltipMenu()
+
+                local contentElement = tooltip:getContentElement()
+                contentElement.paddingAllSides = 12
+                contentElement.childAlignX = 0.5
+                contentElement.childAlignY = 0.5
+
+                tooltip:createLabel({ text = "Diplomatic Negotiations\n\n+ " .. mod .. " disposition bonus to members of this faction. (" .. tes3.findGMST(tes3.gmst.sSkillSpeechcraft).value .. ")" })
+            end)
+        end
+
+        --Retainer
+        if specList.modData.allegiances ~= nil then
+            for i = 1, #specList.modData.allegiances[2] do
+                if specList.modData.allegiances[2][i][2] > 0 then
+                    local faction = tes3.getFaction(specList.modData.allegiances[2][i][1])
+                    local msg = "Friendly"
+                    local color = tables.colors["default_font"]
+                    if specList.modData.allegiances[2][i][2] == 2 then
+                        msg = "Allied"
+                        color = { 0.773, 0.91, 0.718 }
+                    elseif specList.modData.allegiances[2][i][2] == 3 then
+                        msg = "Beholden"
+                        color = { 0.48, 0.82, 0.49 }
+                    elseif specList.modData.allegiances[2][i][2] == 4 then
+                        msg = "Honored"
+                        color = { 0.34, 0.78, 0.3 }
+                    elseif specList.modData.allegiances[2][i][2] >= 5 then
+                        msg = "Exalted"
+                        color = { .18, 0.713, 0.172 }
+                    end
+                    local listItem = pane:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_good_label_" .. i .. "" })
+                    listItem.borderBottom = 4
+                    listItem.widget.idle = color
+                    listItem:register("help", function(e)
+                        local tooltip = tes3ui.createTooltipMenu()
+        
+                        local contentElement = tooltip:getContentElement()
+                        contentElement.paddingAllSides = 12
+                        contentElement.childAlignX = 0.5
+                        contentElement.childAlignY = 0.5
+
+
+                        local amount = specList.modData.allegiances[2][i][2] * 3
+                        if amount > 12 then
+                            amount = 12
+                        end
+        
+                        tooltip:createLabel({ text = "" .. msg .. "\n\n+" .. amount .. " disposition bonus to members of this faction. (" .. tes3.getFaction(specList.modData.allegiances[1]).name .. " Affiliation)" })
+                    end)
+                end
+            end
+        end
+
+
+        --Unfriendly Relations
+        local hateLabel = pane:createLabel({ text = "Unfriendly Relations:" })
+        hateLabel.borderBottom = 12
+        hateLabel.borderTop = 24
+        hateLabel.color = { 1.0, 1.0, 1.0 }
+
+        --Retainer
+        if specList.modData.allegiances ~= nil then
+            for i = 1, #specList.modData.allegiances[2] do
+                if specList.modData.allegiances[2][i][2] < 0 then
+                    local faction = tes3.getFaction(specList.modData.allegiances[2][i][1])
+                    local msg = "Unfriendly"
+                    local color = tables.colors["default_font"]
+                    if specList.modData.allegiances[2][i][2] == -2 then
+                        msg = "Hostile"
+                        color = { 0.85, 0.6, 0.6 }
+                    elseif specList.modData.allegiances[2][i][2] == -3 then
+                        msg = "Enemy"
+                        color = { 0.9, 0.4, 0.4 }
+                    elseif specList.modData.allegiances[2][i][2] == -4 then
+                        msg = "Sworn Enemy"
+                        color = { 0.85, 0.3, 0.3 }
+                    elseif specList.modData.allegiances[2][i][2] <= -5 then
+                        msg = "Blind Rage"
+                        color = { .75, 0.05, 0.05 }
+                    end
+                    local listItem = pane:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_bad_label_" .. i .. "" })
+                    listItem.borderBottom = 4
+                    listItem.widget.idle = color
+                    listItem:register("help", function(e)
+                        local tooltip = tes3ui.createTooltipMenu()
+        
+                        local contentElement = tooltip:getContentElement()
+                        contentElement.paddingAllSides = 12
+                        contentElement.childAlignX = 0.5
+                        contentElement.childAlignY = 0.5
+
+
+                        local amount = specList.modData.allegiances[2][i][2] * 3
+                        if amount < -20 then
+                            amount = -20
+                        end
+        
+                        tooltip:createLabel({ text = "" .. msg .. "\n\n" .. amount .. " disposition penalty to members of this faction. (" .. tes3.getFaction(specList.modData.allegiances[1]).name .. " Affiliation)" })
+                    end)
+                end
+            end
+        end
+
+
+        --Hostile Relations
+        local enemyLabel = pane:createLabel({ text = "Hostile Relations:" })
+        enemyLabel.borderBottom = 12
+        enemyLabel.borderTop = 24
+        enemyLabel.color = { 1.0, 1.0, 1.0 }
+        --Infiltrator
+        if specList.modData.infiltrated ~=nil then
+            local faction = tes3.getFaction(specList.modData.infiltrated)
+            local listItem = pane:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_host_label_infil" })
+            listItem.borderBottom = 4
+            listItem.widget.idle = tables.colors["pink"]
+            listItem:register("help", function(e)
+                local tooltip = tes3ui.createTooltipMenu()
+
+                local contentElement = tooltip:getContentElement()
+                contentElement.paddingAllSides = 12
+                contentElement.childAlignX = 0.5
+                contentElement.childAlignY = 0.5
+
+                local security = reference.mobile:getSkillStatistic(18)
+                local mod = (security.base * 0.0012)
+                if mod > 0.20 then
+                    mod = 0.20
+                end
+
+                tooltip:createLabel({ text = "Infiltrated\n\n" .. mod * 100 .. "% damage bonus against members of this faction. (" .. tes3.findGMST(tes3.gmst.sSkillSecurity).value .. ")" })
+            end)
+        end
+
+        --Exile
+        if specList.modData.fEnemies ~= nil then
+            for i = 1, #specList.modData.fEnemies do
+                local faction = tes3.getFaction(specList.modData.fEnemies[i][1])
+                local msg = "Hostile"
+                local color = tables.colors["default_font"]
+                if specList.modData.fEnemies[i][2] == -2 then
+                    msg = "Enemy"
+                    color = { 0.85, 0.6, 0.6 }
+                elseif specList.modData.fEnemies[i][2] == -3 then
+                    msg = "Hated Enemy"
+                    color = { 0.9, 0.4, 0.4 }
+                elseif specList.modData.fEnemies[i][2] == -4 then
+                    msg = "Sworn Enemy"
+                    color = { 0.85, 0.3, 0.3 }
+                elseif specList.modData.fEnemies[i][2] == -5 then
+                    msg = "Grudge"
+                    color = { 0.8, 0.2, 0.2 }
+                elseif specList.modData.fEnemies[i][2] < -5 then
+                    msg = "Blind Rage"
+                    color = { .75, 0.05, 0.05 }
+                end
+                local listItem = pane:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_host_label_" .. i .. "" })
+                listItem.borderBottom = 4
+                listItem.widget.idle = color
+                listItem:register("help", function(e)
+                    local tooltip = tes3ui.createTooltipMenu()
+    
+                    local contentElement = tooltip:getContentElement()
+                    contentElement.paddingAllSides = 12
+                    contentElement.childAlignX = 0.5
+                    contentElement.childAlignY = 0.5
+
+                    local amount = (specList.modData.fEnemies[i][2] * -4)
+                    if reference.mobile.willpower.base < 100 then
+                        amount = amount / 2
+                    elseif reference.mobile.willpower.base >= 150 then
+                        amount = amount * 1.25
+                    end
+    
+                    tooltip:createLabel({ text = "" .. msg .. "\n\n" .. amount .. "% damage bonus against members of this faction. (" .. tes3.findGMST(tes3.gmst.sAttributeWillpower).value .. ")" })
+                end)
+            end
+        end
     else
 		--Creature special information
     end
@@ -132,7 +336,7 @@ function specList.createWindow(reference)
     button_block.widthProportional = 1.0
     button_block.autoHeight = true
     button_block.childAlignX = 0.5
-    button_block.borderTop = 12
+    button_block.borderTop = 24
 
     local button_ok = button_block:createButton { text = tes3.findGMST("sOK").value }
 

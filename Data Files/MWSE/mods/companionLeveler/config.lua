@@ -1,6 +1,5 @@
 local defaultConfig = {
 
-	modEnabled = true,
 	buildMode = false,
 	expMode = false,
 	levelSummary = true,

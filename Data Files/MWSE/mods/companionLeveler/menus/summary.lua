@@ -39,7 +39,7 @@ function sumr.createWindow(reference)
 	border.width = 220
 	border.height = 280
 	border.borderAllSides = 4
-	border.borderTop = 54
+	border.borderTop = 84
 	border.paddingAllSides = 4
 
 	local pane = border:createVerticalScrollPane({ id = sumr.id_pane })
@@ -53,8 +53,8 @@ function sumr.createWindow(reference)
 	local border2 = pane_block:createThinBorder { id = "kl_border2_sum" }
 	border2.positionX = 204
 	border2.positionY = 0
-	border2.width = 572
-	border2.height = 380
+	border2.width = 600
+	border2.height = 450
 	border2.borderAllSides = 5
 	border2.paddingAllSides = 4
 	border2.borderRight = 4

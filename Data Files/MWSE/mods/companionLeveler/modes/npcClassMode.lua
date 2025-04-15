@@ -51,7 +51,9 @@ function npcClassMode.levelUp(companions)
             log:trace("Fetching " .. name .. "'s class attributes...")
             local mAttributes = class.attributes
 
+
             --Trained Major Skills
+            --1
             local tSkillMajor1 = majSkills[math.random(1, #majSkills)]
             if tSkillMajor1 == modData.ignore_skill then
                 repeat
@@ -59,21 +61,25 @@ function npcClassMode.levelUp(companions)
                 until tSkillMajor1 ~= modData.ignore_skill
             end
 
+            --2
             local tSkillMajor2 = majSkills[math.random(1, #majSkills)]
-            if tSkillMajor2 == modData.ignore_skill then
+            if tSkillMajor2 == modData.ignore_skill or tSkillMajor2 == tSkillMajor1 then
                 repeat
                     tSkillMajor2 = majSkills[math.random(1, #majSkills)]
-                until tSkillMajor2 ~= modData.ignore_skill
+                until tSkillMajor2 ~= modData.ignore_skill and tSkillMajor2 ~= tSkillMajor1
             end
 
+            --3
             local tSkillMajor3 = majSkills[math.random(1, #majSkills)]
-            if tSkillMajor3 == modData.ignore_skill then
+            if tSkillMajor3 == modData.ignore_skill or tSkillMajor3 == tSkillMajor1 or tSkillMajor3 == tSkillMajor2 then
                 repeat
                     tSkillMajor3 = majSkills[math.random(1, #majSkills)]
-                until tSkillMajor3 ~= modData.ignore_skill
+                until tSkillMajor3 ~= modData.ignore_skill and tSkillMajor3 ~= tSkillMajor1 and tSkillMajor3 ~= tSkillMajor2
             end
 
+
             --Trained Minor Skills
+            --1
             local tSkillMinor1 = minSkills[math.random(1, #minSkills)]
             if tSkillMinor1 == modData.ignore_skill then
                 repeat
@@ -81,12 +87,14 @@ function npcClassMode.levelUp(companions)
                 until tSkillMinor1 ~= modData.ignore_skill
             end
 
+            --2
             local tSkillMinor2 = minSkills[math.random(1, #minSkills)]
-            if tSkillMinor2 == modData.ignore_skill then
+            if tSkillMinor2 == modData.ignore_skill or tSkillMinor2 == tSkillMinor1 then
                 repeat
                     tSkillMinor2 = minSkills[math.random(1, #minSkills)]
-                until tSkillMinor2 ~= modData.ignore_skill
+                until tSkillMinor2 ~= modData.ignore_skill and tSkillMinor2 ~= tSkillMinor1
             end
+
 
             --Trained Favored Attributes
             local trainedAtt1 = mAttributes[1]
@@ -165,14 +173,12 @@ function npcClassMode.levelUp(companions)
             }
             ----Faction Bonus----------------------------------------------------------------------------------------------------------
             log:trace("Fetching " .. name .. "'s Faction information...")
-            local selectionF = 0
+            local selectionF, selectionF2, selectionF3 = 0, 0, 0
             local selectionMgk = 0
-            local nFaction = "placeholder"
-            local fAttributes = {}
-            local fSkills = {}
-            local trainedAttF = 0
-            local trainedSkillF = 0
-            local faction = companionRef.object.faction
+            local nFaction, nFaction2, nFaction3 = "", "", ""
+            local trainedAttF, trainedAttF2, trainedAttF3 = 0, 0, 0
+            local trainedSkillF, trainedSkillF2, trainedSkillF3 = 0, 0, 0
+
 
             local fBonusAmountA = config.factionBonusMod
             if modData.attributeTraining == false then
@@ -184,49 +190,93 @@ function npcClassMode.levelUp(companions)
                 fBonusAmountS = 0
             end
 
-            if faction ~= nil then
-                if config.factionBonus == true then
-                    selectionF = 2
-                    nFaction = faction.name
-                    fAttributes = faction.attributes
-                    fSkills = faction.skills
-                    trainedAttF = fAttributes[math.random(1, #fAttributes)]
-                    trainedSkillF = fSkills[math.random(1, #fSkills)]
-                    if (trainedSkillF == nil or trainedSkillF < 0 or trainedSkillF > 26) then
-                        trainedSkillF = 8
-                        log:warn("" .. name .. "'s chosen Faction Skill returned nil. Reverting to Athletics.")
-                    end
-                    local fAttName = tables.capitalization[trainedAttF]
-                    local fAtt = attTable[trainedAttF + 1]
-                    if math.random(0, 99) < config.factionChance then
-                        log:debug("" .. name .. "'s Faction Bonus roll succeeded.")
-                        log:info("" .. name .. " received a bonus from " .. nFaction .. ".")
-                        selectionF = 1
-                        if config.aboveMaxAtt == false then
-                            if fAtt.base + fBonusAmountA > 100 then
-                                fBonusAmountA = math.max(100 - fAtt.base, 0)
+            if config.factionBonus == true then
+                for n = 1, #modData.factions do
+                    if modData.factions[n] ~= nil then
+                        local faction = tes3.getFaction(modData.factions[n])
+                        local fAttName
+                        local fAtt
+                        if n == 1 then
+                            nFaction = faction.name
+                            trainedAttF = faction.attributes[math.random(1, #faction.attributes)]
+                            trainedSkillF = faction.skills[math.random(1, #faction.skills)]
+                            if (trainedSkillF == nil or trainedSkillF < 0 or trainedSkillF > 26) then
+                                trainedSkillF = 8
+                                log:warn("" .. name .. "'s chosen Faction Skill returned nil. Reverting to Athletics.")
                             end
-                        end
-                        tes3.modStatistic({ attribute = trainedAttF, value = fBonusAmountA, reference = companionRef })
-                        modData.att_gained[trainedAttF + 1] = modData.att_gained[trainedAttF + 1] + fBonusAmountA
-                        if (fAttName == "Intelligence" and fBonusAmountA > 0) then
-                            selectionMgk = 1
-                        end
-                        local fSkill = companionRef.mobile:getSkillStatistic(trainedSkillF)
-                        if config.aboveMaxSkill == false then
-                            if fSkill.base + fBonusAmountS > 100 then
-                                fBonusAmountS = math.max(100 - fSkill.base, 0)
+                            fAttName = tables.capitalization[trainedAttF]
+                            fAtt = attTable[trainedAttF + 1]
+                            selectionF = 2
+                        elseif n == 2 then
+                            nFaction2 = faction.name
+                            trainedAttF2 = faction.attributes[math.random(1, #faction.attributes)]
+                            trainedSkillF2 = faction.skills[math.random(1, #faction.skills)]
+                            if (trainedSkillF2 == nil or trainedSkillF2 < 0 or trainedSkillF2 > 26) then
+                                trainedSkillF2 = 8
+                                log:warn("" .. name .. "'s chosen Faction Skill returned nil. Reverting to Athletics.")
                             end
+                            fAttName = tables.capitalization[trainedAttF2]
+                            fAtt = attTable[trainedAttF2 + 1]
+                            selectionF2 = 2
+                        else
+                            nFaction3 = faction.name
+                            trainedAttF3 = faction.attributes[math.random(1, #faction.attributes)]
+                            trainedSkillF3 = faction.skills[math.random(1, #faction.skills)]
+                            if (trainedSkillF3 == nil or trainedSkillF3 < 0 or trainedSkillF3 > 26) then
+                                trainedSkillF3 = 8
+                                log:warn("" .. name .. "'s chosen Faction Skill returned nil. Reverting to Athletics.")
+                            end
+                            fAttName = tables.capitalization[trainedAttF3]
+                            fAtt = attTable[trainedAttF3 + 1]
+                            selectionF3 = 2
                         end
-                        tes3.modStatistic({ skill = trainedSkillF, value = fBonusAmountS, reference = companionRef })
-                        modData.skill_gained[trainedSkillF + 1] = modData.skill_gained[trainedSkillF + 1] + fBonusAmountS
-                    else
-                        log:debug("" .. name .. "'s Faction Bonus roll failed.")
+                        if math.random(0, 99) < config.factionChance then
+                            log:debug("" .. name .. "'s Faction Bonus roll #" .. n .. " succeeded.")
+                            log:info("" .. name .. " received a bonus from " .. faction.name .. ".")
+                            if config.aboveMaxAtt == false then
+                                if fAtt.base + fBonusAmountA > 100 then
+                                    fBonusAmountA = math.max(100 - fAtt.base, 0)
+                                end
+                            end
+                            local fSkill
+                            if n == 1 then
+                                selectionF = 1
+                                tes3.modStatistic({ attribute = trainedAttF, value = fBonusAmountA, reference = companionRef })
+                                modData.att_gained[trainedAttF + 1] = modData.att_gained[trainedAttF + 1] + fBonusAmountA
+                                fSkill = companionRef.mobile:getSkillStatistic(trainedSkillF)
+                                tes3.modStatistic({ skill = trainedSkillF, value = fBonusAmountS, reference = companionRef })
+                                modData.skill_gained[trainedSkillF + 1] = modData.skill_gained[trainedSkillF + 1] + fBonusAmountS
+                            elseif n == 2 then
+                                selectionF2 = 1
+                                tes3.modStatistic({ attribute = trainedAttF2, value = fBonusAmountA, reference = companionRef })
+                                modData.att_gained[trainedAttF2 + 1] = modData.att_gained[trainedAttF2 + 1] + fBonusAmountA
+                                fSkill = companionRef.mobile:getSkillStatistic(trainedSkillF2)
+                                tes3.modStatistic({ skill = trainedSkillF2, value = fBonusAmountS, reference = companionRef })
+                                modData.skill_gained[trainedSkillF2 + 1] = modData.skill_gained[trainedSkillF2 + 1] + fBonusAmountS
+                            else
+                                selectionF3 = 1
+                                tes3.modStatistic({ attribute = trainedAttF3, value = fBonusAmountA, reference = companionRef })
+                                modData.att_gained[trainedAttF3 + 1] = modData.att_gained[trainedAttF3 + 1] + fBonusAmountA
+                                fSkill = companionRef.mobile:getSkillStatistic(trainedSkillF3)
+                                tes3.modStatistic({ skill = trainedSkillF3, value = fBonusAmountS, reference = companionRef })
+                                modData.skill_gained[trainedSkillF3 + 1] = modData.skill_gained[trainedSkillF3 + 1] + fBonusAmountS
+                            end
+                            if (fAttName == "Intelligence" and fBonusAmountA > 0) then
+                                selectionMgk = 1
+                            end
+                            if config.aboveMaxSkill == false then
+                                if fSkill.base + fBonusAmountS > 100 then
+                                    fBonusAmountS = math.max(100 - fSkill.base, 0)
+                                end
+                            end
+                        else
+                            log:debug("" .. name .. "'s Faction Bonus roll #" .. n .. " failed.")
+                        end
                     end
                 end
             end
             
-            local fSummary = {
+            local fSummary1 = {
                 [0] = "" .. name .. " has no Faction.",
                 [1] = "" ..
                     nFaction ..
@@ -234,6 +284,24 @@ function npcClassMode.levelUp(companions)
                     tables.capitalization[trainedAttF] ..
                     " by " .. fBonusAmountA .. " and " .. tes3.skillName[trainedSkillF] .. " by " .. fBonusAmountS .. "!",
                 [2] = "" .. name .. " has received no " .. nFaction .. " training lately."
+            }
+            local fSummary2 = {
+                [0] = "",
+                [1] = "" ..
+                    nFaction2 ..
+                    " training increased " ..
+                    tables.capitalization[trainedAttF2] ..
+                    " by " .. fBonusAmountA .. " and " .. tes3.skillName[trainedSkillF2] .. " by " .. fBonusAmountS .. "!\n\n",
+                [2] = "" .. name .. " has received no " .. nFaction2 .. " training lately.\n\n"
+            }
+            local fSummary3 = {
+                [0] = "",
+                [1] = "" ..
+                    nFaction3 ..
+                    " training increased " ..
+                    tables.capitalization[trainedAttF3] ..
+                    " by " .. fBonusAmountA .. " and " .. tes3.skillName[trainedSkillF3] .. " by " .. fBonusAmountS .. "!\n\n",
+                [2] = "" .. name .. " has received no " .. nFaction3 .. " training lately.\n\n"
             }
             ----1st major skill trained------------------------------------------------------------------------------------------------
             local majSkillStat1 = companionRef.mobile:getSkillStatistic(tSkillMajor1)
@@ -456,141 +524,56 @@ function npcClassMode.levelUp(companions)
             ----Specialization Bonus----------------------------------------------------------------------------------------------------------
             log:debug("Fetching " .. name .. "'s specialization information...")
             local specialSwitch = 0
-            local stealthBonus = tables.stealthTable[math.random(1, 4)]
-            local stealthSkillBonus = tables.stealthSkillTable[math.random(1, 9)]
-            local magicBonus = tables.magicTable[math.random(1, 4)]
-            local magicSkillBonus = tables.magicSkillTable[math.random(1, 9)]
-            local combatBonus = tables.combatTable[math.random(1, 4)]
-            local combatSkillBonus = tables.combatSkillTable[math.random(1, 9)]
-            local tAttStealth = attTable[stealthBonus + 1]
-            local tAttMagic = attTable[magicBonus + 1]
-            local tAttCombat = attTable[combatBonus + 1]
-            local tSkillStealth = companionRef.mobile:getSkillStatistic(stealthSkillBonus)
-            local tSkillMagic = companionRef.mobile:getSkillStatistic(magicSkillBonus)
-            local tSkillCombat = companionRef.mobile:getSkillStatistic(combatSkillBonus)
+            local tAttSpec = 0
+            local tSkillSpec = 0
+            local bonusAmountA = config.specialBonusMod
             local bonusAmountS = config.specialBonusMod
             if modData.skillTraining == false then
                 bonusAmountS = 0
             end
-            local bonusAmountA = config.specialBonusMod
             if modData.attributeTraining == false then
                 bonusAmountA = 0
             end
+
             if config.specialBonus == true then
                 if math.random(0, 99) < config.specialChance then
                     log:debug("" .. name .. "'s Specialization Bonus roll succeeded.")
-                    --Stealth
-                    if companionRef.object.class.specialization == 2 then
-                        if config.aboveMaxSkill == false then
-                            if tSkillStealth.base + bonusAmountS > 100 then
-                                bonusAmountS = math.max(100 - tSkillStealth.base, 0)
-                            end
-                        end
-                        if config.aboveMaxAtt == false then
-                            if tAttStealth.base + bonusAmountA > 100 then
-                                bonusAmountA = math.max(100 - tAttStealth.base, 0)
-                            end
-                        end
-                        tes3.modStatistic({ attribute = stealthBonus, value = bonusAmountA, reference = companionRef })
-                        modData.att_gained[stealthBonus + 1] = modData.att_gained[stealthBonus + 1] + bonusAmountA
-                        tes3.modStatistic({ skill = stealthSkillBonus, value = bonusAmountS, reference = companionRef })
-                        modData.skill_gained[stealthSkillBonus + 1] = modData.skill_gained[stealthSkillBonus + 1] +
-                            bonusAmountS
-                        log:info("" ..
-                            name ..
-                            "'s Stealth Bonus awarded " ..
-                            config.specialBonusMod ..
-                            " in " ..
-                            tables.capitalization[stealthBonus] .. " and " .. tes3.skillName[stealthSkillBonus] .. "!")
-                        specialSwitch = 1
-                    end
-                    --Magic
-                    if companionRef.object.class.specialization == 1 then
-                        local intCheck = tes3.attributeName[magicBonus]
-                        if config.aboveMaxSkill == false then
-                            if tSkillMagic.base + bonusAmountS > 100 then
-                                bonusAmountS = math.max(100 - tSkillMagic.base, 0)
-                            end
-                        end
-                        if config.aboveMaxAtt == false then
-                            if tAttMagic.base + bonusAmountA > 100 then
-                                bonusAmountA = math.max(100 - tAttMagic.base, 0)
-                            end
-                        end
-                        tes3.modStatistic({ attribute = magicBonus, value = bonusAmountA, reference = companionRef })
-                        modData.att_gained[magicBonus + 1] = modData.att_gained[magicBonus + 1] + bonusAmountA
-                        tes3.modStatistic({ skill = magicSkillBonus, value = bonusAmountS, reference = companionRef })
-                        modData.skill_gained[magicSkillBonus + 1] = modData.skill_gained[magicSkillBonus + 1] +
-                            bonusAmountS
-                        log:info("" ..
-                            name ..
-                            "'s Magic Bonus awarded " ..
-                            config.specialBonusMod ..
-                            " in " ..
-                            tables.capitalization[magicBonus] .. " and " .. tes3.skillName[magicSkillBonus] .. "!")
-                        specialSwitch = 2
-                        if (intCheck == "intelligence" and bonusAmountA > 0) then
-                            selectionMgk = 1
+                    specialSwitch = 1
+                    tAttSpec = companionRef.object.class.attributes[math.random(1, #companionRef.object.class.attributes)]
+                    tSkillSpec = companionRef.object.class.majorSkills[math.random(1, #companionRef.object.class.majorSkills)]
+
+                    local att = companionRef.mobile.attributes[tAttSpec + 1]
+                    local skill = companionRef.mobile:getSkillStatistic(tSkillSpec)
+
+                    if config.aboveMaxSkill == false then
+                        if skill.base + bonusAmountS > 100 then
+                            bonusAmountS = math.max(100 - skill.base, 0)
                         end
                     end
-                    --Combat
-                    if companionRef.object.class.specialization == 0 then
-                        if config.aboveMaxSkill == false then
-                            if tSkillCombat.base + bonusAmountS > 100 then
-                                bonusAmountS = math.max(100 - tSkillCombat.base, 0)
-                            end
+                    if config.aboveMaxAtt == false then
+                        if att.base + bonusAmountA > 100 then
+                            bonusAmountA = math.max(100 - att.base, 0)
                         end
-                        if config.aboveMaxAtt == false then
-                            if tAttCombat.base + bonusAmountA > 100 then
-                                bonusAmountA = math.max(100 - tAttCombat.base, 0)
-                            end
-                        end
-                        tes3.modStatistic({ attribute = combatBonus, value = bonusAmountA, reference = companionRef })
-                        modData.att_gained[combatBonus + 1] = modData.att_gained[combatBonus + 1] + bonusAmountA
-                        tes3.modStatistic({ skill = combatSkillBonus, value = bonusAmountS, reference = companionRef })
-                        modData.skill_gained[combatSkillBonus + 1] = modData.skill_gained[combatSkillBonus + 1] +
-                            bonusAmountS
-                        log:info("" ..
-                            name ..
-                            "'s Combat Bonus awarded " ..
-                            config.specialBonusMod ..
-                            " in " ..
-                            tables.capitalization[combatBonus] .. " and " .. tes3.skillName[combatSkillBonus] .. "!")
-                        specialSwitch = 3
                     end
+                    tes3.modStatistic({ attribute = tAttSpec, value = bonusAmountA, reference = companionRef })
+                    modData.att_gained[tAttSpec + 1] = modData.att_gained[tAttSpec + 1] + bonusAmountA
+                    tes3.modStatistic({ skill = tSkillSpec, value = bonusAmountS, reference = companionRef })
+                    modData.skill_gained[tSkillSpec + 1] = modData.skill_gained[tSkillSpec + 1] + bonusAmountS
+
+                    if (tes3.attributeName[tAttSpec] == "intelligence" and bonusAmountA > 0) then
+                        selectionMgk = 1
+                    end
+
+                    log:info("" .. name .. "'s Specialization Bonus awarded " .. bonusAmountA .. " in " .. tables.capitalization[tAttSpec] .. ".")
+                    log:info("" .. name .. "'s Specialization Bonus awarded " .. bonusAmountS .. " in " .. tes3.skillName[tSkillSpec] .. ".")
                 else
                     log:debug("" .. name .. "'s Specialization Bonus roll failed.")
                 end
             end
+
             local specialSummary = {
                 [0] = "Received no Class Specialization bonus.",
-                [1] = "Received a " ..
-                    bonusAmountA ..
-                    " point bonus to " ..
-                    tables.capitalization[stealthBonus] ..
-                    " and a " ..
-                    bonusAmountS ..
-                    " point bonus to " ..
-                    tes3.skillName[stealthSkillBonus] ..
-                    " due to their specialization in Stealth! (" .. companionRef.object.class.name .. ")",
-                [2] = "Received a " ..
-                    bonusAmountA ..
-                    " point bonus to " ..
-                    tables.capitalization[magicBonus] ..
-                    " and a " ..
-                    bonusAmountS ..
-                    " point bonus to " ..
-                    tes3.skillName[magicSkillBonus] ..
-                    " due to their specialization in Magic! (" .. companionRef.object.class.name .. ")",
-                [3] = "Received a " ..
-                    bonusAmountA ..
-                    " point bonus to " ..
-                    tables.capitalization[combatBonus] ..
-                    " and a " ..
-                    bonusAmountS ..
-                    " point bonus to " ..
-                    tes3.skillName[combatSkillBonus] ..
-                    " due to their specialization in Combat! (" .. companionRef.object.class.name .. ")"
+                [1] = "Received a " .. bonusAmountA .. " point bonus to " .. tables.capitalization[tAttSpec] .. " and a " .. bonusAmountS .. " point bonus to " .. tes3.skillName[tSkillSpec] .. " due to their " .. companionRef.object.class.name .. " background!"
             }
             ----health increased by percentage of endurance after training------------------------------------------------------------------------
             local hpMod = companionRef.mobile.endurance.base
@@ -693,7 +676,15 @@ function npcClassMode.levelUp(companions)
                         tes3.skillName[trainedSkillF] == "Mysticism") then
                     mystRoll = true
                 end
-                spells.spellRoll(restoRoll, destroRoll, alterRoll, conjRoll, illuRoll, mystRoll, companionRef)
+                local spellSkills = {
+                    [1] = companionRef.mobile:getSkillStatistic(15).base,
+                    [2] = companionRef.mobile:getSkillStatistic(10).base,
+                    [3] = companionRef.mobile:getSkillStatistic(11).base,
+                    [4] = companionRef.mobile:getSkillStatistic(13).base,
+                    [5] = companionRef.mobile:getSkillStatistic(12).base,
+                    [6] = companionRef.mobile:getSkillStatistic(14).base
+                }
+                spells.spellRoll( {restoRoll, destroRoll, alterRoll, conjRoll, illuRoll, mystRoll}, spellSkills, companionRef)
             end
             ----NPC Abilities-----------------------------------------------------------------------------------------------------------------
             if (config.abilityLearningNPC == true and modData.abilityLearning == true) then
@@ -704,8 +695,6 @@ function npcClassMode.levelUp(companions)
                 abilities.contract(companionRef)
                 abilities.bounty(companionRef)
                 abilities.delivery(companionRef)
-                --To Be Removed Completely
-                --timer.start({ type = timer.game, duration = math.random(12, 72), iterations = 1, callback = "companionLeveler:abilityTimer", data = { name = name } })
             end
             --Technique Points
             modData.tp_max = modData.tp_max + 1
@@ -715,58 +704,13 @@ function npcClassMode.levelUp(companions)
             modData.fat_gained = (companionRef.mobile.fatigue.base - companionRef.baseObject.fatigue)
             ----NPC Level up Summary----------------------------------------------------------------------------------------------------------
             if config.levelSummary == true then
-                local regsum = "" ..
-                    name ..
-                    " the " ..
-                    class.name ..
-                    " ascended to Level " ..
-                    storedLevel ..
-                    "!\n\n" ..
-                    hpSummary[selectionHth] ..
-                    ", and " ..
-                    mgkSummary[selectionMgk] ..
-                    "\n\nTrained " ..
-                    mAtt1 ..
-                    " by " ..
-                    mAttMod1 ..
-                    ", " ..
-                    mAtt2 ..
-                    " by " ..
-                    mAttMod2 ..
-                    ", and " ..
-                    mAtt3 ..
-                    " by " ..
-                    mAttMod3 ..
-                    "!\n\n" ..
-                    rSummary[selectionR] ..
-                    "\n\n" ..
-                    specialSummary[specialSwitch] ..
-                    "\n\n" ..
-                    fSummary[selectionF] ..
-                    "\n\n" ..
-                    menSummary[selectionMen] ..
-                    "\n\nTrained Major Skills in " ..
-                    mSkill1 ..
-                    " by " ..
-                    mSkillMod1 ..
-                    ", " ..
-                    mSkill2 ..
-                    " by " ..
-                    mSkillMod2 ..
-                    ", and " ..
-                    mSkill3 ..
-                    " by " ..
-                    mSkillMod3 ..
-                    "!\n\nTrained Minor Skills in " ..
-                    minSkill1 ..
-                    " by " ..
-                    minSkillMod1 ..
-                    " and " ..
-                    minSkill2 ..
-                    " by " ..
-                    minSkillMod2 ..
-                    "!\n\nUnderwent additional training in " ..
-                    rSkill1 .. " by " .. rSkillMod1 .. " and " .. rSkill2 .. " by " .. rSkillMod2 .. "!"
+                local regsum =
+                "" .. name .. " the " .. class.name .. " ascended to Level " .. storedLevel .. 
+                "!\n\n" .. hpSummary[selectionHth] .. ", and " .. mgkSummary[selectionMgk] .. "\n\nTrained " .. mAtt1 .. " by " .. mAttMod1 .. ", " .. mAtt2 .. " by " .. mAttMod2 .. ", and " .. mAtt3 .. " by " .. mAttMod3 .. 
+                "!\n\n" .. rSummary[selectionR] .. "\n\n" .. specialSummary[specialSwitch] .. "\n\n" .. fSummary1[selectionF] .. "\n\n" .. fSummary2[selectionF2] .. "" .. fSummary3[selectionF3] .. "" .. menSummary[selectionMen] .. 
+                "\n\nTrained Major Skills in " .. mSkill1 .. " by " .. mSkillMod1 .. ", " .. mSkill2 .. " by " .. mSkillMod2 .. ", and " .. mSkill3 .. " by " .. mSkillMod3 .. 
+                "!\n\nTrained Minor Skills in " .. minSkill1 .. " by " .. minSkillMod1 .. " and " .. minSkill2 .. " by " .. minSkillMod2 .. 
+                "!\n\nUnderwent additional training in " .. rSkill1 .. " by " .. rSkillMod1 .. " and " .. rSkill2 .. " by " .. rSkillMod2 .. "!"
                 modData.summary = regsum
                 log:debug("Level Summary triggered from " .. name .. "'s NPC Class Mode.")
 
@@ -791,11 +735,25 @@ function npcClassMode.levelUp(companions)
         tes3.playSound({ sound = "skillraise" })
     end
 
-    --Start Recurring Ability Timer
-    local modDataP = func.getModDataP(tes3.player)
+    --Start Recurring NPC Ability Timer
+    local modDataP = func.getModDataP()
     if modDataP.noDupe == 0 then
         timer.start({ type = timer.game, duration = math.random(48, 96), iterations = 1, callback = "companionLeveler:abilityTimer2" })
         modDataP.noDupe = 1
+    end
+    --Start Hourly Timer
+    if modDataP.hrTimerCreated == false then
+        local gameHour = tes3.getGlobal('GameHour')
+        local rounded = math.round(gameHour)
+
+        if rounded < gameHour then
+            timer.start({ type = timer.game, duration = (rounded + 1) - gameHour, iterations = 1, callback = "companionLeveler:hourlyTimer" })
+        else
+            timer.start({ type = timer.game, duration = rounded - gameHour, iterations = 1, callback = "companionLeveler:hourlyTimer" })
+        end
+
+        modDataP.hrTimerCreated = true
+        log:debug("New Hourly Timer created at " .. tes3.getGlobal("GameHour") .. ".")
     end
 end
 

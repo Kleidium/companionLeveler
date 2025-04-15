@@ -3,8 +3,8 @@ local stuff = {}
 ----Version Control---------------------------------------------------------------------------------------------------------------------------
 
 --Always make sure these values are correct.
-stuff.version = 3.10
-stuff.npcAbilityAmount = 125
+stuff.version = 3.23
+stuff.npcAbilityAmount = 137
 stuff.creAbilityAmount = 80
 stuff.creTypeAmount = 20
 
@@ -230,7 +230,7 @@ stuff.magicTable = {
 	[4] = 7
 }
 
---Strength, Endurence, Agility, Speed----------------------------------------
+--Strength, Endurance, Agility, Speed----------------------------------------
 stuff.combatTable = {
 	[1] = 0,
 	[2] = 3,
@@ -288,6 +288,56 @@ stuff.restorationTable = {
 	[2] = "Cure Poison",
 	[3] = "Rest of St. Merris",
 	[4] = "Turn of the Wheel",
+	[5] = "Vitality" -- 1
+}
+
+stuff.restorationTable2 = {
+	[1] = "Balyna's Efficacious Balm",
+	[2] = "Cure Poison",
+	[3] = "Rest of St. Merris",
+	[4] = "Turn of the Wheel",
+	[5] = "Vitality", -- 1
+	[6] = "Blood Gift",
+	[7] = "Strong Resist Magicka",
+	[8] = "Restore Strength",
+	[9] = "Restore Intelligence",
+	[10] = "Restore Agility",
+	[11] = "Stamina",
+	[12] = "Hearth Heal",
+	[13] = "Regenerate",
+	[14] = "Troll Strength", -- 2
+}
+
+stuff.restorationTable3 = {
+	[1] = "Balyna's Efficacious Balm",
+	[2] = "Cure Poison",
+	[3] = "Rest of St. Merris",
+	[4] = "Turn of the Wheel",
+	[5] = "Vitality", -- 1
+	[6] = "Blood Gift",
+	[7] = "Strong Resist Magicka",
+	[8] = "Restore Strength",
+	[9] = "Restore Intelligence",
+	[10] = "Restore Agility",
+	[11] = "Stamina",
+	[12] = "Hearth Heal",
+	[13] = "Regenerate",
+	[14] = "Troll Strength", -- 2
+	[15] = "Rapid Regenerate",
+	[16] = "Restore Luck",
+	[17] = "Great Resist Fire",
+	[18] = "Great Resist Frost",
+	[19] = "Great Resist Shock",
+	[20] = "Nimbleness",
+	[21] = "Orc's Strength",
+	[22] = "Masterful Fluid Evasion" -- 3
+}
+
+stuff.restorationTable4 = {
+	[1] = "Balyna's Efficacious Balm",
+	[2] = "Cure Poison",
+	[3] = "Rest of St. Merris",
+	[4] = "Turn of the Wheel",
 	[5] = "Vitality", -- 1
 	[6] = "Blood Gift",
 	[7] = "Strong Resist Magicka",
@@ -322,6 +372,66 @@ stuff.restorationTable = {
 }
 
 stuff.destructionTable = {
+	[1] = "Spirit Knife",
+	[2] = "Hornhand",
+	[3] = "Soulpinch",
+	[4] = "Black Hand",
+	[5] = "Stormhand",
+	[6] = "Weapon Eater",
+	[7] = "Clumsy Touch" -- 1
+}
+
+stuff.destructionTable2 = {
+	[1] = "Spirit Knife",
+	[2] = "Hornhand",
+	[3] = "Soulpinch",
+	[4] = "Black Hand",
+	[5] = "Stormhand",
+	[6] = "Weapon Eater",
+	[7] = "Clumsy Touch", -- 1
+	[8] = "Poisonbloom",
+	[9] = "Cruel Firebloom",
+	[10] = "Frostbite",
+	[11] = "Spark",
+	[12] = "Hex",
+	[13] = "Stumble",
+	[14] = "Daedric Bite",
+	[15] = "Strength Leech",
+	[16] = "Distraction",
+	[17] = "Dire Weakness to Poison" --2
+}
+
+stuff.destructionTable3 = {
+	[1] = "Spirit Knife",
+	[2] = "Hornhand",
+	[3] = "Soulpinch",
+	[4] = "Black Hand",
+	[5] = "Stormhand",
+	[6] = "Weapon Eater",
+	[7] = "Clumsy Touch", -- 1
+	[8] = "Poisonbloom",
+	[9] = "Cruel Firebloom",
+	[10] = "Frostbite",
+	[11] = "Spark",
+	[12] = "Hex",
+	[13] = "Stumble",
+	[14] = "Daedric Bite",
+	[15] = "Strength Leech",
+	[16] = "Distraction",
+	[17] = "Dire Weakness to Poison", --2
+	[18] = "Dire Weakness to Fire",
+	[19] = "Dire Weakness to Frost",
+	[20] = "Dire Weakness to Shock",
+	[21] = "Dire Weakness to Magicka",
+	[22] = "Deadly Poison",
+	[23] = "Distant Combustion",
+	[24] = "Distant Cold",
+	[25] = "Distant Electrocution",
+	[26] = "Scourge Blade",
+	[27] = "Fuddle" --3
+}
+
+stuff.destructionTable4 = {
 	[1] = "Spirit Knife",
 	[2] = "Hornhand",
 	[3] = "Soulpinch",
@@ -364,6 +474,47 @@ stuff.alterationTable = {
 	[2] = "Weary",
 	[3] = "Fire Barrier",
 	[4] = "Frost Shield",
+	[5] = "Shock Barrier" -- 1
+}
+
+stuff.alterationTable2 = {
+	[1] = "First Barrier",
+	[2] = "Weary",
+	[3] = "Fire Barrier",
+	[4] = "Frost Shield",
+	[5] = "Shock Barrier", -- 1
+	[6] = "Second Barrier",
+	[7] = "Cruel Weary",
+	[8] = "Strong Feather",
+	[9] = "Strong Fire Shield",
+	[10] = "Strong Shock Shield",
+	[11] = "Water Breathing",
+	[12] = "Water Walking" -- 2
+}
+
+stuff.alterationTable3 = {
+	[1] = "First Barrier",
+	[2] = "Weary",
+	[3] = "Fire Barrier",
+	[4] = "Frost Shield",
+	[5] = "Shock Barrier", -- 1
+	[6] = "Second Barrier",
+	[7] = "Cruel Weary",
+	[8] = "Strong Feather",
+	[9] = "Strong Fire Shield",
+	[10] = "Strong Shock Shield",
+	[11] = "Water Breathing",
+	[12] = "Water Walking", -- 2
+	[13] = "Dire Weary",
+	[14] = "Third Barrier",
+	[15] = "Fourth Barrier" -- 3
+}
+
+stuff.alterationTable4 = {
+	[1] = "First Barrier",
+	[2] = "Weary",
+	[3] = "Fire Barrier",
+	[4] = "Frost Shield",
 	[5] = "Shock Barrier", -- 1
 	[6] = "Second Barrier",
 	[7] = "Cruel Weary",
@@ -384,6 +535,59 @@ stuff.alterationTable = {
 }
 
 stuff.conjurationTable = {
+	[1] = "Bound Dagger",
+	[2] = "Bound Gauntlets",
+	[3] = "Bound Boots",
+	[4] = "Summon Ancestral Ghost",
+	[5] = "Saintly Touch",
+	[6] = "Commanding Touch" -- 1
+}
+
+stuff.conjurationTable2 = {
+	[1] = "Bound Dagger",
+	[2] = "Bound Gauntlets",
+	[3] = "Bound Boots",
+	[4] = "Summon Ancestral Ghost",
+	[5] = "Saintly Touch",
+	[6] = "Commanding Touch", -- 1
+	[7] = "Bound Helm",
+	[8] = "Bound Cuirass",
+	[9] = "Bound Mace",
+	[10] = "Bound Longbow",
+	[11] = "Summon Skeletal Minion",
+	[12] = "Summon Least Bonewalker",
+	[13] = "Summon Scamp",
+	[14] = "Turn Undead" -- 2
+}
+
+stuff.conjurationTable3 = {
+	[1] = "Bound Dagger",
+	[2] = "Bound Gauntlets",
+	[3] = "Bound Boots",
+	[4] = "Summon Ancestral Ghost",
+	[5] = "Saintly Touch",
+	[6] = "Commanding Touch", -- 1
+	[7] = "Bound Helm",
+	[8] = "Bound Cuirass",
+	[9] = "Bound Mace",
+	[10] = "Bound Longbow",
+	[11] = "Summon Skeletal Minion",
+	[12] = "Summon Least Bonewalker",
+	[13] = "Summon Scamp",
+	[14] = "Turn Undead", -- 2
+	[15] = "Bound Longsword",
+	[16] = "Bound Battle-Axe",
+	[17] = "Bound Spear",
+	[18] = "Bound Shield",
+	[19] = "Summon Bonelord",
+	[20] = "Summon Flame Atronach",
+	[21] = "Summon Frost Atronach",
+	[22] = "Summon Clanfear",
+	[23] = "Summon Greater Bonewalker",
+	[24] = "Blessed Touch" -- 3
+}
+
+stuff.conjurationTable4 = {
 	[1] = "Bound Dagger",
 	[2] = "Bound Gauntlets",
 	[3] = "Bound Boots",
@@ -422,6 +626,48 @@ stuff.illusionTable = {
 	[3] = "Silence",
 	[4] = "Wild Earwig",
 	[5] = "Paralysis",
+	[6] = "Calm Creature" -- 1
+}
+
+stuff.illusionTable2 = {
+	[1] = "Erelvam's Wild Sty",
+	[2] = "Father's Hand",
+	[3] = "Silence",
+	[4] = "Wild Earwig",
+	[5] = "Paralysis",
+	[6] = "Calm Creature", -- 1
+	[7] = "Calm Humanoid",
+	[8] = "Alad's Caliginy",
+	[9] = "Light",
+	[10] = "Shadow Weave",
+	[11] = "Far Silence",
+	[12] = "Dire Noise" -- 2
+}
+
+stuff.illusionTable3 = {
+	[1] = "Erelvam's Wild Sty",
+	[2] = "Father's Hand",
+	[3] = "Silence",
+	[4] = "Wild Earwig",
+	[5] = "Paralysis",
+	[6] = "Calm Creature", -- 1
+	[7] = "Calm Humanoid",
+	[8] = "Alad's Caliginy",
+	[9] = "Light",
+	[10] = "Shadow Weave",
+	[11] = "Far Silence",
+	[12] = "Dire Noise", -- 2
+	[13] = "Medusa's Gaze",
+	[14] = "Invisibility",
+	[15] = "Shadowmask" -- 3
+}
+
+stuff.illusionTable4 = {
+	[1] = "Erelvam's Wild Sty",
+	[2] = "Father's Hand",
+	[3] = "Silence",
+	[4] = "Wild Earwig",
+	[5] = "Paralysis",
 	[6] = "Calm Creature", -- 1
 	[7] = "Calm Humanoid",
 	[8] = "Alad's Caliginy",
@@ -439,6 +685,49 @@ stuff.illusionTable = {
 }
 
 stuff.mysticismTable = {
+	[1] = "Righteousness",
+	[2] = "Almalexia's Grace",
+	[3] = "Sotha's Mirror",
+	[4] = "Soul Trap",
+	[5] = "Absorb Speed" -- 1
+}
+
+stuff.mysticismTable2 = {
+	[1] = "Righteousness",
+	[2] = "Almalexia's Grace",
+	[3] = "Sotha's Mirror",
+	[4] = "Soul Trap",
+	[5] = "Absorb Speed", -- 1
+	[6] = "Absorb Intelligence",
+	[7] = "Absorb Luck",
+	[8] = "Absorb Health",
+	[9] = "Dispel",
+	[10] = "Reflect",
+	[11] = "Weak Spelldrinker" -- 2
+}
+
+stuff.mysticismTable3 = {
+	[1] = "Righteousness",
+	[2] = "Almalexia's Grace",
+	[3] = "Sotha's Mirror",
+	[4] = "Soul Trap",
+	[5] = "Absorb Speed", -- 1
+	[6] = "Absorb Intelligence",
+	[7] = "Absorb Luck",
+	[8] = "Absorb Health",
+	[9] = "Dispel",
+	[10] = "Reflect",
+	[11] = "Weak Spelldrinker", -- 2
+	[12] = "Absorb Agility",
+	[13] = "Absorb Strength",
+	[14] = "Absorb Willpower",
+	[15] = "Energy Leech",
+	[16] = "Shalidor's Mirror",
+	[17] = "Strong Spelldrinker",
+	[18] = "Profane Touch" -- 3
+}
+
+stuff.mysticismTable4 = {
 	[1] = "Righteousness",
 	[2] = "Almalexia's Grace",
 	[3] = "Sotha's Mirror",
@@ -461,6 +750,15 @@ stuff.mysticismTable = {
 	[20] = "Tranasa's Spelltrap",
 	[21] = "The Moth-Wing Mirror",
 	[22] = "astraldrain"
+}
+
+stuff.spellTables = {
+	[1] = { stuff.restorationTable, stuff.restorationTable2, stuff.restorationTable3, stuff.restorationTable4 },
+	[2] = { stuff.destructionTable, stuff.destructionTable2, stuff.destructionTable3, stuff.destructionTable4 },
+	[3] = { stuff.alterationTable, stuff.alterationTable2, stuff.alterationTable3, stuff.alterationTable4 },
+	[4] = { stuff.conjurationTable, stuff.conjurationTable2, stuff.conjurationTable3, stuff.conjurationTable4 },
+	[5] = { stuff.illusionTable, stuff.illusionTable2, stuff.illusionTable3, stuff.illusionTable4 },
+	[6] = { stuff.mysticismTable, stuff.mysticismTable2, stuff.mysticismTable3, stuff.mysticismTable4 }
 }
 
 
@@ -1371,7 +1669,7 @@ stuff.abDescription = {
 	[30] = "It is unwise to underestimate the spurned, the ostracized, the meek.",
 	[31] = "Never allow oneself to reside under the thumb of another.",
 	[32] = "Feign weakness, and they are sure to bite.",
-	[33] = "Death, a necessary end, will come when it will come.",
+	[33] = "\"Death, a necessary end, will come when it will come.\"",
 	[34] = "No matter what transpires, remember what it is that you fight for.",
 	[35] = "The deepest bonds are impossible to cast aside.",
 	[36] = "A body may break, but an ideal stands immortal.",
@@ -1504,7 +1802,6 @@ stuff.abDescription2 = {
 	[80] = "[Poisonous Type Level 20 Ability] A venomous touch allows attacks to poison foes over time.",
 }
 
-
 ----NPC Abilities------------------------------------------------------------------------------------------------------
 
 stuff.classesSpecial = {
@@ -1632,7 +1929,21 @@ stuff.classesSpecial = {
 	[122] = "Metamorph",
 	[123] = "Metallurgist",
 	[124] = "Negator",
-	[125] = "Seer"
+	[125] = "Seer",
+	[126] = "Shadow Warrior",
+	[127] = "Saboteur",
+	[128] = "Safecracker",
+	[129] = "Infiltrator",
+	[130] = "Polymath",
+	[131] = "Exile",
+	[132] = "Diplomat",
+	[133] = "Retainer",
+	[134] = "Recruit",
+	[135] = "Pirate",
+	[136] = "Shadow",
+	[137] = "Reaver",
+	[138] = "Meteoromancer",
+	[139] = "Cleric"
 }
 
 stuff.abListNPC = {
@@ -1760,7 +2071,21 @@ stuff.abListNPC = {
 	[122] = "kl_ab_npc_metamorph",
 	[123] = "kl_ab_npc_metallurgist",
 	[124] = "kl_ab_npc_negator",
-	[125] = "kl_ab_npc_seer"
+	[125] = "kl_ab_npc_seer",
+	[126] = "kl_ab_npc_shadowwarrior",
+	[127] = "kl_ab_npc_saboteur",
+	[128] = "kl_ab_npc_safecracker",
+	[129] = "kl_ab_npc_infiltrator",
+	[130] = "kl_ab_npc_polymath",
+	[131] = "kl_ab_npc_exile",
+	[132] = "kl_ab_npc_diplomat",
+	[133] = "kl_ab_npc_retainer",
+	[134] = "kl_ab_npc_recruit",
+	[135] = "kl_ab_npc_pirate",
+	[136] = "kl_ab_npc_shadow",
+	[137] = "kl_ab_npc_reaver",
+	[138] = "kl_ab_npc_meteoromancer",
+	[139] = "kl_ab_npc_cleric"
 }
 
 stuff.abTypeNPC = {
@@ -1769,7 +2094,7 @@ stuff.abTypeNPC = {
 	[3] = "[TECHNIQUE]: TRAINING",
 	[4] = "[TRIGGERED]: JOB",
 	[5] = "[COMBAT]",
-	[6] = "[TRIGGERED]: LEVEL UP",
+	[6] = "[TRIGGERED]: ANYWHERE",
 	[7] = "[PASSIVE]",
 	[8] = "[AURA]",
 	[9] = "[AURA]",
@@ -1847,7 +2172,7 @@ stuff.abTypeNPC = {
 	[81] = "[PASSIVE]",
 	[82] = "[PASSIVE]",
 	[83] = "[TRIGGERED]: ANYWHERE",
-	[84] = "[PASSIVE]",
+	[84] = "[COMBAT]",
 	[85] = "[PASSIVE]",
 	[86] = "[TECHNIQUE]: ACTIVE",
 	[87] = "[TRIGGERED]: ANYWHERE",
@@ -1888,7 +2213,21 @@ stuff.abTypeNPC = {
 	[122] = "[PASSIVE]: METAMORPHOSIS",
 	[123] = "[TECHNIQUE]: TRAINING",
 	[124] = "[PASSIVE]",
-	[125] = "[PASSIVE]"
+	[125] = "[PASSIVE]",
+	[126] = "[TECHNIQUE]: ACTIVE",
+	[127] = "[TECHNIQUE]: ACTIVE",
+	[128] = "[TECHNIQUE]: ACTIVE",
+	[129] = "[COMBAT]",
+	[130] = "[PASSIVE]",
+	[131] = "[COMBAT]",
+	[132] = "[TRIGGERED]: DIALOGUE",
+	[133] = "[TRIGGERED]: DIALOGUE",
+	[134] = "[TRIGGERED]: LEVEL UP",
+	[135] = "[COMBAT]",
+	[136] = "[AURA]",
+	[137] = "[PASSIVE]",
+	[138] = "[COMBAT]",
+	[139] = "[TRIGGERED]: PATRON"
 }
 
 stuff.abDescriptionNPC = {
@@ -1981,7 +2320,7 @@ stuff.abDescriptionNPC = {
 	[87] = "No need to seek companionship when you can conjure your own.",
 	[88] = "Look beyond all sophistry and study the secrets of the universe.",
 	[89] = "A sovereign must at all times be a portrait of elegance and grace.",
-	[90] = "Remember that perception is subjective.",
+	[90] = "Perception is subjective.",
 	[91] = "Worldly pleasures, eschewed for the hope of purity everlasting.",
 	[92] = "Sequestered away...beyond the touch of both love and hate alike.",
 	[93] = "A warrior fights on. No matter the battlefield.",
@@ -1996,7 +2335,7 @@ stuff.abDescriptionNPC = {
 	[102] = "Whoever said \"money doesn't buy happiness\" simply couldn't afford the cost.",
 	[103] = "\"I am the morning sun, come to vanquish this horrible night!\"",
 	[104] = "Survival is the ability to swim in strange water.",
-	[105] = "Freedom is found under the cover of night.",
+	[105] = "Freedom found under the cover of night.",
 	[106] = "Efficiency often relies on the ability to multi-task.",
 	[107] = "Nature is at once both beauty and savagery.",
 	[108] = "What cannot be tamed may yet be understood.",
@@ -2016,10 +2355,24 @@ stuff.abDescriptionNPC = {
 	[122] = "\"All animals are equal, but some animals are more equal than others.\"",
 	[123] = "Science and magic are, in truth, one and the same.",
 	[124] = "Never lose sight of what makes yourself you.",
-	[125] = "What the eyes had seen could not be erased."
+	[125] = "What the eyes had seen could not be erased.",
+	[126] = "\"Every shadow holds a lesson, every movement a purpose.\"",
+	[127] = "Still like surprises?",
+	[128] = "Anything worth taking won't simply be left out in the open.",
+	[129] = "The bare face; a most inscrutable vizard.",
+	[130] = "All things considered.",
+	[131] = "Solemn heart,\nindolence withered;\nlost forevermore.",
+	[132] = "Is conflict truly inevitable?",
+	[133] = "Choose your friends well, as others shall surely take notice.",
+	[134] = "Your cause is my own from now on.",
+	[135] = "Many an orphan find in the sea a cruel surrogate.",
+	[136] = "The secrets of a lockbox tend to be more forthcoming than those of aetherius.",
+	[137] = "What's theirs is ours, if they cannot protect it.",
+	[138] = "In all things, a pattern. The movement of the atmosphere is one such pattern.",
+	[139] = "One God's pawn is another God's rook;\nboth are but pieces upon the same board."
 }
 
-stuff.abDescriptionNPC2 = {	
+stuff.abDescriptionNPC2 = {
 	[1] = "(Acrobatics) Acrobats fall with grace, reducing their fall damage and to a lesser extent, the party's.",
 	[2] = "Agents will provide training in Sneak, Security, and Acrobatics.",
 	[3] = "Archers will provide Marksman training to companions.",
@@ -2063,7 +2416,7 @@ stuff.abDescriptionNPC2 = {
 	[41] = "Archeologists can potentially unearth artifacts or trash. Some sites are more promising than others.",
 	[42] = "(Armorer/Enchant) Artificers may construct mechanical minions.",
 	[43] = "(Armorer) Artisans craft various tools.",
-	[44] = "Bakers occasionally provide food.",
+	[44] = "Bakers occasionally provide bakery foods or ingredients.",
 	[45] = "(Speechcraft) Barristers are adept at reducing bounties through legal loopholes.",
 	[46] = "(Alchemy) Battle Alchemists may brew poisons which can increase in potency.",
 	[47] = "(Luck) Pearl Divers will find their prize, if they're lucky.",
@@ -2091,20 +2444,19 @@ stuff.abDescriptionNPC2 = {
 	[69] = "(Mercantile) Traders will sometimes use their gold to purchase items.",
 	[70] = "Commoners earn an additional level once this ability is learned.",
 	[71] = "(Luck) Gamblers will risk their gold for a chance at the jackpot.",
-	[72] = "The mere presence of a Herder will pacify most guars and netch.",
-	[73] = "(Speechcraft) Jesters will attempt to distract their enemies, lowering their Luck and Agility.",
+	[72] = "The mere presence of a Herder will pacify most guars, netch, and even rats.",
+	[73] = "(Speechcraft) Jesters will attempt to distract their enemies, lowering their Agility.",
 	[74] = "(Endurance) Ore Miners may seek and find ore.",
 	[75] = "Poachers deal bonus damage to normal creatures, and to a lesser extent, magical creatures.",
 	[76] = "",
 	[77] = "(Enchant) Arcane Knights deal extra non-elemental magic damage when using melee weapons.",
 	[78] = "(Enchant) Arcane Archers deal extra non-elemental magic damage when using projectiles.",
 	[79] = "",
-	[80] = "(Willpower) Thaumaturges shear away the resistances of their adversaries.",
+	[80] = "(Willpower) Thaumaturges shear away the elemental resistances of their adversaries.",
 	[81] = "",
 	[82] = "",
 	[83] = "(Mysticism) Shamans channel energy from aetherius to restore the magicka of their benefactors.",
-	[84] = "",
-	[85] = "",
+	[84] = "(Hand-to-Hand) A Pugilist's strikes can deal a portion of direct damage on a standing foe.",
 	[86] = "Stormcallers can manipulate the weather to call forth storms.",
 	[87] = "(Conjuration) Summoners will often call forth Daedric minions.",
 	[88] = "(Intelligence) Sages have a chance to grant the party additional experience from skills.",
@@ -2120,7 +2472,7 @@ stuff.abDescriptionNPC2 = {
 	[98] = "(Enchant) Scribes can compose magical scrolls.",
 	[99] = "Members of the Silver Hand gain powerful bonuses when fighting werewolves.",
 	[100] = "(Speechcraft) Each stanza a poet utters may improve your own Speechcraft.",
-	[101] = "(Speechcraft) Diresingers sing songs of woe to exhaust their opponents.",
+	[101] = "(Speechcraft) Diresingers sing songs of woe to fatigue their opponents.",
 	[102] = "(Mercantile) Bankers may generate interest on the gold they carry.",
 	[103] = "Vampire Hunters hunt their quarry with a tremendous zeal.",
 	[104] = "",
@@ -2144,8 +2496,23 @@ stuff.abDescriptionNPC2 = {
 	[122] = "Metamorphs forsake all current abilities in order to learn the ways and abilities of creatures.",
 	[123] = "Metallurgists provide training in Alchemy, Armorer, and Enchant.",
 	[124] = "",
-	[125] = ""
+	[125] = "",
+	[126] = "Shadow Warriors can cloak the party in shadow, escaping from most interiors.",
+	[127] = "(Enchant) Those called Saboteurs can set traps on doors and containers using known spells.",
+	[128] = "(Security) Safecrackers may disarm traps and unlock doors and containers.",
+	[129] = "(Security) Infiltrators join a faction to exploit their weaknesses and deal bonus damage to its members.",
+	[130] = "All skills increased by 2.",
+	[131] = "(Willpower) Exiles seek a new beginning by joining a faction, and deal bonus damage to that faction's enemies.",
+	[132] = "(Speechcraft) Diplomats improve your standing with a single faction of your choice.",
+	[133] = "Retainers join a faction, and affect your relations with others based on the relations of that faction.",
+	[134] = "Recruits join a faction you're a part of and increase your quest reputation with that faction.",
+	[135] = "Pirates are trained in aquatic warfare, and deal additional damage to swimming foes.",
+	[136] = "(Illusion) A subtle aura reduces the likelyhood of any party member being detected while sneaking.",
+	[137] = "",
+	[138] = "Meteoromancers utilize the ambient magicks contained within weather to disrupt their foes in various ways.",
+	[139] = "Clerics devote themselves to the service of a chosen deity, which may afford them certain benefits in exchange."
 }
+
 
 ----Misc Ability Tables----------------------------------------------------------------------------------------------
 
@@ -2962,6 +3329,176 @@ stuff.digList = {
 	[3] = stuff.unearthedObjects
 }
 
+stuff.factions = {
+	[1] = "Mages Guild",
+	[2] = "Fighters Guild",
+	[3] = "Thieves Guild",
+	[4] = "Blades",
+	[5] = "Temple",
+	[6] = "Imperial Cult",
+	[7] = "Telvanni",
+	[8] = "Redoran",
+	[9] = "Hlaalu",
+	[10] = "Morag Tong",
+	[11] = "Imperial Legion",
+	[12] = "Census and Excise",
+	[13] = "East Empire Company",
+	[14] = "Twin Lamps",
+	[15] = "Ashlanders",
+	[16] = "Camonna Tong",
+	--TR Begins--
+	[17] = "T_Mw_HouseDres",
+	[18] = "T_Mw_HouseIndoril",
+	[19] = "T_Glb_ArchaeologicalSociety",
+	[20] = "T_Glb_AstrologicalSociety",
+	[21] = "T_Glb_GeographicalSociety"
+}
+
+stuff.patrons = {
+	[1] = "Akatosh",-- 9 Divines
+	[2] = "Arkay",
+	[3] = "Dibella",
+	[4] = "Julianos",
+	[5] = "Kynareth",
+	[6] = "Mara",
+	[7] = "Stendarr",
+	[8] = "Talos",
+	[9] = "Zenithar",
+	[10] = "Azura", -- Daedric Princes
+	[11] = "Boethiah",
+	[12] = "Clavicus Vile",
+	[13] = "Hermaeus Mora",
+	[14] = "Hircine",
+	[15] = "Jyggalag",
+	[16] = "Malacath",
+	[17] = "Mehrunes Dagon",
+	[18] = "Mephala",
+	[19] = "Meridia",
+	[20] = "Molag Bal",
+	[21] = "Namira",
+	[22] = "Nocturnal",
+	[23] = "Peryite",
+	[24] = "Sanguine",
+	[25] = "Sheogorath",
+	[26] = "Vaermina"
+}
+
+stuff.patronMessages = {
+	[1] = "\"Serve and obey your Emperor. Study the Covenants. Worship the Nine, do your duty, and heed the commands of the saints and priests.\"",
+	[2] = "\"Honor the earth, its creatures, and the spirits, living and dead. Guard and tend the bounties of the mortal world, and do not profane the spirits of the dead.\"",
+	[3] = "\"Open your heart to the noble secrets of art and love. Treasure the gifts of friendship. Seek joy and inspiration in the mysteries of love.\"",
+	[4] = "\"Know the truth. Observe the law. When in doubt, seek wisdom from the wise.\"",
+	[5] = "\"Use Nature's gifts wisely. Respect her power, and fear her fury.\"",
+	[6] = "\"Live soberly and peacefully. Honor your parents, and preserve the peace and security of home and family.\"",
+	[7] = "\"Be kind and generous to the people of Tamriel. Protect the weak, heal the sick, and give to the needy.\"",
+	[8] = "\"Be strong for war. Be bold against enemies and evil, and defend the people of Tamriel.\"",
+	[9] = "\"Work hard, and you will be rewarded. Spend wisely, and you will be comfortable. Never steal, or you will be punished.\"",
+	[10] = "\"In the dawn hour under Azura's Star, the door is opened.\"",
+	[11] = "\"Survive, and you will be rewarded. Fail, and your soul belongs to me.\"",
+	[12] = "\"A fair bargain, don't you think?\"",
+	[13] = "\"I am Hermaeus Mora. Past, present, and future are as one to me.\"",
+	[14] = "\"Perhaps I shall task you, mortal. Set you to hunt for my amusement.\"",
+	[15] = "\"Bow before the power of Order!\"",
+	[16] = "\"You want something? Then, if you're smart, you do what I tell you.\"",
+	[17] = "\"Would you like a chance to prove your worth to me?\"",
+	[18] = "\"Pluck but a single thread, and the weave unravels.\"",
+	[19] = "\"The undead are foul, unnatural things. Some of my rivals take pleasure in these abominations. Not Meridia.\"",
+	[20] = "\"I only wish suffering and death. You will bring me both.\"",
+	[21] = "\"They worship me from the dark, basking in their misery and filth.\"",
+	[22] = "\"Night among strangers. Secrets in the dark.\"",
+	[23] = "\"Take this, with my blessing. May it bring you order...\"",
+	[24] = "\"Power is such a lovely word, isn't it? It drips from the tongue like honey.\"",
+	[25] = "\"Yes? Speaking to me? I'm he. He's me. And others, as well. Or, they were. Weren't they?\"",
+	[26] = "\"I dwell in your dreams; I savor your nightmares. Now, you will serve me.\""
+}
+
+stuff.patronDuties = {
+	[1] = "Being caught breaking the law will incur a permanent Endurance/Speed loss to the Cleric and a temporary Endurance/Speed loss to you, their leader.",
+	[2] = "Your party can no longer capture non-daedric souls in soul gems. The souls of mortals are safe from you and yours.",
+	[3] = "The Cleric deals less physical damage for the sake of preserving all physical beauty.",
+	[4] = "Breaking the law and being caught will cause the Cleric to permanently forget a bit about each of their skills.",
+	[5] = "The Cleric's connection to Kynareth results in a greater understanding of the weather as well as a greater sensitivity to its effects.",
+	[6] = "A Mother's love is blind. As such, Mara will never forsake those who love her by punishing them unjustly.",
+	[7] = "Mercilessly killing the weak (< level 5) will weaken the Cleric in return, permanently reducing their Strength and Endurance.",
+	[8] = "The Cleric deals less physical damage to all races of Tamriel due to a deep-seated sense of Imperial unity.",
+	[9] = "The eye of Zenithar is upon you. Stealing (except books), pickpocketing, or opening restricted containers always triggers a crime.",
+	[10] = "A sample of Ectoplasm must be offered every 3 days at 5pm. If a tribute is missed, all benefits are lost until the next tribute date.", -- Daedric Princes
+	[11] = "Boethiah demands a blood price be paid; however, it need not be the Cleric's blood. The Cleric is drained of 3 blood karma each night at midnight. Negative blood karma results in a blood tithe.",
+	[12] = "Calling upon your liaison will impose a tribute fee, and additional contracts may be negotiated...for a price, of course.",
+	[13] = "A book or scroll must be offered as tribute every 3 days at midnight. Missing a tribute will permanently damage the Cleric's Intelligence.",
+	[14] = "Hircine lays claim to the Cleric's soul, periodically issuing hunts which must be undertaken lest the Cleric remain a werewolf indefinitely, gradually losing their capacity to reason.",
+	[15] = "The Cleric must manually check in with their Lord Jyggalag with FULL HEALTH every morning and night within 15 minutes before 6am and 6pm. Failure to do so will break the Cleric's Order Streak and drain their attributes.",
+	[16] = "Malacath is also vengeful to those who betray him. A tribute of Muck must be made every other day or else the Cleric suffers a curse.",
+	[17] = "The weak must be culled. Dagon demands a tribute of a single innocent sacrifice every 5 days. \"Innocents\" primarily reside in towns and other public areas. Failure will result in the Cleric's death.",
+	[18] = "Kill your enemies with secret murder. Mephala requires the Cleric or yourself to assassinate an unaware, non-creature opponent every 3 days. Otherwise, the Lady may see fit to take back Her secret.",
+	[19] = "Meridia wishes all false life be erased. An undead creature/vampire must be destroyed every 3 days or all benefits are lost until the next undead creature/vampire is destroyed.",
+	[20] = "Molag Bal immediately seizes 90% of every soul stockpiled; furthermore, Bal may occasionally demand an amount of souls. If the stockpile does not have enough souls, the entire party is punished.",
+	[21] = "Namira's influence takes its toll, and tribute is paid with the erosion of the Cleric's ever-wasting form; their Endurance and Personality are reduced by 1 each level-up.",
+	[22] = "Honor Nocturnal by creating mysteries of the Cleric's own. An item worth 25g or above must be stolen from someone new every 3 days, or else all benefits are lost until the next eligible item is stolen.",
+	[23] = "The Cleric pays tribute by accepting a random common disease every 3 days. This disease can be cured normally, but doing so will also remove any current disease-blessings afflicted upon the Cleric.",
+	[24] = "Sanguine will only accept the finest Cyrodiilic Brandy every 3 days. If a tribute is missed, all benefits are lost until the next tribute date. In addition, some party members may suffer a hangover.",
+	[25] = "Sheogorath's whims change with the winds. Or without the winds.\nWho knows what He'll ask for? Not Him! Not yet.", --will ask for something in the inventory randomly, can say yes or no, his reaction is random(-ish?). sometimes asks for something you don't have
+	[26] = "Vaermina feeds upon the Cleric's memories and experiences and in exchange for Her own dark knowledge. The Cleric gains 15% less experience from all sources."
+}
+
+stuff.patronGifts = {
+	[1] = "Akatosh provides a blessing which enforces the continuous flow of time and bodily control to the Cleric.",
+	[2] = "Arkay accelerates and perfects the natural cycles of the body, resulting in extraordinary regeneration for the Cleric.",
+	[3] = "Dibella blesses the Cleric with a naturally alluring aura, which may charm others in conversation.",
+	[4] = "Whenever you increase a skill, the Cleric will often increase the same skill due to the heightened cognitive state bestowed by Julianos.",
+	[5] = "Kynareth's winds of fortune periodically bless the party when traveling around outside of town.",
+	[6] = "Her gifts are modest, as is Her manner and Her wont.",
+	[7] = "The Cleric earns the Strength to protect and the Endurance to stand fast in the face of hardship through their own hard work, every 4 levels.",
+	[8] = "The powerful blessing of Talos is brought to bear against all other foes.",
+	[9] = "The Cleric, and by extension, yourself, receive a discount for most services and are blessed with economic insight.",
+	[10] = "During twilight hours, (6-8am/6-8pm) the Cleric is exposed to Azura's influence and receives a temporary but powerful magick blessing.", --Daedric Princes
+	[11] = "Any blood shed by the Cleric's party will award Blood Karma. Humanoids are worth more karma than creatures. The Cleric's power waxes and wanes alongside their blood karma.",
+	[12] = "Clavicus Vile shall provide the Cleric and their party access to a personal daedric merchant which can be called upon at any time.",
+	[13] = "The tides of fate stir, gradually revealing their secrets to the Cleric. An additional Technique Point is bestowed at every odd-numbered level. Technique Points increase by 3.",
+	[14] = "Hircine bestows the gift of lycanthropy upon the willing Cleric, which they can control at will as long as they fulfill the wishes of their Lord, Hircine of the Hunt. Transform as a technique.", --technique
+	[15] = "Jyggalag imposes an orderly routine upon the Cleric, which allows them to better maintain their body and mind. Each step taken on the path of order refines the Cleric's Order Streak.", --technique/passive, buff gives +3, +5, +7, +10, +12, +15, +17, +20, +22, +25 to all stats on a scale of 100
+	[16] = "Malacath punishes those who torment His followers. Physical melee and ranged attacks made against the Cleric by non-Orcs have 15% of their damage reflected back as physical damage.", --combat
+	[17] = "(Destruction) Dagon's influence allows the Cleric access to a powerful, large-scale Destruction technique. This chaotic technique may even damage the party.", --destruction technique, fire from above can hurt party
+	[18] = "The Lady of Secrets whispers one such secret to the Cleric. Mephala teaches the Cleric the ancient technique of Silk-Grip, allowing the Cleric and yourself to deal increased damage to unaware opponents.", --combat stealth
+	[19] = "Meridia constantly regenerates all of the Cleric's vital energies. In addition, the Cleric has access to a radiant technique which will light up foes and punish vampires and the undead.",
+	[20] = "Your Lord, Molag Bal, grants His thrall the ability to convert soul energy into health, magicka, or fatigue for themselves. This soul energy is stockpiled by sacrificing filled soul gems.",
+	[21] = "The Cleric's melee and ranged attacks accelerate the decay of weapon, armor, flesh, and bone with each strike. But only when inside, and only during the nighttime.",
+	[22] = "(Security) The Cleric may \"reach\" through the ever-shifting plane of Evergloam at nighttime, allowing the Cleric to potentially steal gold owned by the foe in another location through the mysteries of Nocturnal.",
+	[23] = "The Taskmaster occasionally allows non-combat triggered abilities to trigger more often. If He does, the Cleric is bestowed a disease-blessing that will leave behind beneficial effects if carried long enough.", --triggered abilities occur more often, disease-blessings are given/bestowed as a technique or triggered ability?
+	[24] = "The party never ends, and that now applies to your party as well. The Cleric emits an aura of blood ardor, which regenerates the entire party's fatigue and instills a feeling of euphoria.", --aura
+	[25] = "Sheogorath promises nothing and something at the same time. No, He will not tell you if that's good or bad. Stop asking.", --random triggered buffs/debuffs, maybe even other ability triggers, increased chance during thunderstorms, random events trigger these actions
+	[26] = "Whenever the Cleric rests (once daily), Vaermina sends the Cleric a nightmare which grants experience and then continues for a time after waking. Spells may be drawn into the waking nightmare, restoring the Cleric's magicka." --has a chance of paralyzing + sound or some fuck idk this bitch into dreams and memories. maybe she can allow the cleric to see targets level and stuff? dream realm maybe?
+}
+
+stuff.patronTypes = {
+	[1] = "[PASSIVE]",
+	[2] = "[PASSIVE]",
+	[3] = "[TRIGGERED]: DIALOGUE",
+	[4] = "[TRIGGERED]: ANYWHERE",
+	[5] = "[TRIGGERED]: WILDERNESS",
+	[6] = "[PASSIVE]",
+	[7] = "[TRIGGERED]: LEVEL UP",
+	[8] = "[PASSIVE]",
+	[9] = "[TRIGGERED]: SPECIFIC",
+	[10] = "[TRIGGERED]: SPECIFIC",
+	[11] = "[COMBAT]",
+	[12] = "[TECHNIQUE]: SERVICE",
+	[13] = "[TRIGGERED]: LEVEL UP",
+	[14] = "[TECHNIQUE]: ACTIVE",
+	[15] = "[TECHNIQUE]: ACTIVE",
+	[16] = "[COMBAT]",
+	[17] = "[TECHNIQUE]: ACTIVE",
+	[18] = "[COMBAT]",
+	[19] = "[TECHNIQUE]: ACTIVE",
+	[20] = "[TECHNIQUE]: ACTIVE",
+	[21] = "[COMBAT]",
+	[22] = "[TECHNIQUE]: ACTIVE",
+	[23] = "[TRIGGERED]: SPECIFIC",
+	[24] = "[AURA]",
+	[25] = "[TRIGGERED]: ANYWHERE",
+	[26] = "[TRIGGERED]: SPECIFIC"
+}
+
 
 ----NPC Level Up Messages-------------------------------------------------------------------------------------------
 stuff.npcMessage = {
@@ -2979,7 +3516,7 @@ stuff.npcMessage = {
 	[12] = "Your actions are becoming more synchronized, better coordinated. But it still isn't easy.",
 	[13] = "Are they pushing themselves at their limit now, or does it come as naturally to them as it does to you?",
 	[14] = "What is it that drives them?",
-	[15] = "They just realized something.",
+	[15] = "They may have just realized something important.",
 	[16] = "You've gained an understanding of each other's skills.",
 	[17] = "How long do they plan on aiding you?",
 	[18] = "There they go again. On to the next trial.",
@@ -3081,7 +3618,9 @@ stuff.colors = {
 	["light_blue"] = { 0.18, 1.0, 0.95 }, --Light Blue
 	["gold"] = { 0.6, 0.6, 0.0 }, --Goldish
 	["dark_purple"] = { 0.38, 0.13, 0.36 }, --Text Purple
-	["ui_blue"] = { 0.3, 0.3, 0.7 } --Brighter UI Blue Text
+	["ui_blue"] = { 0.3, 0.3, 0.7 }, --Brighter UI Blue Text
+	["pink"] = { 1.0, 0.274, 0.635 },  --Sharp Pink
+	["crimson"] = { 0.6, 0.0, 0.0 } --Blood Karma Crimson
 }
 
 

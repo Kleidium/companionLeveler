@@ -58,7 +58,7 @@ function sheet.createWindow(reference)
     local modData = func.getModData(reference)
     sheet.modData = modData
     local attTable = reference.mobile.attributes
-    local faction = reference.object.faction
+    local faction = tes3.getFaction(modData.factions[1])
 
     --Fix right click bullshit
     menu:register("unfocus", function(e)
@@ -249,7 +249,7 @@ function sheet.createWindow(reference)
     factionLabel.wrapText = true
 
     if faction ~= nil then
-        factionLabel.text = "Faction: " .. faction:getRankName(reference.baseObject.factionRank) .. " of " .. reference.object.faction.name .. ""
+        factionLabel.text = "Faction: " .. faction:getRankName(reference.baseObject.factionRank) .. " of " .. faction.name .. ""
     end
 
     local button_ability = leftBlock:createButton { id = sheet.id_ability, text = "Ability List" }
@@ -653,13 +653,17 @@ function sheet.onIdeal()
 
         for i = 0, 7 do
             local attList = menu:findChild("kl_sheet_att_" .. i .. "")
+            local ideal = (baseTable[i + 1] + modData.att_gained[i + 1])
+            if ideal < 0 then
+                ideal = 0
+            end
             attList.text = "" ..
                 tables.capitalization[i] ..
                 ": " ..
                 baseTable[i + 1] ..
-                " + " .. modData.att_gained[i + 1] .. " = " .. (baseTable[i + 1] + modData.att_gained[i + 1]) .. ""
+                " + " .. modData.att_gained[i + 1] .. " = " .. ideal .. ""
             attList.color = tables.colors["default_font"]
-            if attTable[i + 1].base ~= (baseTable[i + 1] + modData.att_gained[i + 1]) then
+            if attTable[i + 1].base ~= ideal then
                 attList.color = tables.colors["light_blue"]
             end
         end
@@ -685,14 +689,18 @@ function sheet.onIdeal()
             for i = 0, 26 do
                 local skillList = menu:findChild("kl_sheet_skill_" .. i .. "")
                 local tempSkill = sheet.reference.mobile:getSkillStatistic(i)
+                local ideal = (baseSkillTable[i + 1] + modData.skill_gained[i + 1])
+                if ideal < 0 then
+                    ideal = 0
+                end
                 skillList.text = "" ..
                     tes3.getSkillName(i) ..
                     ": " ..
                     baseSkillTable[i + 1] ..
                     " + " ..
-                    modData.skill_gained[i + 1] .. " = " .. (baseSkillTable[i + 1] + modData.skill_gained[i + 1]) .. ""
+                    modData.skill_gained[i + 1] .. " = " .. ideal .. ""
                 skillList.widget.idle = tables.colors["default_font"]
-                if tempSkill.base ~= (baseSkillTable[i + 1] + modData.skill_gained[i + 1]) then
+                if tempSkill.base ~= ideal then
                     skillList.widget.idle = tables.colors["light_blue"]
                 end
             end

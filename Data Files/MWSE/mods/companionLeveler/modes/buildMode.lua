@@ -126,8 +126,6 @@ function buildMode.companionLevelBuild(companions)
 					abilities.executeAbilities(companionRef)
 					abilities.contract(companionRef)
 					abilities.bounty(companionRef)
-					--To Be Removed
-					--timer.start({ type = timer.game, duration = math.random(12, 96), iterations = 1, callback = "companionLeveler:abilityTimer", data = { name = name } })
 				end
 				--Technique Points
 				modData.tp_max = modData.tp_max + 1
@@ -320,12 +318,26 @@ function buildMode.companionLevelBuild(companions)
 		tes3.playSound({ sound = "skillraise" })
 	end
 
-	--Start Recurring Ability Timer
-	local modDataP = func.getModDataP(tes3.player)
+	--Start Recurring Ability Timer (Triggered)
+	local modDataP = func.getModDataP()
 	if modDataP.noDupe == 0 then
 		timer.start({ type = timer.game, duration = math.random(48, 96), iterations = 1, callback = "companionLeveler:abilityTimer2" })
 		modDataP.noDupe = 1
 	end
+    --Start Hourly Timer
+    if modDataP.hrTimerCreated == false then
+        local gameHour = tes3.getGlobal('GameHour')
+        local rounded = math.round(gameHour)
+
+        if rounded < gameHour then
+            timer.start({ type = timer.game, duration = (rounded + 1) - gameHour, iterations = 1, callback = "companionLeveler:hourlyTimer" })
+        else
+            timer.start({ type = timer.game, duration = rounded - gameHour, iterations = 1, callback = "companionLeveler:hourlyTimer" })
+        end
+
+        modDataP.hrTimerCreated = true
+        log:debug("New Hourly Timer created at " .. tes3.getGlobal("GameHour") .. ".")
+    end
 end
 
 return buildMode

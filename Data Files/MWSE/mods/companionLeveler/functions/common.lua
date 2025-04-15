@@ -11,19 +11,19 @@ local this = {}
 --
 
 --Player Mod Data
-function this.getModDataP(playerRef)
+function this.getModDataP()
 	log = logger.getLogger("Companion Leveler")
     log:trace("Checking player's saved Mod Data.")
 
-    if not playerRef.data.companionLeveler then
+    if not tes3.player.data.companionLeveler then
         log:info("Player Mod Data not found, setting to base Mod Data values.")
-        playerRef.data.companionLeveler = { ["noDupe"] = 0, ["lastExteriorPosition"] = {0.0, 0.0, 0.0} }
-        playerRef.modified = true
+        tes3.player.data.companionLeveler = { ["noDupe"] = 0, ["lastExteriorPosition"] = {0.0, 0.0, 0.0}, ["hrTimerCreated"] = false }
+        tes3.player.modified = true
     else
         log:trace("Saved Mod Data found.")
     end
 
-    return playerRef.data.companionLeveler
+    return tes3.player.data.companionLeveler
 end
 
 --Companion Mod Data
@@ -42,6 +42,11 @@ function this.getModData(ref)
 		["fat_gained"] = 0, ["lvl_progress"] = 0, ["lvl_req"] = (config.expRequirement + (ref.object.level * config.expRate)),
 		["spellLearning"] = true, ["abilityLearning"] = true, ["attributeTraining"] = true,
 		["tp_current"] = ref.object.level, ["tp_max"] = ref.object.level, ["abilities"] = {}, ["unusedSpells"] = {} }
+		if ref.object.faction == nil then
+			ref.data.companionLeveler["factions"] = {}
+		else
+			ref.data.companionLeveler["factions"] = { ref.object.faction.id }
+		end
 		--NPC Data-----------------------------------------------------------------------------------------------------------------------
 		if ref.object.objectType ~= tes3.objectType.creature then
 			log:info("NPC Mod Data not found, setting to base Mod Data values.")
@@ -121,12 +126,18 @@ function this.updateModData(ref)
 
 	if ref == tes3.player then
 		log:trace("Version Check: Reference is player.")
+		
 		--Player Mod Data
-		local modData = this.getModDataP(ref)
+		local modData = this.getModDataP()
 
 		if modData.lastExteriorPosition == nil then
 			modData["lastExteriorPosition"] = {0.0, 0.0, 0.0}
 			log:debug("" .. ref.object.name .. "'s lastExteriorPosition feature updated.")
+		end
+
+		if modData.hrTimerCreated == nil then
+			modData["hrTimerCreated"] = false
+			log:debug("" .. ref.object.name .. "'s hrTimerCreated feature updated.")
 		end
 	else
 		log:trace("Version Check: Reference is not the player.")
@@ -139,10 +150,6 @@ function this.updateModData(ref)
 
 		if modData.version < tables.version then
 			--Shared Mod Data--
-
-			--Version
-			modData.version = tables.version
-			log:debug("" .. ref.object.name .. "'s version updated to " .. tables.version .. ".")
 
 			--Blacklist
 			if modData.blacklist == nil then
@@ -208,6 +215,16 @@ function this.updateModData(ref)
 			if modData.unusedSpells == nil then
 				modData["unusedSpells"] = {}
 				log:debug("" .. ref.object.name .. " 's spell track feature updated.")
+			end
+
+			--Factions
+			if modData.factions == nil then
+				if ref.object.faction == nil then
+					modData["factions"] = {}
+				else
+					modData["factions"] = { ref.object.faction.id }
+				end
+				log:debug("" .. ref.object.name .. "'s faction setting updated.")
 			end
 
 			--Technique Points
@@ -328,7 +345,7 @@ function this.updateModData(ref)
 
 				--Deliveries
 				if modData.deliveries == nil then
-					local abilities = require("companionLeveler.abilities")
+					local abilities = require("companionLeveler.functions.abilities")
 					local num = #modData.contracts
 					modData["deliveries"] = {}
 					modData["contracts"] = {}
@@ -394,6 +411,10 @@ function this.updateModData(ref)
 					log:debug("" .. ref.object.name .. "'s ability list updated.")
 				end
 			end
+
+			--Version needs to be done at the end.
+			modData.version = tables.version
+			log:debug("" .. ref.object.name .. "'s version updated to " .. tables.version .. ".")
 		end
 	end
 end
@@ -797,8 +818,35 @@ function this.checkReq(test, item, count, ref)
 		end
 	else
 		local itemsRemoved = tes3.removeItem({ reference = ref, item = item, count = count })
+		if itemsRemoved > 0 then
+			return true
+		else
+			return false
+		end
 		log:debug("" .. ref.object.name .. " used " .. count .. " " .. item .. ".")
 	end
+end
+
+--in front of the player, raytested
+function this.calculatePosition()
+	local eyepos = tes3.getPlayerEyePosition()
+	local eyevec = tes3.getPlayerEyeVector()
+	local distance = 256
+
+	local rayhit = tes3.rayTest({
+		position = eyepos,
+		direction = eyevec,
+		ignore = { tes3.player },
+		maxDistance = distance,
+	})
+	if rayhit then
+		distance = rayhit.distance
+	end
+
+	local position = eyepos + eyevec * distance
+	position.z = eyepos.z
+
+	return position
 end
 
 
@@ -838,6 +886,8 @@ function this.configureBar(ele, type, color)
 		this.clTooltip(ele, "magicka")
 	elseif color == "green" then
 		this.clTooltip(ele, "fatigue")
+	elseif color == "crimson" then
+		this.clTooltip(ele, "blood karma")
 	end
 end
 
@@ -897,6 +947,48 @@ function this.abilityTooltip(ele, key, npc)
 	end)
 end
 
+function this.patronTooltip(ele, key)
+	local spellObject = tes3.getObject("kl_ability_patron_" .. key .. "")
+	--local duty = tables.patronDuties[key]
+	--local gift = tables.patronGifts[key]
+	local type = tables.patronTypes[key]
+	--local msg = tables.patronMessages[key]
+
+	ele:register("help", function(e)
+		local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
+
+		local contentElement = tooltip:getContentElement()
+		contentElement.paddingAllSides = 12
+		contentElement.childAlignX = 0.5
+		contentElement.childAlignY = 0.5
+
+		tooltip:createDivider()
+
+		local typeLabel = tooltip:createLabel { text = type }
+		typeLabel.color = tables.colors["white"]
+
+		if string.match(typeLabel.text, "TRIGGERED") then
+			--Green
+			typeLabel.color = tables.colors["green"]
+		elseif string.match(typeLabel.text, "COMBAT") then
+			--Red
+			typeLabel.color = tables.colors["red"]
+		elseif string.match(typeLabel.text, "TECHNIQUE") then
+			--Purple
+			typeLabel.color = tables.colors["dark_purple"]
+		elseif string.match(typeLabel.text, "AURA") then
+			--Blue
+			typeLabel.color = { 0.3, 0.3, 0.7 }
+		end
+
+		-- local msgLabel = tooltip:createLabel { text = msg }
+		-- msgLabel.borderTop = 7
+
+		-- local giftLabel = tooltip:createLabel { text = gift }
+		-- giftLabel.borderTop = 8
+	end)
+end
+
 --CL General Tooltips.
 --
 --1st: tes3uiElement
@@ -930,6 +1022,9 @@ function this.clTooltip(ele, type)
 			label = tooltip:createLabel { text = "" .. tes3.findGMST("sFatDesc").value .. "" }
 		elseif type == "ignore_skill" then
 			label = tooltip:createLabel { text = "Ignored skills are not trained at level up." }
+		elseif type == "blood karma" then
+			icon = tooltip:createImage({ path = "textures\\companionLeveler\\bk_icon.tga" })
+			label = tooltip:createLabel { text = "Boethiah rewards ruthless carnage with Blood Karma.\nThe Cleric's power waxes and wanes alongside their Blood Karma." }
 		elseif string.startswith(type, "skill:") then
 			for i = 0, 26 do
 				if type == "skill:" .. i .. "" then

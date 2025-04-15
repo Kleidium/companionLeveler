@@ -38,11 +38,6 @@ local pageAbility = createPage("Spell/Ability Settings")
 ----Global Settings-------------------------------------------------------------------------------------------------------------------------
 local globalSettings = settings:createCategory("Global Settings")
 
-globalSettings:createOnOffButton {
-    label = "Mod Enabled",
-    description = "Turn Companion Leveler on or off.",
-    variable = mwse.mcm.createTableVariable { id = "modEnabled", table = config }
-}
 
 globalSettings:createOnOffButton {
     label = "Level-Up Summary",

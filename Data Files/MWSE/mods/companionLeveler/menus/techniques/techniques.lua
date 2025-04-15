@@ -9,6 +9,8 @@ local rez = require("companionLeveler.menus.techniques.resurrect")
 local beast = require("companionLeveler.menus.techniques.beast")
 local train = require("companionLeveler.menus.techniques.train")
 local gem = require("companionLeveler.menus.techniques.gem")
+local sabo = require("companionLeveler.menus.techniques.sabo")
+local safe = require("companionLeveler.menus.techniques.safe")
 
 
 local tech = {}
@@ -72,7 +74,13 @@ function tech.createWindow(ref)
     tech.tp.height = 21
 	tech.tp.borderBottom = 20
 
-	--func.clTooltip(tech.tp, "tp")
+	--Blood Karma Bar
+	if tech.modData.bloodKarma then
+		tech.bk = tech_block:createFillBar({ current = 57, max = 100, id = "kl_tech_karma_bar" })
+		func.configureBar(tech.bk, "small", "crimson")
+		tech.bk.borderBottom = 20
+		tech.tp.borderBottom = 12
+	end
 
 
     -- Main Buttons
@@ -126,7 +134,7 @@ function tech.createWindow(ref)
 			--Frozen Level 15
 			local id = "kl_spell_frozen_aspect"
 			local aspect = tes3.getObject(id)
-			local msg = "Draw out the " .. aspect.name .. "?\nTP Cost: 3"
+			local msg = "Manifest the " .. aspect.name .. "?\nTP Cost: 3"
 			local button_fire = tech_block:createButton { id = tech.id_fire, text = "" .. aspect.name .. ""}
 			button_fire:register("help", function(e)
 				local tooltip = tes3ui.createTooltipMenu { spell = aspect }
@@ -142,7 +150,7 @@ function tech.createWindow(ref)
 			--Galvanic Level 15
 			local id = "kl_spell_galvanic_aspect"
 			local aspect = tes3.getObject(id)
-			local msg = "Draw out the " .. aspect.name .. "?\nTP Cost: 3"
+			local msg = "Channel the " .. aspect.name .. "?\nTP Cost: 3"
 			local button_fire = tech_block:createButton { id = tech.id_fire, text = "" .. aspect.name .. ""}
 			button_fire:register("help", function(e)
 				local tooltip = tes3ui.createTooltipMenu { spell = aspect }
@@ -158,7 +166,7 @@ function tech.createWindow(ref)
 			--Poisonous Level 15
 			local id = "kl_spell_poisonous_aspect"
 			local aspect = tes3.getObject(id)
-			local msg = "Draw out the " .. aspect.name .. "?\nTP Cost: 3"
+			local msg = "Unleash the " .. aspect.name .. "?\nTP Cost: 3"
 			local button_fire = tech_block:createButton { id = tech.id_fire, text = "" .. aspect.name .. ""}
 			button_fire:register("help", function(e)
 				local tooltip = tes3ui.createTooltipMenu { spell = aspect }
@@ -171,7 +179,7 @@ function tech.createWindow(ref)
 			button_fire:register("mouseClick", function() tech.onAspect(id, msg) end)
 		end
 	else
-		--NPC Techniques
+		--NPC Techniques-------------------------------------------------------------------------------------------------------------------------
 		if tech.modData.abilities[22] == true then
 			--Alchemist
 			local button_alch = tech_block:createButton { id = tech.id_alch, text = tes3.findGMST("sSkillAlchemy").value}
@@ -227,10 +235,15 @@ function tech.createWindow(ref)
 			button_storm:register("mouseClick", function() tech.onWeather(5, msg) end)
 		end
 
-		if tech.modData.abilities[113] == true then
-			--Ninja
+		if tech.modData.abilities[113] == true or tech.modData.abilities[126] == true then
+			--Ninja/Shadow Warrior
 			local button_smoke = tech_block:createButton { id = tech.id_smoke, text = "Smoke Bomb" }
-			button_smoke:register("mouseClick", function() tech.onSmoke() end)
+			local msg = "Use a Smoke Bomb?\nThis will drain " .. tech.ref.object.name .. "'s stamina.\nTP Cost: 3"
+			if tech.modData.abilities[126] == true then
+				button_smoke.text = "Shadowstep"
+				msg = "Perform a Shadowstep?\nThis will drain " .. tech.ref.object.name .. "'s stamina.\nTP Cost: 3"
+			end
+			button_smoke:register("mouseClick", function() tech.onSmoke(msg) end)
 		end
 
 		if tech.modData.abilities[115] == true then
@@ -251,6 +264,31 @@ function tech.createWindow(ref)
 			local msg = "Life Tap?\nTP Cost: 3"
 			local button_siphon = tech_block:createButton { id = tech.id_siphon, text = "Life Tap" }
 			button_siphon:register("mouseClick", function() tech.onSiphon(msg, 3) end)
+		end
+
+		if tech.modData.abilities[127] == true then
+			--Saboteur
+			local button_sabo = tech_block:createButton { id = tech.id_sabo, text = "Set Trap" }
+			button_sabo:register("mouseClick", function() tech.menu:destroy() sabo.createWindow(ref) end)
+		end
+
+		if tech.modData.abilities[128] == true then
+			--Safecracker
+			local button_safe = tech_block:createButton { id = tech.id_safe, text = "Remove Lock/Trap" }
+			button_safe:register("mouseClick", function() tech.menu:destroy() safe.createWindow(ref) end)
+		end
+
+		if tech.modData.abilities[139] == true then
+			--Cleric: Clavicus Vile
+			if tech.modData.patron == 12 then
+				local button_scampson = tech_block:createButton { id = tech.id_scampson, text = "Call Scampson" }
+				button_scampson:register("mouseClick", function() tech.onScampson() end)
+			end
+			--Cleric: Hermaeus Mora
+			if tech.modData.patron == 13 then
+				local button_scour = tech_block:createButton { id = tech.id_scour, text = "Tome Scour" }
+				button_scour:register("mouseClick", function() tech.onScour() end)
+			end
 		end
 	end
 
@@ -534,10 +572,10 @@ function tech.onWeatherConfirm(e)
     end
 end
 
---Ninja
-function tech.onSmoke()
+--Ninja/Shadow Warrior
+function tech.onSmoke(msg)
     if tech.menu then
-        tes3.messageBox({ message = "Use a Smoke Bomb?\nThis will drain " .. tech.ref.object.name .. "'s stamina.\nTP Cost: 3",
+        tes3.messageBox({ message = msg,
             buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = tech.onSmokeConfirm })
     end
@@ -559,7 +597,7 @@ function tech.onSmokeConfirm(e)
 					--Escape Interior
 					if func.spendTP(tech.ref, 3) == false then return end
 
-					local modDataP = func.getModDataP(tes3.player)
+					local modDataP = func.getModDataP()
 					local lastExterior = tes3.getDataHandler().lastExteriorCell
 					tech.log:debug("Last Exterior Cell: " .. lastExterior.displayName .. ", Last Exterior Position: " .. tostring(modDataP.lastExteriorPosition) .. "")
 
@@ -605,5 +643,53 @@ function tech.onAspectConfirm(e)
     end
 end
 
+--Scampson
+function tech.onScampson()
+    if tech.menu then
+		tes3.messageBox({ message = "Call Scampson?\nTP Cost: 1\nGold Cost: 500g", buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value }, callback = tech.onScampsonConfirm })
+    end
+end
+
+function tech.onScampsonConfirm(e)
+	if (tech.menu) then
+		if e.button == 0 then
+			if func.spendTP(tech.ref, 1) == false then return end
+			if not func.checkReq(false, "Gold_001", 500, tes3.player) then
+				tes3.messageBox("Not enough Gold.")
+				return
+			end
+
+			local cell = tes3.getPlayerCell()
+			local pos = func.calculatePosition()
+			local scampson = tes3.getReference("kl_scamp_scampson")
+
+			tes3ui.leaveMenuMode()
+			tech.menu:destroy()
+
+			if not scampson then
+				scampson = tes3.createReference({ object = "kl_scamp_scampson", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+				tech.log:debug("Scampson created and summoned.")
+			else
+				scampson:enable()
+				tes3.positionCell({ reference = scampson, cell = cell, position = pos })
+				tech.log:debug("Scampson summoned.")
+			end
+
+			tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 1, reference = scampson })
+			tes3.playSound({ sound = "conjuration hit", reference = scampson })
+			local angle = scampson.mobile:getViewToActor(tes3.mobilePlayer)
+			scampson.facing = scampson.facing + math.rad(math.clamp(angle, -90, 90))
+			timer.delayOneFrame(function()
+				timer.delayOneFrame(function()
+					timer.delayOneFrame(function()
+						tes3.player:activate(scampson)
+					end)
+				end)
+			end)
+
+			timer.start({ type = timer.simulate, duration = 1, callback = function() tes3.getReference("kl_scamp_scampson"):disable() end })
+		end
+    end
+end
 
 return tech

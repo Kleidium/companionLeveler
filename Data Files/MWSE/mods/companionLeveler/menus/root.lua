@@ -30,6 +30,8 @@ function root.createWindow(reference)
     log:debug("Root menu initialized.")
 
     root.reference = reference
+    --Check for version update
+    func.updateModData(reference)
 
     local menu = tes3ui.createMenu { id = root.id_menu, fixedFrame = true }
     local modData = func.getModData(reference)
@@ -40,10 +42,6 @@ function root.createWindow(reference)
     else
         class = "Type: " .. modData.type .. ""
     end
-
-    --Check for version update
-    func.updateModData(reference)
-
 
     --Labels
     local label = menu:createLabel { text = "Companion Leveler", id = root.id_label }
@@ -96,6 +94,7 @@ function root.createWindow(reference)
         func.configureBar(exp, "standard", "gold")
         exp.height = 21
         exp.borderTop = 10
+        exp.borderBottom = 4
 
         func.clTooltip(exp, "exp")
     end

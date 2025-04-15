@@ -337,6 +337,22 @@ function creClassMode.levelUp(companions)
     if leveled > 0 then
         tes3.playSound({ sound = "skillraise" })
     end
+
+    --Start Hourly Timer
+    local modDataP = func.getModDataP()
+    if modDataP.hrTimerCreated == false then
+        local gameHour = tes3.getGlobal('GameHour')
+        local rounded = math.round(gameHour)
+
+        if rounded < gameHour then
+            timer.start({ type = timer.game, duration = (rounded + 1) - gameHour, iterations = 1, callback = "companionLeveler:hourlyTimer" })
+        else
+            timer.start({ type = timer.game, duration = rounded - gameHour, iterations = 1, callback = "companionLeveler:hourlyTimer" })
+        end
+
+        modDataP.hrTimerCreated = true
+        log:debug("New Hourly Timer created at " .. tes3.getGlobal("GameHour") .. ".")
+    end
 end
 
 return creClassMode
