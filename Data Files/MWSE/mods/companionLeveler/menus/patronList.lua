@@ -183,6 +183,17 @@ function pat.onOK()
 				modData.tp_max = modData.tp_max + 3
 				modData.tp_current = modData.tp_current + 3
 			end
+
+			if pat.id == 14 then
+				modData["hircineHunt"] =  tables.hircineHunts[math.random(1, #tables.hircineHunts)]
+				modData["lycanthropicPower"] = 1
+				tes3.messageBox("" .. pat.ref.object.name .. " was issued a new hunt for " .. modData.hircineHunt[2] .. " " .. tes3.getObject(modData.hircineHunt[1]).name .. ".")
+			end
+
+			if pat.id == 15 then
+				modData["orderStreak"] = 1
+				modData["lastClass"] = modData.class
+			end
 		end
 		menu:destroy()
 		tes3ui.leaveMenuMode()

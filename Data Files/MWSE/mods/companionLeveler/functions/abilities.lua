@@ -2193,6 +2193,37 @@ function this.npcAbilities(class, companionRef)
         end
     end
 
+    --Jyggalag
+    if modData.orderStreak then
+        if modData.class == modData.lastClass then
+            modData.orderStreak = modData.orderStreak + 1
+            if modData.orderStreak == 5 then
+                modData.orderStreak = 1
+				for i = 0, 7 do
+					tes3.modStatistic({ attribute = i, value = 1, reference = companionRef })
+				end
+                timer.delayOneFrame(function()
+                    timer.delayOneFrame(function()
+                        timer.delayOneFrame(function()
+                            func.updateIdealSheet(companionRef)
+                            tes3.messageBox("" .. companionRef.object.name .. " walks the path of Order! All attributes increased by 1. Streak reset to 1.")
+                        end)
+                    end)
+                end)
+                tes3.applyMagicSource({
+                    reference = companionRef,
+                    name = "Perfect Order",
+                    bypassResistances = true,
+                    effects = {{ id = tes3.effect.light, duration = 3, min = 5, max = 5 }, },
+                })
+            end
+        else
+            modData.orderStreak = 1
+            tes3.messageBox("" .. companionRef.object.name .. "'s Order Streak was broken! Streak reset to 1.")
+        end
+        modData.lastClass = modData.class
+    end
+
     --Add Abilities--------------------------------------------------------------------------------------------------
     if modData.level % 5 == 0 then
         for i = 1, #tables.classesSpecial do
@@ -5562,7 +5593,6 @@ function this.azuraTribute()
 
         if modData.patron and modData.patron == 10 then
             clerics[#clerics + 1] = npcTable[i]
-            break
         end
     end
 
@@ -5763,5 +5793,92 @@ function this.moraTribute()
     end
 end
 
+--Hircine--------------------------------------------------------------------------------------------------
+function this.huntCheck(e)
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Hircine hunt check triggered.")
+
+    local npcTable = func.npcTable()
+
+    for i = 1, #npcTable do
+        local reference = npcTable[i]
+        local modData = func.getModData(reference)
+
+        if modData.hircineHunt and e.mobile.baseObject.id == modData.hircineHunt[1] and modData.hircineHunt[3] < modData.hircineHunt[2] then
+            --Hunt Target
+            modData.hircineHunt[3] = modData.hircineHunt[3] + 1
+
+            --Hunt Complete?
+            if modData.hircineHunt[3] == modData.hircineHunt[2] then
+                modData.lycanthropicPower = modData.lycanthropicPower + 1
+                local num = math.random(1, 6)
+                if num == 1 then
+                    --lycanthropic power + 1
+                    modData.lycanthropicPower = modData.lycanthropicPower + 1
+                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Lycanthropic Power increased by 1.")
+                elseif num == 2 then
+                    --strength + 2
+                    tes3.modStatistic({ reference = reference, attribute = tes3.attribute.strength, value = 2 })
+                    modData.att_gained[1] = modData.att_gained[1] + 2
+                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Strength increased by 2.")
+                elseif num == 3 then
+                    --agility + 2
+                    tes3.modStatistic({ reference = reference, attribute = tes3.attribute.agility, value = 2 })
+                    modData.att_gained[4] = modData.att_gained[4] + 2
+                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Agility increased by 2.")
+                elseif num == 4 then
+                    --endurance + 2
+                    tes3.modStatistic({ reference = reference, attribute = tes3.attribute.endurance, value = 2 })
+                    modData.att_gained[6] = modData.att_gained[6] + 2
+                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Endurance increased by 2.")
+                elseif num == 5 then
+                    --speed + 2
+                    tes3.modStatistic({ reference = reference, attribute = tes3.attribute.speed, value = 2 })
+                    modData.att_gained[5] = modData.att_gained[5] + 2
+                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Speed increased by 2.")
+                else
+                    --health + 5
+                    tes3.modStatistic({ reference = reference, name = "health", value = 5 })
+                    modData.hth_gained = modData.hth_gained + 5
+                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Health increased by 5.")
+                end
+            end
+            if modData.lycanthropicPower > 200 then
+                modData.lycanthropicPower = 200
+            end
+        end
+    end
+end
+
+function this.hircineTribute()
+    log:trace("Hircine tribute triggered.")
+
+    --Hunt Day Lapsed
+    local clerics = {}
+    local npcTable = func.npcTable()
+
+    for i = 1, #npcTable do
+        local modData = func.getModData(npcTable[i])
+
+        if modData.hircineHunt then
+            clerics[#clerics + 1] = npcTable[i]
+        end
+    end
+
+    for i = 1, #clerics do
+        local modData = func.getModData(clerics[i])
+        modData.tributeHours = modData.tributeHours + 24
+    
+        if modData.tributeHours >= (120 + math.random(12, 72)) then
+            if modData.hircineHunt[3] < modData.hircineHunt[2] then
+                modData.tributePaid = false
+                tes3.messageBox("" .. clerics[i].object.name .. " failed to hunt " .. tes3.getObject(modData.hircineHunt[1]).name .. "!")
+            end
+
+            modData.hircineHunt =  tables.hircineHunts[math.random(1, #tables.hircineHunts)]
+            tes3.messageBox("" .. clerics[i].object.name .. " was issued a new hunt for " .. modData.hircineHunt[2] .. " " .. tes3.getObject(modData.hircineHunt[1]).name .. ".")
+        end
+    end
+end
 
 return this

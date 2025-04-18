@@ -860,7 +860,7 @@ end
 --
 --2nd: string: small/standard
 --
---3rd: string: red/blue/green/gold/purple
+--3rd: string: red/blue/green/gold/purple/crimson/bloodmoon
 function this.configureBar(ele, type, color)
 	ele.widget.showText = true
 	ele.widget.fillColor = tables.colors[color]
@@ -888,6 +888,10 @@ function this.configureBar(ele, type, color)
 		this.clTooltip(ele, "fatigue")
 	elseif color == "crimson" then
 		this.clTooltip(ele, "blood karma")
+	elseif color == "bloodmoon" then
+		this.clTooltip(ele, "lycanthropic power")
+	elseif color == "silver" then
+		this.clTooltip(ele, "order streak")
 	end
 end
 
@@ -1025,6 +1029,12 @@ function this.clTooltip(ele, type)
 		elseif type == "blood karma" then
 			icon = tooltip:createImage({ path = "textures\\companionLeveler\\bk_icon.tga" })
 			label = tooltip:createLabel { text = "Boethiah rewards ruthless carnage with Blood Karma.\nThe Cleric's power waxes and wanes alongside their Blood Karma." }
+		elseif type == "lycanthropic power" then
+			icon = tooltip:createImage({ path = "textures\\companionLeveler\\lp_icon.tga" })
+			label = tooltip:createLabel { text = "Lycanthropic Power measures the cleric's ability to control their werewolf alter ego.\nEach point increases transformation time by 6 seconds." }
+		elseif type == "order streak" then
+			icon = tooltip:createImage({ path = "textures\\companionLeveler\\os_icon.tga" })
+			label = tooltip:createLabel { text = "Jyggalag's Order Streak is built by leveling up as the same class consecutively.\nThe Cleric's class can safely be changed once their Order Streak is reset to 1." }
 		elseif string.startswith(type, "skill:") then
 			for i = 0, 26 do
 				if type == "skill:" .. i .. "" then

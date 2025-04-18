@@ -131,6 +131,7 @@ local function onDeath(e)
 	abilities.contractKill(e)
 	abilities.bountyKill(e)
 	abilities.bloodKarma(e)
+	abilities.huntCheck(e)
 
 	if config.expMode == false then return end
 
@@ -383,6 +384,12 @@ local function hourlyTimer()
 		abilities.azuraGift()
 	end
 
+	--Hircine Tribute
+	if gameHour >= 22 and gameHour < 23 then
+		log:debug("10pm detected.")
+		abilities.hircineTribute()
+	end
+
 	--Boethiah Tribute
 	if gameHour < 1 then
 		log:debug("Midnight detected.")
@@ -393,7 +400,35 @@ local function hourlyTimer()
 end
 timer.register("companionLeveler:hourlyTimer", hourlyTimer)
 
+--Hircine Werewolf Timer
+local function wereTimer()
+	log:trace("Werewolf timer triggered.")
 
+	local werewolf = tes3.getReference("kl_werewolf_companion")
+
+	if not werewolf.isDead then
+		local modData = func.getModData(werewolf)
+		local cleric = tes3.getReference(modData.npcID)
+		local cModData = func.getModData(cleric)
+		cleric:enable()
+		cModData.hircineHunt = modData.hircineHunt
+		cModData.lycanthropicPower = modData.lycanthropicPower
+		tes3.positionCell({ reference = cleric, cell = werewolf.cell, position = werewolf.position })
+		tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 1, reference = cleric })
+		tes3.setAIFollow({ reference = cleric, target = tes3.player })
+		if werewolf.mobile.health.current < cleric.mobile.health.base then
+			cleric.mobile.health.current = werewolf.mobile.health.current
+		end
+		timer.delayOneFrame(function()
+			timer.delayOneFrame(function()
+				timer.delayOneFrame(function()
+					werewolf:disable()
+				end)
+			end)
+		end)
+	end
+end
+timer.register("companionLeveler:wereTimer", wereTimer)
 
 --Ability Triggers--------------------------------------------------------
 
@@ -713,6 +748,7 @@ event.register("jump", expTest)
 --split abilities.lua into creAbilities.lua and npcAbilities.lua?
 --make sure esp is clean and i didn't add anything dumb
 --go through and enforce config rules, can make modStatistic into a CL function
+--regular timers don't persist when the game is reloaded. make sure this doesn't fuck up anything important
 
 
 
@@ -743,3 +779,4 @@ event.register("jump", expTest)
 ----creature classes? as in, training types with different npc like abilities. like service animal or tracking animal
 ----changing the tooltip name does not change the name in the CL UI. maybe I can allow that?
 ---technique trades one skill for another
+---werewolf creature type

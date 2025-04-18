@@ -3426,8 +3426,8 @@ stuff.patronDuties = {
 	[11] = "Boethiah demands a blood price be paid; however, it need not be the Cleric's blood. The Cleric is drained of 3 blood karma each night at midnight. Negative blood karma results in a blood tithe.",
 	[12] = "Calling upon your liaison will impose a tribute fee, and additional contracts may be negotiated...for a price, of course.",
 	[13] = "A book or scroll must be offered as tribute every 3 days at midnight. Missing a tribute will permanently damage the Cleric's Intelligence.",
-	[14] = "Hircine lays claim to the Cleric's soul, periodically issuing hunts which must be undertaken lest the Cleric remain a werewolf indefinitely, gradually losing their capacity to reason.",
-	[15] = "The Cleric must manually check in with their Lord Jyggalag with FULL HEALTH every morning and night within 15 minutes before 6am and 6pm. Failure to do so will break the Cleric's Order Streak and drain their attributes.",
+	[14] = "Hircine periodically issues hunts which must be undertaken lest the Cleric be cut off from their werewolf alter ego until the next hunt is completed. Completing a hunt provides lycanthropic power.",
+	[15] = "The Cleric must level up as the same class 5 times in a row to receive their benefits. Leveling up as a different class will reset the Cleric's current Order Streak to 1!",
 	[16] = "Malacath is also vengeful to those who betray him. A tribute of Muck must be made every other day or else the Cleric suffers a curse.",
 	[17] = "The weak must be culled. Dagon demands a tribute of a single innocent sacrifice every 5 days. \"Innocents\" primarily reside in towns and other public areas. Failure will result in the Cleric's death.",
 	[18] = "Kill your enemies with secret murder. Mephala requires the Cleric or yourself to assassinate an unaware, non-creature opponent every 3 days. Otherwise, the Lady may see fit to take back Her secret.",
@@ -3455,8 +3455,8 @@ stuff.patronGifts = {
 	[11] = "Any blood shed by the Cleric's party will award Blood Karma. Humanoids are worth more karma than creatures. The Cleric's power waxes and wanes alongside their blood karma.",
 	[12] = "Clavicus Vile shall provide the Cleric and their party access to a personal daedric merchant which can be called upon at any time.",
 	[13] = "The tides of fate stir, gradually revealing their secrets to the Cleric. An additional Technique Point is bestowed at every odd-numbered level. Technique Points increase by 3.",
-	[14] = "Hircine bestows the gift of lycanthropy upon the willing Cleric, which they can control at will as long as they fulfill the wishes of their Lord, Hircine of the Hunt. Transform as a technique.", --technique
-	[15] = "Jyggalag imposes an orderly routine upon the Cleric, which allows them to better maintain their body and mind. Each step taken on the path of order refines the Cleric's Order Streak.", --technique/passive, buff gives +3, +5, +7, +10, +12, +15, +17, +20, +22, +25 to all stats on a scale of 100
+	[14] = "Hircine bestows the gift of lycanthropy upon the Cleric, transforming at will as long as they fulfill the wishes of their Lord, Hircine of the Hunt. Transform as a technique. Werewolf form must be trained separately from base form.",
+	[15] = "Jyggalag imposes an orderly routine upon the Cleric. Consecutive level-ups as the same class builds an Order Streak. Once the Order Streak reaches 5, it resets and Jyggalag rewards +1 to all of the Cleric's attributes.", --on level up
 	[16] = "Malacath punishes those who torment His followers. Physical melee and ranged attacks made against the Cleric by non-Orcs have 15% of their damage reflected back as physical damage.", --combat
 	[17] = "(Destruction) Dagon's influence allows the Cleric access to a powerful, large-scale Destruction technique. This chaotic technique may even damage the party.", --destruction technique, fire from above can hurt party
 	[18] = "The Lady of Secrets whispers one such secret to the Cleric. Mephala teaches the Cleric the ancient technique of Silk-Grip, allowing the Cleric and yourself to deal increased damage to unaware opponents.", --combat stealth
@@ -3485,7 +3485,7 @@ stuff.patronTypes = {
 	[12] = "[TECHNIQUE]: SERVICE",
 	[13] = "[TRIGGERED]: LEVEL UP",
 	[14] = "[TECHNIQUE]: ACTIVE",
-	[15] = "[TECHNIQUE]: ACTIVE",
+	[15] = "[TRIGGERED]: LEVEL UP",
 	[16] = "[COMBAT]",
 	[17] = "[TECHNIQUE]: ACTIVE",
 	[18] = "[COMBAT]",
@@ -3497,6 +3497,29 @@ stuff.patronTypes = {
 	[24] = "[AURA]",
 	[25] = "[TRIGGERED]: ANYWHERE",
 	[26] = "[TRIGGERED]: SPECIFIC"
+}
+
+stuff.hircineHunts = {
+	[1] = {"mudcrab", 30, 0},
+	[2] = {"Rat", 25, 0},
+	[3] = {"cliff racer", 25, 0},
+	[4] = {"nix-hound", 20, 0},
+	[5] = {"guar_feral", 10, 0},
+	[6] = {"alit", 10, 0},
+	[7] = {"kagouti", 15, 0},
+	[8] = {"netch_betty", 10, 0},
+	[9] = {"Kwama Queen", 1, 0},
+	[10] = {"clannfear", 5, 0},
+	[11] = {"scamp", 12, 0},
+	[12] = {"BM_wolf_red", 20, 0},
+	[13] = {"BM_frost_boar", 15, 0},
+	[14] = {"BM_bear_black", 12, 0},
+	[15] = {"BM_bear_brown", 10, 0},
+	[16] = {"bonelord", 10, 0},
+	[17] = {"netch_bull", 15, 0},
+	[18] = {"daedroth", 5, 0},
+	[19] = {"winged twilight", 2, 0},
+	[20] = {"dreugh", 12, 0}
 }
 
 
@@ -3620,7 +3643,9 @@ stuff.colors = {
 	["dark_purple"] = { 0.38, 0.13, 0.36 }, --Text Purple
 	["ui_blue"] = { 0.3, 0.3, 0.7 }, --Brighter UI Blue Text
 	["pink"] = { 1.0, 0.274, 0.635 },  --Sharp Pink
-	["crimson"] = { 0.6, 0.0, 0.0 } --Blood Karma Crimson
+	["crimson"] = { 0.6, 0.0, 0.0 }, --Blood Karma Crimson
+	["bloodmoon"] = { 0.9, 0.0, 0.0 }, --Lycanthropic Power "Bloodmoon"
+	["silver"] = { 0.45, 0.45, 0.45 } --Order Streak Silver
 }
 
 

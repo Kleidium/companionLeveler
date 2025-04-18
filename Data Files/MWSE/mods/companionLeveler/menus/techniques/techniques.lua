@@ -76,9 +76,32 @@ function tech.createWindow(ref)
 
 	--Blood Karma Bar
 	if tech.modData.bloodKarma then
-		tech.bk = tech_block:createFillBar({ current = 57, max = 100, id = "kl_tech_karma_bar" })
+		tech.bk = tech_block:createFillBar({ current = tech.modData.bloodKarma, max = 100, id = "kl_tech_karma_bar" })
 		func.configureBar(tech.bk, "small", "crimson")
 		tech.bk.borderBottom = 20
+		tech.tp.borderBottom = 12
+	end
+
+	--Lycanthropic Power Bar
+	if tech.modData.lycanthropicPower then
+		tech.lp = tech_block:createFillBar({ current = tech.modData.lycanthropicPower, max = 200, id = "kl_tech_lycan_bar" })
+		func.configureBar(tech.lp, "small", "bloodmoon")
+		tech.lp.borderBottom = 20
+		tech.tp.borderBottom = 12
+	end
+
+	--Order Streak Bar
+	if tech.modData.orderStreak then
+		tech.osLabel = tech_block:createLabel({ text = "" .. tes3.findClass(tech.modData.lastClass).name .. " -> " .. tes3.findClass(tech.modData.class).name .. "" })
+		tech.osLabel.borderBottom = 5
+		if tech.modData.class ~= tech.modData.lastClass then
+			tech.osLabel.color = tables.colors["silver"]
+		else
+			tech.osLabel.color = tables.colors["white"]
+		end
+		tech.os = tech_block:createFillBar({ current = tech.modData.orderStreak, max = 5, id = "kl_tech_order_bar" })
+		func.configureBar(tech.os, "small", "silver")
+		tech.os.borderBottom = 20
 		tech.tp.borderBottom = 12
 	end
 
@@ -284,10 +307,23 @@ function tech.createWindow(ref)
 				local button_scampson = tech_block:createButton { id = tech.id_scampson, text = "Call Scampson" }
 				button_scampson:register("mouseClick", function() tech.onScampson() end)
 			end
-			--Cleric: Hermaeus Mora
-			if tech.modData.patron == 13 then
-				local button_scour = tech_block:createButton { id = tech.id_scour, text = "Tome Scour" }
-				button_scour:register("mouseClick", function() tech.onScour() end)
+			--Cleric: Hircine
+			if tech.modData.patron == 14 then
+				local button_transform = tech_block:createButton { id = tech.id_transform, text = "Transform" }
+				button_transform:register("mouseClick", function() tech.onTransform() end)
+				if tech.modData.tributePaid == false then
+					button_transform.widget.state = 2
+					button_transform.disabled = true
+					button_transform:register("help", function(e)
+						local tooltip = tes3ui.createTooltipMenu()
+
+						local contentElement = tooltip:getContentElement()
+						contentElement.flowDirection = tes3.flowDirection.leftToRight
+						contentElement.paddingAllSides = 10
+
+						local ttLabel = tooltip:createLabel { text = "Complete the current hunt to regain control." }
+					end)
+				end
 			end
 		end
 	end
@@ -688,6 +724,81 @@ function tech.onScampsonConfirm(e)
 			end)
 
 			timer.start({ type = timer.simulate, duration = 1, callback = function() tes3.getReference("kl_scamp_scampson"):disable() end })
+		end
+    end
+end
+
+--Transform
+function tech.onTransform()
+    if tech.menu then
+		tes3.messageBox({ message = "Transform into a werewolf?\nThe act of transformation is a crime!\nTransformation Time: " .. (15 + tech.modData.level + (tech.modData.lycanthropicPower * 6)) .. "s\nTP Cost: 5", buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value }, callback = tech.onTransformConfirm })
+    end
+end
+
+function tech.onTransformConfirm(e)
+	if (tech.menu) then
+		if e.button == 0 then
+			if func.spendTP(tech.ref, 5) == false then return end
+
+			local cell = tes3.getPlayerCell()
+			local pos = func.calculatePosition()
+			local werewolf = tes3.getReference("kl_werewolf_companion")
+
+			tes3ui.leaveMenuMode()
+			tech.menu:destroy()
+
+			tech.ref:disable()
+
+			if not werewolf or werewolf.isDead then
+				tes3.getObject("kl_werewolf_companion").name = tech.ref.object.name
+				werewolf = tes3.createReference({ object = "kl_werewolf_companion", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+				--Werewolf Attributes are NPC base + 40 in STR/AGI/SPD/END
+				for i = 0, 7 do
+					local att = tech.ref.mobile.attributes[i + 1].base
+					tes3.modStatistic({ attribute = i, value = att, reference = werewolf })
+				end
+				--2x Werewolf Health
+				tes3.setStatistic({ name = "health", value = tech.ref.mobile.health.base * 2, reference = werewolf })
+				tes3.setAIFollow({ reference = werewolf, target = tes3.player })
+				--mod data
+				local md = func.getModData(werewolf)
+				md["lycanthropicPower"] = tech.modData.lycanthropicPower
+				md["hircineHunt"] = tech.modData.hircineHunt
+				md["npcID"] = tech.ref.baseObject.id
+				tech.log:debug("Werewolf alter ego created.")
+			else
+				werewolf:enable()
+				tes3.positionCell({ reference = werewolf, cell = cell, position = pos })
+				tes3.setAIFollow({ reference = werewolf, target = tes3.player })
+				local md = func.getModData(werewolf)
+				md.lycanthropicPower = tech.modData.lycanthropicPower
+				md.hircineHunt = tech.modData.hircineHunt
+				tech.log:debug("Werewolf transformed.")
+			end
+
+			tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 1, reference = werewolf })
+			tes3.playSound({ sound = "conjuration hit", reference = werewolf })
+
+			local num = math.random(1, 5)
+
+			if num == 1 then
+				tes3.playSound({ sound = "WolfItem2", reference = werewolf })
+			elseif num == 2 then
+				tes3.playSound({ sound = "WolfEquip2", reference = werewolf })
+			elseif num == 3 then
+				tes3.playSound({ sound = "WolfActivator1", reference = werewolf })
+			elseif num == 4 then
+				tes3.playSound({ sound = "WolfNPC2", reference = werewolf })
+			else
+				tes3.playSound({ sound = "WolfItem3", reference = werewolf })
+			end
+
+			local angle = werewolf.mobile:getViewToActor(tes3.mobilePlayer)
+			werewolf.facing = werewolf.facing + math.rad(math.clamp(angle, -90, 90))
+
+			tes3.triggerCrime({ type = tes3.crimeType.werewolf })
+
+			timer.start({ type = timer.simulate, duration = (15 + tech.modData.level + (tech.modData.lycanthropicPower * 6)), iterations = 1, callback = "companionLeveler:wereTimer" })
 		end
     end
 end
