@@ -1034,7 +1034,7 @@ function this.clTooltip(ele, type)
 			label = tooltip:createLabel { text = "Lycanthropic Power measures the cleric's ability to control their werewolf alter ego.\nEach point increases transformation time by 6 seconds." }
 		elseif type == "order streak" then
 			icon = tooltip:createImage({ path = "textures\\companionLeveler\\os_icon.tga" })
-			label = tooltip:createLabel { text = "Jyggalag's Order Streak is built by leveling up as the same class consecutively.\nThe Cleric's class can safely be changed once their Order Streak is reset to 1." }
+			label = tooltip:createLabel { text = "Jyggalag's Order Streak is built by gaining levels as the same class consecutively.\nThe Cleric's class can safely be changed once their Order Streak is reset to 1." }
 		elseif string.startswith(type, "skill:") then
 			for i = 0, 26 do
 				if type == "skill:" .. i .. "" then

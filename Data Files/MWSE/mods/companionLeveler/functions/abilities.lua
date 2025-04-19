@@ -5843,8 +5843,8 @@ function this.huntCheck(e)
                     tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Health increased by 5.")
                 end
             end
-            if modData.lycanthropicPower > 200 then
-                modData.lycanthropicPower = 200
+            if modData.lycanthropicPower > 300 then
+                modData.lycanthropicPower = 300
             end
         end
     end
@@ -5876,7 +5876,154 @@ function this.hircineTribute()
             end
 
             modData.hircineHunt =  tables.hircineHunts[math.random(1, #tables.hircineHunts)]
+            modData.tributeHours = 0
             tes3.messageBox("" .. clerics[i].object.name .. " was issued a new hunt for " .. modData.hircineHunt[2] .. " " .. tes3.getObject(modData.hircineHunt[1]).name .. ".")
+        end
+    end
+end
+
+
+--Jyggalag----------------------------------------------------------------------------------------------------------------------------------------------------------
+--Gift triggers at level up.
+--Tribute paid by maintaining Order Streak, or no rewards given.
+
+--Malacath----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function this.malacathGift(e)
+    log = logger.getLogger("Companion Leveler")
+    if config.combatAbilities == false then return end
+    log:trace("Malacath gift triggered.")
+
+    if e.attacker then
+        if func.validCompanionCheck(e.mobile) then
+            local answer = 0
+            local modData = func.getModData(e.mobile.reference)
+
+            if modData.patron and modData.patron == 16 then
+                --Damage Reflection
+                answer = math.round(e.damage * 0.15)
+                e.attacker:applyDamage({ damage = answer })
+                log:debug("Malacath gift applied " .. answer .. " damage.")
+            end
+        end
+    end
+end
+
+function this.malacathTribute()
+    log:trace("Malacath tribute triggered.")
+
+    --Muck every 2 days at 6pm
+    local clerics = {}
+    local npcTable = func.npcTable()
+
+    for i = 1, #npcTable do
+        local modData = func.getModData(npcTable[i])
+
+        if modData.patron and modData.patron == 16 then
+            clerics[#clerics + 1] = npcTable[i]
+        end
+    end
+
+    for i = 1, #clerics do
+        local modData = func.getModData(clerics[i])
+        modData.tributeHours = modData.tributeHours + 24
+    
+        if modData.tributeHours >= 48 then
+            local paid = false
+    
+            paid = func.checkReq(false, "ingred_muck_01", 1, clerics[i])
+            if not paid then
+                paid = func.checkReq(false, "ingred_muck_01", 1, tes3.player)
+            end
+        
+            modData.tributePaid = paid
+    
+            if paid then
+                --All Good
+                tes3.messageBox("" .. clerics[i].object.name .. " paid their tribute in respect to Malacath.")
+            else
+                --Cursed
+                local num = math.random(1, 10)
+                local spell = tes3.getObject("kl_spell_curse_" .. num .. "")
+                tes3.applyMagicSource({ reference = clerics[i], source = spell, bypassResistances = true, target = clerics[i] })
+                tes3.messageBox("" .. clerics[i].object.name .. " failed to give tribute to Malacath! " .. clerics[i].object.name .. " was afflicted with the " .. spell.name .. "!")
+            end
+
+            modData.tributeHours = 0
+        end
+    end
+end
+
+--Mehrunes Dagon----------------------------------------------------------------------------------------------------------------------------------------
+function this.dagonTribute()
+    log:trace("Dagon tribute triggered.")
+
+    --Sacrifice Day Lapsed
+    local clerics = {}
+    local npcTable = func.npcTable()
+
+    for i = 1, #npcTable do
+        local modData = func.getModData(npcTable[i])
+
+        if modData.patron and modData.patron == 17 then
+            clerics[#clerics + 1] = npcTable[i]
+        end
+    end
+
+    for i = 1, #clerics do
+        local modData = func.getModData(clerics[i])
+        modData.tributeHours = modData.tributeHours + 24
+
+        if modData.tributeHours >= 120 then
+            if modData.tributePaid then
+                modData.tributePaid = false
+                modData.tributeHours = 0
+                local light = tes3.createReference({ object = "red 256", position = clerics[i].mobile.position, cell = clerics[i].mobile.cell, orientation = clerics[i].mobile.orientation  })
+                tes3.playSound({ sound = "restoration area", reference = clerics[i] })
+                timer.start({ type = timer.simulate, duration = 4, callback = function() light:delete() end })
+                tes3.messageBox("Dagon commands " .. clerics[i].object.name .. " to destroy! The weak must be culled!")
+            else
+                local light = tes3.createReference({ object = "red 256", position = clerics[i].mobile.position, cell = clerics[i].mobile.cell, orientation = clerics[i].mobile.orientation  })
+                tes3.playSound({ sound = "destruction area", reference = clerics[i], volume = 1.2 })
+                timer.start({ type = timer.simulate, duration = 3, callback = function() light:delete() end })
+                tes3.createVisualEffect({ object = "VFX_DestructArea", lifespan = 2, reference = clerics[i], scale = 2 })
+                clerics[i].mobile:kill()
+                tes3.messageBox("" .. clerics[i].object.name .. " is annihilated. Dagon will not suffer fools.")
+            end
+        end
+    end
+end
+
+function this.dagonDuty(e)
+    if e.attacker == nil then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Dagon duty triggered.")
+
+    if e.killingBlow and e.mobile.fight < 71 and e.mobile.object.objectType == tes3.objectType.npc then
+        if e.attacker == tes3.mobilePlayer or func.validCompanionCheck(e.attacker) then
+            local npcTable = func.npcTable()
+            local clerics = {}
+        
+            for i = 1, #npcTable do
+                local reference = npcTable[i]
+                local modData = func.getModData(reference)
+        
+                if modData.patron and modData.patron == 17 and modData.tributePaid == false then
+                    clerics[#clerics + 1] = reference
+                    break
+                end
+            end
+
+            if #clerics >= 1 then
+                for i = 1, #clerics do
+                    local modData = func.getModData(clerics[i])
+                    modData.tributePaid = true
+                    tes3.playSound({ sound = "destruction hit", reference = e.mobile, volume = 0.9 })
+                    tes3.createVisualEffect({ object = "VFX_DestructHit", lifespan = 3, reference = e.mobile })
+                    log:debug("" .. clerics[i].object.name .. " sacrificed " .. e.mobile.object.name .. " to Mehrunes Dagon.")
+                    tes3.messageBox("" .. clerics[i].object.name .. " sacrificed " .. e.mobile.object.name .. " to Mehrunes Dagon!")
+                end
+            end
         end
     end
 end

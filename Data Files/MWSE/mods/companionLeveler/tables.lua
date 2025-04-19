@@ -3428,7 +3428,7 @@ stuff.patronDuties = {
 	[13] = "A book or scroll must be offered as tribute every 3 days at midnight. Missing a tribute will permanently damage the Cleric's Intelligence.",
 	[14] = "Hircine periodically issues hunts which must be undertaken lest the Cleric be cut off from their werewolf alter ego until the next hunt is completed. Completing a hunt provides lycanthropic power.",
 	[15] = "The Cleric must level up as the same class 5 times in a row to receive their benefits. Leveling up as a different class will reset the Cleric's current Order Streak to 1!",
-	[16] = "Malacath is also vengeful to those who betray him. A tribute of Muck must be made every other day or else the Cleric suffers a curse.",
+	[16] = "Malacath is also vengeful to those who betray His trust. A tribute of Muck must be made every other day or else the Cleric suffers a terrible curse.",
 	[17] = "The weak must be culled. Dagon demands a tribute of a single innocent sacrifice every 5 days. \"Innocents\" primarily reside in towns and other public areas. Failure will result in the Cleric's death.",
 	[18] = "Kill your enemies with secret murder. Mephala requires the Cleric or yourself to assassinate an unaware, non-creature opponent every 3 days. Otherwise, the Lady may see fit to take back Her secret.",
 	[19] = "Meridia wishes all false life be erased. An undead creature/vampire must be destroyed every 3 days or all benefits are lost until the next undead creature/vampire is destroyed.",
@@ -3457,7 +3457,7 @@ stuff.patronGifts = {
 	[13] = "The tides of fate stir, gradually revealing their secrets to the Cleric. An additional Technique Point is bestowed at every odd-numbered level. Technique Points increase by 3.",
 	[14] = "Hircine bestows the gift of lycanthropy upon the Cleric, transforming at will as long as they fulfill the wishes of their Lord, Hircine of the Hunt. Transform as a technique. Werewolf form must be trained separately from base form.",
 	[15] = "Jyggalag imposes an orderly routine upon the Cleric. Consecutive level-ups as the same class builds an Order Streak. Once the Order Streak reaches 5, it resets and Jyggalag rewards +1 to all of the Cleric's attributes.", --on level up
-	[16] = "Malacath punishes those who torment His followers. Physical melee and ranged attacks made against the Cleric by non-Orcs have 15% of their damage reflected back as physical damage.", --combat
+	[16] = "Malacath punishes those who torment His followers. Physical melee and ranged attacks made against the Cleric have 15% of their damage reflected back as physical damage.", --combat
 	[17] = "(Destruction) Dagon's influence allows the Cleric access to a powerful, large-scale Destruction technique. This chaotic technique may even damage the party.", --destruction technique, fire from above can hurt party
 	[18] = "The Lady of Secrets whispers one such secret to the Cleric. Mephala teaches the Cleric the ancient technique of Silk-Grip, allowing the Cleric and yourself to deal increased damage to unaware opponents.", --combat stealth
 	[19] = "Meridia constantly regenerates all of the Cleric's vital energies. In addition, the Cleric has access to a radiant technique which will light up foes and punish vampires and the undead.",
@@ -3645,7 +3645,7 @@ stuff.colors = {
 	["pink"] = { 1.0, 0.274, 0.635 },  --Sharp Pink
 	["crimson"] = { 0.6, 0.0, 0.0 }, --Blood Karma Crimson
 	["bloodmoon"] = { 0.9, 0.0, 0.0 }, --Lycanthropic Power "Bloodmoon"
-	["silver"] = { 0.45, 0.45, 0.45 } --Order Streak Silver
+	["silver"] = { 0.4, 0.4, 0.4 } --Order Streak Silver ( but it looked bad with the font so now it's grey+ )
 }
 
 

@@ -364,7 +364,11 @@ local function hourlyTimer()
 	if rounded < gameHour then
 		timer.start({ type = timer.game, duration = (rounded + 1) - gameHour, iterations = 1, callback = "companionLeveler:hourlyTimer" })
 	else
-		timer.start({ type = timer.game, duration = rounded - gameHour, iterations = 1, callback = "companionLeveler:hourlyTimer" })
+		local num = rounded - gameHour
+		if num < 0 then
+			num = 0
+		end
+		timer.start({ type = timer.game, duration = num, iterations = 1, callback = "companionLeveler:hourlyTimer" })
 	end
 	--timer.start({ type = timer.game, duration = (gameHour + 1) - gameHour, iterations = 1, callback = "companionLeveler:hourlyTimer" })
 
@@ -376,6 +380,12 @@ local function hourlyTimer()
 	if gameHour >= 17 and gameHour < 18 then
 		log:debug("5pm detected.")
 		abilities.azuraTribute()
+	end
+
+	--Malacath Tribute
+	if gameHour >= 18 and gameHour < 19 then
+		log:debug("6pm detected.")
+		abilities.malacathTribute()
 	end
 
 	--Azura Gift
@@ -397,6 +407,11 @@ local function hourlyTimer()
 		abilities.moraTribute()
 	end
 
+	--Dagon Tribue
+	if gameHour >= 1 and gameHour < 2 then
+		log:debug("1am detected.")
+		abilities.dagonTribute()
+	end
 end
 timer.register("companionLeveler:hourlyTimer", hourlyTimer)
 
@@ -464,6 +479,7 @@ local function onDamage(e)
 		result = result + abilities.boethiahGift(e)
 		result = result - abilities.dibellaDuty(e)
 		result = result - abilities.talosDuty(e)
+		abilities.malacathGift(e)
 
 		--Combat Chance
 		if math.random(0, 99) < config.combatChance then
@@ -495,6 +511,7 @@ local function damaged(e)
 	--Reliable
 	abilities.beastwithin(e)
 	abilities.stendarrDuty(e)
+	abilities.dagonDuty(e)
 
 	--Combat Chance
 	if math.random(0, 99) < config.combatChance then

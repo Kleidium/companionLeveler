@@ -109,17 +109,17 @@ function pat.pickPatron(ref, aID)
 	msg_block.height = 100
 	msg_block.flowDirection = "top_to_bottom"
 
-	local duty_block = text_block:createBlock {}
-	duty_block.width = 400
-	duty_block.height = 100
-	duty_block.flowDirection = "top_to_bottom"
-	duty_block.borderTop = 10
-	duty_block.borderBottom = 10
-
 	local gift_block = text_block:createBlock {}
 	gift_block.width = 400
-	gift_block.height = 100
+	gift_block.height = 110
 	gift_block.flowDirection = "top_to_bottom"
+	gift_block.borderTop = 10
+	gift_block.borderBottom = 10
+
+	local duty_block = text_block:createBlock {}
+	duty_block.width = 400
+	duty_block.height = 110
+	duty_block.flowDirection = "top_to_bottom"
 
 	--Message
 	local msg = msg_block:createLabel({ text = "", id = "kl_msg" })

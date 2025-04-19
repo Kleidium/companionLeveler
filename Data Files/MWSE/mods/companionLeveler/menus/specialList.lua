@@ -327,6 +327,25 @@ function specList.createWindow(reference)
                 end)
             end
         end
+
+        --Patron Information
+        local patronLabel = pane:createLabel({ text = "Patron Information:" })
+        patronLabel.borderBottom = 12
+        patronLabel.borderTop = 24
+        patronLabel.color = tables.colors["white"]
+
+        if specList.modData.patron then
+            local patron = tables.patrons[specList.modData.patron]
+			local lbl = pane:createLabel({ text = "" .. patron .. "", id = "kl_patron_label_spec" })
+			if specList.modData.patron < 10 then
+				lbl.color = tables.colors["blue"]
+			else
+				lbl.color = tables.colors["red"]
+			end
+			func.patronTooltip(lbl, specList.modData.patron)
+            --tribute/duty
+            --gifts
+        end
     else
 		--Creature special information
     end
