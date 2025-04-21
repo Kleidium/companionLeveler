@@ -11,6 +11,7 @@ local train = require("companionLeveler.menus.techniques.train")
 local gem = require("companionLeveler.menus.techniques.gem")
 local sabo = require("companionLeveler.menus.techniques.sabo")
 local safe = require("companionLeveler.menus.techniques.safe")
+local meteor = require("companionLeveler.menus.techniques.meteor")
 
 
 local tech = {}
@@ -84,7 +85,7 @@ function tech.createWindow(ref)
 
 	--Lycanthropic Power Bar
 	if tech.modData.lycanthropicPower then
-		tech.lp = tech_block:createFillBar({ current = tech.modData.lycanthropicPower, max = 200, id = "kl_tech_lycan_bar" })
+		tech.lp = tech_block:createFillBar({ current = tech.modData.lycanthropicPower, max = 300, id = "kl_tech_lycan_bar" })
 		func.configureBar(tech.lp, "small", "bloodmoon")
 		tech.lp.borderBottom = 20
 		tech.tp.borderBottom = 12
@@ -328,7 +329,7 @@ function tech.createWindow(ref)
 			--Cleric: Mehrunes Dagon
 			if tech.modData.patron == 17 then
 				local button_meteor = tech_block:createButton { id = tech.id_meteor, text = "Cast Meteor" }
-				button_meteor:register("mouseClick", function() tech.onMeteor() end)
+				button_meteor:register("mouseClick", function() tech.menu:destroy() meteor.createWindow(ref) end)
 			end
 		end
 	end
@@ -744,84 +745,6 @@ function tech.onTransformConfirm(e)
 	if (tech.menu) then
 		if e.button == 0 then
 			if func.spendTP(tech.ref, 5) == false then return end
-
-			local cell = tes3.getPlayerCell()
-			local pos = func.calculatePosition()
-			local werewolf = tes3.getReference("kl_werewolf_companion")
-
-			tes3ui.leaveMenuMode()
-			tech.menu:destroy()
-
-			tech.ref:disable()
-
-			if not werewolf or werewolf.isDead then
-				tes3.getObject("kl_werewolf_companion").name = tech.ref.object.name
-				werewolf = tes3.createReference({ object = "kl_werewolf_companion", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
-				--Werewolf Attributes are NPC base + 40 in STR/AGI/SPD/END
-				for i = 0, 7 do
-					local att = tech.ref.mobile.attributes[i + 1].base
-					tes3.modStatistic({ attribute = i, value = att, reference = werewolf })
-				end
-				--2x Werewolf Health
-				tes3.setStatistic({ name = "health", value = tech.ref.mobile.health.base * 2, reference = werewolf })
-				tes3.setAIFollow({ reference = werewolf, target = tes3.player })
-				--mod data
-				local md = func.getModData(werewolf)
-				md["lycanthropicPower"] = tech.modData.lycanthropicPower
-				md["hircineHunt"] = tech.modData.hircineHunt
-				md["npcID"] = tech.ref.baseObject.id
-				tech.log:debug("Werewolf alter ego created.")
-			else
-				werewolf:enable()
-				tes3.positionCell({ reference = werewolf, cell = cell, position = pos })
-				tes3.setAIFollow({ reference = werewolf, target = tes3.player })
-				local md = func.getModData(werewolf)
-				md.lycanthropicPower = tech.modData.lycanthropicPower
-				md.hircineHunt = tech.modData.hircineHunt
-				tech.log:debug("Werewolf transformed.")
-			end
-
-			tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 1, reference = werewolf })
-			tes3.playSound({ sound = "conjuration hit", reference = werewolf })
-
-			local num = math.random(1, 5)
-
-			if num == 1 then
-				tes3.playSound({ sound = "WolfItem2", reference = werewolf })
-			elseif num == 2 then
-				tes3.playSound({ sound = "WolfEquip2", reference = werewolf })
-			elseif num == 3 then
-				tes3.playSound({ sound = "WolfActivator1", reference = werewolf })
-			elseif num == 4 then
-				tes3.playSound({ sound = "WolfNPC2", reference = werewolf })
-			else
-				tes3.playSound({ sound = "WolfItem3", reference = werewolf })
-			end
-
-			local angle = werewolf.mobile:getViewToActor(tes3.mobilePlayer)
-			werewolf.facing = werewolf.facing + math.rad(math.clamp(angle, -90, 90))
-
-			tes3.triggerCrime({ type = tes3.crimeType.werewolf })
-
-			timer.start({ type = timer.simulate, duration = (15 + tech.modData.level + (tech.modData.lycanthropicPower * 6)), iterations = 1, callback = "companionLeveler:wereTimer" })
-		end
-    end
-end
-
---Meteor
-function tech.onMeteor()
-    if tech.menu then
-		tes3.messageBox({ message = "Cast Meteor?\nTP Cost: 4\nMagicka Cost: 50", buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value }, callback = tech.onMeteorConfirm })
-    end
-end
-
-function tech.onMeteorConfirm(e)
-	if (tech.menu) then
-		if e.button == 0 then
-			if tech.ref.mobile.magicka.current < 50 then
-				tes3.messageBox("Not enough Magicka!")
-			end
-			if func.spendTP(tech.ref, 4) == false then return end
 
 			local cell = tes3.getPlayerCell()
 			local pos = func.calculatePosition()

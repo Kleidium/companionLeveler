@@ -5869,7 +5869,7 @@ function this.hircineTribute()
         local modData = func.getModData(clerics[i])
         modData.tributeHours = modData.tributeHours + 24
     
-        if modData.tributeHours >= (120 + math.random(12, 72)) then
+        if modData.tributeHours >= (144 + math.random(12, 72)) then
             if modData.hircineHunt[3] < modData.hircineHunt[2] then
                 modData.tributePaid = false
                 tes3.messageBox("" .. clerics[i].object.name .. " failed to hunt " .. tes3.getObject(modData.hircineHunt[1]).name .. "!")
@@ -5974,6 +5974,12 @@ function this.dagonTribute()
         local modData = func.getModData(clerics[i])
         modData.tributeHours = modData.tributeHours + 24
 
+        if modData.tributeHours == 96 then
+            if not modData.tributePaid then
+                tes3.messageBox("Dagon grows impatient, mortal. " .. clerics[i].object.name .. " must destroy!")
+            end
+        end
+
         if modData.tributeHours >= 120 then
             if modData.tributePaid then
                 modData.tributePaid = false
@@ -5994,10 +6000,10 @@ function this.dagonTribute()
     end
 end
 
-function this.dagonDuty(e)
+function this.dagonSacrifice(e)
     if e.attacker == nil then return end
     log = logger.getLogger("Companion Leveler")
-    log:trace("Dagon duty triggered.")
+    log:trace("Dagon sacrifice triggered.")
 
     if e.killingBlow and e.mobile.fight < 71 and e.mobile.object.objectType == tes3.objectType.npc then
         if e.attacker == tes3.mobilePlayer or func.validCompanionCheck(e.attacker) then
@@ -6026,6 +6032,57 @@ function this.dagonDuty(e)
             end
         end
     end
+end
+
+function this.combustion(e)
+    if config.combatAbilities == false then return end
+
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Combustion triggered.")
+
+	if (e.target == tes3.mobilePlayer) then
+        log:trace("Combat target is player.")
+        local npcTable = func.npcTable()
+        local trigger = 1
+        local destruction
+        local caster
+
+        for i = 1, #npcTable do
+            local reference = npcTable[i]
+            local modData = func.getModData(reference)
+            if modData.patron and modData.patron == 17 then
+                trigger = 1
+                caster = reference.object.name
+                destruction = reference.mobile:getSkillStatistic(10)
+                log:debug("" .. caster .. " attempted to Combust.")
+                break
+            end
+        end
+
+        if trigger == 1 then
+            for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                local affected = tes3.isAffectedBy({ reference = actor.reference, object = "kl_spell_dagon_combustion" })
+                if not affected then
+                    tes3.cast({ reference = actor.reference, target = actor.reference, spell = "kl_spell_dagon_combustion", instant = true, bypassResistances = false })
+                    log:debug("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Combustion!")
+                    if destruction.current >= 50 then
+                        tes3.cast({ reference = actor.reference, target = actor.reference, spell = "kl_spell_dagon_char", instant = true, bypassResistances = false })
+                        log:debug("" .. actor.reference.object.name .. " was also affected by " .. caster .. "'s Char!")
+                    end
+                    if destruction.current >= 100 then
+                        tes3.cast({ reference = actor.reference, target = actor.reference, spell = "kl_spell_dagon_incinerate", instant = true, bypassResistances = false })
+                        log:debug("" .. actor.reference.object.name .. " was blasted by " .. caster .. "'s Incinerate!")
+                    end
+                    if destruction.current >= 150 then
+                        tes3.cast({ reference = actor.reference, target = actor.reference, spell = "kl_spell_dagon_immolation", instant = true, bypassResistances = false })
+                        log:debug("" .. actor.reference.object.name .. " was subjected to " .. caster .. "'s Immolation!")
+                    end
+                else
+                    log:debug("" .. actor.reference.object.name .. " is already affected by Combustion.")
+                end
+            end
+        end
+	end
 end
 
 return this

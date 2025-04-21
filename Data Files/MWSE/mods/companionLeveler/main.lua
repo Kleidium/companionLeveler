@@ -374,7 +374,7 @@ local function hourlyTimer()
 
 	--Patrons--
 	log:debug("Time is now " .. gameHour .. ".")
-	tes3.messageBox("Time is now " .. gameHour .. " (" .. tes3.getGlobal('GameHour') .. ").")
+	--tes3.messageBox("Time is now " .. gameHour .. " (" .. tes3.getGlobal('GameHour') .. ").")
 
 	--Azura Tribute
 	if gameHour >= 17 and gameHour < 18 then
@@ -449,6 +449,11 @@ timer.register("companionLeveler:wereTimer", wereTimer)
 
 --Combat Abilities
 local function onCombat(e)
+	--100%
+
+	--Mehrunes Dagon
+	abilities.combustion(e)
+
 	if math.random(0, 99) < config.combatChance then
 		abilities.jest(e)
 		abilities.thaumaturgy(e)
@@ -511,7 +516,7 @@ local function damaged(e)
 	--Reliable
 	abilities.beastwithin(e)
 	abilities.stendarrDuty(e)
-	abilities.dagonDuty(e)
+	abilities.dagonSacrifice(e)
 
 	--Combat Chance
 	if math.random(0, 99) < config.combatChance then
