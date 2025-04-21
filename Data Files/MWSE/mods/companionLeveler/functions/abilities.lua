@@ -6085,4 +6085,202 @@ function this.combustion(e)
 	end
 end
 
+--Mephala-------------------------------------------------------------------------------------------------------------------------------------------------
+function this.mephalaGift(e)
+    log = logger.getLogger("Companion Leveler")
+    if config.combatAbilities == false then return end
+    log:trace("Mephala Gift triggered.")
+
+    if e.attacker and func.validCompanionCheck(e.attacker) then
+        local modData = func.getModData(e.attacker.reference)
+        if modData.patron and modData.patron == 18 and modData.tributePaid then
+            local affected = tes3.isAffectedBy({ reference = e.mobile, object = "kl_spell_silk-grip" })
+            if not affected then
+                tes3.cast({ reference = e.attacker, spell = "kl_spell_silk-grip", target = e.mobile, bypassResistances = false, instant = true })
+                log:debug("Silk-Grip applied.")
+            else
+                tes3.cast({ reference = e.attacker, spell = "kl_spell_silk-bite", target = e.mobile, bypassResistances = true, instant = true })
+                log:debug("Silk-Bite applied.")
+            end
+        end
+    end
+end
+
+function this.mephalaTribute()
+    log:trace("Mephala tribute triggered.")
+
+    --Sacrifice Day Lapsed
+    local clerics = {}
+    local npcTable = func.npcTable()
+
+    for i = 1, #npcTable do
+        local modData = func.getModData(npcTable[i])
+
+        if modData.patron and modData.patron == 18 then
+            clerics[#clerics + 1] = npcTable[i]
+        end
+    end
+
+    for i = 1, #clerics do
+        local modData = func.getModData(clerics[i])
+        modData.tributeHours = modData.tributeHours + 24
+
+        if modData.tributeHours == 96 then
+            if not modData.tributePaid then
+                tes3.messageBox("Mephala's whispers grow louder!")
+            end
+        end
+
+        if modData.tributeHours >= 120 then
+            if modData.tributePaid then
+                modData.tributePaid = false
+                modData.tributeHours = 0
+                local light = tes3.createReference({ object = "kl_light_purple_256", position = clerics[i].mobile.position, cell = clerics[i].mobile.cell, orientation = clerics[i].mobile.orientation  })
+                tes3.playSound({ sound = "mysticism cast", reference = clerics[i] })
+                timer.start({ type = timer.simulate, duration = 4, callback = function() light:delete() end })
+                tes3.messageBox("" .. clerics[i].object.name .. " feels their power begin to wane. The Webspinner commands betrayal!")
+            end
+        end
+    end
+end
+
+function this.mephalaSacrifice(e)
+    if e.attacker == nil then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Mephala sacrifice triggered.")
+
+    if e.killingBlow then
+        if e.attacker == tes3.mobilePlayer or func.validCompanionCheck(e.attacker) then
+            local disposition = e.mobile.object.disposition
+            if not disposition then
+                disposition = e.mobile.object.baseDisposition
+                log:debug("Base disposition used.")
+            end
+            if not disposition then return end
+            if disposition < 70 then return log:debug("Disposition below 70.") end
+
+            local npcTable = func.npcTable()
+            local clerics = {}
+        
+            for i = 1, #npcTable do
+                local reference = npcTable[i]
+                local modData = func.getModData(reference)
+        
+                if modData.patron and modData.patron == 18 and modData.tributePaid == false then
+                    clerics[#clerics + 1] = reference
+                    break
+                end
+            end
+
+            if #clerics >= 1 then
+                for i = 1, #clerics do
+                    local modData = func.getModData(clerics[i])
+                    modData.tributePaid = true
+                    modData.tributeHours = 0
+                    tes3.playSound({ sound = "mysticism hit", reference = e.mobile, volume = 0.9 })
+                    tes3.createVisualEffect({ object = "VFX_MysticismHit", lifespan = 3, reference = e.mobile })
+                    log:debug("" .. clerics[i].object.name .. " betrayed " .. e.mobile.object.name .. " in tribute to Mephala.")
+                    tes3.messageBox("" .. clerics[i].object.name .. " betrayed " .. e.mobile.object.name .. " in tribute to Mephala.")
+                end
+            end
+        end
+    end
+end
+
+--Meridia--------------------------------------------------------------------------------------------------------------------------------------------------
+function this.meridiaTribute()
+    log:trace("Meridia tribute triggered.")
+
+    --Tribute Day Lapsed
+    local clerics = {}
+    local npcTable = func.npcTable()
+
+    for i = 1, #npcTable do
+        local modData = func.getModData(npcTable[i])
+
+        if modData.patron and modData.patron == 19 then
+            clerics[#clerics + 1] = npcTable[i]
+        end
+    end
+
+    for i = 1, #clerics do
+        local modData = func.getModData(clerics[i])
+        modData.tributeHours = modData.tributeHours + 24
+
+        if modData.tributeHours == 48 then
+            if not modData.tributePaid then
+                tes3.messageBox("Meridia demands judgment! Go forth and purify!")
+            end
+        end
+
+        if modData.tributeHours >= 72 then
+            if modData.tributePaid then
+                modData.tributePaid = false
+                modData.tributeHours = 0
+                tes3.playSound({ sound = "restoration area", reference = clerics[i] })
+                tes3.removeSpell({ reference = clerics[i], spell = "kl_ability_patron_19" })
+                tes3.messageBox("" .. clerics[i].object.name .. "'s favor with Meridia begins to wane, and their powers with it!")
+            end
+        end
+    end
+end
+
+function this.meridiaGift(e)
+    log = logger.getLogger("Companion Leveler")
+    if config.combatAbilities == false then return end
+    log:trace("Meridia Gift triggered.")
+
+    if e.attacker and func.validCompanionCheck(e.attacker) then
+        local modData = func.getModData(e.attacker.reference)
+        if modData.patron and modData.patron == 19 and modData.tributePaid then
+            local affected = tes3.isAffectedBy({ reference = e.mobile, object = "kl_spell_beacon" })
+            if not affected then
+                tes3.cast({ reference = e.attacker, spell = "kl_spell_beacon", target = e.mobile, bypassResistances = true, instant = true })
+                if (e.mobile.object.type and e.mobile.object.type == tes3.creatureType.undead) or e.mobile.hasVampirism then
+                    tes3.cast({ reference = e.attacker, spell = "kl_spell_searing_beacon", target = e.mobile, bypassResistances = false, instant = true })
+                end
+            end
+        end
+    end
+end
+
+function this.meridiaSacrifice(e)
+    if e.attacker == nil then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Meridia sacrifice triggered.")
+
+    if string.startswith(e.mobile.object.name, "Summoned") then return end
+
+    if e.killingBlow then
+        if (e.attacker == tes3.mobilePlayer or func.validCompanionCheck(e.attacker)) and ((e.mobile.object.type and e.mobile.object.type == tes3.creatureType.undead) or e.mobile.hasVampirism) then
+            local npcTable = func.npcTable()
+            local clerics = {}
+        
+            for i = 1, #npcTable do
+                local reference = npcTable[i]
+                local modData = func.getModData(reference)
+        
+                if modData.patron and modData.patron == 19 and modData.tributePaid == false then
+                    clerics[#clerics + 1] = reference
+                    break
+                end
+            end
+
+            if #clerics >= 1 then
+                for i = 1, #clerics do
+                    local modData = func.getModData(clerics[i])
+                    modData.tributePaid = true
+                    modData.tributeHours = 0
+                    tes3.addSpell({ reference = clerics[i], spell = "kl_ability_patron_19" })
+                    tes3.playSound({ sound = "restoration hit", reference = e.mobile, volume = 0.9 })
+                    tes3.createVisualEffect({ object = "VFX_RestorationHit", lifespan = 3, reference = e.mobile })
+                    log:debug("" .. clerics[i].object.name .. " regained Meridia's favor!")
+                    tes3.messageBox("False life purified! " .. clerics[i].object.name .. " regained Meridia's favor!")
+                end
+            end
+        end
+    end
+end
+
+
 return this

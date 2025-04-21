@@ -11,7 +11,6 @@ local train = require("companionLeveler.menus.techniques.train")
 local gem = require("companionLeveler.menus.techniques.gem")
 local sabo = require("companionLeveler.menus.techniques.sabo")
 local safe = require("companionLeveler.menus.techniques.safe")
-local meteor = require("companionLeveler.menus.techniques.meteor")
 
 
 local tech = {}
@@ -325,11 +324,6 @@ function tech.createWindow(ref)
 						local ttLabel = tooltip:createLabel { text = "Complete the current hunt to regain control." }
 					end)
 				end
-			end
-			--Cleric: Mehrunes Dagon
-			if tech.modData.patron == 17 then
-				local button_meteor = tech_block:createButton { id = tech.id_meteor, text = "Cast Meteor" }
-				button_meteor:register("mouseClick", function() tech.menu:destroy() meteor.createWindow(ref) end)
 			end
 		end
 	end

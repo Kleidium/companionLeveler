@@ -376,6 +376,24 @@ local function hourlyTimer()
 	log:debug("Time is now " .. gameHour .. ".")
 	--tes3.messageBox("Time is now " .. gameHour .. " (" .. tes3.getGlobal('GameHour') .. ").")
 
+	--Dagon Tribute
+	if gameHour >= 1 and gameHour < 2 then
+		log:debug("1am detected.")
+		abilities.dagonTribute()
+	end
+
+	--Mephala Tribute
+	if gameHour >= 3 and gameHour < 4 then
+		log:debug("3am detected.")
+		abilities.mephalaTribute()
+	end
+
+	--Meridia Tribute
+	if gameHour >= 12 and gameHour < 13 then
+		log:debug("12pm detected.")
+		abilities.meridiaTribute()
+	end
+
 	--Azura Tribute
 	if gameHour >= 17 and gameHour < 18 then
 		log:debug("5pm detected.")
@@ -405,12 +423,6 @@ local function hourlyTimer()
 		log:debug("Midnight detected.")
 		abilities.boethiahTribute()
 		abilities.moraTribute()
-	end
-
-	--Dagon Tribue
-	if gameHour >= 1 and gameHour < 2 then
-		log:debug("1am detected.")
-		abilities.dagonTribute()
 	end
 end
 timer.register("companionLeveler:hourlyTimer", hourlyTimer)
@@ -495,6 +507,8 @@ local function onDamage(e)
 			abilities.misstep(e)
 			abilities.rage(e)
 			abilities.voltaic(e)
+			abilities.mephalaGift(e)
+			abilities.meridiaGift(e)
 
 			if e.projectile then
 				abilities.arcaneA(e)
@@ -517,6 +531,8 @@ local function damaged(e)
 	abilities.beastwithin(e)
 	abilities.stendarrDuty(e)
 	abilities.dagonSacrifice(e)
+	abilities.mephalaSacrifice(e)
+	abilities.meridiaSacrifice(e)
 
 	--Combat Chance
 	if math.random(0, 99) < config.combatChance then
