@@ -11,6 +11,7 @@ local train = require("companionLeveler.menus.techniques.train")
 local gem = require("companionLeveler.menus.techniques.gem")
 local sabo = require("companionLeveler.menus.techniques.sabo")
 local safe = require("companionLeveler.menus.techniques.safe")
+local molag = require("companionLeveler.menus.techniques.molagGift")
 
 
 local tech = {}
@@ -103,6 +104,14 @@ function tech.createWindow(ref)
 		func.configureBar(tech.os, "small", "silver")
 		tech.os.borderBottom = 20
 		tech.tp.borderBottom = 12
+	end
+
+	--Soul Energy Bar
+	if tech.modData.soulEnergy then
+		tech.se = tech_block:createFillBar({ current = tech.modData.soulEnergy, max = 10000 + (tech.modData.level * 200), id = "kl_tech_soul_energy_bar" })
+		func.configureBar(tech.se, "small", "azure")
+		tech.se.borderBottom = 20
+		tech.se.borderBottom = 12
 	end
 
 
@@ -324,6 +333,11 @@ function tech.createWindow(ref)
 						local ttLabel = tooltip:createLabel { text = "Complete the current hunt to regain control." }
 					end)
 				end
+			end
+			--Cleric: Molag Bal
+			if tech.modData.patron == 20 then
+				local button_molag = tech_block:createButton { id = tech.id_molag, text = "Soul Manipulation" }
+				button_molag:register("mouseClick", function() tech.menu:destroy() molag.createWindow(ref) end)
 			end
 		end
 	end

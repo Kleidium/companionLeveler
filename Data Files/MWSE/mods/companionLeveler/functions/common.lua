@@ -860,7 +860,7 @@ end
 --
 --2nd: string: small/standard
 --
---3rd: string: red/blue/green/gold/purple/crimson/bloodmoon
+--3rd: string: red/blue/green/gold/purple/crimson/bloodmoon/silver/azure
 function this.configureBar(ele, type, color)
 	ele.widget.showText = true
 	ele.widget.fillColor = tables.colors[color]
@@ -892,6 +892,8 @@ function this.configureBar(ele, type, color)
 		this.clTooltip(ele, "lycanthropic power")
 	elseif color == "silver" then
 		this.clTooltip(ele, "order streak")
+	elseif color == "azure" then
+		this.clTooltip(ele, "soul energy")
 	end
 end
 
@@ -1035,6 +1037,9 @@ function this.clTooltip(ele, type)
 		elseif type == "order streak" then
 			icon = tooltip:createImage({ path = "textures\\companionLeveler\\os_icon.tga" })
 			label = tooltip:createLabel { text = "Jyggalag's Order Streak is built by gaining levels as the same class consecutively.\nThe Cleric's class can safely be changed once their Order Streak is reset to 1." }
+		elseif type == "soul energy" then
+			icon = tooltip:createImage({ path = "textures\\companionLeveler\\se_icon.tga" })
+			label = tooltip:createLabel { text = "Trapped souls instead provide Soul Energy while the Cleric of Molag Bal is in the party.\nSoul Energy can be used to fill soul gems or restore Health, Magicka, or Fatigue." }
 		elseif string.startswith(type, "skill:") then
 			for i = 0, 26 do
 				if type == "skill:" .. i .. "" then

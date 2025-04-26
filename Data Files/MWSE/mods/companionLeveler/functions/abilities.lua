@@ -6282,5 +6282,41 @@ function this.meridiaSacrifice(e)
     end
 end
 
+--Molag Bal-------------------------------------------------------------------------------------------------------------------------------------------------
+function this.molagGift(e)
+    log = logger.getLogger("Companion Leveler")
+    if config.triggeredAbilities == false then return end
+    log:trace("Molag gift triggered.")
+
+    local npcTable = func.npcTable()
+    local answer = true
+
+    for i = 1, #npcTable do
+        local reference = npcTable[i]
+        local modData = func.getModData(reference)
+
+        if modData.patron and modData.patron == 20 and modData.soulEnergy < (10000 + (modData.level * 200)) then
+            if e.mobile.object.soul then
+                log:debug("" .. e.mobile.object.name .. " Soul Value: " .. e.mobile.object.soul .. "")
+                --Smarter Soultrap triggers the filterSoulGemTarget event repeatedly for each soul gem in inventory.
+                --Annoying and multiplies the soulEnergy gained due to the repeated triggers.
+                --BUT this event must be used to block soul gems being filled + add soul energy.
+                --So I /guess/ I could see about detecting this somehow and correcting it. Could maybe count soul gems and reduce energy gained based on total triggers.
+                modData.soulEnergy = modData.soulEnergy + math.round(e.mobile.object.soul * 0.5)
+                if modData.soulEnergy > (10000 + (modData.level * 200)) then
+                    modData.soulEnergy = (10000 + (modData.level * 200))
+                end
+                local light = tes3.createReference({ object = "kl_light_azure_64", position = e.mobile.position, cell = e.mobile.cell, orientation = e.mobile.orientation  })
+                timer.start({ type = timer.simulate, duration = 3, callback = function() light:delete() end })
+                tes3.playSound({ sound = "mysticism hit", reference = e.mobile, volume = 0.9, pitch = 0.75 })
+                tes3.createVisualEffect({ object = "VFX_MysticismHit", lifespan = 3, reference = reference })
+                answer = false
+            end
+            break
+        end
+    end
+
+    return answer
+end
 
 return this

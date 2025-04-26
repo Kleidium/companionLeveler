@@ -601,7 +601,8 @@ event.register(tes3.event.calcRestInterrupt, onCalcRestInterrupt)
 --Soul Capture Abilities
 local function filterSoulGemTargetCallback(e)
 	local arkay = abilities.arkay(e)
-	if arkay == false then
+	local molag = abilities.molagGift(e)
+	if arkay == false or molag == false then
 		e.filter = false
 	end
 end

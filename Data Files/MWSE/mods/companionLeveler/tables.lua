@@ -3432,7 +3432,7 @@ stuff.patronDuties = {
 	[17] = "The weak must be culled. Dagon demands a tribute of a single innocent sacrifice every 5 days. \"Innocents\" primarily reside in towns and other public areas. Failure will result in the Cleric's death.",
 	[18] = "Mephala requires the Cleric or yourself to kill a humanoid target every 5 days in order to maintain control over Her gift. The target must trust you (Disposition 70 or above).",
 	[19] = "Meridia wishes for all false life to be erased and will ensure the Cleric's compliance. Every 3 days, the Cleric loses all benefits until the next undead creature/vampire is destroyed.",
-	[20] = "Molag Bal immediately seizes 90% of every soul stockpiled; furthermore, Bal may occasionally demand an amount of souls. If the stockpile does not have enough souls, the entire party is punished.",
+	[20] = "Molag Bal immediately claims 50% of every soul stockpiled as tribute.",
 	[21] = "Namira's influence takes its toll, and tribute is paid with the erosion of the Cleric's ever-wasting form; their Endurance and Personality are reduced by 1 each level-up.",
 	[22] = "Honor Nocturnal by creating mysteries of the Cleric's own. An item worth 25g or above must be stolen from someone new every 3 days, or else all benefits are lost until the next eligible item is stolen.",
 	[23] = "The Cleric pays tribute by accepting a random common disease every 3 days. This disease can be cured normally, but doing so will also remove any current disease-blessings afflicted upon the Cleric.",
@@ -3461,7 +3461,7 @@ stuff.patronGifts = {
 	[17] = "(Destruction) All foes are but cinder before a Cleric of Dagon. Foes periodically burn when in engaged in combat with the Cleric. The flames are lingering and persistent, and become more deadly as the Cleric embraces Destruction.",
 	[18] = "Mephala whispers dark secrets to the Cleric. The Cleric may spread these whispers to their foes for 3s when attacking. Foes under the effect of Mephala's Whispers may be paralyzed when struck again by the Cleric.", --combat stealth
 	[19] = "Meridia constantly regenerates all of the Cleric's vital energies. In addition, the Cleric's attacks inflict a searing light which illuminates foes and burns undead creatures and vampires.",
-	[20] = "Your Lord, Molag Bal, grants His thrall the ability to convert soul energy into health, magicka, or fatigue for themselves. This soul energy is stockpiled by sacrificing filled soul gems.", --souls no longer go to gems, straight to stockpile?
+	[20] = "Your Lord, Molag Bal, grants His thrall the ability to convert soul energy into health, magicka, or fatigue for themselves or for you at twice the cost. Soul energy is automatically stockpiled by trapping souls.", --souls no longer go to gems, straight to stockpile? health 1-3, magicka 1-5, stamina 10-1
 	[21] = "The Cleric's melee and ranged attacks accelerate the decay of weapon, armor, flesh, and bone with each strike. But only when inside, and only during the nighttime.",
 	[22] = "(Security) The Cleric may \"reach\" through the ever-shifting plane of Evergloam at nighttime, allowing the Cleric to potentially steal gold owned by the foe in another location through the mysteries of Nocturnal.",
 	[23] = "The Taskmaster occasionally allows non-combat triggered abilities to trigger more often. If He does, the Cleric is bestowed a disease-blessing that will leave behind beneficial effects if carried long enough.", --triggered abilities occur more often, disease-blessings are given/bestowed as a technique or triggered ability?
@@ -3645,7 +3645,8 @@ stuff.colors = {
 	["pink"] = { 1.0, 0.274, 0.635 },  --Sharp Pink
 	["crimson"] = { 0.6, 0.0, 0.0 }, --Blood Karma Crimson
 	["bloodmoon"] = { 0.9, 0.0, 0.0 }, --Lycanthropic Power "Bloodmoon"
-	["silver"] = { 0.4, 0.4, 0.4 } --Order Streak Silver ( but it looked bad with the font so now it's grey+ )
+	["silver"] = { 0.4, 0.4, 0.4 }, --Order Streak Silver ( but it looked bad with the font so now it's grey+ )
+	["azure"] = { 0.0, 0.5, 1.0 } --Soul Energy Azure
 }
 
 

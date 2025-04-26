@@ -194,6 +194,10 @@ function pat.onOK()
 				modData["orderStreak"] = 1
 				modData["lastClass"] = modData.class
 			end
+
+			if pat.id == 20 then
+				modData["soulEnergy"] = 10000
+			end
 		end
 		menu:destroy()
 		tes3ui.leaveMenuMode()
