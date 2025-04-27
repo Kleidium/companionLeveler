@@ -533,6 +533,7 @@ local function damaged(e)
 	abilities.dagonSacrifice(e)
 	abilities.mephalaSacrifice(e)
 	abilities.meridiaSacrifice(e)
+	abilities.molagGift(e)
 
 	--Combat Chance
 	if math.random(0, 99) < config.combatChance then
@@ -601,7 +602,7 @@ event.register(tes3.event.calcRestInterrupt, onCalcRestInterrupt)
 --Soul Capture Abilities
 local function filterSoulGemTargetCallback(e)
 	local arkay = abilities.arkay(e)
-	local molag = abilities.molagGift(e)
+	local molag = abilities.molagTribute(e)
 	if arkay == false or molag == false then
 		e.filter = false
 	end
@@ -788,6 +789,7 @@ event.register("jump", expTest)
 --make sure esp is clean and i didn't add anything dumb
 --go through and enforce config rules, can make modStatistic into a CL function
 --regular timers don't persist when the game is reloaded. make sure this doesn't fuck up anything important
+--make sure metamorph doesn't fuck with patrons/factions
 
 
 

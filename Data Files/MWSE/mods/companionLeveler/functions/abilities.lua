@@ -6043,7 +6043,7 @@ function this.combustion(e)
 	if (e.target == tes3.mobilePlayer) then
         log:trace("Combat target is player.")
         local npcTable = func.npcTable()
-        local trigger = 1
+        local trigger = 0
         local destruction
         local caster
 
@@ -6283,10 +6283,9 @@ function this.meridiaSacrifice(e)
 end
 
 --Molag Bal-------------------------------------------------------------------------------------------------------------------------------------------------
-function this.molagGift(e)
+function this.molagTribute(e)
     log = logger.getLogger("Companion Leveler")
-    if config.triggeredAbilities == false then return end
-    log:trace("Molag gift triggered.")
+    log:trace("Molag tribute triggered.")
 
     local npcTable = func.npcTable()
     local answer = true
@@ -6295,28 +6294,46 @@ function this.molagGift(e)
         local reference = npcTable[i]
         local modData = func.getModData(reference)
 
-        if modData.patron and modData.patron == 20 and modData.soulEnergy < (10000 + (modData.level * 200)) then
-            if e.mobile.object.soul then
-                log:debug("" .. e.mobile.object.name .. " Soul Value: " .. e.mobile.object.soul .. "")
-                --Smarter Soultrap triggers the filterSoulGemTarget event repeatedly for each soul gem in inventory.
-                --Annoying and multiplies the soulEnergy gained due to the repeated triggers.
-                --BUT this event must be used to block soul gems being filled + add soul energy.
-                --So I /guess/ I could see about detecting this somehow and correcting it. Could maybe count soul gems and reduce energy gained based on total triggers.
-                modData.soulEnergy = modData.soulEnergy + math.round(e.mobile.object.soul * 0.5)
-                if modData.soulEnergy > (10000 + (modData.level * 200)) then
-                    modData.soulEnergy = (10000 + (modData.level * 200))
-                end
-                local light = tes3.createReference({ object = "kl_light_azure_64", position = e.mobile.position, cell = e.mobile.cell, orientation = e.mobile.orientation  })
-                timer.start({ type = timer.simulate, duration = 3, callback = function() light:delete() end })
-                tes3.playSound({ sound = "mysticism hit", reference = e.mobile, volume = 0.9, pitch = 0.75 })
-                tes3.createVisualEffect({ object = "VFX_MysticismHit", lifespan = 3, reference = reference })
-                answer = false
-            end
+        if modData.patron and modData.patron == 20 then
+            answer = false
             break
         end
     end
 
     return answer
+end
+
+function this.molagGift(e)
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Molag gift triggered.")
+
+    if not e.killingBlow or not e.attacker then return end
+
+    if e.attacker == tes3.mobilePlayer or func.validCompanionCheck(e.attacker) then
+        local npcTable = func.npcTable()
+
+        for i = 1, #npcTable do
+            local reference = npcTable[i]
+            local modData = func.getModData(reference)
+    
+            if modData.patron and modData.patron == 20 and modData.soulEnergy < modData.level * 100 then
+                local soul = 500
+                if e.mobile.object.soul then
+                    soul = e.mobile.object.soul
+                end
+                log:debug("" .. e.mobile.object.name .. " Soul Value: " .. soul .. "")
+                modData.soulEnergy = modData.soulEnergy + math.round(soul * 0.1)
+                if modData.soulEnergy > modData.level * 100 then
+                    modData.soulEnergy = modData.level * 100
+                end
+                local light = tes3.createReference({ object = "kl_light_azure_64", position = e.mobile.position, cell = e.mobile.cell, orientation = e.mobile.orientation  })
+                timer.start({ type = timer.simulate, duration = 2, callback = function() light:delete() end })
+                tes3.playSound({ sound = "mysticism hit", reference = e.mobile, volume = 0.6, pitch = 0.7 })
+                tes3.createVisualEffect({ object = "VFX_MysticismHit", lifespan = 2, reference = reference })
+                break
+            end
+        end
+    end
 end
 
 return this

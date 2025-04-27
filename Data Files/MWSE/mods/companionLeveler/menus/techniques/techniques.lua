@@ -108,7 +108,7 @@ function tech.createWindow(ref)
 
 	--Soul Energy Bar
 	if tech.modData.soulEnergy then
-		tech.se = tech_block:createFillBar({ current = tech.modData.soulEnergy, max = 10000 + (tech.modData.level * 200), id = "kl_tech_soul_energy_bar" })
+		tech.se = tech_block:createFillBar({ current = tech.modData.soulEnergy, max = tech.modData.level * 100, id = "kl_tech_soul_energy_bar" })
 		func.configureBar(tech.se, "small", "azure")
 		tech.se.borderBottom = 20
 		tech.se.borderBottom = 12

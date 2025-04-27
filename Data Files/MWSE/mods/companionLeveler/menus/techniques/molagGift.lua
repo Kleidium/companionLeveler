@@ -20,9 +20,9 @@ function molag.createWindow(ref)
     molag.ref = ref
 	molag.interval = 1
 	molag.resource = "health"
-	molag.cost = 5
+	molag.cost = 3
 	molag.tMod = 1
-	molag.aMod = 5
+	molag.aMod = 3
 	molag.modData = func.getModData(ref)
 
     molag.menu = tes3ui.createMenu { id = molag.id_menu, fixedFrame = true }
@@ -46,7 +46,7 @@ function molag.createWindow(ref)
 
 	--Soul Energy
     molag_block:createLabel { text = "Soul Energy" }
-    molag.soulBar = molag_block:createFillBar({ current = molag.modData.soulEnergy, max = (10000 + (molag.modData.level * 200)), id = molag.id_soulBar })
+    molag.soulBar = molag_block:createFillBar({ current = molag.modData.soulEnergy, max = molag.modData.level * 100, id = molag.id_soulBar })
 	func.configureBar(molag.soulBar, "standard", "azure")
     molag.soulBar.borderBottom = 40
 	molag.soulBar.borderTop = 3
@@ -188,7 +188,7 @@ function molag.onSwap(resource)
 		molag.resource = resource
 
 		if resource == "health" then
-			molag.aMod = 5
+			molag.aMod = 3
 			molag.hthBtn.widget.state = 4
 			molag.mgkBtn.widget.state = 1
 			molag.fatBtn.widget.state = 1
@@ -196,7 +196,7 @@ function molag.onSwap(resource)
 			molag.swapBar.widget.max = molag.ref.mobile.health.base
 			func.configureBar(molag.swapBar, "standard", "red")
 		elseif resource == "magicka" then
-			molag.aMod = 10
+			molag.aMod = 5
 			molag.hthBtn.widget.state = 1
 			molag.mgkBtn.widget.state = 4
 			molag.fatBtn.widget.state = 1
@@ -204,7 +204,7 @@ function molag.onSwap(resource)
 			molag.swapBar.widget.max = molag.ref.mobile.magicka.base
 			func.configureBar(molag.swapBar, "standard", "blue")
 		else
-			molag.aMod = 0.1
+			molag.aMod = 0.2
 			molag.hthBtn.widget.state = 1
 			molag.mgkBtn.widget.state = 1
 			molag.fatBtn.widget.state = 4
@@ -214,6 +214,9 @@ function molag.onSwap(resource)
 		end
 
 		molag.cost = math.round((molag.interval * molag.aMod) * molag.tMod)
+		if molag.cost < 1 then
+			molag.cost = 1
+		end
 		molag.info.text = "" .. molag.ref.object.name .. " will receive " .. molag.interval .. " " .. molag.resource .. " for " .. molag.cost .. " soul energy."
 		menu:updateLayout()
 	end
@@ -246,6 +249,9 @@ function molag.onTarget(ref)
 		end
 
 		molag.cost = math.round((molag.interval * molag.aMod) * molag.tMod)
+		if molag.cost < 1 then
+			molag.cost = 1
+		end
 		molag.info.text = "" .. molag.ref.object.name .. " will receive " .. molag.interval .. " " .. molag.resource .. " for " .. molag.cost .. " soul energy."
 		menu:updateLayout()
 	end
@@ -268,53 +274,66 @@ function molag.onGem()
 
 			local menu = tes3ui.createMenu { id = molag.id_gemFill, fixedFrame = true }
 			menu.alpha = 1.0
+			menu.absolutePosAlignY = 0.52 --shows bar beneath
+			local fill_block = menu:createBlock { id = "kl_gemFill_block" }
+			fill_block.flowDirection = "top_to_bottom"
+			fill_block.autoHeight = true
+			fill_block.autoWidth = true
+			fill_block.paddingLeft = 10
+			fill_block.paddingRight = 10
+			fill_block.widthProportional = 1.0
+			fill_block.autoHeight = true
+			fill_block.childAlignX = 0.5
 
 			local capacity = e.item.soulGemCapacity
-			local capacityLabel = menu:createLabel{ text = "" .. e.item.name .. " Capacity: " .. capacity .. "" }
+			local capacityLabel = fill_block:createLabel{ text = "" .. e.item.name .. " Capacity: " .. capacity .. "" }
+			capacityLabel.wrapText = true
+			capacityLabel.justifyText = "center"
+			capacityLabel.borderBottom = 12
 
-			local btn1 = menu:createButton { id = "kl_soul_btn_1", text = "30pts: 30 Soul Energy" }
+			local btn1 = fill_block:createButton { id = "kl_soul_btn_1", text = "30pts: 30 Soul Energy" }
 			if capacity < 30 or molag.modData.soulEnergy < 30 then
 				btn1.widget.state = 2
 				btn1.disabled = true
 			end
 			btn1:register("mouseClick", function() molag.updateEnergy(30) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_soul_skeleton") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a petty soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
-			local btn2 = menu:createButton { id = "kl_soul_btn_2", text = "60pts: 60 Soul Energy" }
+			local btn2 = fill_block:createButton { id = "kl_soul_btn_2", text = "60pts: 60 Soul Energy" }
 			if capacity < 60 or molag.modData.soulEnergy < 60 then
 				btn2.widget.state = 2
 				btn2.disabled = true
 			end
 			btn2:register("mouseClick", function() molag.updateEnergy(60) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_soul_dreugh") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a lesser soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
-			local btn3 = menu:createButton { id = "kl_soul_btn_3", text = "120pts: 150 Soul Energy" }
+			local btn3 = fill_block:createButton { id = "kl_soul_btn_3", text = "120pts: 150 Soul Energy" }
 			if capacity < 120 or molag.modData.soulEnergy < 150 then
 				btn3.widget.state = 2
 				btn3.disabled = true
 			end
 			btn3:register("mouseClick", function() molag.updateEnergy(150) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_soul_scamp") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a common soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
-			local btn4 = menu:createButton { id = "kl_soul_btn_4", text = "180pts: 250 Soul Energy" }
+			local btn4 = fill_block:createButton { id = "kl_soul_btn_4", text = "180pts: 250 Soul Energy" }
 			if capacity < 180 or molag.modData.soulEnergy < 250 then
 				btn4.widget.state = 2
 				btn4.disabled = true
 			end
 			btn4:register("mouseClick", function() molag.updateEnergy(250) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_soul_daedroth") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a greater soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
-			local btn5 = menu:createButton { id = "kl_soul_btn_5", text = "300pts: 400 Soul Energy" }
+			local btn5 = fill_block:createButton { id = "kl_soul_btn_5", text = "300pts: 400 Soul Energy" }
 			if capacity < 300 or molag.modData.soulEnergy < 400 then
 				btn5.widget.state = 2
 				btn5.disabled = true
 			end
 			btn5:register("mouseClick", function() molag.updateEnergy(400) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_soul_twilight") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a grand soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
-			local btn6 = menu:createButton { id = "kl_soul_btn_6", text = "400pts: 600 Soul Energy" }
+			local btn6 = fill_block:createButton { id = "kl_soul_btn_6", text = "400pts: 600 Soul Energy" }
 			if capacity < 400 or molag.modData.soulEnergy < 600 then
 				btn6.widget.state = 2
 				btn6.disabled = true
 			end
 			btn6:register("mouseClick", function() molag.updateEnergy(600) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_soul_saint") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a powerful soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
-			local btn7 = menu:createButton { id = "kl_soul_btn_7", text = "600pts: 2000 Soul Energy" }
+			local btn7 = fill_block:createButton { id = "kl_soul_btn_7", text = "600pts: 2000 Soul Energy" }
 			if capacity < 600 or molag.modData.soulEnergy < 2000 then
 				btn7.widget.state = 2
 				btn7.disabled = true
@@ -329,6 +348,8 @@ function molag.onGem()
 		
 			local button_cancel = button_block:createButton { text = tes3.findGMST("sCancel").value }
 			button_cancel:register("mouseClick", function() menu:destroy() end)
+
+			tes3ui.enterMenuMode(molag.id_gemFill)
 		end
 	})
 end

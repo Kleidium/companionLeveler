@@ -196,7 +196,7 @@ function pat.onOK()
 			end
 
 			if pat.id == 20 then
-				modData["soulEnergy"] = 10000
+				modData["soulEnergy"] = 1000
 			end
 		end
 		menu:destroy()
