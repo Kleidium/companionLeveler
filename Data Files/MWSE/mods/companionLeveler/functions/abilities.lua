@@ -2176,7 +2176,7 @@ function this.npcAbilities(class, companionRef)
     local modData = func.getModData(companionRef)
 
     --Stendarr
-    if modData.level % 4 == 0 then
+    if modData.level % 3 == 0 then
         if modData.patron ~= nil then
             if modData.patron == 7 then
                 this.stendarr(companionRef)
@@ -2191,6 +2191,16 @@ function this.npcAbilities(class, companionRef)
             modData.tp_current = modData.tp_current + 1
             tes3.messageBox("Insight, gleaned amongst tides of fate! " .. companionRef.object.name .. "'s Technique Points increase by 1.")
         end
+    else
+        --Namira
+        if modData.patron and modData.patron == 21 then
+            this.namiraTribute(companionRef)
+        end
+    end
+
+    --Peryite
+    if modData.patron and modData.patron == 23 then
+        this.peryiteTribute(companionRef)
     end
 
     --Jyggalag
@@ -6335,5 +6345,115 @@ function this.molagGift(e)
         end
     end
 end
+
+--Namira----------------------------------------------------------------------------------------------------------------------------------------------------
+function this.namiraTribute(ref)
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Namira tribute triggered.")
+
+    local modData = func.getModData(ref)
+
+    tes3.modStatistic({ reference = ref, attribute = tes3.attribute.personality, value = -1 })
+    tes3.modStatistic({ reference = ref, attribute = tes3.attribute.endurance, value = -1 })
+    modData.att_gained[7] = modData.att_gained[7] - 1
+    modData.att_gained[6] = modData.att_gained[6] - 1
+
+    timer.start({ type = timer.simulate, duration = 5, iterations = 1, callback = function() tes3.messageBox("" .. ref.object.name .. " is affected by Namira's decay.") end })
+    log:debug("" .. ref.object.name .. " is affected by Namira's decay.")
+end
+
+function this.namiraGift(e)
+    log = logger.getLogger("Companion Leveler")
+    if config.combatAbilities == false then return end
+    log:trace("Namira Gift triggered.")
+    
+    local gameHour = tes3.getGlobal('GameHour')
+
+    if gameHour > 22 or gameHour < 5 then
+        if e.attacker then
+            if func.validCompanionCheck(e.attacker) and e.attacker.actorType == 1 then
+                local modData = func.getModData(e.attacker.reference)
+    
+                if modData.patron and modData.patron == 21 then
+                    local affected = tes3.isAffectedBy({ reference = e.mobile, object = "kl_spell_namira_decay" })
+                    if not affected then
+                        --Decay
+                        tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_namira_decay", instant = true, bypassResistances = true })
+                        log:debug("Foe struck with Namira's decay.")
+                    end
+                end
+            end
+        end
+    end
+end
+
+--Nocturnal--------------------------------------------------------------------------------------------------------------------------------------------------
+function this.nocturnalGift(ref)
+    log = logger.getLogger("Companion Leveler")
+    if config.triggeredAbilities == false then return end
+    log:trace("Nocturnal Gift triggered.")
+
+    local lock = tes3.getLockLevel({ reference = ref })
+
+    if lock and lock < 51 then
+        local npcTable = func.npcTable()
+    
+        for i = 1, #npcTable do
+            local reference = npcTable[i]
+            local modData = func.getModData(reference)
+    
+            if modData.patron and modData.patron == 22 then
+                tes3.unlock({ reference = ref })
+                tes3.createVisualEffect({ object = "VFX_AlterationHit", lifespan = 2, reference = ref })
+                log:debug("" .. ref.object.name .. " unlocked by Evergloam Shadows.")
+            end
+        end
+    end
+end
+
+--Peryite-----------------------------------------------------------------------------------------------------------------------------------------------------
+function this.peryiteTribute(ref)
+    for i = 1, 17 do
+        local affected = tes3.isAffectedBy({ reference = ref, object = "kl_disease_blessing_" .. i ..""})
+
+        if affected then
+            tes3.removeSpell({ spell = "kl_disease_blessing_" .. i .."", reference = ref })
+
+            local id = 0
+            local exists = true
+            repeat
+                id = id + 1
+                exists = tes3.getObject("kl_ability_peryite_" .. i .."_" .. id .. "")
+            until exists == nil
+
+            local ability = tes3.getObject("kl_ability_peryite_" .. i .."")
+            local spell = tes3.createObject({ objectType = tes3.objectType.spell, id = "kl_ability_peryite_" .. i .."_" .. id .. "", castType = tes3.spellType.ability })
+            spell.name = ability.name
+            for n, effect in ipairs(ability.effects) do
+                local newEffect = spell.effects[n]
+                newEffect.id = effect.id
+                newEffect.rangeType = effect.rangeType
+                newEffect.attribute = effect.attribute
+                newEffect.min = effect.min
+                newEffect.max = effect.max
+            end
+
+            local wasAdded = tes3.addSpell({ reference = ref, spell = spell })
+
+            if wasAdded then
+                local light = tes3.createReference({ object = "kl_light_green_256", position = ref.mobile.position, cell = ref.mobile.cell, orientation = ref.mobile.orientation  })
+                tes3.playSound({ sound = "restoration cast", reference = ref })
+                timer.start({ type = timer.simulate, duration = 4, callback = function() light:delete() end })
+                log:debug("" .. ref.object.name .. " received " .. ability.name .. " #" .. id .. " from Peryite.")
+                timer.start({ type = timer.simulate, duration = 1, callback = function() tes3.messageBox("" .. ref.object.name .. " received " .. ability.name .. " #" .. id .. " from Peryite.") end })
+            end
+        end
+    end
+    local num = math.random(1, 17)
+    tes3.addSpell({ reference = ref, spell = "kl_disease_blessing_" .. num .. ""})
+    log:debug("" .. tes3.getObject("kl_disease_blessing_" .. num .."").name .. " disease received from Peryite.")
+    timer.start({ type = timer.simulate, duration = 3, callback = function() tes3.messageBox("" .. tes3.getObject("kl_disease_blessing_" .. num .."").name .. " disease received from Peryite.") end })
+end
+
 
 return this

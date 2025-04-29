@@ -497,6 +497,7 @@ local function onDamage(e)
 		result = result - abilities.dibellaDuty(e)
 		result = result - abilities.talosDuty(e)
 		abilities.malacathGift(e)
+		abilities.namiraGift(e)
 
 		--Combat Chance
 		if math.random(0, 99) < config.combatChance then
@@ -626,6 +627,10 @@ local function onActivate(e)
 		end
 	elseif (tes3.hasOwnershipAccess({target = e.target}) == false or (e.target.baseObject.objectType == tes3.objectType.npc and tes3.mobilePlayer.isSneaking and e.target.mobile.health.current > 0)) then
 		abilities.zenitharDuty(e.target)
+	end
+
+	if tes3.getLocked({ reference = e.target }) then
+		abilities.nocturnalGift(e.target)
 	end
 
 	if (e.target.baseObject.objectType == tes3.objectType.npc) then
@@ -790,6 +795,7 @@ event.register("jump", expTest)
 --go through and enforce config rules, can make modStatistic into a CL function
 --regular timers don't persist when the game is reloaded. make sure this doesn't fuck up anything important
 --make sure metamorph doesn't fuck with patrons/factions
+--create werewolf object dynamically for each cleric to solve single werewolf problem, with their id concat with werewolf template id
 
 
 
