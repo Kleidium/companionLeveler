@@ -335,13 +335,22 @@ event.register(tes3.event.mobileActivated, abilityClear)
 local function abilityTimer2()
 	log:trace("Recurring ability timer triggered.")
 
+	local party = func.npcTable()
+	local num = 0
+	if #party > 0 then
+		for i = 1, #party do
+			local modData = func.getModData(party[i])
+			if modData.patron and modData.patron == 23 then
+				num = 1
+				log:debug("Peryite oversees the party's tasks.")
+				break
+			end
+		end
+	end
 	local float = math.random()
-	local int = math.random(8, 23)
+	local int = math.random(8, 23) - num
 	timer.start({ type = timer.game, duration = (float + int), iterations = 1, callback = "companionLeveler:abilityTimer2" })
 
-	
-
-	local party = func.npcTable()
 	if #party > 0 then
 		local choice = math.random(1, #party)
 		local reference = party[choice]
@@ -380,6 +389,12 @@ local function hourlyTimer()
 	if gameHour >= 1 and gameHour < 2 then
 		log:debug("1am detected.")
 		abilities.dagonTribute()
+	end
+
+	--Sanguine Tribute
+	if gameHour >= 2 and gameHour < 3 then
+		log:debug("2am detected.")
+		abilities.sanguineTribute()
 	end
 
 	--Mephala Tribute
@@ -465,6 +480,7 @@ local function onCombat(e)
 
 	--Mehrunes Dagon
 	abilities.combustion(e)
+	abilities.sheoCombat(e)
 
 	if math.random(0, 99) < config.combatChance then
 		abilities.jest(e)
@@ -571,6 +587,7 @@ local function onCellChanged(e)
 	abilities.wont()
 	abilities.intuition()
 	abilities.kynareth(e)
+	abilities.sanguineGift()
 
 	if config.expMode == false then return end
 

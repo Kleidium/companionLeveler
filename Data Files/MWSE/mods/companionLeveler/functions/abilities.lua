@@ -6455,5 +6455,160 @@ function this.peryiteTribute(ref)
     timer.start({ type = timer.simulate, duration = 3, callback = function() tes3.messageBox("" .. tes3.getObject("kl_disease_blessing_" .. num .."").name .. " disease received from Peryite.") end })
 end
 
+--Sanguine------------------------------------------------------------------------------------------------------------------------
+function this.sanguineTribute()
+    log:trace("Sanguine tribute triggered.")
+
+    --Cyrodiilic Brandy every 4 days at 2am
+    local clerics = {}
+    local npcTable = func.npcTable()
+
+    for i = 1, #npcTable do
+        local modData = func.getModData(npcTable[i])
+
+        if modData.patron and modData.patron == 24 then
+            clerics[#clerics + 1] = npcTable[i]
+            break
+        end
+    end
+
+    for i = 1, #clerics do
+        local modData = func.getModData(clerics[i])
+        modData.tributeHours = modData.tributeHours + 24
+    
+        if modData.tributeHours >= 96 then
+            local paid = false
+    
+            paid = func.checkReq(false, "potion_cyro_brandy_01", 1, clerics[i])
+            if not paid then
+                paid = func.checkReq(false, "potion_cyro_brandy_01", 1, tes3.player)
+            end
+        
+            modData.tributePaid = paid
+    
+            if paid then
+                modData.tributeHours = 0
+                tes3.playSound({ sound = "Item Potion Up", reference = clerics[i], volume = 0.9, pitch = 0.9 })
+                tes3.messageBox("" .. clerics[i].object.name .. " poured their libation in tribute to Sanguine.")
+            else
+                tes3.messageBox("" .. clerics[i].object.name .. " failed to give tribute to Sanguine. Tribute may be offered again in 4 days.")
+                timer.start({ type = timer.simulate, duration = 2, callback = function()
+                    local party = func.partyTable()
+                    for n = 1, #party do
+                        local removed = tes3.removeSpell({ reference = party[n], spell = "kl_ability_blood_ardor" })
+                        if removed then
+                            tes3.cast({ reference = party[n], target = party[n], spell = "kl_spell_hangover", instant = true, bypassResistances = true })
+                        end
+                    end
+                end })
+            end
+        end
+    end
+end
+
+function this.sanguineGift()
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Sanguine Gift triggered.")
+
+    local party = func.partyTable()
+
+    local trigger = 0
+    local npcTable = func.npcTable()
+
+    for i = 1, #npcTable do
+        local reference = npcTable[i]
+        local modData = func.getModData(reference)
+
+        if modData.patron and modData.patron == 24 and modData.tributePaid then
+            trigger = 1
+            break
+        end
+    end
+
+    if trigger == 1 then
+        --Confer Aura
+        for n = 1, #party do
+            local ref = party[n]
+            tes3.addSpell({ reference = ref, spell = "kl_ability_blood_ardor" })
+        end
+        log:debug("Blood Ardor added to party.")
+    else
+        --Remove Aura
+        for n = 1, #party do
+            local ref = party[n]
+            tes3.removeSpell({ reference = ref, spell = "kl_ability_blood_ardor" })
+        end
+        log:debug("Blood Ardor removed from party.")
+    end
+end
+
+--Sheogorath----------------------------------------------------------------------------------------------------------------------
+function this.sheoCombat(e)
+    if config.combatAbilities == false then return end
+
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Sheogorath Combat triggered.")
+
+	if (e.target == tes3.mobilePlayer) then
+        log:trace("Combat target is player.")
+        local npcTable = func.npcTable()
+        local trigger = 0
+
+        for i = 1, #npcTable do
+            local reference = npcTable[i]
+            local modData = func.getModData(reference)
+            if modData.patron and modData.patron == 25 then
+                trigger = 1
+                log:debug("Sheogorath took an interest in the fight!")
+                break
+            end
+        end
+
+        if trigger == 1 then
+            local num = math.random(1, 3)
+            if num == 1 then
+                local cell = tes3.getPlayerCell()
+                local pos = func.calculatePosition()
+                local num2 = math.random(1, 4)
+
+                if num2 == 1 then
+                    --Friendly Scamp
+                    tes3.cast({ reference = tes3.player, target = tes3.player, spell = "summon scamp", instant = true })
+                elseif num2 == 2 then
+                    --Unfriendly Scamp
+                    tes3.createReference({ object = "scamp", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                elseif num2 == 3 then
+                    --Friendly Saint
+                    tes3.cast({ reference = tes3.player, target = tes3.player, spell = "summon golden saint", instant = true })
+                else
+                    --Unfriendly Saint
+                    tes3.createReference({ object = "golden saint", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                end
+                log:debug("Sheogorath summoned a creature!")
+            elseif num == 2 then
+                --Cast on Foes
+                local spell = tables.destructionTable3[math.random(1, #tables.destructionTable3)]
+                if math.random(1, 2) == 2 then
+                    spell = tables.illusionTable3[math.random(1, #tables.illusionTable3)]
+                end
+                for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                    tes3.cast({ reference = actor.reference, target = actor.reference, spell = spell, instant = true, bypassResistances = false })
+                end
+                log:debug("Sheogorath attacked your foes!")
+            elseif num == 3 then
+                --Cast on Party
+                local spell = tables.destructionTable3[math.random(1, #tables.destructionTable3)]
+                if math.random(1, 2) == 2 then
+                    spell = tables.illusionTable3[math.random(1, #tables.illusionTable3)]
+                end
+                local party = func.partyTable()
+                for i = 1, #party do
+                    tes3.cast({ reference = party[i], target = party[i], spell = spell, instant = true, bypassResistances = false })
+                end
+                log:debug("Sheogorath attacked the party!")
+            end
+        end
+	end
+end
 
 return this

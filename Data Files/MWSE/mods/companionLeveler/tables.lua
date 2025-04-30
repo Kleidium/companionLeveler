@@ -3434,10 +3434,10 @@ stuff.patronDuties = {
 	[19] = "Meridia wishes for all false life to be erased and will ensure the Cleric's compliance. Every 3 days, the Cleric loses all benefits until the next undead creature/vampire is destroyed.",
 	[20] = "Molag Bal immediately claims 90% of every soul stockpiled as tribute, and normal soul trap is ineffective. Soul Gems must be manually filled with soul energy as a free technique.",
 	[21] = "Namira's influence takes its toll, and tribute is paid with the erosion of the Cleric's ever-wasting form; their Endurance and Personality are reduced by 1 every other level-up.",
-	[22] = "Nocturnal's will is fathomless, as She has offered this boon without promise of tribute!",
-	[23] = "The Cleric pays tribute by carrying their disease-blessings until the next level-up. This disease can be cured normally, but doing so will also forfeit any boons that would otherwise be left behind.",
-	[24] = "Sanguine will only accept the finest Cyrodiilic Brandy every 3 days. If a tribute is missed, all benefits are lost until the next tribute date. In addition, some party members may suffer a hangover.",
-	[25] = "Sheogorath's whims change with the winds. Or without the winds.\nWho knows what He'll ask for? Not Him! Not yet.", --will ask for something in the inventory randomly, can say yes or no, his reaction is random(-ish?). sometimes asks for something you don't have
+	[22] = "Nocturnal's will is fathomless, as She has offered this boon without promise of tribute...",
+	[23] = "The Cleric pays tribute by carrying their disease-blessings until the next level. This disease can be cured normally, but doing so will also forfeit any boons that would otherwise be left behind.",
+	[24] = "Sanguine will only accept the finest Cyrodiilic Brandy every 4 days. If a tribute is missed, all benefits are lost until the next tribute date. In addition, party members will suffer a hangover.",
+	[25] = "Sheogorath's whims change with the winds. Or without the winds.\nWho knows what He'll ask for? Not Him! Not yet.",
 	[26] = "Vaermina feeds upon the Cleric's memories and experiences and in exchange for Her own dark knowledge. The Cleric gains 15% less experience from all sources."
 }
 
@@ -3455,7 +3455,7 @@ stuff.patronGifts = {
 	[11] = "Any blood shed by the Cleric's party will award Blood Karma. Humanoids are worth more karma than creatures. The Cleric's power waxes and wanes alongside their blood karma.",
 	[12] = "Clavicus Vile shall provide the Cleric and their party access to a personal daedric merchant which can be called upon at any time.",
 	[13] = "The tides of fate stir, gradually revealing their secrets to the Cleric. An additional Technique Point is bestowed at every odd-numbered level. Technique Points increase by 3.",
-	[14] = "Hircine bestows the gift of lycanthropy upon the Cleric, transforming at will as long as they fulfill the wishes of their Lord, Hircine of the Hunt. Transform as a technique. Werewolf form must be trained separately from base form.",
+	[14] = "Hircine bestows the gift of lycanthropy upon the Cleric, who may transform at will as long as they fulfill the wishes of their Lord, Hircine of the Hunt. Transform as a technique. Werewolf form is trained separately from base form.",
 	[15] = "Jyggalag imposes an orderly routine upon the Cleric. Consecutive level-ups as the same class builds an Order Streak. Once the Order Streak reaches 5, it resets and Jyggalag rewards +1 to all of the Cleric's attributes.", --on level up
 	[16] = "Malacath punishes those who torment His followers. Physical melee and ranged attacks made against the Cleric have 15% of their damage reflected back as physical damage.", --combat
 	[17] = "(Destruction) All foes are but cinder before a Cleric of Dagon. Foes periodically burn when in engaged in combat with the Cleric. The flames are lingering and persistent, and become more deadly as the Cleric embraces Destruction.",
@@ -3464,9 +3464,9 @@ stuff.patronGifts = {
 	[20] = "Lord Molag Bal grants His thrall the ability to convert soul energy into health, magicka, or fatigue for themselves, or for you at twice the cost. Soul energy is automatically stockpiled by killing both creatures and people.", --souls no longer go to gems, straight to stockpile? health 1-3, magicka 1-5, stamina 10-1
 	[21] = "The Cleric's melee and ranged attacks accelerate the decay of weapon, armor, flesh, and bone with each strike. Cannot be resisted. Only effective between the hours of 10pm and 5am.",
 	[22] = "Lesser Evergloam shadows automatically open all locks up to level 50 on contact without alerting anyone nearby.",
-	[23] = "The Taskmaster occasionally allows non-combat triggered abilities to trigger more often, and bestows disease-blessings upon the Cleric once per level that leave behind permanent beneficial effects.", --triggered abilities occur more often, disease-blessings are given/bestowed as a technique or triggered ability?
+	[23] = "The Taskmaster allows the party's non-combat triggered abilities to trigger slightly more often, and bestows disease-blessings upon the Cleric once per level that leave behind permanent beneficial effects.", --triggered abilities occur more often, disease-blessings are given/bestowed as a technique or triggered ability?
 	[24] = "The party never ends, and that now applies to your party as well. The Cleric emits an aura of blood ardor, which regenerates the entire party's fatigue and instills a feeling of euphoria.", --aura
-	[25] = "Sheogorath promises nothing and something at the same time. No, He will not tell you if that's good or bad. Stop asking.", --random triggered buffs/debuffs, maybe even other ability triggers, increased chance during thunderstorms, random events trigger these actions
+	[25] = "Sheogorath promises nothing and something at the same time. No, He will not tell you if that's good or bad. Stop asking.", --onActivate door can take you somewhere else?
 	[26] = "Whenever the Cleric rests (once daily), Vaermina sends the Cleric a nightmare which grants experience and then continues for a time after waking. Spells may be drawn into the waking nightmare, restoring the Cleric's magicka." --has a chance of paralyzing + sound or some fuck idk this bitch into dreams and memories. maybe she can allow the cleric to see targets level and stuff? dream realm maybe?
 }
 
