@@ -6565,26 +6565,54 @@ function this.sheoCombat(e)
         end
 
         if trigger == 1 then
-            local num = math.random(1, 3)
+            tes3.playSound({ soundPath = "companionLeveler\\sheo_" .. math.random(1, 4) .. ".wav", volume = 0.8 })
+            local num = 12
+            --local num = math.random(1, 12)
             if num == 1 then
                 local cell = tes3.getPlayerCell()
                 local pos = func.calculatePosition()
-                local num2 = math.random(1, 4)
+                local num2 = math.random(1, 10)
+                local ref
 
                 if num2 == 1 then
                     --Friendly Scamp
                     tes3.cast({ reference = tes3.player, target = tes3.player, spell = "summon scamp", instant = true })
                 elseif num2 == 2 then
                     --Unfriendly Scamp
-                    tes3.createReference({ object = "scamp", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                    ref = tes3.createReference({ object = "scamp", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
                 elseif num2 == 3 then
                     --Friendly Saint
                     tes3.cast({ reference = tes3.player, target = tes3.player, spell = "summon golden saint", instant = true })
-                else
+                elseif num2 == 4 then
                     --Unfriendly Saint
-                    tes3.createReference({ object = "golden saint", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                    ref = tes3.createReference({ object = "golden saint", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                elseif num2 == 5 then
+                    --Friendly Atronach
+                    tes3.cast({ reference = tes3.player, target = tes3.player, spell = "summon storm atronach", instant = true })
+                elseif num2 == 6 then
+                    --Unfriendly Atronach
+                    ref = tes3.createReference({ object = "atronach_storm", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                elseif num2 == 7 then
+                    --Imperial Guard
+                    ref = tes3.createReference({ object = "Imperial Guard", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                elseif num2 == 8 then
+                    --4 Rats
+                    tes3.createReference({ object = "rat", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                    tes3.createReference({ object = "rat", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                    tes3.createReference({ object = "rat", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                    ref = tes3.createReference({ object = "rat", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                elseif num2 == 9 then
+                    --Mudcrab
+                    ref = tes3.createReference({ object = "mudcrab", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
+                    ref.mobile.fight = 20
+                else
+                    --Ordinator
+                    ref = tes3.createReference({ object = "ordinator wander", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
                 end
-                log:debug("Sheogorath summoned a creature!")
+                if ref then
+                    tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 2, reference = ref })
+                end
+                log:debug("Sheogorath summoned something!")
             elseif num == 2 then
                 --Cast on Foes
                 local spell = tables.destructionTable3[math.random(1, #tables.destructionTable3)]
@@ -6606,6 +6634,174 @@ function this.sheoCombat(e)
                     tes3.cast({ reference = party[i], target = party[i], spell = spell, instant = true, bypassResistances = false })
                 end
                 log:debug("Sheogorath attacked the party!")
+            elseif num == 4 then
+                --Attack Everyone
+                local spell = tables.destructionTable3[math.random(1, #tables.destructionTable3)]
+                if math.random(1, 2) == 2 then
+                    spell = tables.illusionTable3[math.random(1, #tables.illusionTable3)]
+                end
+                local party = func.partyTable()
+                for i = 1, #party do
+                    tes3.cast({ reference = party[i], target = party[i], spell = spell, instant = true, bypassResistances = false })
+                end
+                for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                    tes3.cast({ reference = actor.reference, target = actor.reference, spell = spell, instant = true, bypassResistances = false })
+                end
+                log:debug("Sheogorath attacked everyone!")
+            elseif num == 5 then
+                --Transform Enemies
+                local num2 = math.random(1, 3)
+                if num2 == 1 then
+                    --Scribs
+                    for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                        local ref = tes3.createReference({ object = "scrib", cell = actor.cell, position = actor.position, orientation = actor.orientation })
+                        tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 2, reference = ref })
+                        if math.random(1, 2) == 2 then
+                            tes3.applyMagicSource({
+                                reference = ref,
+                                name = "Invisible!?",
+                                effects = {
+                                    { id = tes3.effect.invisibility,
+                                        min = 1,
+                                        max = 1,
+                                        duration = 180 }
+                                },
+                            })
+                        end
+                        actor.reference:disable()
+                    end
+                elseif num2 == 2 then
+                    --Flaming Dogs
+                    for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                        local ref = tes3.createReference({ object = "BM_wolf_grey", cell = actor.cell, position = actor.position, orientation = actor.orientation })
+                        tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 2, reference = ref })
+                        tes3.applyMagicSource({
+                            reference = ref,
+                            name = "ON FIRE!",
+                            effects = {
+                                { id = tes3.effect.fireDamage,
+                                    min = 1,
+                                    max = 1,
+                                    duration = 120 }
+                            },
+                        })
+                        tes3.createVisualEffect({ object = "VFX_DestructHit", lifespan = 120, reference = ref })
+                        actor.reference:disable()
+                    end
+                else
+                    --Hunger
+                    for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                        local ref = tes3.createReference({ object = "hunger", cell = actor.cell, position = actor.position, orientation = actor.orientation })
+                        tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 2, reference = ref })
+                        actor.reference:disable()
+                    end
+                end
+                log:debug("Sheogorath transformed your foes!")
+            elseif num == 6 then
+                --Teleport
+                local num2 = math.random(1, 3)
+                if num2 == 1 then
+                    tes3.cast({ reference = tes3.player, target = tes3.player, spell = "divine intervention", instant = true, bypassResistances = true })
+                elseif num2 == 2 then
+                    tes3.cast({ reference = tes3.player, target = tes3.player, spell = "almsivi intervention", instant = true, bypassResistances = true })
+                else
+                    tes3.cast({ reference = tes3.player, target = tes3.player, spell = "recall", instant = true, bypassResistances = true })
+                end
+                log:debug("Sheogorath teleported you!")
+            elseif num == 7 then
+                --Knockdown
+                local num2 = math.random(1, 2)
+
+                if num2 == 1 then
+                    --Knockdown Enemies
+                    for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                        actor:hitStun({ knockDown = true })
+                    end
+                    log:debug("Sheogorath stunned the enemies!")
+                else
+                    --Knockdown Allies
+                    local party = func.partyTable()
+                    for i = 1, #party do
+                        party[i].mobile:hitStun({ knockDown = true })
+                    end
+                    log:debug("Sheogorath knocked you all down!")
+                end
+            elseif num == 8 then
+                --Stop Combat, make passive
+                for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                    actor.fight = 40
+                    actor:stopCombat(true)
+                end
+                local party = func.partyTable()
+                for i = 1, #party do
+                    party[i].mobile:stopCombat(true)
+                end
+                log:debug("Sheogorath decided you should be friends!")
+            elseif num == 9 then
+                --BLINDED!
+                tes3.applyMagicSource({
+                    reference = tes3.player,
+                    name = "HAHA BLINDED!!",
+                    effects = {
+                        { id = tes3.effect.blind,
+                            min = 100,
+                            max = 100,
+                            duration = 12 }
+                    },
+                    bypassResistances = true
+                })
+                log:debug("Sheogorath blinded you!")
+            elseif num == 10 then
+                --Make 1 Clone
+                --Enemy Clone
+                for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                    local ref = tes3.createReference({ object = actor.object, cell = actor.cell, position = actor.position, orientation = actor.orientation })
+                    if math.random(1, 2) == 2 then
+                        --Evil Twin
+                        ref.mobile.fight = 40
+                        ref.mobile:startCombat(actor)
+                    end
+                    timer.start({ type = timer.simulate, duration = 90, callback = function() ref:disable() end })
+                    log:debug("Sheogorath cloned an enemy!")
+                    break
+                end
+                --Player Clone
+                --Not a good idea unless I can make a template NPC and assign player values to it
+                -- local ref = tes3.createReference({ object = tes3.player.object, cell = tes3.getPlayerCell(), position = func.calculatePosition(), orientation = tes3.getPlayerEyeVector() })
+                -- ref.mobile.fight = 100
+                -- ref.mobile:startCombat(tes3.mobilePlayer)
+                -- log:debug("Sheogorath cloned you!")
+            elseif num == 11 then
+                --Heal
+                if math.random(1, 2) == 2 then
+                    local party = func.partyTable()
+                    for i = 1, #party do
+                        tes3.cast({ reference = party[i], target = party[i], spell = "hearth heal", instant = true, bypassResistances = true })
+                        tes3.cast({ reference = party[i], target = party[i], spell = "regenerate", instant = true, bypassResistances = true })
+                    end
+                    log:debug("Sheogorath healed the party!")
+                else
+                    for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                        tes3.cast({ reference = actor.reference, target = actor.reference, spell = "hearth heal", instant = true, bypassResistances = true })
+                        tes3.cast({ reference = actor.reference, target = actor.reference, spell = "regenerate", instant = true, bypassResistances = true })
+                    end
+                    log:debug("Sheogorath healed the enemies!")
+                end
+            elseif num == 12 then
+                --Items
+                local num2 = math.random(1, 3)
+                if num2 == 1 then
+                    --Silly Fork :)
+                    tes3.addItem({ reference = tes3.player, item = "kl_misc_silly_fork" })
+                elseif num2 == 2 then
+                    --Dull, Dumb Knife
+                    tes3.addItem({ reference = tes3.player, item = "kl_misc_dull_knife" })
+                else
+                    --Filled Spoon
+                    tes3.addSoulGem({ item = "kl_misc_filled_spoon" })
+                    tes3.addItem({ reference = tes3.player, item = "kl_misc_filled_spoon", soul = tes3.getObject("kl_ghost_sheo") })
+                end
+                log:debug("Sheogorath gave you a present!")
             end
         end
 	end
