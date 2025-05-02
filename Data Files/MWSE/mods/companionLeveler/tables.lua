@@ -3438,7 +3438,7 @@ stuff.patronDuties = {
 	[23] = "The Cleric pays tribute by carrying their disease-blessings until the next level. This disease can be cured normally, but doing so will also forfeit any boons that would otherwise be left behind.",
 	[24] = "Sanguine will only accept the finest Cyrodiilic Brandy every 4 days. If a tribute is missed, all benefits are lost until the next tribute date. In addition, party members will suffer a hangover.",
 	[25] = "Sheogorath's whims change with the winds. Or without the winds.\nWho knows what He'll ask for? Not Him! Not yet.",
-	[26] = "Vaermina feeds upon the Cleric's memories and experiences and in exchange for Her own dark knowledge. The Cleric gains 15% less experience from all sources."
+	[26] = "Vaermina feeds upon the Cleric's memories and experiences in exchange for Her own dark knowledge. The Cleric gains 15% less experience from all sources and must rest regularly to maintain the nightmare."
 }
 
 stuff.patronGifts = {
@@ -3466,8 +3466,8 @@ stuff.patronGifts = {
 	[22] = "Lesser Evergloam shadows automatically open all locks up to level 50 on contact without alerting anyone nearby.",
 	[23] = "The Taskmaster allows the party's non-combat triggered abilities to trigger slightly more often, and bestows disease-blessings upon the Cleric once per level that leave behind permanent beneficial effects.", --triggered abilities occur more often, disease-blessings are given/bestowed as a technique or triggered ability?
 	[24] = "The party never ends, and that now applies to your party as well. The Cleric emits an aura of blood ardor, which regenerates the entire party's fatigue and instills a feeling of euphoria.", --aura
-	[25] = "Sheogorath promises nothing and something at the same time. No, He will not tell you if that's good or bad. Stop asking.", --onActivate door can take you somewhere else?
-	[26] = "Whenever the Cleric rests (once daily), Vaermina sends the Cleric a nightmare which grants experience and then continues for a time after waking. Spells may be drawn into the waking nightmare, restoring the Cleric's magicka." --has a chance of paralyzing + sound or some fuck idk this bitch into dreams and memories. maybe she can allow the cleric to see targets level and stuff? dream realm maybe?
+	[25] = "Sheogorath promises nothing and something at the same time. No, He will not tell you if that's good or bad. Stop asking.",
+	[26] = "(Whenever the Cleric rests, Vaermina sends the Cleric a nightmare which grants experience once daily, then manifests into a waking nightmare. The waking nightmare passively siphons enemy magicka and intelligence to the Cleric." --has a chance of paralyzing + sound or some fuck idk this bitch into dreams and memories. maybe she can allow the cleric to see targets level and stuff? dream realm maybe?
 }
 
 stuff.patronTypes = {

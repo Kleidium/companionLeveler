@@ -288,6 +288,8 @@ end, { filter = "MenuDialog" })
 
 event.register(tes3.event.keyDown, function(e)
 	if e.keyCode ~= config.typeBind.keyCode then return end
+	local eye = tes3.getPlayerEyeVector()
+	log:debug("pos:" .. tes3.mobilePlayer.position.x .. "," .. tes3.mobilePlayer.position.y .. "," .. tes3.mobilePlayer.position.z .. "; ori:" .. eye.x .. "," .. eye.y .. "," .. eye.z .. "")
 
 	local t = tes3.getPlayerTarget()
 	if not t then return end
@@ -385,6 +387,9 @@ local function hourlyTimer()
 	log:debug("Time is now " .. gameHour .. ".")
 	--tes3.messageBox("Time is now " .. gameHour .. " (" .. tes3.getGlobal('GameHour') .. ").")
 
+	--Vaermina Tribute
+	abilities.vaerminaTribute()
+
 	--Dagon Tribute
 	if gameHour >= 1 and gameHour < 2 then
 		log:debug("1am detected.")
@@ -478,9 +483,9 @@ timer.register("companionLeveler:wereTimer", wereTimer)
 local function onCombat(e)
 	--100%
 
-	--Mehrunes Dagon
-	abilities.combustion(e)
-	abilities.sheoCombat(e)
+	abilities.combustion(e) --Mehrunes Dagon
+	abilities.sheoCombat(e) --Sheogorath
+	abilities.nightmare(e) --Vaermina
 
 	if math.random(0, 99) < config.combatChance then
 		abilities.jest(e)
@@ -614,6 +619,9 @@ event.register(tes3.event.cellChanged, onCellChanged)
 --On Rest Abilities
 local function onCalcRestInterrupt(e)
 	abilities.cunning(e)
+	if e.resting then
+		abilities.vaerminaGift()
+	end
 end
 event.register(tes3.event.calcRestInterrupt, onCalcRestInterrupt)
 

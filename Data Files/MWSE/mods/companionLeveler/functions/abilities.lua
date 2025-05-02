@@ -6553,6 +6553,7 @@ function this.sheoCombat(e)
         log:trace("Combat target is player.")
         local npcTable = func.npcTable()
         local trigger = 0
+        local cleric
 
         for i = 1, #npcTable do
             local reference = npcTable[i]
@@ -6560,14 +6561,14 @@ function this.sheoCombat(e)
             if modData.patron and modData.patron == 25 then
                 trigger = 1
                 log:debug("Sheogorath took an interest in the fight!")
+                tes3.messageBox("Sheogorath took an interest in the fight!")
+                cleric = reference
                 break
             end
         end
 
         if trigger == 1 then
-            tes3.playSound({ soundPath = "companionLeveler\\sheo_" .. math.random(1, 4) .. ".wav", volume = 0.8 })
-            local num = 12
-            --local num = math.random(1, 12)
+            local num = math.random(1, 13)
             if num == 1 then
                 local cell = tes3.getPlayerCell()
                 local pos = func.calculatePosition()
@@ -6704,8 +6705,6 @@ function this.sheoCombat(e)
                     tes3.cast({ reference = tes3.player, target = tes3.player, spell = "divine intervention", instant = true, bypassResistances = true })
                 elseif num2 == 2 then
                     tes3.cast({ reference = tes3.player, target = tes3.player, spell = "almsivi intervention", instant = true, bypassResistances = true })
-                else
-                    tes3.cast({ reference = tes3.player, target = tes3.player, spell = "recall", instant = true, bypassResistances = true })
                 end
                 log:debug("Sheogorath teleported you!")
             elseif num == 7 then
@@ -6765,12 +6764,6 @@ function this.sheoCombat(e)
                     log:debug("Sheogorath cloned an enemy!")
                     break
                 end
-                --Player Clone
-                --Not a good idea unless I can make a template NPC and assign player values to it
-                -- local ref = tes3.createReference({ object = tes3.player.object, cell = tes3.getPlayerCell(), position = func.calculatePosition(), orientation = tes3.getPlayerEyeVector() })
-                -- ref.mobile.fight = 100
-                -- ref.mobile:startCombat(tes3.mobilePlayer)
-                -- log:debug("Sheogorath cloned you!")
             elseif num == 11 then
                 --Heal
                 if math.random(1, 2) == 2 then
@@ -6802,6 +6795,119 @@ function this.sheoCombat(e)
                     tes3.addItem({ reference = tes3.player, item = "kl_misc_filled_spoon", soul = tes3.getObject("kl_ghost_sheo") })
                 end
                 log:debug("Sheogorath gave you a present!")
+            elseif num == 13 then
+                --Kill All Enemies
+                for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                    actor:kill()
+                end
+            end
+            timer.start({ type = timer.simulate, duration = 1, callback =
+            function()
+                local light = tes3.createReference({ object = "kl_light_purple_256", position = cleric.mobile.position, cell = cleric.mobile.cell, orientation = cleric.mobile.orientation  })
+                tes3.playSound({ soundPath = "companionLeveler\\sheo_" .. math.random(1, 4) .. ".wav", volume = 1.1 })
+                timer.start({ type = timer.simulate, duration = 4, callback = function() light:delete() end})
+            end })
+        end
+	end
+end
+
+--Vaermina------------------------------------------------------------------------------------------------------------------------
+function this.vaerminaGift()
+    log:trace("Vaermina gift triggered.")
+
+    --Reset Nightmare CD
+    local clerics = {}
+    local npcTable = func.npcTable()
+
+    for i = 1, #npcTable do
+        local modData = func.getModData(npcTable[i])
+
+        if modData.patron and modData.patron == 26 then
+            clerics[#clerics + 1] = npcTable[i]
+        end
+    end
+
+    for i = 1, #clerics do
+        local modData = func.getModData(clerics[i])
+
+        if modData.tributeHours > 22 then
+            if config.expMode then
+                local num = math.random(1, modData.level)
+                modData.lvl_progress = modData.lvl_progress + num
+            end
+            timer.start({ type = timer.simulate, duration = 2, callback = function() tes3.messageBox("Vaermina sent " .. clerics[i].object.name .. " a nightmare.") end})
+            modData.tributeHours = 0
+        end
+        timer.delayOneFrame(function()
+            tes3.addSpell({ reference = clerics[i], spell = "kl_ability_nightmare", bypassResistances = true })
+        end)
+    end
+end
+
+function this.vaerminaTribute()
+    log:trace("Vaermina tribute triggered.")
+
+    --Sleepy Timer
+    local clerics = {}
+    local npcTable = func.npcTable()
+
+    for i = 1, #npcTable do
+        local modData = func.getModData(npcTable[i])
+
+        if modData.patron and modData.patron == 26 then
+            clerics[#clerics + 1] = npcTable[i]
+        end
+    end
+
+    for i = 1, #clerics do
+        local modData = func.getModData(clerics[i])
+        modData.tributeHours = modData.tributeHours + 1
+    
+        if modData.tributeHours >= 24 then
+            if tes3.mobilePlayer.sleeping then
+            end
+            --Sleeping refreshes CD on nightmare
+            --sleeping only awards exp every 24 hours
+            timer.delayOneFrame(function()
+                tes3.removeSpell({ reference = clerics[i], spell = "kl_ability_nightmare" })
+                tes3.messageBox("" .. clerics[i].object.name .. "'s nightmare is at an end...")
+            end)
+        end
+    end
+end
+
+function this.nightmare(e)
+    if config.combatAbilities == false then return end
+
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Nightmare triggered.")
+
+	if (e.target == tes3.mobilePlayer) then
+        log:trace("Combat target is player.")
+        local npcTable = func.npcTable()
+        local trigger = 0
+        local caster
+
+        for i = 1, #npcTable do
+            local reference = npcTable[i]
+            local modData = func.getModData(reference)
+            if modData.patron and modData.patron == 26 and tes3.isAffectedBy({ reference = reference, object = "kl_ability_nightmare"}) then
+                trigger = 1
+                caster = reference
+                log:debug("" .. caster.object.name .. "'s waking nightmare spills forth!")
+                break
+            end
+        end
+
+        if trigger == 1 then
+            for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                local affected = tes3.isAffectedBy({ reference = actor.reference, object = "kl_spell_vaermina_nightmare" })
+                if not affected then
+                    tes3.cast({ reference = caster, target = actor.reference, spell = "kl_spell_vaermina_nightmare", instant = true, bypassResistances = false })
+                    log:debug("" .. actor.reference.object.name .. " was affected by " .. caster.object.name .. "'s nightmare!")
+                else
+                    log:debug("" .. actor.reference.object.name .. " is already affected by Waking Nightmare.")
+                end
             end
         end
 	end

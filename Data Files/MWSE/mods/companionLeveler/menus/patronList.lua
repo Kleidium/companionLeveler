@@ -75,6 +75,13 @@ function pat.pickPatron(ref, aID)
 				a.widget.idleActive = tables.colors["white"]
 			end
 			func.patronTooltip(a, i)
+			if i == 14 then
+				local werewolf = tes3.getReference("kl_werewolf_companion")
+				if werewolf then
+					a.disabled = true
+					a.widget.state = tes3.uiState.disabled
+				end
+			end
 		end
 	end
 
