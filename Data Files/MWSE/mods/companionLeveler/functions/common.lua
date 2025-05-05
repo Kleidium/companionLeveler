@@ -671,6 +671,34 @@ function this.removeAbilitiesNPC(ref)
 	end
 end
 
+function this.removePatron(ref)
+	log = logger.getLogger("Companion Leveler")
+	for i = 1, #tables.patrons do
+		local wasRemoved = tes3.removeSpell({ spell = "kl_ability_patron_" .. i .. "", reference = ref, })
+		if wasRemoved == true then
+			log:debug("Patron " .. tables.patrons[i] .. " removed from " .. ref.object.name .. ".")
+			local modData = this.getModData(ref)
+			modData.tributeHours = 0
+			modData.patron = nil
+			modData.tributePaid = nil
+			if modData.bloodKarma ~= nil then
+				modData.bloodKarma = nil
+			end
+			if modData.soulEnergy ~= nil then
+				modData.soulEnergy = nil
+			end
+			if modData.hircineHunt ~= nil then
+				modData.hircineHunt = nil
+			end
+			if modData.orderStreak ~= nil then
+				modData.orderStreak = nil
+			end
+		else
+			log:trace("Patron " .. tables.patrons[i] .. " not removed from " .. ref.object.name .. ".")
+		end
+	end
+end
+
 function this.addAbilitiesNPC(ref)
 	log = logger.getLogger("Companion Leveler")
 	local modData = this.getModData(ref)

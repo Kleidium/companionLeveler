@@ -741,6 +741,7 @@ function sheet.fixStats(e)
                 for i = 1, #modData.typelevels do
                     modData.typelevels[i] = 1
                 end
+                func.removePatron(sheet.reference)
             end
 
             --Update Statistics after simulating
@@ -795,6 +796,9 @@ function sheet.fixStats(e)
                 func.addAbilities(sheet.reference)
             else
                 func.addAbilitiesNPC(sheet.reference)
+                if modData.patron then
+                    tes3.addSpell({ spell = "kl_ability_patron_" .. modData.patron .. "", reference = sheet.reference })
+                end
             end
 
             --Update Statistics after simulating
@@ -842,6 +846,7 @@ function sheet.fixStats(e)
             else
                 func.removeAbilitiesNPC(sheet.reference)
                 modData.metamorph = false
+                func.removePatron(sheet.reference)
             end
 
             --Update Statistics after simulating

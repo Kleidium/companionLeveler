@@ -19,7 +19,7 @@ function train.createWindow(ref)
 	log:debug("Train menu initialized.")
 
 	local tech = require("companionLeveler.menus.techniques.techniques")
-	local modData = func.getModData(ref)
+	train.modData = func.getModData(ref)
 
 	train.trainer = ref
 	train.npc_choices = 0
@@ -50,7 +50,7 @@ function train.createWindow(ref)
 	title_block:createLabel { text = "Train which companion?" }
 
 	-- TP Bar
-	train.tp_bar = tp_block:createFillBar({ current = modData.tp_current, max = modData.tp_max, id = train.id_tp_bar })
+	train.tp_bar = tp_block:createFillBar({ current = train.modData.tp_current, max = train.modData.tp_max, id = train.id_tp_bar })
 	func.configureBar(train.tp_bar, "small", "purple")
 	train.tp_bar.borderLeft = 155
 
@@ -96,7 +96,7 @@ function train.createWindow(ref)
 	--Player Choice
 	train.npc_choices = train.npc_choices + 1
 	local player_choice = pane:createTextSelect { text = "" .. tes3.player.object.name .. "", id = "kl_train_npc_btn_" .. train.npc_choices .. ""}
-	player_choice:register("mouseClick", function(e) train.onSelectTarget(player_choice, tes3.player) end)
+	player_choice:register("mouseClick", function(e) train.onSelectTarget(player_choice, tes3.mobilePlayer) end)
 
 	--NPC Choices
 	for mobileActor in tes3.iterate(tes3.worldController.allMobileActors) do
@@ -181,7 +181,7 @@ function train.createWindow(ref)
 	cost_block:createLabel { text = "" }
 	train.skill_req = cost_block:createLabel { text = "Skill Required: ", id = "kl_train_skill_req" }
 	cost_block:createLabel { text = "Training Time: 2 hours" , id = "kl_train_time" }
-	train.sessions = cost_block:createLabel { text = "Session Limit: " .. modData.sessions_current .. "/" .. modData.sessions_max .. "" }
+	train.sessions = cost_block:createLabel { text = "Session Limit: " .. train.modData.sessions_current .. "/" .. train.modData.sessions_max .. "" }
 
 	--Trainee Skill
 	local trainee_title = trainee_block:createLabel({ text = "Trainee Skill:" })
@@ -212,7 +212,7 @@ function train.createWindow(ref)
 		end
 		local trainedSkill = train.trainee:getSkillStatistic(train.trainedSkill)
 
-		if modData.tp_current < train.tp then
+		if train.modData.tp_current < train.tp then
 			tes3.messageBox("Not enough Technique Points!")
 			return
 		end
@@ -222,17 +222,17 @@ function train.createWindow(ref)
 			return
 		end
 
-		if modData.sessions_current >= modData.sessions_max then
+		if train.modData.sessions_current >= train.modData.sessions_max then
 			tes3.messageBox("" .. train.trainer.object.name .. " can't train any more pupils until their next level.")
 			return
 		end
 
 
 		--Spend TP
-		modData.tp_current = modData.tp_current - train.tp
+		train.modData.tp_current = train.modData.tp_current - train.tp
 
 		--Increase Sessions
-		modData.sessions_current = modData.sessions_current + 1
+		train.modData.sessions_current = train.modData.sessions_current + 1
 
 		--Train Skill
 		tes3.modStatistic{ reference = train.trainee.reference, skill = train.trainedSkill, value = 1}
@@ -269,9 +269,7 @@ function train.createWindow(ref)
 end
 
 function train.addSkills(ability)
-	local modData = func.getModData(train.trainer)
-
-	if modData.abilities[ability] == true then
+	if train.modData.abilities[ability] == true then
 		local skills
 
 		skills = tables.trainerAbilities[ability]
@@ -337,7 +335,7 @@ function train.onSelectTarget(elem, mobileActor)
 				end
 				train.req = traineeSkill.base + 10
 				train.skill_req.text = "Skill Required: " .. train.req .. ""
-				train.sessions.text = "Session Limit: " .. modData.sessions_current .. "/" .. modData.sessions_max .. ""
+				train.sessions.text = "Session Limit: " .. train.modData.sessions_current .. "/" .. train.modData.sessions_max .. ""
 				break
 			else
 				btn.widget.state = 1
@@ -352,7 +350,7 @@ function train.onSelectTarget(elem, mobileActor)
 			--Trainer Skill
 			train.trainer_skill.text = "" .. trainerSkill.base .. ""
 			--Technique Point Costs
-			train.tp_cost.text = "" .. math.round((traineeSkill.base / train.ratio) + (modData.level / 5)) .. " TP"
+			train.tp_cost.text = "" .. train.tp .. " TP"
 			--Trainee Skill
 			train.trainee_skill.text = "" .. traineeSkill.base .. ""
 		end

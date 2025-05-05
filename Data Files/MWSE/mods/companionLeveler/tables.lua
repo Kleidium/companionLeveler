@@ -3456,18 +3456,18 @@ stuff.patronGifts = {
 	[12] = "Clavicus Vile shall provide the Cleric and their party access to a personal daedric merchant which can be called upon at any time.",
 	[13] = "The tides of fate stir, gradually revealing their secrets to the Cleric. An additional Technique Point is bestowed at every odd-numbered level. Technique Points increase by 3.",
 	[14] = "Hircine bestows the gift of lycanthropy upon the Cleric, who may transform at will as long as they fulfill the wishes of their Lord, Hircine of the Hunt. Transform as a technique. Werewolf form is trained separately from base form.",
-	[15] = "Jyggalag imposes an orderly routine upon the Cleric. Consecutive level-ups as the same class builds an Order Streak. Once the Order Streak reaches 5, it resets and Jyggalag rewards +1 to all of the Cleric's attributes.", --on level up
-	[16] = "Malacath punishes those who torment His followers. Physical melee and ranged attacks made against the Cleric have 15% of their damage reflected back as physical damage.", --combat
+	[15] = "Jyggalag imposes an orderly routine upon the Cleric. Consecutive level-ups as the same class builds an Order Streak. Once the Order Streak reaches 5, it resets and Jyggalag rewards +1 to all of the Cleric's attributes.",
+	[16] = "Malacath punishes those who torment His followers. Physical melee and ranged attacks made against the Cleric have 15% of their damage reflected back as physical damage.",
 	[17] = "(Destruction) All foes are but cinder before a Cleric of Dagon. Foes periodically burn when in engaged in combat with the Cleric. The flames are lingering and persistent, and become more deadly as the Cleric embraces Destruction.",
-	[18] = "Mephala whispers dark secrets to the Cleric. The Cleric may spread these whispers to their foes for 3s when attacking. Foes under the effect of Mephala's Whispers may be paralyzed when struck again by the Cleric.", --combat stealth
+	[18] = "Mephala whispers dark secrets to the Cleric. The Cleric may spread these whispers to their foes for 3s when attacking. Foes under the effect of Mephala's Whispers may be paralyzed when struck again by the Cleric.",
 	[19] = "Meridia constantly regenerates all of the Cleric's vital energies. In addition, the Cleric's attacks inflict a searing light which illuminates foes and burns undead creatures and vampires.",
-	[20] = "Lord Molag Bal grants His thrall the ability to convert soul energy into health, magicka, or fatigue for themselves, or for you at twice the cost. Soul energy is automatically stockpiled by killing both creatures and people.", --souls no longer go to gems, straight to stockpile? health 1-3, magicka 1-5, stamina 10-1
+	[20] = "Lord Molag Bal grants His thrall the ability to convert soul energy into health, magicka, or fatigue for themselves, or for you at twice the cost. Soul energy is automatically stockpiled by killing both creatures and people.",
 	[21] = "The Cleric's melee and ranged attacks accelerate the decay of weapon, armor, flesh, and bone with each strike. Cannot be resisted. Only effective between the hours of 10pm and 5am.",
 	[22] = "Lesser Evergloam shadows automatically open all locks up to level 50 on contact without alerting anyone nearby.",
-	[23] = "The Taskmaster allows the party's non-combat triggered abilities to trigger slightly more often, and bestows disease-blessings upon the Cleric once per level that leave behind permanent beneficial effects.", --triggered abilities occur more often, disease-blessings are given/bestowed as a technique or triggered ability?
-	[24] = "The party never ends, and that now applies to your party as well. The Cleric emits an aura of blood ardor, which regenerates the entire party's fatigue and instills a feeling of euphoria.", --aura
+	[23] = "The Taskmaster allows the party's non-combat triggered abilities to trigger slightly more often, and bestows disease-blessings upon the Cleric once per level that leave behind permanent beneficial effects.",
+	[24] = "The party never ends, and that now applies to your party as well. The Cleric emits an aura of blood ardor, which regenerates the entire party's fatigue and instills a feeling of euphoria.",
 	[25] = "Sheogorath promises nothing and something at the same time. No, He will not tell you if that's good or bad. Stop asking.",
-	[26] = "(Whenever the Cleric rests, Vaermina sends the Cleric a nightmare which grants experience once daily, then manifests into a waking nightmare. The waking nightmare passively siphons enemy magicka and intelligence to the Cleric." --has a chance of paralyzing + sound or some fuck idk this bitch into dreams and memories. maybe she can allow the cleric to see targets level and stuff? dream realm maybe?
+	[26] = "Whenever the Cleric rests, Vaermina sends the Cleric a nightmare which grants experience once daily, then manifests into a waking nightmare. The waking nightmare passively siphons enemy magicka and intelligence to the Cleric."
 }
 
 stuff.patronTypes = {

@@ -4668,19 +4668,19 @@ function this.delivery(reference)
         local weight, name, mesh, icon, bonus
         if type == 1 then
             weight = 0.1
-            name = "Letter to "
+            name = "Letter: "
             mesh = [[m\Text_Parchment_01.NIF]]
             icon = [[m\Tx_parchment_01.tga]]
             bonus = 0
         elseif type == 2 then
             weight = 1.5
-            name = "Book for "
+            name = "Book: "
             mesh = [[m\Text_Octavo_03.NIF]]
             icon = [[m\Tx_octavo_03.tga]]
             bonus = 25
         elseif type == 3 then
             weight = 3.0
-            name = "Parcel for "
+            name = "Parcel: "
             mesh = [[m\Text_Scroll_02.NIF]]
             icon = [[m\Tx_scroll_02.tga]]
             bonus = math.round(25 + (speechcraft.base / 3))
@@ -4689,7 +4689,7 @@ function this.delivery(reference)
             end
         elseif type == 4 then
             weight = 6
-            name = "Package for "
+            name = "Package: "
             mesh = [[m\dwemer_satchel00.NIF]]
             icon = [[m\misc_dwe_satchel00.dds]]
             bonus = math.round(125 + (speechcraft.base / 2))
@@ -4698,7 +4698,7 @@ function this.delivery(reference)
             end
         elseif type == 5 then
             weight = 10
-            name = "Large Package for "
+            name = "Large Package: "
             mesh = [[m\dwemer_satchel00.NIF]]
             icon = [[m\misc_dwe_satchel00.dds]]
             bonus = math.round(200 + speechcraft.base)
@@ -4707,7 +4707,7 @@ function this.delivery(reference)
             end
         else
             weight = 20
-            name = "Dense Package for "
+            name = "Dense Package: "
             mesh = [[m\dwemer_satchel00.NIF]]
             icon = [[m\misc_dwe_satchel00.dds]]
             bonus = math.round(150 + (speechcraft.base * 5))
@@ -4743,7 +4743,11 @@ function this.delivery(reference)
                         break
                     end
                 end
-                if choice.aiConfig.fight > 80 or string.startswith(choice.sourceMod, "F&F") or string.startswith(choice.sourceMod, "Friends_and_Foes") then
+                local source = choice.sourceMod or ""
+                if choice.aiConfig.fight > 80 or string.startswith(source, "F&F") or string.startswith(source, "Friends_and_Foes") then
+                    check = false
+                end
+                if string.len(choice.name) > 17 then
                     check = false
                 end
             end
@@ -6829,14 +6833,15 @@ function this.vaerminaGift()
 
     for i = 1, #clerics do
         local modData = func.getModData(clerics[i])
+        modData.tributeHours = 0
 
-        if modData.tributeHours > 22 then
+        if modData.tributePaid then
             if config.expMode then
-                local num = math.random(1, modData.level)
+                local num = math.random(1, 10)
                 modData.lvl_progress = modData.lvl_progress + num
             end
+            modData.tributePaid = false
             timer.start({ type = timer.simulate, duration = 2, callback = function() tes3.messageBox("Vaermina sent " .. clerics[i].object.name .. " a nightmare.") end})
-            modData.tributeHours = 0
         end
         timer.delayOneFrame(function()
             tes3.addSpell({ reference = clerics[i], spell = "kl_ability_nightmare", bypassResistances = true })
@@ -6862,16 +6867,22 @@ function this.vaerminaTribute()
     for i = 1, #clerics do
         local modData = func.getModData(clerics[i])
         modData.tributeHours = modData.tributeHours + 1
+
+        if tes3.mobilePlayer.sleeping then
+            modData.tributeHours = 0
+        end
     
         if modData.tributeHours >= 24 then
-            if tes3.mobilePlayer.sleeping then
-            end
-            --Sleeping refreshes CD on nightmare
-            --sleeping only awards exp every 24 hours
             timer.delayOneFrame(function()
                 tes3.removeSpell({ reference = clerics[i], spell = "kl_ability_nightmare" })
                 tes3.messageBox("" .. clerics[i].object.name .. "'s nightmare is at an end...")
             end)
+        end
+
+        --Reset EXP CD
+        local gameHour = tes3.getGlobal('GameHour')
+        if gameHour < 1 then
+            modData.tributePaid = true
         end
     end
 end

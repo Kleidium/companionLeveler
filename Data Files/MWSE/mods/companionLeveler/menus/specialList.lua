@@ -99,15 +99,16 @@ function specList.createWindow(reference)
         deliveryLabel.borderBottom = 12
         deliveryLabel.borderTop = 24
         deliveryLabel.color = { 1.0, 1.0, 1.0 }
-
+        --test 5/5
         for i = 1, #specList.modData.deliveries do
             local npc = tes3.getObject(specList.modData.deliveries[i][1])
             local msg = "Location unknown."
-            if npc.sourceMod == "Morrowind.esm" then
+            local source = npc.sourceMod or ""
+            if source == "Morrowind.esm" then
                 msg = "Likely somewhere in Vvardenfell..."
-            elseif npc.sourceMod == "Tamriel_Data.esm" or npc.sourceMod == "Tribunal.esm" or npc.sourceMod == "TR_Mainland.esm" then
+            elseif source == "Tamriel_Data.esm" or source == "Tribunal.esm" or source == "TR_Mainland.esm" then
                 msg = "Could be somewhere on the mainland..."
-            elseif string.startswith(npc.sourceMod, "Wares") then
+            elseif string.startswith(source, "Wares") then
                 msg = "In Vvardenfell, or somewhere just outside of it..."
             else
                 msg = "Located somewhere outside of Morrowind..?"

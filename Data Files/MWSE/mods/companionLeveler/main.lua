@@ -288,8 +288,8 @@ end, { filter = "MenuDialog" })
 
 event.register(tes3.event.keyDown, function(e)
 	if e.keyCode ~= config.typeBind.keyCode then return end
-	local eye = tes3.getPlayerEyeVector()
-	log:debug("pos:" .. tes3.mobilePlayer.position.x .. "," .. tes3.mobilePlayer.position.y .. "," .. tes3.mobilePlayer.position.z .. "; ori:" .. eye.x .. "," .. eye.y .. "," .. eye.z .. "")
+	--local eye = tes3.getPlayerEyeVector()
+	--log:debug("pos:" .. tes3.mobilePlayer.position.x .. "," .. tes3.mobilePlayer.position.y .. "," .. tes3.mobilePlayer.position.z .. "; ori:" .. eye.x .. "," .. eye.y .. "," .. eye.z .. "")
 
 	local t = tes3.getPlayerTarget()
 	if not t then return end
@@ -381,7 +381,6 @@ local function hourlyTimer()
 		end
 		timer.start({ type = timer.game, duration = num, iterations = 1, callback = "companionLeveler:hourlyTimer" })
 	end
-	--timer.start({ type = timer.game, duration = (gameHour + 1) - gameHour, iterations = 1, callback = "companionLeveler:hourlyTimer" })
 
 	--Patrons--
 	log:debug("Time is now " .. gameHour .. ".")
@@ -806,21 +805,16 @@ event.register("jump", expTest)
 --changed item check function to return false or true if item was removed
 --added version number to initialized log message
 --fixed beast within attacker check, nil would cause log error
+--FIXED: clicking on another target doesn't update the TP cost properly when training
+--shortened courier delivery item names and should no longer error on > 32 chars
 
 
 --maybe double check all is well in sheet menus too
---make sure to check if adding moddata on the fly is best or not, faction stuff
---clicking on another target doesn't update the TP cost properly when training
---getting random nil errors on abilities somewhere?
 --sharpshooter class snipes enemies
---take away dumbass mod enabled check
 --test meteoromancer more
---split abilities.lua into creAbilities.lua and npcAbilities.lua?
 --make sure esp is clean and i didn't add anything dumb
 --go through and enforce config rules, can make modStatistic into a CL function
---regular timers don't persist when the game is reloaded. make sure this doesn't fuck up anything important
---make sure metamorph doesn't fuck with patrons/factions
---create werewolf object dynamically for each cleric to solve single werewolf problem, with their id concat with werewolf template id
+--special menu: show patron and faction info. make sure faction selection menu is okay still
 
 
 
@@ -852,3 +846,4 @@ event.register("jump", expTest)
 ----changing the tooltip name does not change the name in the CL UI. maybe I can allow that?
 ---technique trades one skill for another
 ---werewolf creature type
+-----make sure metamorph doesn't fuck with patrons/factions (it shouldn't)
