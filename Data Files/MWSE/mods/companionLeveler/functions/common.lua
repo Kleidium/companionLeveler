@@ -983,10 +983,7 @@ end
 
 function this.patronTooltip(ele, key)
 	local spellObject = tes3.getObject("kl_ability_patron_" .. key .. "")
-	--local duty = tables.patronDuties[key]
-	--local gift = tables.patronGifts[key]
 	local type = tables.patronTypes[key]
-	--local msg = tables.patronMessages[key]
 
 	ele:register("help", function(e)
 		local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
@@ -1014,12 +1011,6 @@ function this.patronTooltip(ele, key)
 			--Blue
 			typeLabel.color = { 0.3, 0.3, 0.7 }
 		end
-
-		-- local msgLabel = tooltip:createLabel { text = msg }
-		-- msgLabel.borderTop = 7
-
-		-- local giftLabel = tooltip:createLabel { text = gift }
-		-- giftLabel.borderTop = 8
 	end)
 end
 

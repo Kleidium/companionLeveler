@@ -23,7 +23,7 @@ function specList.createWindow(reference)
     local label = menu:createLabel { text = "Special Information:" }
     label.wrapText = true
     label.justifyText = "center"
-    label.borderBottom = 12
+    label.borderBottom = 16
 
 
     local specList_block = menu:createBlock { id = "kl_specList_block" }
@@ -41,10 +41,17 @@ function specList.createWindow(reference)
     pane.height = 566
     pane.widget.scrollbarVisible = true
 
+    --Pane Block
+    local pBlock = pane:createBlock { id = "kl_specList_pane_block" }
+    pBlock.autoHeight = true
+    pBlock.width = 358
+    pBlock.flowDirection = tes3.flowDirection.topToBottom
+    pBlock.childAlignX = 0.5
+
     --Populate Pane
     if reference.object.objectType ~= tes3.objectType.creature then
         --Assassin Contracts
-		local contractLabel = pane:createLabel({ text = "Contracts:" })
+		local contractLabel = pBlock:createLabel({ text = "Contracts:" })
 		contractLabel.borderBottom = 12
 		contractLabel.color = { 1.0, 1.0, 1.0 }
 
@@ -60,8 +67,9 @@ function specList.createWindow(reference)
             else
                 msg = "Located somewhere outside of Morrowind..?"
             end
-            local listItem = pane:createTextSelect({ text = "#" .. i .. ": " .. npc.name .. "\n " .. msg .. "", id = "kl_contract_listItem_" .. i .. "" })
+            local listItem = pBlock:createTextSelect({ text = "#" .. i .. ": " .. npc.name .. "\n " .. msg .. "", id = "kl_contract_listItem_" .. i .. "" })
             listItem.borderBottom = 12
+            listItem.absolutePosAlignX = 0.0
             listItem:register("help", function(e)
                 local tooltip = tes3ui.createTooltipMenu()
 
@@ -77,7 +85,7 @@ function specList.createWindow(reference)
 
 
         --Bounty Hunter Bounties
-		local bountyLabel = pane:createLabel({ text = "Bounty Locations:" })
+		local bountyLabel = pBlock:createLabel({ text = "Bounty Locations:" })
 		bountyLabel.borderBottom = 12
 		bountyLabel.borderTop = 24
 		bountyLabel.color = { 1.0, 1.0, 1.0 }
@@ -89,17 +97,17 @@ function specList.createWindow(reference)
             if string.match(cellName, ",") then
                 cellName, unused = specList.modData.bounties[i]:match("([^,]+),([^,]+)")
             end
-            local listItem = pane:createTextSelect({ text = "#" .. i .. ": " .. cellName .. "", id = "kl_bounty_listItem_" .. i .."" })
+            local listItem = pBlock:createTextSelect({ text = "#" .. i .. ": " .. cellName .. "", id = "kl_bounty_listItem_" .. i .."" })
             listItem:register("mouseClick", function() specList.onSelect(i, 2) end)
         end
 
 
         --Courier Deliveries
-        local deliveryLabel = pane:createLabel({ text = "Deliveries:" })
+        local deliveryLabel = pBlock:createLabel({ text = "Deliveries:" })
         deliveryLabel.borderBottom = 12
         deliveryLabel.borderTop = 24
         deliveryLabel.color = { 1.0, 1.0, 1.0 }
-        --test 5/5
+        
         for i = 1, #specList.modData.deliveries do
             local npc = tes3.getObject(specList.modData.deliveries[i][1])
             local msg = "Location unknown."
@@ -113,8 +121,9 @@ function specList.createWindow(reference)
             else
                 msg = "Located somewhere outside of Morrowind..?"
             end
-            local listItem = pane:createTextSelect({ text = "#" .. i .. ": " .. tes3.getObject(specList.modData.deliveries[i][3]).name .. "\n " .. msg .. "", id = "kl_delivery_listItem_" .. i .. "" })
+            local listItem = pBlock:createTextSelect({ text = "#" .. i .. ": " .. tes3.getObject(specList.modData.deliveries[i][3]).name .. "\n " .. msg .. "", id = "kl_delivery_listItem_" .. i .. "" })
             listItem.borderBottom = 4
+            listItem.absolutePosAlignX = 0.0
             listItem:register("help", function(e)
                 local tooltip = tes3ui.createTooltipMenu()
 
@@ -130,7 +139,7 @@ function specList.createWindow(reference)
 
 
         --Friendly Relations
-        local diploLabel = pane:createLabel ({ text = "Friendly Relations:" })
+        local diploLabel = pBlock:createLabel ({ text = "Friendly Relations:" })
         diploLabel.borderBottom = 12
         diploLabel.borderTop = 24
         diploLabel.color = { 1.0, 1.0, 1.0 }
@@ -146,7 +155,7 @@ function specList.createWindow(reference)
             if mod < 0 then
                 mod = 0
             end
-            local listItem = pane:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_label" })
+            local listItem = pBlock:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_label" })
             listItem.widget.idle = tables.colors["pink"]
             listItem.borderBottom = 4
             listItem:register("help", function(e)
@@ -181,7 +190,7 @@ function specList.createWindow(reference)
                         msg = "Exalted"
                         color = { .18, 0.713, 0.172 }
                     end
-                    local listItem = pane:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_good_label_" .. i .. "" })
+                    local listItem = pBlock:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_good_label_" .. i .. "" })
                     listItem.borderBottom = 4
                     listItem.widget.idle = color
                     listItem:register("help", function(e)
@@ -206,7 +215,7 @@ function specList.createWindow(reference)
 
 
         --Unfriendly Relations
-        local hateLabel = pane:createLabel({ text = "Unfriendly Relations:" })
+        local hateLabel = pBlock:createLabel({ text = "Unfriendly Relations:" })
         hateLabel.borderBottom = 12
         hateLabel.borderTop = 24
         hateLabel.color = { 1.0, 1.0, 1.0 }
@@ -231,7 +240,7 @@ function specList.createWindow(reference)
                         msg = "Blind Rage"
                         color = { .75, 0.05, 0.05 }
                     end
-                    local listItem = pane:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_bad_label_" .. i .. "" })
+                    local listItem = pBlock:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_bad_label_" .. i .. "" })
                     listItem.borderBottom = 4
                     listItem.widget.idle = color
                     listItem:register("help", function(e)
@@ -256,14 +265,14 @@ function specList.createWindow(reference)
 
 
         --Hostile Relations
-        local enemyLabel = pane:createLabel({ text = "Hostile Relations:" })
+        local enemyLabel = pBlock:createLabel({ text = "Hostile Relations:" })
         enemyLabel.borderBottom = 12
         enemyLabel.borderTop = 24
         enemyLabel.color = { 1.0, 1.0, 1.0 }
         --Infiltrator
-        if specList.modData.infiltrated ~=nil then
+        if specList.modData.infiltrated ~= nil then
             local faction = tes3.getFaction(specList.modData.infiltrated)
-            local listItem = pane:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_host_label_infil" })
+            local listItem = pBlock:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_host_label_infil" })
             listItem.borderBottom = 4
             listItem.widget.idle = tables.colors["pink"]
             listItem:register("help", function(e)
@@ -306,7 +315,7 @@ function specList.createWindow(reference)
                     msg = "Blind Rage"
                     color = { .75, 0.05, 0.05 }
                 end
-                local listItem = pane:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_host_label_" .. i .. "" })
+                local listItem = pBlock:createTextSelect({ text = "" .. faction.name .. "", id = "kl_relation_host_label_" .. i .. "" })
                 listItem.borderBottom = 4
                 listItem.widget.idle = color
                 listItem:register("help", function(e)
@@ -330,22 +339,30 @@ function specList.createWindow(reference)
         end
 
         --Patron Information
-        local patronLabel = pane:createLabel({ text = "Patron Information:" })
+        local patronLabel = pBlock:createLabel({ text = "Patron Information:" })
         patronLabel.borderBottom = 12
         patronLabel.borderTop = 24
         patronLabel.color = tables.colors["white"]
 
         if specList.modData.patron then
             local patron = tables.patrons[specList.modData.patron]
-			local lbl = pane:createLabel({ text = "" .. patron .. "", id = "kl_patron_label_spec" })
+			local lbl = pBlock:createLabel({ text = "" .. patron .. "", id = "kl_patron_label_spec" })
+            lbl.borderBottom = 12
 			if specList.modData.patron < 10 then
 				lbl.color = tables.colors["blue"]
 			else
 				lbl.color = tables.colors["red"]
 			end
 			func.patronTooltip(lbl, specList.modData.patron)
-            --tribute/duty
             --gifts
+            local gift = pBlock:createLabel({ text = "" .. tables.patronGifts[specList.modData.patron] .. "", id = "kl_patron_gift_spec" })
+            gift.borderBottom = 12
+            gift.wrapText = true
+            gift.widthProportional = 1.0
+            --tribute/duty
+            local duty = pBlock:createLabel({ text = "" .. tables.patronDuties[specList.modData.patron] .. "", id = "kl_patron_duty_spec" })
+            duty.wrapText = true
+            duty.widthProportional = 1.0
         end
     else
 		--Creature special information
@@ -361,6 +378,7 @@ function specList.createWindow(reference)
     local button_ok = button_block:createButton { text = tes3.findGMST("sOK").value }
 
     --Events
+    menu:updateLayout()
     menu:register(tes3.uiEvent.keyEnter, specList.onOK)
     button_ok:register(tes3.uiEvent.mouseClick, specList.onOK)
 end

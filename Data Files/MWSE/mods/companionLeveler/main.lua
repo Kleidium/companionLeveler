@@ -288,8 +288,6 @@ end, { filter = "MenuDialog" })
 
 event.register(tes3.event.keyDown, function(e)
 	if e.keyCode ~= config.typeBind.keyCode then return end
-	--local eye = tes3.getPlayerEyeVector()
-	--log:debug("pos:" .. tes3.mobilePlayer.position.x .. "," .. tes3.mobilePlayer.position.y .. "," .. tes3.mobilePlayer.position.z .. "; ori:" .. eye.x .. "," .. eye.y .. "," .. eye.z .. "")
 
 	local t = tes3.getPlayerTarget()
 	if not t then return end
@@ -807,15 +805,13 @@ event.register("jump", expTest)
 --fixed beast within attacker check, nil would cause log error
 --FIXED: clicking on another target doesn't update the TP cost properly when training
 --shortened courier delivery item names and should no longer error on > 32 chars
+--special menu: shows patron and faction info.
 
 
 --maybe double check all is well in sheet menus too
---sharpshooter class snipes enemies
---test meteoromancer more
 --make sure esp is clean and i didn't add anything dumb
 --go through and enforce config rules, can make modStatistic into a CL function
---special menu: show patron and faction info. make sure faction selection menu is okay still
-
+--add vaermina experience debuff
 
 
 
@@ -847,3 +843,4 @@ event.register("jump", expTest)
 ---technique trades one skill for another
 ---werewolf creature type
 -----make sure metamorph doesn't fuck with patrons/factions (it shouldn't)
+-----sharpshooter class snipes enemies
