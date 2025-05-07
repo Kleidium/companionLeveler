@@ -3,7 +3,7 @@ local stuff = {}
 ----Version Control---------------------------------------------------------------------------------------------------------------------------
 
 --Always make sure these values are correct.
-stuff.version = 3.23
+stuff.version = 3.20
 stuff.npcAbilityAmount = 140
 stuff.creAbilityAmount = 80
 stuff.creTypeAmount = 20

@@ -60,7 +60,7 @@ function sheet.createWindow(reference)
     local attTable = reference.mobile.attributes
     local faction = tes3.getFaction(modData.factions[1])
 
-    --Fix right click bullshit
+    --Fix right click exit
     menu:register("unfocus", function(e)
         return false
     end)
@@ -740,6 +740,11 @@ function sheet.fixStats(e)
                 modData.metamorph = false
                 for i = 1, #modData.typelevels do
                     modData.typelevels[i] = 1
+                end
+                if sheet.reference.object.faction == nil then
+                    sheet.reference.data.companionLeveler["factions"] = {}
+                else
+                    sheet.reference.data.companionLeveler["factions"] = { sheet.reference.object.faction.id }
                 end
                 func.removePatron(sheet.reference)
             end

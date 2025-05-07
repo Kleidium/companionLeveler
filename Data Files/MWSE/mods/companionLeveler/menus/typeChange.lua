@@ -2,7 +2,7 @@ local tables = require("companionLeveler.tables")
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
 local func = require("companionLeveler.functions.common")
-local growth = require("companionLeveler.menus.growthSettings")
+local config = require("companionLeveler.config")
 
 
 local typeModule = {}
@@ -191,9 +191,13 @@ function typeModule.typeChange(reference)
 				local a7 = pne:createTextSelect({ text = "", id = "kl_type_ability_7" })
 				local a8 = pne:createTextSelect({ text = "", id = "kl_type_ability_8" })
 				func.abilityTooltip(a1, mod, false)
+				func.abilityColor(a1, mod, false)
 				func.abilityTooltip(a2, mod + 1, false)
+				func.abilityColor(a2, mod + 1, false)
 				func.abilityTooltip(a3, mod + 2, false)
+				func.abilityColor(a3, mod + 2, false)
 				func.abilityTooltip(a4, mod + 3, false)
+				func.abilityColor(a4, mod + 3, false)
 				if modData.type == "Goblin" then
 					local s5 = tes3.getObject(tables.abList[mod + 4])
 					local s6 = tes3.getObject(tables.abList[mod + 5])
@@ -204,9 +208,13 @@ function typeModule.typeChange(reference)
 					a7.text = s7.name
 					a8.text = s8.name
 					func.abilityTooltip(a5, mod + 4, false)
+					func.abilityColor(a5, mod + 4, false)
 					func.abilityTooltip(a6, mod + 5, false)
+					func.abilityColor(a6, mod + 5, false)
 					func.abilityTooltip(a7, mod + 6, false)
+					func.abilityColor(a7, mod + 6, false)
 					func.abilityTooltip(a8, mod + 7, false)
+					func.abilityColor(a8, mod + 7, false)
 				end
 			end
 		end
@@ -239,15 +247,31 @@ function typeModule.typeChange(reference)
 	local button_root = button_block:createButton { id = typeModule.id_root, text = "Main Menu" }
 	button_root.borderRight = 140
 
-	local button_growth = button_block:createButton { id = typeModule.id_growth, text = "Growth Settings" }
-	button_growth.borderRight = 140
+	local button_color = button_block:createButton { id = typeModule.id_color, text = "Color:" }
+	if config.abilityColors == true then
+		button_color.text = "Color: By Ability"
+		button_root.borderRight = 139
+		button_color.borderRight = 143
+	else
+		button_color.text = "Color: Default"
+		button_root.borderRight = 145
+		button_color.borderRight = 160
+	end
 
 	local button_ok = button_block:createButton { id = typeModule.id_ok, text = tes3.findGMST("sOK").value }
 
 	-- Events
 	menu:register(tes3.uiEvent.keyEnter, typeModule.onOK)
 	button_ok:register(tes3.uiEvent.mouseClick, typeModule.onOK)
-	button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
+	button_color:register("mouseClick", function()
+		if config.abilityColors == true then
+			config.abilityColors = false
+		else
+			config.abilityColors = true
+		end
+		menu:destroy()
+		typeModule.typeChange(reference)
+	end)
 	button_root:register("mouseClick", function()
 		menu:destroy()
 		root.createWindow(reference)
@@ -326,6 +350,7 @@ function typeModule.onSelect(i)
 				local spell = tes3.getObject(tables.abList[mod])
 				a.text = "" .. spell.name .. ""
 				func.abilityTooltip(a, mod, false)
+				func.abilityColor(a, mod, false)
 			end
 		end
 
@@ -336,6 +361,7 @@ function typeModule.onSelect(i)
 				local spell = tes3.getObject(tables.abList[mod])
 				a.text = "" .. spell.name .. ""
 				func.abilityTooltip(a, mod, false)
+				func.abilityColor(a, mod, false)
 			end
 		else
 			for n = 5, 8 do
@@ -396,6 +422,7 @@ function typeModule.defSelect()
 					local spell = tes3.getObject(tables.abList[mod])
 					a.text = "" .. spell.name .. ""
 					func.abilityTooltip(a, mod, false)
+					func.abilityColor(a, mod, false)
 				end
 
 				if i == 7 then
@@ -405,6 +432,7 @@ function typeModule.defSelect()
 						local spell = tes3.getObject(tables.abList[mod])
 						a.text = "" .. spell.name .. ""
 						func.abilityTooltip(a, mod, false)
+						func.abilityColor(a, mod, false)
 					end
 				else
 					for n = 5, 8 do
