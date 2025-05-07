@@ -4,7 +4,7 @@ local stuff = {}
 
 --Always make sure these values are correct.
 stuff.version = 3.23
-stuff.npcAbilityAmount = 137
+stuff.npcAbilityAmount = 140
 stuff.creAbilityAmount = 80
 stuff.creTypeAmount = 20
 
@@ -1943,7 +1943,8 @@ stuff.classesSpecial = {
 	[136] = "Shadow",
 	[137] = "Reaver",
 	[138] = "Meteoromancer",
-	[139] = "Cleric"
+	[139] = "Cleric",
+	[140] = "Skooma Cook"
 }
 
 stuff.abListNPC = {
@@ -2085,7 +2086,8 @@ stuff.abListNPC = {
 	[136] = "kl_ab_npc_shadow",
 	[137] = "kl_ab_npc_reaver",
 	[138] = "kl_ab_npc_meteoromancer",
-	[139] = "kl_ab_npc_cleric"
+	[139] = "kl_ab_npc_cleric",
+	[140] = "kl_ab_npc_skooma_cook"
 }
 
 stuff.abTypeNPC = {
@@ -2227,7 +2229,8 @@ stuff.abTypeNPC = {
 	[136] = "[AURA]",
 	[137] = "[PASSIVE]",
 	[138] = "[COMBAT]",
-	[139] = "[TRIGGERED]: PATRON"
+	[139] = "[TRIGGERED]: PATRON",
+	[140] = "[TECHNIQUE]: SERVICE"
 }
 
 stuff.abDescriptionNPC = {
@@ -2369,7 +2372,8 @@ stuff.abDescriptionNPC = {
 	[136] = "The secrets of a lockbox tend to be more forthcoming than those of aetherius.",
 	[137] = "What's theirs is ours, if they cannot protect it.",
 	[138] = "In all things, a pattern. The movement of the atmosphere is one such pattern.",
-	[139] = "One God's pawn is another God's rook;\nboth are but pieces upon the same board."
+	[139] = "One God's pawn is another God's rook;\nboth are but pieces upon the same board.",
+	[140] = "Create your own happiness!!"
 }
 
 stuff.abDescriptionNPC2 = {
@@ -2510,7 +2514,8 @@ stuff.abDescriptionNPC2 = {
 	[136] = "(Illusion) A subtle aura reduces the likelyhood of any party member being detected while sneaking.",
 	[137] = "",
 	[138] = "Meteoromancers utilize the ambient magicks contained within weather to disrupt their foes in various ways.",
-	[139] = "Clerics devote themselves to the service of a chosen deity, which may afford them certain benefits in exchange."
+	[139] = "Clerics devote themselves to the service of a chosen deity, which may afford them certain benefits in exchange.",
+	[140] = "(Alchemy) A skooma cook can refine moon sugar into various types of skooma."
 }
 
 

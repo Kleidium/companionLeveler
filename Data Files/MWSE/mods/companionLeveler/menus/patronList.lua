@@ -1,4 +1,3 @@
-local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")

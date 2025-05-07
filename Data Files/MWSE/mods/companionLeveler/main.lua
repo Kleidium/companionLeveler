@@ -43,7 +43,6 @@ event.register("loaded", versionCheck)
 --
 
 local function onLevelUp()
-	
 	if config.expMode == true then return end
 
 	--Mode Select
@@ -75,8 +74,6 @@ event.register("levelUp", onLevelUp)
 
 --Skill Experience
 local function onSkillRaised(e)
-	
-
 	abilities.comprehension(e)
 	abilities.julianos(e)
 
@@ -122,8 +119,6 @@ event.register("skillRaised", onSkillRaised)
 
 --Kill Experience/Abilities
 local function onDeath(e)
-	
-
 	abilities.spectralWill(e)
 
 	if string.startswith(e.reference.object.name, "Summoned") then return end
@@ -233,11 +228,6 @@ event.register("uiActivated", function()
 		--Domestic 1k
 		if func.checkReq(true, "kl_scampson_domestic_contract", 1, tes3.player) then
 			actor.object.baseObject.aiConfig.bartersMiscItems= true
-			actor.object.baseObject.modified = true
-		end
-		--Mystic 5k
-		if func.checkReq(true, "kl_scampson_mystic_contract", 1, tes3.player) then
-			actor.object.baseObject.aiConfig.bartersEnchantedItems= true
 			actor.object.baseObject.modified = true
 		end
 		--Alchemical
@@ -367,7 +357,6 @@ local function hourlyTimer()
 	log:trace("Hourly timer triggered.")
 
 	--Begin Next Iteration
-	--LOOK AT THIS AGAIN LMAO
 	local gameHour = tes3.getGlobal('GameHour')
 	local rounded = math.round(gameHour)
 	if rounded < gameHour then
@@ -736,111 +725,11 @@ event.register("modConfigReady", function()
 end)
 
 --for testing:
-local function expTest()
-	if config.expMode == false then return end
-	tes3.player.mobile:exerciseSkill(10, 100)
-end
+-- local function expTest()
+-- 	if config.expMode == false then return end
+-- 	tes3.player.mobile:exerciseSkill(10, 100)
+-- end
 
-event.register("jump", onLevelUp)
-event.register("jump", expTest)
+-- event.register("jump", onLevelUp)
+-- event.register("jump", expTest)
 --
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---CHANGES
---Bard can now encore and speechcraft is more meaningful for the triggered ability
---Ninja was changed to Shadow Warrior lol so new Shadow Warrior gets ninja ability
---fixed bard description
---npc class skill rolls for major/minor skills will now never overlap, misc skills still random
---Added Saboteur, can trap doors and containers
---Added Safecracker, can unlock/untrap doors and containers
---Polymath gets +2 to all skills and attributes.
---Infiltrator deals up to 20% extra dmg to members of the faction they join. (security)
---Exile deals extra dmg to all factions that are enemies of the faction they join, based on relation and Willpower.
---Diplomat uses speechcraft to increase disposition with members of a chosen faction.
---Retainer gets bonuses/penalties to disposition based on faction they join.
---Recruit gives +5 rep and joins a faction you're a part of.
---NPCs can join a new faction, allowing them to have 3 max total factions.
---Made level up summary taller to allow 2 faction messages.
---Spearman made a bit better
---"Reliable" damage abilities should work as intended now.
---Updated class change menu
---unequipped spells no longer learnable twice
---changed specialization bonus to original class atts/skills
---herder buffed to include rats
---jester changed to use speechcraft as magnitude and doesn't affect luck anymore
---updated type change menu
---healer buffed, 1hp/s at 50, 2 at 75, 3 at 100
---added pirate, deals extra damage to swimming boibers
---shadow decreases detection chance when sneaking
---pugilist now deals 25% of stam damage as hp damage
---thaumaturge formula changed
---priest formula changed
---no more mod enabled config because i hate it
---fixed delivery feature addition in version control. moved version update to the end so version isn't updated before the other features
---fixed: character sheet will no longer display ideal values below 0. true ideal value can still be below 0 but the actual stat will not be so at least this won't visually be shown as an error
---changed item check function to return false or true if item was removed
---added version number to initialized log message
---fixed beast within attacker check, nil would cause log error
---FIXED: clicking on another target doesn't update the TP cost properly when training
---shortened courier delivery item names and should no longer error on > 32 chars
---special menu: shows patron and faction info.
-
-
---maybe double check all is well in sheet menus too
---make sure esp is clean and i didn't add anything dumb
---go through and enforce config rules, can make modStatistic into a CL function
---add vaermina experience debuff
-
-
-
---PLANNED FEATURES--
---overhaul speciallist menu
---rename companions?
---dash or blink ability that checks distance in combat and spends fatigue and/or magicka to teleport to enemy in combat
---use vampirism as an effect?
---technique to teleport to a mobile or reference?
---add visual indicator to technique/spell targets?
---courtesan is an aura or tech now?
---Equip/Unequip abilities like spells
---class can distract npc somehow? alarm value?
-----turn thief into technique
-----golem type? arachnid type? reptile? homuncular?
-----allow mix of build/exp/regular mode companions?
-----turn single character menu into multi-character party menu like final fantasy?
-----more tooltips where needed
-----trim tables maybe
-----specialization techs have a % chance to be learned when leveling up as a class with that specialization? e.g. stealth learns a dash tech?
-----hybrid class/type techs? like level 10 spriggan level 10 frozen type hybrid tech?
-----friendly intervention compat? check for mod and require, add tele menu to technique/root menu
-----traders TRADE random items for other items
-----A class can negotiate better deals and get %off gold?
-----a class teaches spells they know as a technique
-----expensive revive tech, less expensive worse revive tech, gathering tech? long lasting barrier tech
-----creature classes? as in, training types with different npc like abilities. like service animal or tracking animal
-----changing the tooltip name does not change the name in the CL UI. maybe I can allow that?
----technique trades one skill for another
----werewolf creature type
------make sure metamorph doesn't fuck with patrons/factions (it shouldn't)
------sharpshooter class snipes enemies

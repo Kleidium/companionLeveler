@@ -148,7 +148,7 @@ function this.updateModData(ref)
 			modData["version"] = 0
 		end
 
-		if modData.version < tables.version then
+		if modData.version ~= tables.version then
 			--Shared Mod Data--
 
 			--Blacklist
@@ -742,6 +742,9 @@ function this.awardEXP(amount)
 			if modData.blacklist == false then
 				if config.expCatchUp == true and modData.level < (tes3.player.object.level - 2) then
 					amount = amount * 3
+				end
+				if modData.patron and modData.patron == 26 then
+					amount = math.round(amount * 0.85)
 				end
 				modData.lvl_progress = modData.lvl_progress + amount
 				log:debug("" .. buildTable[i].object.name .. " gained " .. amount .. " experience.")

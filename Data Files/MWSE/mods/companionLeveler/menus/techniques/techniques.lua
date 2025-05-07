@@ -12,7 +12,7 @@ local gem = require("companionLeveler.menus.techniques.gem")
 local sabo = require("companionLeveler.menus.techniques.sabo")
 local safe = require("companionLeveler.menus.techniques.safe")
 local molag = require("companionLeveler.menus.techniques.molagGift")
-
+local drugs = require("companionLeveler.menus.techniques.drugs")
 
 local tech = {}
 
@@ -37,6 +37,11 @@ function tech.createWindow(ref)
 	tech.id_beast = tes3ui.registerID("kl_tech_beast_btn")
 	tech.id_train = tes3ui.registerID("kl_tech_train_btn")
 	tech.id_daedra = tes3ui.registerID("kl_tech_daedra_btn")
+	tech.id_scampson = tes3ui.registerID("kl_tech_scamp_btn")
+	tech.id_safe = tes3ui.registerID("kl_tech_safe_btn")
+	tech.id_sabo = tes3ui.registerID("kl_tech_sabo_btn")
+	tech.id_transform = tes3ui.registerID("kl_tech_xform_btn")
+	tech.id_drugs = tes3ui.registerID("kl_tech_drugs_btn")
 
 
     tech.log = logger.getLogger("Companion Leveler")
@@ -339,6 +344,12 @@ function tech.createWindow(ref)
 				local button_molag = tech_block:createButton { id = tech.id_molag, text = "Soul Manipulation" }
 				button_molag:register("mouseClick", function() tech.menu:destroy() molag.createWindow(ref) end)
 			end
+		end
+
+		if tech.modData.abilities[140] == true then
+			--Skooma Cook
+			local button_drugs = tech_block:createButton { id = tech.id_drugs, text = "Skooma Refining"}
+			button_drugs:register("mouseClick", function() tech.menu:destroy() drugs.createWindow(ref) end)
 		end
 	end
 
