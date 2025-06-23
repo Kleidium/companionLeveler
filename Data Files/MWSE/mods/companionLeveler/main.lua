@@ -733,3 +733,5 @@ end)
 -- event.register("jump", onLevelUp)
 -- event.register("jump", expTest)
 --
+
+--specialist type creature joins a faction and other stuff, maybe chooses a service to provide

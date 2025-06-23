@@ -1094,6 +1094,65 @@ function this.creatureAbilities(cType, companionRef)
             end
         end
     end
+    if cType == "Guild-Trained" then
+        if modData.typelevels[21] >= 5 then
+            local ability = tes3.getObject(tables.abList[81])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "alteration area" })
+                modData.abilities[81] = true
+                modData.att_gained[1] = modData.att_gained[1] + 3
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[21] >= 10 then
+            local ability = tes3.getObject(tables.abList[82])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "alteration area" })
+                modData.abilities[82] = true
+                modData.att_gained[2] = modData.att_gained[2] + 5
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[21] >= 15 then
+            local ability = tes3.getObject(tables.abList[83])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "alteration area" })
+                modData.abilities[83] = true
+                modData.att_gained[3] = modData.att_gained[3] + 5
+                modData.att_gained[7] = modData.att_gained[7] + 5
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[21] >= 20 then
+            local ability = tes3.getObject(tables.abList[84])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "alteration area" })
+                modData.abilities[84] = true
+                modData.att_gained[2] = modData.att_gained[2] + 5
+                --need to set up guild select menu
+                -- timer.start({ type = timer.simulate, duration = 1, iterations = 1, callback = function()
+                --     pat.pickPatron(companionRef, 139)
+                -- end })
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+    end
 end
 
 --Greater Instinct #3-------------------------------------------------------------------------------------------------------------------

@@ -3,10 +3,10 @@ local stuff = {}
 ----Version Control---------------------------------------------------------------------------------------------------------------------------
 
 --Always make sure these values are correct.
-stuff.version = 3.20
+stuff.version = 3.30
 stuff.npcAbilityAmount = 140
-stuff.creAbilityAmount = 80
-stuff.creTypeAmount = 20
+stuff.creAbilityAmount = 84
+stuff.creTypeAmount = 21
 
 ----Companion Classes-------------------------------------------------------------------------------------------------------------------------
 
@@ -117,7 +117,8 @@ stuff.typeTable = {
 	[17] = "Fiery",
 	[18] = "Frozen",
 	[19] = "Galvanic",
-	[20] = "Poisonous"
+	[20] = "Poisonous",
+	[21] = "Guild-Trained"
 }
 
 stuff.typeDesc1 = {
@@ -140,7 +141,8 @@ stuff.typeDesc1 = {
 	[17] = "Elemental Type. Learns some Fire magic. Learns to burn enemies with attacks and guard themselves and their master against Fire.",
 	[18] = "Elemental Type. Learns some Frost magic. Learns to frostbite enemies with attacks and guard themselves and their master against Frost.",
 	[19] = "Elemental Type. Learns some Shock magic. Learns to electrocute enemies with attacks and guard themselves and their master against Shock.",
-	[20] = "Elemental Type. Learns some Poison magic. Learns to poison enemies with attacks and guard themselves and their master against Poison."
+	[20] = "Elemental Type. Learns some Poison magic. Learns to poison enemies with attacks and guard themselves and their master against Poison.",
+	[21] = "Specialist Type. Learns to carry heavier burdens. May receive specialized training and techniques from their chosen guild(s)."
 }
 
 stuff.typeDesc2 = {
@@ -163,7 +165,8 @@ stuff.typeDesc2 = {
 	[17] = "\"Any hedge mage can burn up his enemies with fire. Destroying the enemy is the last resort of the skillful battlemage.\" - The Art of War Magic",
 	[18] = "\"CLAVIDES: He's dead. He was found a few hours ago dying of frostbite in the ashlands. He was hysterical, nearly incomprehensible, but among his last words were 'castle' and 'Xyr.'\n\nANARA: Dying of frostbite in summertide in the ashlands? B'vek, that's strange.\" - The Horror of Castle Xyr",
 	[19] = "\"That's a well-reasoned response. As for myself, again, not saying I would ever do this, but I think a simple, sudden electrical bolt would serve my purposes admirably.\" - A Hypothetical Treachery",
-	[20] = "\"I didn't guess who you were working for, or even that you were a spy. But you're also wrong about me poisoning you. You poisoned yourself when you drank from the tureen.\" - A Game at Dinner"
+	[20] = "\"I didn't guess who you were working for, or even that you were a spy. But you're also wrong about me poisoning you. You poisoned yourself when you drank from the tureen.\" - A Game at Dinner",
+	[21] = "\"My boys, the lesson is you have to learn from a teacher to avoid those small but essential errors that claimed the life of such self-taught enchanters as Peothil. And yet, the only way to become truly great is to try all the possibilities on your own.\" - The Final Lesson"
 }
 
 stuff.typeStat1 = {
@@ -186,7 +189,8 @@ stuff.typeStat1 = {
 	[17] = 2,
 	[18] = 5,
 	[19] = 4,
-	[20] = 3
+	[20] = 3,
+	[21] = 6
 }
 
 stuff.typeStat2 = {
@@ -209,7 +213,8 @@ stuff.typeStat2 = {
 	[17] = 7,
 	[18] = 7,
 	[19] = 7,
-	[20] = 7
+	[20] = 7,
+	[21] = 2
 }
 
 ----Specialization Attributes-----------------------------------------------------------------------------------------------------
@@ -1551,6 +1556,10 @@ stuff.abList = {
 	[78] = "kl_ab_pois_02",
 	[79] = "kl_ab_pois_03",
 	[80] = "kl_ab_pois_04",
+	[81] = "kl_ab_guild_01",
+	[82] = "kl_ab_guild_02",
+	[83] = "kl_ab_guild_03",
+	[84] = "kl_ab_guild_04"
 }
 
 stuff.abType = {
@@ -1634,6 +1643,10 @@ stuff.abType = {
 	[78] = "[PASSIVE]",
 	[79] = "[TECHNIQUE]",
 	[80] = "[COMBAT]",
+	[81] = "[PASSIVE]",
+	[82] = "[TRIGGERED]: GUILD CHOICE",
+	[83] = "[PASSIVE]",
+	[84] = "[TRIGGERED]: GUILD CHOICE",
 }
 
 stuff.abDescription = {
@@ -1716,7 +1729,11 @@ stuff.abDescription = {
 	[77] = "The best offense is a good defense.",
 	[78] = "Tolerance in all things provides a potent means of survival.",
 	[79] = "To become hated after having once been loved will twist mind and body both.",
-	[80] = "The most devious plans need not be the most elaborate, nor the most subtle."
+	[80] = "The most devious plans need not be the most elaborate, nor the most subtle.",
+	[81] = "Man was never meant to carry their burdens alone.",
+	[82] = "Mistakes are lessons. A teacher holds many lessons.",
+	[83] = "A soul lies behind those eyes, just like any other.",
+	[84] = "The unknown is death potential; stagnation is death assured."
 }
 
 stuff.abDescription2 = {
@@ -1800,6 +1817,10 @@ stuff.abDescription2 = {
 	[78] = "[Poisonous Type Level 10 Ability]",
 	[79] = "[Poisonous Type Level 15 Ability] May bestow the Aspect of Poison upon its master.",
 	[80] = "[Poisonous Type Level 20 Ability] A venomous touch allows attacks to poison foes over time.",
+	[81] = "[Guild-Trained Type Level 5 Ability]",
+	[82] = "[Guild-Trained Type Level 10 Ability] Choose a guild to train under, and learn their Ability.",
+	[83] = "[Guild-Trained Type Levl 15 Ability]",
+	[84] = "[Guild-Trained Type Level 10 Ability] Choose another guild to train under, and learn their Ability.",
 }
 
 ----NPC Abilities------------------------------------------------------------------------------------------------------
@@ -3525,6 +3546,51 @@ stuff.hircineHunts = {
 	[18] = {"daedroth", 5, 0},
 	[19] = {"winged twilight", 2, 0},
 	[20] = {"dreugh", 12, 0}
+}
+
+stuff.guildTrained = {
+	[1] = "Fighters Guild",
+	[2] = "Mages Guild",
+	[3] = "Imperial Legion",
+	[4] = "Imperial Cult",
+	[5] = "Temple",
+	[6] = "Thieves Guild",
+	[7] = "Morag Tong",
+	[8] = "Blades",
+	[9] = "Sixth House",
+	[10] = "House Hlaalu",
+	[11] = "House Redoran",
+	[12] = "House Telvanni"
+}
+
+stuff.guildTrainedMessages = {
+	[1] = "The Guild of Fighters trained this creature to swiftly deal with any threats on command.", --flat physical dmg on hit, +1 STR per roll
+	[2] = "This specimen was chosen for further study by the Guild of Mages due to its abnormally large magicka pool.", --magicka pool increase, +1 INT per roll. +1 TP
+	[3] = "The Legion employed this creature as a guard, utilizing their naturally sharp senses to detect intruders.", --instantly damages ambushing enemies, buffs player. +1 WIL per roll
+	[4] = "This creature was recognized for their connection to the divine, which allows them to bestow blessings.", --bestow a party wide blessing as a technique. +1 WIL per roll.
+	[5] = "The Three each separately blessed this creature, protecting them from all forms of disease.", --resist common 100%, resist blight 50%, resist corprus 25%. +1 LUK per roll.
+	[6] = "The Thieves Guild trained this creature to steal all sorts of items from unsuspecting marks.", -- +1 AGI per roll. Steals random items from NPCs under a certain value?
+	[7] = "The Morag Tong taught this creature how to target vital weakpoints, allowing them to kill efficiently.", -- +1 AGI per roll. Critical strike chance/above a certain % HP?
+	[8] = "The Blades utilized this creature to carry coded messages quickly across all manner of terrain.", -- +1 INT every other level, +1 SPD per roll.
+	[9] = "This creature has been twisted by blight, addling their minds and inducing brutal aggression.", -- +1 STR -1 WIL every other level. +1 END per roll.
+	[10] = "House Hlaalu has shown a vested interest in this creature's future, due to their potential for making them money.", -- +1 PER per roll. Receive gold per level based on current level?
+	[11] = "House Redoran has bred this creature to destroy their enemies, the profane ash creatures of Red Mountain.", -- +1 END per roll. Trigger enrage when engaging Ash Creatures.
+	[12] = "This creature was experimented on by a Telvanni wizard lord, who subsequently discarded them once their needs were met." -- +1 INT per roll. +5 TP
+}
+
+stuff.guildTrainedTypes = {
+	[1] = "[COMBAT]",
+	[2] = "[PASSIVE]",
+	[3] = "[TRIGGERED]: SPECIFIC",
+	[4] = "[TECHNIQUE]: ACTIVE",
+	[5] = "[PASSIVE]",
+	[6] = "[TRIGGERED]: TOWN",
+	[7] = "[COMBAT]",
+	[8] = "[TRIGGERED]: LEVEL UP",
+	[9] = "[TRIGGERED]: LEVEL UP",
+	[10] = "[TRIGGERED]: LEVEL UP",
+	[11] = "[COMBAT]",
+	[12] = "[PASSIVE]"
 }
 
 
