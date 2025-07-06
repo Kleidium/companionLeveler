@@ -631,44 +631,44 @@ end
 ----Remove/Re-Add Abilities------------------------------------------------------------------------------------------------------------
 --
 
-function this.removeAbilities(ref)
-	log = logger.getLogger("Companion Leveler")
-
-	for i = 1, #tables.abList do
-		local wasRemoved = tes3.removeSpell({ spell = tables.abList[i], reference = ref })
-		if wasRemoved == true then
-			log:debug("" .. tables.abList[i] .. " removed from " .. ref.object.name .. ".")
-		else
-			log:trace("" .. tables.abList[i] .. " not removed from " .. ref.object.name .. ".")
-		end
-	end
+local function removeAbilities(ref, spellTable)
+    log = logger.getLogger("Companion Leveler")
+    for i = 1, #spellTable do
+        local wasRemoved = tes3.removeSpell({ spell = spellTable[i], reference = ref })
+        if wasRemoved == true then
+            log:debug("" .. spellTable[i] .. " removed from " .. ref.object.name .. ".")
+        end
+    end
 end
 
-function this.addAbilities(ref)
-	log = logger.getLogger("Companion Leveler")
-	local modData = this.getModData(ref)
-	for i = 1, #tables.abList do
-		if modData.abilities[i] == true then
-			local wasAdded = tes3.addSpell({ spell = tables.abList[i], reference = ref })
-			if wasAdded == true then
-				log:debug("" .. tables.abList[i] .. " added back to " .. ref.object.name .. ".")
-			else
-				log:trace("" .. tables.abList[i] .. " not learned by " .. ref.object.name .. ".")
-			end
-		end
-	end
+local function addAbilities(ref, spellTable, abilities)
+    log = logger.getLogger("Companion Leveler")
+    for i = 1, #spellTable do
+        if abilities[i] == true then
+            local wasAdded = tes3.addSpell({ spell = spellTable[i], reference = ref })
+            if wasAdded == true then
+                log:debug("" .. spellTable[i] .. " added back to " .. ref.object.name .. ".")
+            end
+        end
+    end
+end
+
+function this.removeAbilitiesCre(ref)
+    removeAbilities(ref, tables.abList)
+end
+
+function this.addAbilitiesCre(ref)
+    local modData = this.getModData(ref)
+    addAbilities(ref, tables.abList, modData.abilities)
 end
 
 function this.removeAbilitiesNPC(ref)
-	log = logger.getLogger("Companion Leveler")
-	for i = 1, #tables.abListNPC do
-		local wasRemoved = tes3.removeSpell({ spell = tables.abListNPC[i], reference = ref, })
-		if wasRemoved == true then
-			log:debug("" .. tables.abListNPC[i] .. " removed from " .. ref.object.name .. ".")
-		else
-			log:trace("" .. tables.abListNPC[i] .. " not removed from " .. ref.object.name .. ".")
-		end
-	end
+    removeAbilities(ref, tables.abListNPC)
+end
+
+function this.addAbilitiesNPC(ref)
+    local modData = this.getModData(ref)
+    addAbilities(ref, tables.abListNPC, modData.abilities)
 end
 
 function this.removePatron(ref)
@@ -698,22 +698,6 @@ function this.removePatron(ref)
 		end
 	end
 end
-
-function this.addAbilitiesNPC(ref)
-	log = logger.getLogger("Companion Leveler")
-	local modData = this.getModData(ref)
-	for i = 1, #tables.abListNPC do
-		if modData.abilities[i] == true then
-			local wasAdded = tes3.addSpell({ spell = tables.abListNPC[i], reference = ref })
-			if wasAdded == true then
-				log:debug("" .. tables.abListNPC[i] .. " added back to " .. ref.object.name .. ".")
-			else
-				log:trace("" .. tables.abListNPC[i] .. " not learned by " .. ref.object.name .. ".")
-			end
-		end
-	end
-end
-
 
 --
 ----Experience Functions--------------------------------------------------------------------------------------------------
@@ -878,6 +862,20 @@ function this.calculatePosition()
 	position.z = eyepos.z
 
 	return position
+end
+
+function this.applyScampsonContract(actor, contractId, aiConfigField, barterGoldValue)
+    if this.checkReq(true, contractId, 1, tes3.player) then
+        if aiConfigField then
+            actor.object.baseObject.aiConfig[aiConfigField] = true
+        end
+        if barterGoldValue then
+            if actor.object.baseObject.barterGold < barterGoldValue then
+                actor.object.baseObject.barterGold = barterGoldValue
+            end
+        end
+        actor.object.baseObject.modified = true
+    end
 end
 
 

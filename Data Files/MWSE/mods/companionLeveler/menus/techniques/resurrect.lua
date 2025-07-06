@@ -256,7 +256,7 @@ function rez.createWindow(ref, type)
 			end
 			
 			if rez.ref.object.objectType == tes3.objectType.creature then
-				func.addAbilities(rez.ref)
+				func.addAbilitiesCre(rez.ref)
 			else
 				func.addAbilitiesNPC(rez.ref)
 			end

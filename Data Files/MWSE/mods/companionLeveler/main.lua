@@ -72,6 +72,20 @@ event.register("levelUp", onLevelUp)
 ----Exp Mode----------------------------------------------------------------------------------------------------------------------
 --
 
+--Level Up
+local function handleLevelUp(build, npc, creature)
+    if #build > 0 then
+        buildMode.companionLevelBuild(build)
+    else
+        if #npc > 0 then
+            npcMode.levelUp(npc)
+        end
+        if #creature > 0 then
+            creMode.levelUp(creature)
+        end
+    end
+end
+
 --Skill Experience
 local function onSkillRaised(e)
 	abilities.comprehension(e)
@@ -103,17 +117,7 @@ local function onSkillRaised(e)
 
 	--Add EXP to companions------------------------------------------------
 	local build, npc, creature = func.awardEXP(finalAmt)
-
-	if #build > 0 then
-		buildMode.companionLevelBuild(build)
-	else
-		if #npc > 0 then
-			npcMode.levelUp(npc)
-		end
-		if #creature > 0 then
-			creMode.levelUp(creature)
-		end
-	end
+	handleLevelUp(build, npc, creature)
 end
 event.register("skillRaised", onSkillRaised)
 
@@ -132,17 +136,7 @@ local function onDeath(e)
 
 	--Level Up Tables
 	local build, npc, creature = func.awardEXP(config.expKill)
-
-	if #build > 0 then
-		buildMode.companionLevelBuild(build)
-	else
-		if #npc > 0 then
-			npcMode.levelUp(npc)
-		end
-		if #creature > 0 then
-			creMode.levelUp(creature)
-		end
-	end
+	handleLevelUp(build, npc, creature)
 end
 event.register("death", onDeath)
 
@@ -154,17 +148,7 @@ local function onJournal(e)
 	if not e.new then
 		--Level Up Tables
 		local build, npc, creature = func.awardEXP(config.expQuest)
-
-		if #build > 0 then
-			buildMode.companionLevelBuild(build)
-		else
-			if #npc > 0 then
-				npcMode.levelUp(npc)
-			end
-			if #creature > 0 then
-				creMode.levelUp(creature)
-			end
-		end
+		handleLevelUp(build, npc, creature)
 	end
 end
 event.register("journal", onJournal)
@@ -175,8 +159,6 @@ event.register("journal", onJournal)
 --
 
 event.register("uiActivated", function()
-	
-
 	local actor = tes3ui.getServiceActor()
 	log:debug("Object Type: " .. actor.reference.baseObject.objectType .. "")
 
@@ -194,83 +176,23 @@ event.register("uiActivated", function()
 
 	--Clavicus Vile: Scampson
 	if actor.object.baseObject.id == "kl_scamp_scampson" then
-		--Weapons Con-tract 5k
-		if func.checkReq(true, "kl_scampson_weapons_contract", 1, tes3.player) then
-			actor.object.baseObject.aiConfig.bartersWeapons = true
-			actor.object.baseObject.modified = true
-		end
-		--Armor Con-tract 3k
-		if func.checkReq(true, "kl_scampson_armor_contract", 1, tes3.player) then
-			actor.object.baseObject.aiConfig.bartersArmor = true
-			actor.object.baseObject.modified = true
-		end
-		--Clothing Con-tract 2k
-		if func.checkReq(true, "kl_scampson_clothing_contract", 1, tes3.player) then
-			actor.object.baseObject.aiConfig.bartersClothing = true
-			actor.object.baseObject.modified = true
-		end
-		--Ingredient Con-tract 3k
-		if func.checkReq(true, "kl_scampson_ingredient_contract", 1, tes3.player) then
-			actor.object.baseObject.aiConfig.bartersIngredients = true
-			actor.object.baseObject.modified = true
-		end
-		--Roguish 2k
-		if func.checkReq(true, "kl_scampson_roguish_contract", 1, tes3.player) then
-			actor.object.baseObject.aiConfig.bartersProbes = true
-			actor.object.baseObject.aiConfig.bartersLockpicks = true
-			actor.object.baseObject.modified = true
-		end
-		--Shiny 1k
-		if func.checkReq(true, "kl_scampson_shiny_contract", 1, tes3.player) then
-			actor.object.baseObject.aiConfig.bartersLights= true
-			actor.object.baseObject.modified = true
-		end
-		--Domestic 1k
-		if func.checkReq(true, "kl_scampson_domestic_contract", 1, tes3.player) then
-			actor.object.baseObject.aiConfig.bartersMiscItems= true
-			actor.object.baseObject.modified = true
-		end
-		--Alchemical
-		if func.checkReq(true, "kl_scampson_alchemical_contract", 1, tes3.player) then
-			actor.object.baseObject.aiConfig.bartersApparatus= true
-			actor.object.baseObject.aiConfig.bartersAlchemy= true
-			actor.object.baseObject.modified = true
-		end
-		--500:500g Bronze
-		if func.checkReq(true, "kl_scampson_bronze_contract", 1, tes3.player) and actor.object.baseObject.barterGold < 500 then
-			actor.object.baseObject.barterGold = 500
-			actor.object.baseObject.modified = true
-		end
-		--1000:2000g Silver
-		if func.checkReq(true, "kl_scampson_silver_contract", 1, tes3.player) and actor.object.baseObject.barterGold < 1000 then
-			actor.object.baseObject.barterGold = 1000
-			actor.object.baseObject.modified = true
-		end
-		--2000:5000g Gold
-		if func.checkReq(true, "kl_scampson_gold_contract", 1, tes3.player) and actor.object.baseObject.barterGold < 2000 then
-			actor.object.baseObject.barterGold = 2000
-			actor.object.baseObject.modified = true
-		end
-		--3000:5000g Pearl
-		if func.checkReq(true, "kl_scampson_pearl_contract", 1, tes3.player) and actor.object.baseObject.barterGold < 3000 then
-			actor.object.baseObject.barterGold = 3000
-			actor.object.baseObject.modified = true
-		end
-		--5000:10000g Diamond
-		if func.checkReq(true, "kl_scampson_diamond_contract", 1, tes3.player) and actor.object.baseObject.barterGold < 5000 then
-			actor.object.baseObject.barterGold = 5000
-			actor.object.baseObject.modified = true
-		end
-		--10000:50000g Crystal
-		if func.checkReq(true, "kl_scampson_crystal_contract", 1, tes3.player) and actor.object.baseObject.barterGold < 10000 then
-			actor.object.baseObject.barterGold = 10000
-			actor.object.baseObject.modified = true
-		end
-		--Repair Con-tract 10k
-		if func.checkReq(true, "kl_scampson_repair_contract", 1, tes3.player) then
-			actor.object.baseObject.aiConfig.offersRepairs = true
-			actor.object.baseObject.modified = true
-		end
+		func.applyScampsonContract(actor, "kl_scampson_weapons_contract", "bartersWeapons")
+		func.applyScampsonContract(actor, "kl_scampson_armor_contract", "bartersArmor")
+		func.applyScampsonContract(actor, "kl_scampson_clothing_contract", "bartersClothing")
+		func.applyScampsonContract(actor, "kl_scampson_ingredient_contract", "bartersIngredients")
+		func.applyScampsonContract(actor, "kl_scampson_roguish_contract", "bartersProbes")
+		func.applyScampsonContract(actor, "kl_scampson_roguish_contract", "bartersLockpicks")
+		func.applyScampsonContract(actor, "kl_scampson_shiny_contract", "bartersLights")
+		func.applyScampsonContract(actor, "kl_scampson_domestic_contract", "bartersMiscItems")
+		func.applyScampsonContract(actor, "kl_scampson_alchemical_contract", "bartersApparatus")
+		func.applyScampsonContract(actor, "kl_scampson_alchemical_contract", "bartersAlchemy")
+		func.applyScampsonContract(actor, "kl_scampson_repair_contract", "offersRepairs")
+		func.applyScampsonContract(actor, "kl_scampson_bronze_contract", nil, 500)
+		func.applyScampsonContract(actor, "kl_scampson_silver_contract", nil, 1000)
+		func.applyScampsonContract(actor, "kl_scampson_gold_contract", nil, 2000)
+		func.applyScampsonContract(actor, "kl_scampson_pearl_contract", nil, 3000)
+		func.applyScampsonContract(actor, "kl_scampson_diamond_contract", nil, 5000)
+		func.applyScampsonContract(actor, "kl_scampson_crystal_contract", nil, 10000)
 	end
 
 end, { filter = "MenuDialog" })
@@ -287,7 +209,7 @@ event.register(tes3.event.keyDown, function(e)
 		log:trace("Ability Check triggered on " .. t.object.name .. ". (Key Press)")
 
 		if t.object.objectType == tes3.objectType.creature then
-			func.addAbilities(t)
+			func.addAbilitiesCre(t)
 		else
 			func.addAbilitiesNPC(t)
 		end
@@ -309,14 +231,14 @@ local function abilityClear(e)
 
 	log:trace("Ability Check triggered on " .. e.reference.object.name .. ". (Activated)")
 	if not func.validCompanionCheck(e.mobile) then
-		func.removeAbilities(e.reference)
+		func.removeAbilitiesCre(e.reference)
 
 		
 
 		abilities.tranquility(e.reference)
 		abilities.pheromone(e.reference)
 	else
-		func.addAbilities(e.reference)
+		func.addAbilitiesCre(e.reference)
 	end
 end
 event.register(tes3.event.mobileActivated, abilityClear)
@@ -505,6 +427,7 @@ local function onDamage(e)
 		result = result - abilities.talosDuty(e)
 		abilities.malacathGift(e)
 		abilities.namiraGift(e)
+		result = result + abilities.fightersGuild(e)
 
 		--Combat Chance
 		if math.random(0, 99) < config.combatChance then
@@ -587,17 +510,7 @@ local function onCellChanged(e)
 	if exp > 0 then
 		--Award EXP
 		local build, npc, creature = func.awardEXP(exp)
-
-		if #build > 0 then
-			buildMode.companionLevelBuild(build)
-		else
-			if #npc > 0 then
-				npcMode.levelUp(npc)
-			end
-			if #creature > 0 then
-				creMode.levelUp(creature)
-			end
-		end
+		handleLevelUp(build, npc, creature)
 	end
 end
 event.register(tes3.event.cellChanged, onCellChanged)
@@ -725,13 +638,67 @@ event.register("modConfigReady", function()
 end)
 
 --for testing:
--- local function expTest()
--- 	if config.expMode == false then return end
--- 	tes3.player.mobile:exerciseSkill(10, 100)
--- end
+local function expTest()
+	if config.expMode == false then return end
+	tes3.player.mobile:exerciseSkill(10, 100)
+end
 
--- event.register("jump", onLevelUp)
--- event.register("jump", expTest)
---
+event.register("jump", onLevelUp)
+event.register("jump", expTest)
 
---specialist type creature joins a faction and other stuff, maybe chooses a service to provide
+
+
+
+
+
+
+--go through and enforce config rules
+--add Guild-Trained type, Willpower/Personality, can choose up to 2 factions with accompanied abilities
+--companion share without variable, just build the damn menu?
+--specialist 5 gives an additional level like commoner does so its not just shittier
+--anointed type gives a patron ability tree
+--auto-select new class based on similarity to current job feature
+--remove "Companion Leveler" title from root menu, maybe replace with icon or shorthand [CL]
+
+
+
+
+--CHANGES:
+--refactored main.lua: scampson contracts, exp level up triggers
+--refactored common.lua: ability add/remove functions refactored, useless "ability not removed" log msg removed
+--refactored sheet.lua: header/buttons, fillbars, attribute/skill labels
+--refactored abilities.lua: party aura helper, modStatistic helper (move to common.lua? enforce config rules)
+--fixed creature 40 to TRIGGERED, as it is not an AURA
+--same with NPC 72
+
+
+
+--PLANNED FEATURES--
+--overhaul speciallist menu
+--rename companions?
+--dash or blink ability that checks distance in combat and spends fatigue and/or magicka to teleport to enemy in combat
+--use vampirism as an effect?
+--technique to teleport to a mobile or reference?
+--add visual indicator to technique/spell targets?
+--courtesan is an aura or tech now?
+--Equip/Unequip abilities like spells
+--class can distract npc somehow? alarm value?
+----turn thief into technique
+----golem type? arachnid type? reptile? homuncular?
+----allow mix of build/exp/regular mode companions?
+----turn single character menu into multi-character party menu like final fantasy?
+----more tooltips where needed
+----trim tables maybe
+----specialization techs have a % chance to be learned when leveling up as a class with that specialization? e.g. stealth learns a dash tech?
+----hybrid class/type techs? like level 10 spriggan level 10 frozen type hybrid tech?
+----friendly intervention compat? check for mod and require, add tele menu to technique/root menu
+----traders TRADE random items for other items
+----A class can negotiate better deals and get %off gold?
+----a class teaches spells they know as a technique
+----expensive revive tech, less expensive worse revive tech, gathering tech? long lasting barrier tech
+----creature classes? as in, training types with different npc like abilities. like service animal or tracking animal
+----changing the tooltip name does not change the name in the CL UI. maybe I can allow that?
+---technique trades one skill for another
+---werewolf creature type
+-----make sure metamorph doesn't fuck with patrons/factions (it shouldn't)
+-----sharpshooter class snipes enemies

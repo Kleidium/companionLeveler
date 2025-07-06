@@ -142,7 +142,7 @@ stuff.typeDesc1 = {
 	[18] = "Elemental Type. Learns some Frost magic. Learns to frostbite enemies with attacks and guard themselves and their master against Frost.",
 	[19] = "Elemental Type. Learns some Shock magic. Learns to electrocute enemies with attacks and guard themselves and their master against Shock.",
 	[20] = "Elemental Type. Learns some Poison magic. Learns to poison enemies with attacks and guard themselves and their master against Poison.",
-	[21] = "Specialist Type. Learns to carry heavier burdens. May receive specialized training and techniques from their chosen guild(s)."
+	[21] = "Specialist Type. Joins up to two guilds. May receive specialized training and abilities from their chosen guilds."
 }
 
 stuff.typeDesc2 = {
@@ -1602,7 +1602,7 @@ stuff.abType = {
 	[37] = "[PASSIVE]",
 	[38] = "[PASSIVE]",
 	[39] = "[PASSIVE]",
-	[40] = "[AURA]",
+	[40] = "[TRIGGERED]: ANYWHERE",
 	[41] = "[PASSIVE]",
 	[42] = "[COMBAT]",
 	[43] = "[PASSIVE]",
@@ -1730,9 +1730,9 @@ stuff.abDescription = {
 	[78] = "Tolerance in all things provides a potent means of survival.",
 	[79] = "To become hated after having once been loved will twist mind and body both.",
 	[80] = "The most devious plans need not be the most elaborate, nor the most subtle.",
-	[81] = "Man was never meant to carry their burdens alone.",
-	[82] = "Mistakes are lessons. A teacher holds many lessons.",
-	[83] = "A soul lies behind those eyes, just like any other.",
+	[81] = "There resides a unique potential within all beings; it is up to them to shape it.",
+	[82] = "Mistakes are lessons. A teacher passes on many lessons.",
+	[83] = "Camaraderie imposes burdens of its own.",
 	[84] = "The unknown is death potential; stagnation is death assured."
 }
 
@@ -2183,7 +2183,7 @@ stuff.abTypeNPC = {
 	[69] = "[TRIGGERED]: TOWN",
 	[70] = "[TRIGGERED]: LEVEL UP",
 	[71] = "[TRIGGERED]: TOWN",
-	[72] = "[AURA]",
+	[72] = "[TRIGGERED]: ANYWHERE",
 	[73] = "[COMBAT]",
 	[74] = "[TRIGGERED]: WILDERNESS",
 	[75] = "[COMBAT]",
@@ -3548,34 +3548,28 @@ stuff.hircineHunts = {
 	[20] = {"dreugh", 12, 0}
 }
 
-stuff.guildTrained = {
-	[1] = "Fighters Guild",
-	[2] = "Mages Guild",
-	[3] = "Imperial Legion",
-	[4] = "Imperial Cult",
-	[5] = "Temple",
-	[6] = "Thieves Guild",
-	[7] = "Morag Tong",
-	[8] = "Blades",
-	[9] = "Sixth House",
-	[10] = "House Hlaalu",
-	[11] = "House Redoran",
-	[12] = "House Telvanni"
-}
-
 stuff.guildTrainedMessages = {
-	[1] = "The Guild of Fighters trained this creature to swiftly deal with any threats on command.", --flat physical dmg on hit, +1 STR per roll
-	[2] = "This specimen was chosen for further study by the Guild of Mages due to its abnormally large magicka pool.", --magicka pool increase, +1 INT per roll. +1 TP
-	[3] = "The Legion employed this creature as a guard, utilizing their naturally sharp senses to detect intruders.", --instantly damages ambushing enemies, buffs player. +1 WIL per roll
-	[4] = "This creature was recognized for their connection to the divine, which allows them to bestow blessings.", --bestow a party wide blessing as a technique. +1 WIL per roll.
-	[5] = "The Three each separately blessed this creature, protecting them from all forms of disease.", --resist common 100%, resist blight 50%, resist corprus 25%. +1 LUK per roll.
-	[6] = "The Thieves Guild trained this creature to steal all sorts of items from unsuspecting marks.", -- +1 AGI per roll. Steals random items from NPCs under a certain value?
-	[7] = "The Morag Tong taught this creature how to target vital weakpoints, allowing them to kill efficiently.", -- +1 AGI per roll. Critical strike chance/above a certain % HP?
-	[8] = "The Blades utilized this creature to carry coded messages quickly across all manner of terrain.", -- +1 INT every other level, +1 SPD per roll.
-	[9] = "This creature has been twisted by blight, addling their minds and inducing brutal aggression.", -- +1 STR -1 WIL every other level. +1 END per roll.
-	[10] = "House Hlaalu has shown a vested interest in this creature's future, due to their potential for making them money.", -- +1 PER per roll. Receive gold per level based on current level?
-	[11] = "House Redoran has bred this creature to destroy their enemies, the profane ash creatures of Red Mountain.", -- +1 END per roll. Trigger enrage when engaging Ash Creatures.
-	[12] = "This creature was experimented on by a Telvanni wizard lord, who subsequently discarded them once their needs were met." -- +1 INT per roll. +5 TP
+	[1] = "The Guild of Fighters trained this creature to swiftly deal with any threat on command.", --flat physical dmg on hit
+	[2] = "This specimen was chosen for further study by the Guild of Mages due to its abnormally large magicka pool.", --magicka pool increase, +1 TP
+	[3] = "The Legion employed this creature as a guard, utilizing their naturally sharp senses to detect intruders.", --instantly damages ambushing enemies, buffs player.
+	[4] = "This creature was recognized for their connection to the divine, which allows them to bestow blessings.", --bestow a party wide blessing as a technique.
+	[5] = "The Temple blessed this creature, protecting them from all forms of disease.", --resist common 100%, resist blight 50%, resist corprus 25%.
+	[6] = "The Thieves Guild trained this creature to steal all sorts of items from unsuspecting marks.", --Steals random items from NPCs under a certain value?
+	[7] = "The Morag Tong taught this creature how to target vital weakpoints, allowing them to kill efficiently.", --Critical strike chance
+	[8] = "The Blades utilized this creature to carry coded messages quickly across all manner of terrain.", -- +1 SPD per level.
+	[9] = "This creature has been twisted by the unnatural blight, becoming a pestilent vessel for disease.", --Chance to blight on strike
+	[10] = "House Hlaalu has shown a vested interest in this creature's future, due to their potential for making them money.", -- Receive gold per level based on current level?
+	[11] = "Honorable House Redoran has bred this creature to destroy their enemies, the profane ash creatures of Red Mountain.", -- Trigger enrage when engaging Ash Creatures.
+	[12] = "This creature was experimented on by a Telvanni wizard lord, who subsequently discarded them once their inscrutable needs were met.", -- +5 TP
+	[13] = "The East Empire Company taught this creature to survey caves and sniff out natural glass and ebony deposits.", -- Detects Glass/Ebony nodes upon cell change.
+	[14] = "This creature once roamed about with Ashlanders, living a rough nomadic life with them some time before joining you.", --Ashstorms trigger a buff.
+	[15] = "The Twin Lamps trained this creature to navigate labyrinthine tunnels, leading many slaves to freedom while eluding their lost pursuers.", --ninja technique, or speed aura
+	[16] = "The Camonna Tong used this creature as a drug mule for some time, causing the creature to develop a curious taste for drugs.", --Consume Skooma as a technique.
+	[17] = "House Dres instilled a deep bias against all non-Dunmer races in this creature, in order to aid in intimidating or subduing slaves.", -- +5% dmg to all non-Dunmer
+	[18] = "House Indoril, through traditional ceremony, bestowed upon this creature a protective Ancestral Guardian.", -- Ancestor Guardian follows, comes back
+	[19] = "The Imperial Archeological Society commissioned this specially trained creature to help detect rare artifacts.", --Detect powerful artifacts upon change cell
+	[20] = "The movements of the stars long affected this creature, prompting interest from the Imperial Astrological Society.", --As the months change, so too does the creature's benefits.
+	[21] = "This creature traveled the world at the behest of the Imperial Geographical Society, traveling with various adventurers." --+3 to all stats
 }
 
 stuff.guildTrainedTypes = {
@@ -3587,10 +3581,19 @@ stuff.guildTrainedTypes = {
 	[6] = "[TRIGGERED]: TOWN",
 	[7] = "[COMBAT]",
 	[8] = "[TRIGGERED]: LEVEL UP",
-	[9] = "[TRIGGERED]: LEVEL UP",
+	[9] = "[COMBAT]",
 	[10] = "[TRIGGERED]: LEVEL UP",
 	[11] = "[COMBAT]",
-	[12] = "[PASSIVE]"
+	[12] = "[PASSIVE]",
+	[13] = "[TRIGGERED]: ANYWHERE",
+	[14] = "[TRIGGERED]: ANYWHERE",
+	[15] = "[TECHNIQUE]: ACTIVE",
+	[16] = "[TECHNIQUE]: ACTIVE",
+	[17] = "[COMBAT]",
+	[18] = "[COMBAT]",
+	[19] = "[TRIGGERED]: ANYWHERE",
+	[20] = "[TRIGGERED]: SPECIFIC",
+	[21] = "[PASSIVE]"
 }
 
 

@@ -397,44 +397,23 @@ function sheet.onOriginal()
     if menu then
         local baseTable = sheet.reference.baseObject.attributes
         local baseSkillTable = sheet.reference.baseObject.skills
-        local label = menu:findChild(sheet.id_label)
-        local label2 = menu:findChild(sheet.id_label2)
-        local title = menu:findChild(sheet.id_title)
-        local cur = menu:findChild(sheet.id_current)
-        local ide = menu:findChild(sheet.id_ideal)
-        local ori = menu:findChild(sheet.id_original)
-
-        cur.widget.state = 1
-        ide.widget.state = 1
-        ori.widget.state = 4
-
-        label.text = "Original Statistics:"
-        label2.text = "(before any changes were ever made)"
 
         if sheet.reference.object.objectType == tes3.objectType.creature then
             local defType = func.determineDefault(sheet.reference)
-            title.text = "" .. sheet.reference.object.name .. ", the " .. defType .. ""
+            sheet.updateHeaderAndButtons(menu, "original", "" .. sheet.reference.object.name .. ", the " .. defType .. "")
         else
-            title.text = "" .. sheet.reference.object.name .. ", the " .. sheet.reference.object.class.name .. ""
+            sheet.updateHeaderAndButtons(menu, "original", "" .. sheet.reference.object.name .. ", the " .. sheet.reference.object.class.name .. "")
         end
 
         sheet.lvl.text = "Level: " .. sheet.reference.baseObject.level .. ""
 
         --Fill Bars
-        sheet.hth.widget.current = sheet.reference.mobile.health.current
-        sheet.mgk.widget.current = sheet.reference.mobile.magicka.current
-        sheet.fat.widget.current = sheet.reference.mobile.fatigue.current
-        sheet.tp.widget.current = sheet.reference.baseObject.level
-
-        sheet.hth.widget.max = sheet.reference.baseObject.health
-        sheet.mgk.widget.max = sheet.reference.baseObject.magicka
-        sheet.fat.widget.max = sheet.reference.baseObject.fatigue
-        sheet.tp.widget.max = sheet.reference.baseObject.level
-
-        -- if config.expMode == true then
-        --     sheet.exp.widget.current = 0
-        --     sheet.exp.widget.max = (config.expRequirement + (sheet.reference.baseObject.level * config.expRate))
-        -- end
+        sheet.updateFillBars({
+            hth = { current = sheet.reference.mobile.health.current, max = sheet.reference.baseObject.health, color = tables.colors["red"] },
+            mgk = { current = sheet.reference.mobile.magicka.current, max = sheet.reference.baseObject.magicka, color = tables.colors["blue"] },
+            fat = { current = sheet.reference.mobile.fatigue.current, max = sheet.reference.baseObject.fatigue, color = tables.colors["green"] },
+            tp  = { current = sheet.reference.baseObject.level, max = sheet.reference.baseObject.level, color = tables.colors["purple"] }
+        })
 
         if sheet.hth.widget.current > sheet.hth.widget.max then
             sheet.hth.widget.current = sheet.hth.widget.max
@@ -446,17 +425,8 @@ function sheet.onOriginal()
             sheet.fat.widget.current = sheet.fat.widget.max
         end
 
-        sheet.hth.widget.fillColor = tables.colors["red"]
-        sheet.mgk.widget.fillColor = tables.colors["blue"]
-        sheet.fat.widget.fillColor = tables.colors["green"]
-
         --Attributes
-        for i = 0, 7 do
-            local attList = menu:findChild("kl_sheet_att_" .. i .. "")
-            attList.text = "" ..
-                tables.capitalization[i] .. ": " .. baseTable[i + 1] .. ""
-            attList.color = tables.colors["default_font"]
-        end
+        sheet.updateAttributeLabels(menu, baseTable, nil, nil, "original")
 
         if sheet.reference.object.objectType == tes3.objectType.creature or sheet.modData.metamorph == true then
             --Creature Types
@@ -482,11 +452,7 @@ function sheet.onOriginal()
             end
         else
             --NPC Skills
-            for i = 0, 26 do
-                local skillList = menu:findChild("kl_sheet_skill_" .. i .. "")
-                skillList.text = "" .. tes3.getSkillName(i) .. ": " .. baseSkillTable[i + 1] .. ""
-                skillList.widget.idle = tables.colors["default_font"]
-            end
+            sheet.updateSkillLabels(menu, baseSkillTable, nil, "original")
         end
         menu:updateLayout()
     end
@@ -497,56 +463,25 @@ function sheet.onCurrent()
     if menu then
         local modData = func.getModData(sheet.reference)
         local attTable = sheet.reference.mobile.attributes
-        local title = menu:findChild(sheet.id_title)
-        local label = menu:findChild(sheet.id_label)
-        local label2 = menu:findChild(sheet.id_label2)
-        local cur = menu:findChild(sheet.id_current)
-        local ide = menu:findChild(sheet.id_ideal)
-        local ori = menu:findChild(sheet.id_original)
-
-        cur.widget.state = 4
-        ide.widget.state = 1
-        ori.widget.state = 1
-
-        label.text = "Current Statistics:"
-        label2.text = "(current value / base value)"
 
         if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
-            title.text = "" .. sheet.reference.object.name .. ", the " .. modData.type .. ""
+            sheet.updateHeaderAndButtons(menu, "current", "" .. sheet.reference.object.name .. ", the " .. modData.type .. "")
         else
-            title.text = "" .. sheet.reference.object.name .. ", the " .. sheet.class.name .. ""
+            sheet.updateHeaderAndButtons(menu, "current", "" .. sheet.reference.object.name .. ", the " .. sheet.class.name .. "")
         end
 
         sheet.lvl.text = "Level: " .. modData.level .. ""
 
         --Fill Bars
-        sheet.hth.widget.current = sheet.reference.mobile.health.current
-        sheet.mgk.widget.current = sheet.reference.mobile.magicka.current
-        sheet.fat.widget.current = sheet.reference.mobile.fatigue.current
-        sheet.tp.widget.current = modData.tp_current
-
-        sheet.hth.widget.max = sheet.reference.mobile.health.base
-        sheet.mgk.widget.max = sheet.reference.mobile.magicka.base
-        sheet.fat.widget.max = sheet.reference.mobile.fatigue.base
-        sheet.tp.widget.max = modData.tp_max
-
-        sheet.hth.widget.fillColor = tables.colors["red"]
-        sheet.mgk.widget.fillColor = tables.colors["blue"]
-        sheet.fat.widget.fillColor = tables.colors["green"]
+        sheet.updateFillBars({
+            hth = { current = sheet.reference.mobile.health.current, max = sheet.reference.mobile.health.base, color = tables.colors["red"] },
+            mgk = { current = sheet.reference.mobile.magicka.current, max = sheet.reference.mobile.magicka.base, color = tables.colors["blue"] },
+            fat = { current = sheet.reference.mobile.fatigue.current, max = sheet.reference.mobile.fatigue.base, color = tables.colors["green"] },
+            tp  = { current = modData.tp_current, max = modData.tp_max, color = tables.colors["purple"] }
+        })
 
         --Attributes
-        for i = 0, 7 do
-            local attList = menu:findChild("kl_sheet_att_" .. i .. "")
-            attList.text = "" .. tables.capitalization[i] .. ": " .. math.round(attTable[i + 1].current) .. " / " .. attTable[i + 1].base .. ""
-
-            attList.color = tables.colors["default_font"]
-            if attTable[i + 1].current < attTable[i + 1].base then
-                attList.color = tables.colors["red"]
-            end
-            if attTable[i + 1].current > attTable[i + 1].base then
-                attList.color = tables.colors["green"]
-            end
-        end
+        sheet.updateAttributeLabels(menu, nil, attTable, modData, "current")
 
         if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
             --Creature Types
@@ -568,21 +503,7 @@ function sheet.onCurrent()
             end
         else
             --NPC Skills
-            for i = 0, 26 do
-                local tempSkill = sheet.reference.mobile:getSkillStatistic(i)
-                local skillList = menu:findChild("kl_sheet_skill_" .. i .. "")
-                skillList.text = "" .. tes3.getSkillName(i) .. ": " .. tempSkill.current .. " / " .. tempSkill.base .. ""
-                skillList.widget.idle = tables.colors["default_font"]
-                if tempSkill.current < tempSkill.base then
-                    skillList.widget.idle = tables.colors["red"]
-                end
-                if tempSkill.current > tempSkill.base then
-                    skillList.widget.idle = tables.colors["green"]
-                end
-                if i == modData.ignore_skill then
-                    skillList.widget.idle = tables.colors["yellow"]
-                end
-            end
+            sheet.updateSkillLabels(menu, nil, modData, "current")
         end
         menu:updateLayout()
     end
@@ -595,38 +516,23 @@ function sheet.onIdeal()
         local baseTable = sheet.reference.baseObject.attributes
         local baseSkillTable = sheet.reference.baseObject.skills
         local modData = func.getModData(sheet.reference)
-        local title = menu:findChild(sheet.id_title)
-        local label = menu:findChild(sheet.id_label)
-        local label2 = menu:findChild(sheet.id_label2)
-        local cur = menu:findChild(sheet.id_current)
-        local ide = menu:findChild(sheet.id_ideal)
-        local ori = menu:findChild(sheet.id_original)
-
-        cur.widget.state = 1
-        ide.widget.state = 4
-        ori.widget.state = 1
 
         if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
-            title.text = "" .. sheet.reference.object.name .. ", the " .. modData.type .. ""
+            sheet.updateHeaderAndButtons(menu, "ideal", "" .. sheet.reference.object.name .. ", the " .. modData.type .. "")
+            
         else
-            title.text = "" .. sheet.reference.object.name .. ", the " .. sheet.class.name .. ""
+            sheet.updateHeaderAndButtons(menu, "ideal", "" .. sheet.reference.object.name .. ", the " .. sheet.class.name .. "")
         end
-
-        label.text = "Ideal Statistics:"
-        label2.text = "(original + total Companion Leveler stats = Ideal Stats)"
 
         sheet.lvl.text = "Level: " .. sheet.reference.baseObject.level .. " + " .. (modData.level - sheet.reference.baseObject.level) .. " = " .. modData.level .. ""
 
         --Fill Bars
-        sheet.hth.widget.max = sheet.reference.baseObject.health + modData.hth_gained
-        sheet.mgk.widget.max = sheet.reference.baseObject.magicka + modData.mgk_gained
-        sheet.fat.widget.max = sheet.reference.baseObject.fatigue + modData.fat_gained
-        sheet.tp.widget.max = modData.tp_max
-
-        sheet.hth.widget.current = sheet.reference.mobile.health.current
-        sheet.mgk.widget.current = sheet.reference.mobile.magicka.current
-        sheet.fat.widget.current = sheet.reference.mobile.fatigue.current
-        sheet.tp.widget.current = modData.tp_current
+        sheet.updateFillBars({
+            hth = { current = sheet.reference.mobile.health.current, max = sheet.reference.baseObject.health + modData.hth_gained, color = tables.colors["red"] },
+            mgk = { current = sheet.reference.mobile.magicka.current, max = sheet.reference.baseObject.magicka + modData.mgk_gained, color = tables.colors["blue"] },
+            fat = { current = sheet.reference.mobile.fatigue.current, max = sheet.reference.baseObject.fatigue + modData.fat_gained, color = tables.colors["green"] },
+            tp  = { current = modData.tp_current, max = modData.tp_max, color = tables.colors["purple"] }
+        })
 
         if sheet.reference.mobile.health.base ~= sheet.hth.widget.max then
             sheet.hth.widget.fillColor = tables.colors["light_blue"]
@@ -651,22 +557,7 @@ function sheet.onIdeal()
             sheet.fat.widget.current = sheet.fat.widget.max
         end
 
-        for i = 0, 7 do
-            local attList = menu:findChild("kl_sheet_att_" .. i .. "")
-            local ideal = (baseTable[i + 1] + modData.att_gained[i + 1])
-            if ideal < 0 then
-                ideal = 0
-            end
-            attList.text = "" ..
-                tables.capitalization[i] ..
-                ": " ..
-                baseTable[i + 1] ..
-                " + " .. modData.att_gained[i + 1] .. " = " .. ideal .. ""
-            attList.color = tables.colors["default_font"]
-            if attTable[i + 1].base ~= ideal then
-                attList.color = tables.colors["light_blue"]
-            end
-        end
+        sheet.updateAttributeLabels(menu, baseTable, attTable, modData, "ideal")
 
         if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
             for i = 1, #tables.typeTable do
@@ -686,24 +577,8 @@ function sheet.onIdeal()
                 end
             end
         else
-            for i = 0, 26 do
-                local skillList = menu:findChild("kl_sheet_skill_" .. i .. "")
-                local tempSkill = sheet.reference.mobile:getSkillStatistic(i)
-                local ideal = (baseSkillTable[i + 1] + modData.skill_gained[i + 1])
-                if ideal < 0 then
-                    ideal = 0
-                end
-                skillList.text = "" ..
-                    tes3.getSkillName(i) ..
-                    ": " ..
-                    baseSkillTable[i + 1] ..
-                    " + " ..
-                    modData.skill_gained[i + 1] .. " = " .. ideal .. ""
-                skillList.widget.idle = tables.colors["default_font"]
-                if tempSkill.base ~= ideal then
-                    skillList.widget.idle = tables.colors["light_blue"]
-                end
-            end
+            --NPC Skills
+            sheet.updateSkillLabels(menu, baseSkillTable, modData, "ideal")
         end
         menu:updateLayout()
     end
@@ -726,7 +601,7 @@ function sheet.fixStats(e)
             end
 
             if sheet.reference.object.objectType == tes3.objectType.creature then
-                func.removeAbilities(sheet.reference)
+                func.removeAbilitiesCre(sheet.reference)
                 --Type Levels
                 local default = func.determineDefault(sheet.reference)
                 for i = 1, #modData.typelevels do
@@ -798,7 +673,7 @@ function sheet.fixStats(e)
 
             --Add Abilities first
             if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
-                func.addAbilities(sheet.reference)
+                func.addAbilitiesCre(sheet.reference)
             else
                 func.addAbilitiesNPC(sheet.reference)
                 if modData.patron then
@@ -847,7 +722,7 @@ function sheet.fixStats(e)
             end
 
             if sheet.reference.object.objectType == tes3.objectType.creature then
-                func.removeAbilities(sheet.reference)
+                func.removeAbilitiesCre(sheet.reference)
             else
                 func.removeAbilitiesNPC(sheet.reference)
                 modData.metamorph = false
@@ -1034,5 +909,110 @@ function sheet.onIgnore(i)
     end
 end
 
+function sheet.updateHeaderAndButtons(menu, mode, msg)
+    local label = menu:findChild(sheet.id_label)
+    local label2 = menu:findChild(sheet.id_label2)
+    local title = menu:findChild(sheet.id_title)
+    local cur = menu:findChild(sheet.id_current)
+    local ide = menu:findChild(sheet.id_ideal)
+    local ori = menu:findChild(sheet.id_original)
+
+    if mode == "original" then
+        cur.widget.state = 1
+        ide.widget.state = 1
+        ori.widget.state = 4
+        label.text = "Original Statistics:"
+        label2.text = "(before any changes were ever made)"
+    elseif mode == "current" then
+        cur.widget.state = 4
+        ide.widget.state = 1
+        ori.widget.state = 1
+        label.text = "Current Statistics:"
+        label2.text = "(current value / base value)"
+    elseif mode == "ideal" then
+        cur.widget.state = 1
+        ide.widget.state = 4
+        ori.widget.state = 1
+        label.text = "Ideal Statistics:"
+        label2.text = "(original + total Companion Leveler stats = Ideal Stats)"
+    end
+
+    title.text = msg
+end
+
+function sheet.updateFillBars(values)
+    -- values: { hth = {current, max, color}, mgk = {...}, fat = {...}, tp = {...} }
+    sheet.hth.widget.current = values.hth.current
+    sheet.hth.widget.max = values.hth.max
+    sheet.hth.widget.fillColor = values.hth.color
+
+    sheet.mgk.widget.current = values.mgk.current
+    sheet.mgk.widget.max = values.mgk.max
+    sheet.mgk.widget.fillColor = values.mgk.color
+
+    sheet.fat.widget.current = values.fat.current
+    sheet.fat.widget.max = values.fat.max
+    sheet.fat.widget.fillColor = values.fat.color
+
+    sheet.tp.widget.current = values.tp.current
+    sheet.tp.widget.max = values.tp.max
+    sheet.tp.widget.fillColor = values.tp.color
+end
+
+function sheet.updateAttributeLabels(menu, baseTable, attTable, modData, mode)
+    for i = 0, 7 do
+        local attList = menu:findChild("kl_sheet_att_" .. i .. "")
+        if mode == "original" then
+            attList.text = tables.capitalization[i] .. ": " .. baseTable[i + 1]
+            attList.color = tables.colors["default_font"]
+        elseif mode == "current" then
+            attList.text = tables.capitalization[i] .. ": " .. math.round(attTable[i + 1].current) .. " / " .. attTable[i + 1].base
+            attList.color = tables.colors["default_font"]
+            if attTable[i + 1].current < attTable[i + 1].base then
+                attList.color = tables.colors["red"]
+            elseif attTable[i + 1].current > attTable[i + 1].base then
+                attList.color = tables.colors["green"]
+            end
+        elseif mode == "ideal" then
+            local ideal = baseTable[i + 1] + modData.att_gained[i + 1]
+            if ideal < 0 then ideal = 0 end
+            attList.text = tables.capitalization[i] .. ": " .. baseTable[i + 1] .. " + " .. modData.att_gained[i + 1] .. " = " .. ideal
+            attList.color = tables.colors["default_font"]
+            if attTable[i + 1].base ~= ideal then
+                attList.color = tables.colors["light_blue"]
+            end
+        end
+    end
+end
+
+function sheet.updateSkillLabels(menu, baseSkillTable, modData, mode)
+    for i = 0, 26 do
+        local skillList = menu:findChild("kl_sheet_skill_" .. i .. "")
+        local tempSkill = sheet.reference.mobile:getSkillStatistic(i)
+        if mode == "original" then
+            skillList.text = tes3.getSkillName(i) .. ": " .. baseSkillTable[i + 1]
+            skillList.widget.idle = tables.colors["default_font"]
+        elseif mode == "current" then
+            skillList.text = tes3.getSkillName(i) .. ": " .. tempSkill.current .. " / " .. tempSkill.base
+            skillList.widget.idle = tables.colors["default_font"]
+            if tempSkill.current < tempSkill.base then
+                skillList.widget.idle = tables.colors["red"]
+            elseif tempSkill.current > tempSkill.base then
+                skillList.widget.idle = tables.colors["green"]
+            end
+            if i == modData.ignore_skill then
+                skillList.widget.idle = tables.colors["yellow"]
+            end
+        elseif mode == "ideal" then
+            local ideal = baseSkillTable[i + 1] + modData.skill_gained[i + 1]
+            if ideal < 0 then ideal = 0 end
+            skillList.text = tes3.getSkillName(i) .. ": " .. baseSkillTable[i + 1] .. " + " .. modData.skill_gained[i + 1] .. " = " .. ideal
+            skillList.widget.idle = tables.colors["default_font"]
+            if tempSkill.base ~= ideal then
+                skillList.widget.idle = tables.colors["light_blue"]
+            end
+        end
+    end
+end
 
 return sheet
