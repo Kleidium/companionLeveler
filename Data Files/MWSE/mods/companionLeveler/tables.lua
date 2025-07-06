@@ -1731,7 +1731,7 @@ stuff.abDescription = {
 	[79] = "To become hated after having once been loved will twist mind and body both.",
 	[80] = "The most devious plans need not be the most elaborate, nor the most subtle.",
 	[81] = "There resides a unique potential within all beings; it is up to them to shape it.",
-	[82] = "Mistakes are lessons. A teacher passes on many lessons.",
+	[82] = "Mistakes are lessons. Teachers have experienced many lessons.",
 	[83] = "Camaraderie imposes burdens of its own.",
 	[84] = "The unknown is death potential; stagnation is death assured."
 }
