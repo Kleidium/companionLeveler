@@ -78,7 +78,7 @@ function guild.pickFaction(ref, aID)
 
 				guild.total = guild.total + 1
 				local a = pane:createTextSelect({ text = "" .. temp.name .. "", id = "kl_guild_btn_" .. guild.total .. "" })
-				a:register("mouseClick", function(e) guild.onSelect(a, temp)end)
+				a:register("mouseClick", function(e) guild.onSelect(a, temp, i)end)
 			end
 		end
 	end
@@ -157,56 +157,11 @@ function guild.onOK()
 	local menu = tes3ui.findMenu(guild.id_menu)
 	local modData = func.getModData(guild.ref)
 	if (menu) then
-		if guild.aID == 129 then
-			--Infiltrator
-			tes3.messageBox("" .. guild.ref.object.name .. " began infiltrating a faction. (" .. guild.faction.name .. ")")
-			log:info("" .. guild.ref.object.name .. " began infiltrating a faction. (" .. guild.faction.name .. ")")
-			modData["infiltrated"] = guild.faction.id
-			table.insert(modData.factions, guild.faction.id)
-		elseif guild.aID == 131 then
-			--Exile
-			tes3.messageBox("" .. guild.ref.object.name .. " joined a faction. (" .. guild.faction.name .. ")")
-			log:info("" .. guild.ref.object.name .. " joined a faction. (" .. guild.faction.name .. ")")
-			modData["fEnemies"] = {}
-			for i = 1, #tes3.dataHandler.nonDynamicData.factions do
-				local faction = tes3.dataHandler.nonDynamicData.factions[i]
-				local reaction = guild.faction:getReactionWithFaction(faction)
-				if reaction ~= nil and reaction < 0 then
-					local temp = {faction.id, reaction}
-					table.insert(modData.fEnemies, temp)
-					log:debug("" .. faction.name .. " is an enemy of " .. guild.faction.name .. ".")
-				end
-			end
-			table.insert(modData.factions, guild.faction.id)
-		elseif guild.aID == 132 then
-			--Diplomat
-			tes3.messageBox("" .. guild.ref.object.name .. " began diplomacy with a faction. (" .. guild.faction.name .. ")")
-			log:info("" .. guild.ref.object.name .. " began diplomacy with a faction. (" .. guild.faction.name .. ")")
-			modData["consulate"] = guild.faction.id
-		elseif guild.aID == 133 then
-			--Retainer
-			tes3.messageBox("" .. guild.ref.object.name .. " swore allegiance to a faction. (" .. guild.faction.name .. ")")
-			log:info("" .. guild.ref.object.name .. " swore allegiance to a faction. (" .. guild.faction.name .. ")")
-			modData["allegiances"] = { guild.faction.id, {} }
-			for i = 1, #tes3.dataHandler.nonDynamicData.factions do
-				local faction = tes3.dataHandler.nonDynamicData.factions[i]
-				local reaction = faction:getReactionWithFaction(guild.faction)
-				if reaction ~= nil then
-					if reaction ~= 0 then
-						local temp = {faction.id, reaction}
-						table.insert(modData.allegiances[2], temp)
-						log:debug("" .. guild.faction.name .. " is known to " .. faction.name .. ". (" .. reaction .. ")")
-					end
-				end
-			end
-			table.insert(modData.factions, guild.faction.id)
-		elseif guild.aID == 134 then
-			--Recruit
-			tes3.messageBox("" .. guild.ref.object.name .. " was recruited to your faction. (" .. guild.faction.name .. ")")
-			log:info("" .. guild.ref.object.name .. " was recruited to your faction. (" .. guild.faction.name .. ")")
-			guild.faction.playerReputation = guild.faction.playerReputation + 5
-			table.insert(modData.factions, guild.faction.id)
-		end
+		tes3.messageBox("" .. guild.ref.object.name .. " received guild training. (" .. guild.faction.name .. ")")
+		log:info("" .. guild.ref.object.name .. " received guild training. (" .. guild.faction.name .. ")")
+		--modData["infiltrated"] = guild.faction.id
+		table.insert(modData.factions, guild.faction.id)
+
 		menu:destroy()
 		tes3ui.leaveMenuMode()
 
@@ -220,7 +175,7 @@ function guild.onOK()
 	end
 end
 
-function guild.onSelect(elem, faction)
+function guild.onSelect(elem, faction, id)
 	local menu = tes3ui.findMenu(guild.id_menu)
 	if (menu) then
 		local modData = func.getModData(guild.ref)
@@ -229,7 +184,7 @@ function guild.onSelect(elem, faction)
 
 		--States
 		for n = 0, guild.total do
-			local id = menu:findChild("kl_faction_btn_" .. n .. "")
+			local id = menu:findChild("kl_guild_btn_" .. n .. "")
 			if id then
 				if id.widget.state == 4 then
 					id.widget.state = 1
@@ -241,7 +196,7 @@ function guild.onSelect(elem, faction)
 
 		--Change Text
 		local sText = menu:findChild("kl_spec1")
-		sText.text = "" .. faction.playerReputation .. ""
+		sText.text = "" .. id .. ""
 
 		local mAttributes = faction.attributes
 		for n = 1, 2 do
@@ -254,11 +209,6 @@ function guild.onSelect(elem, faction)
 			local text = menu:findChild("kl_major" .. n .. "")
 			text.text = tes3.skillName[mSkills[n]]
 			text.color = tables.colors["default_font"]
-			if modData.ignore_skill ~= 99 then
-				if text.text == (tes3.getSkillName(modData.ignore_skill)) then
-					text.color = tables.colors["yellow"]
-				end
-			end
 		end
 
 		log:debug("" .. guild.ref.object.name .. " joined " .. faction.name .. ".")

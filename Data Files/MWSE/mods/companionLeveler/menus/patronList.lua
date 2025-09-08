@@ -207,6 +207,7 @@ function pat.onOK()
 		end
 		menu:destroy()
 		tes3ui.leaveMenuMode()
+		func.updateIdealSheet(pat.ref)
 	end
 end
 

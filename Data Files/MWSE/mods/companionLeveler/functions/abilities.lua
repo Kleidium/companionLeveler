@@ -38,22 +38,6 @@ function this.updatePartyAura(partyTable, spellId, add, onApply, onRemove)
     end
 end
 
---- Helper to modify an attribute or skill and track it in modData
---- @param type string "attribute" or "skill"
---- @param index number 0-based index of the attribute or skill
---- @param value number amount to modify
---- @param ref tes3reference reference to modify
---- @param modData table companion modData table
-function this.modStatAndTrack(type, index, value, ref, modData)
-    if type == "attribute" then
-        tes3.modStatistic({ reference = ref, attribute = index, value = value })
-        modData.att_gained[index + 1] = (modData.att_gained[index + 1] or 0) + value
-    elseif type == "skill" then
-        tes3.modStatistic({ reference = ref, skill = index, value = value })
-        modData.skill_gained[index + 1] = (modData.skill_gained[index + 1] or 0) + value
-    end
-end
-
 
 ----Creature Abilities------------------------------------------------------------------------------------------------------------
 --
@@ -1156,6 +1140,21 @@ function this.creatureAbilities(cType, companionRef)
                 modData.att_gained[6] = modData.att_gained[6] + 1
                 modData.att_gained[7] = modData.att_gained[7] + 1
                 modData.att_gained[8] = modData.att_gained[8] + 1
+
+                --Potential (Commoner Class)
+                local creMode = require("companionLeveler.modes.creClassMode")
+                local table = {
+                    [1] = companionRef
+                }
+
+                timer.delayOneFrame(function()
+                    timer.delayOneFrame(function()
+                        timer.delayOneFrame(function()
+                            creMode.levelUp(table)
+                            tes3.messageBox("" .. companionRef.object.name .. " unlocked their potential!")
+                        end)
+                    end)
+                end)
             else
                 log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
             end
@@ -1465,7 +1464,7 @@ function this.spectralWill(e)
                 log:info("" .. e.reference.object.name .. " regained their form through your Grand Soul Gem!")
 
                 for i = 0, 7 do
-                    this.modStatAndTrack("attribute", i, -3, e.reference, modData)
+                    func.modStatAndTrack("attribute", i, -3, e.reference, modData)
                 end
 
                 log:info("" .. e.reference.object.name .. "'s attributes were reduced by 3 through resurrection.")
@@ -5178,7 +5177,7 @@ function this.julianosDuty(e)
         for i = 1, #clerics do
             local modData = func.getModData(clerics[i])
             for n = 0, 26 do
-                this.modStatAndTrack("skill", n, -1, clerics[i], modData)
+                func.modStatAndTrack("skill", n, -1, clerics[i], modData)
             end
             tes3.messageBox("Julianos punishes " .. clerics[i].object.name .. " for breaking the law!")
             log:debug("" .. patron .. " duty inflicted upon " .. clerics[i].object.name .. ".")
@@ -5333,8 +5332,8 @@ function this.stendarr(ref)
 
     local modData = func.getModData(ref)
 
-    this.modStatAndTrack("attribute", tes3.attribute.strength, 1, ref, modData)
-    this.modStatAndTrack("attribute", tes3.attribute.endurance, 1, ref, modData)
+    func.modStatAndTrack("attribute", tes3.attribute.strength, 1, ref, modData)
+    func.modStatAndTrack("attribute", tes3.attribute.endurance, 1, ref, modData)
 
     tes3.messageBox("" .. ref.object.name .. "'s Strength and Endurance were acknowledged by Stendarr!")
     log:debug("Stendarr gift bestowed upon " .. ref.object.name .. ".")
@@ -5679,19 +5678,19 @@ function this.huntCheck(e)
                     tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Lycanthropic Power increased by 1.")
                 elseif num == 2 then
                     --strength + 2
-                    this.modStatAndTrack("attribute", tes3.attribute.strength, 2, reference, modData)
+                    func.modStatAndTrack("attribute", tes3.attribute.strength, 2, reference, modData)
                     tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Strength increased by 2.")
                 elseif num == 3 then
                     --agility + 2
-                    this.modStatAndTrack("attribute", tes3.attribute.agility, 2, reference, modData)
+                    func.modStatAndTrack("attribute", tes3.attribute.agility, 2, reference, modData)
                     tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Agility increased by 2.")
                 elseif num == 4 then
                     --endurance + 2
-                    this.modStatAndTrack("attribute", tes3.attribute.endurance, 2, reference, modData)
+                    func.modStatAndTrack("attribute", tes3.attribute.endurance, 2, reference, modData)
                     tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Endurance increased by 2.")
                 elseif num == 5 then
                     --speed + 2
-                    this.modStatAndTrack("attribute", tes3.attribute.speed, 2, reference, modData)
+                    func.modStatAndTrack("attribute", tes3.attribute.speed, 2, reference, modData)
                     tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Speed increased by 2.")
                 else
                     --health + 5

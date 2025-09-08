@@ -196,6 +196,103 @@ function creClassMode.levelUp(companions)
             end
             tes3.modStatistic({ attribute = valueRand, value = mAttMod3, reference = companionRef })
             modData.att_gained[valueRand + 1] = modData.att_gained[valueRand + 1] + mAttMod3
+
+
+            ----Faction Bonus----------------------------------------------------------------------------------------------------------
+            log:trace("Fetching " .. name .. "'s Faction information...")
+            local selectionF, selectionF2, selectionF3 = 0, 0, 0
+            local nFaction, nFaction2, nFaction3 = "", "", ""
+            local trainedAttF, trainedAttF2, trainedAttF3 = 0, 0, 0
+
+            local fBonusAmountA = config.factionBonusMod
+            if modData.attributeTraining == false then
+                fBonusAmountA = 0
+            end
+
+            if config.factionBonus == true then
+                for n = 1, #modData.factions do
+                    if modData.factions[n] ~= nil then
+                        local faction = tes3.getFaction(modData.factions[n])
+                        local fAttName
+                        local fAtt
+                        if n == 1 then
+                            nFaction = faction.name
+                            trainedAttF = faction.attributes[math.random(1, #faction.attributes)]
+                            fAttName = tables.capitalization[trainedAttF]
+                            fAtt = attTable[trainedAttF + 1]
+                            selectionF = 2
+                        elseif n == 2 then
+                            nFaction2 = faction.name
+                            trainedAttF2 = faction.attributes[math.random(1, #faction.attributes)]
+                            fAttName = tables.capitalization[trainedAttF2]
+                            fAtt = attTable[trainedAttF2 + 1]
+                            selectionF2 = 2
+                        else
+                            nFaction3 = faction.name
+                            trainedAttF3 = faction.attributes[math.random(1, #faction.attributes)]
+                            fAttName = tables.capitalization[trainedAttF3]
+                            fAtt = attTable[trainedAttF3 + 1]
+                            selectionF3 = 2
+                        end
+                        if math.random(0, 99) < config.factionChance then
+                            log:debug("" .. name .. "'s Faction Bonus roll #" .. n .. " succeeded.")
+                            log:info("" .. name .. " received a bonus from " .. faction.name .. ".")
+                            if config.aboveMaxAtt == false then
+                                if fAtt.base + fBonusAmountA > 100 then
+                                    fBonusAmountA = math.max(100 - fAtt.base, 0)
+                                end
+                            end
+                            if n == 1 then
+                                selectionF = 1
+                                tes3.modStatistic({ attribute = trainedAttF, value = fBonusAmountA, reference = companionRef })
+                                modData.att_gained[trainedAttF + 1] = modData.att_gained[trainedAttF + 1] + fBonusAmountA
+                            elseif n == 2 then
+                                selectionF2 = 1
+                                tes3.modStatistic({ attribute = trainedAttF2, value = fBonusAmountA, reference = companionRef })
+                                modData.att_gained[trainedAttF2 + 1] = modData.att_gained[trainedAttF2 + 1] + fBonusAmountA
+                            else
+                                selectionF3 = 1
+                                tes3.modStatistic({ attribute = trainedAttF3, value = fBonusAmountA, reference = companionRef })
+                                modData.att_gained[trainedAttF3 + 1] = modData.att_gained[trainedAttF3 + 1] + fBonusAmountA
+                            end
+                            if (fAttName == "Intelligence" and fBonusAmountA > 0) then
+                                selectionMgk = 1
+                            end
+                        else
+                            log:debug("" .. name .. "'s Faction Bonus roll #" .. n .. " failed.")
+                        end
+                    end
+                end
+            end
+            
+            local fSummary1 = {
+                [0] = "" .. name .. " has no Faction.",
+                [1] = "" ..
+                    nFaction ..
+                    " training increased " ..
+                    tables.capitalization[trainedAttF] ..
+                    " by " .. fBonusAmountA .. "!",
+                [2] = "" .. name .. " has received no " .. nFaction .. " training lately."
+            }
+            local fSummary2 = {
+                [0] = "",
+                [1] = "" ..
+                    nFaction2 ..
+                    " training increased " ..
+                    tables.capitalization[trainedAttF2] ..
+                    " by " .. fBonusAmountA .. "!\n\n",
+                [2] = "" .. name .. " has received no " .. nFaction2 .. " training lately.\n\n"
+            }
+            local fSummary3 = {
+                [0] = "",
+                [1] = "" ..
+                    nFaction3 ..
+                    " training increased " ..
+                    tables.capitalization[trainedAttF3] ..
+                    " by " .. fBonusAmountA .. "!\n\n",
+                [2] = "" .. name .. " has received no " .. nFaction3 .. " training lately.\n\n"
+            }
+
             ----health increased by 1/10th of endurance after training------------------------------------------------------------------------
             local hpMod = companionRef.mobile.endurance.base
             local hpBase = companionRef.mobile.health.base
@@ -294,10 +391,7 @@ function creClassMode.levelUp(companions)
                     end
                 end
                 abilityString = string.gsub(abilityString, ", $", ".", 1)
-                local regsum = "" ..
-                    name ..
-                    " ascended to level " ..
-                    storedLevel ..
+                local regsum = "" .. name .. " ascended to level " .. storedLevel ..
                     "!\n\nType: " ..
                     cName ..
                     " level " ..
@@ -315,7 +409,7 @@ function creClassMode.levelUp(companions)
                     ", " ..
                     mAtt2 ..
                     " by " ..
-                    mAttMod2 .. ", and " .. mAtt3 .. " by " .. mAttMod3 .. "!\n\nAbilities: " .. abilityString .. ""
+                    mAttMod2 .. ", and " .. mAtt3 .. " by " .. mAttMod3 .. "!\n\n" .. fSummary1[selectionF] .. "\n\n" .. fSummary2[selectionF2] .. "" .. fSummary3[selectionF3] .. "Abilities: " .. abilityString .. ""
                 modData.summary = regsum
                 log:debug("Level Summary triggered from " .. name .. "'s Creature Class Mode.")
 

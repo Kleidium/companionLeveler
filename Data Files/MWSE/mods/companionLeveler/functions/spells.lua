@@ -66,7 +66,7 @@ function this.spellRoll(schools, skills, companionRef)
                     end
 
                     tryLearnSpell(
-                        spellTable, modData, companionRef, name, 75,
+                        spellTable, modData, companionRef,
                         ({"restoration area", "shock cast", "alteration hit", "conjuration area", "illusion hit", "mysticism area"})[i],
                         "%s learned to cast %s!",
                         function(n, s) log:debug("Spell roll succeeded. Spell %s added to %s.", s, n) end

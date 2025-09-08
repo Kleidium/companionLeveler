@@ -446,6 +446,22 @@ function this.updateIdealSheet(companionRef)
 	end
 end
 
+--- Helper to modify an attribute or skill and track it in modData
+--- @param type string "attribute" or "skill"
+--- @param index number 0-based index of the attribute or skill
+--- @param value number amount to modify
+--- @param ref tes3reference reference to modify
+--- @param modData table companion modData table
+function this.modStatAndTrack(type, index, value, ref, modData)
+    if type == "attribute" then
+        tes3.modStatistic({ reference = ref, attribute = index, value = value })
+        modData.att_gained[index + 1] = (modData.att_gained[index + 1] or 0) + value
+    elseif type == "skill" then
+        tes3.modStatistic({ reference = ref, skill = index, value = value })
+        modData.skill_gained[index + 1] = (modData.skill_gained[index + 1] or 0) + value
+    end
+end
+
 
 --
 ----Companion Check-------------------------------------------------------------------------------------------------------------
@@ -928,10 +944,7 @@ end
 
 --Ability Tooltips. displays class ability (spell) tooltips
 function this.abilityTooltip(ele, key, npc)
-	local spellObject
-	local type
-	local desc
-	local desc2
+	local spellObject, type, desc, desc2
 
 	if npc then
 		spellObject = tes3.getObject(tables.abListNPC[key])
@@ -1094,31 +1107,20 @@ end
 --
 --3rd: NPC? Boolean
 function this.abilityColor(ele, num, npc)
-	if config.abilityColors == true then
-		ele.widget.idle = tables.colors["white"]
+    if config.abilityColors == true then
+        ele.widget.idle = tables.colors["white"]
+        local t = npc and tables.abTypeNPC or tables.abType
 
-		local table
-
-		if npc == true then
-			table = tables.abTypeNPC
-		else
-			table = tables.abType
-		end
-
-		if string.match(table[num], "TRIGGER") then
-			--Green
-			ele.widget.idle = tables.colors["green"]
-		elseif string.match(table[num], "COMBAT") then
-			--Red
-			ele.widget.idle = tables.colors["red"]
-		elseif string.match(table[num], "TECHNIQUE") then
-			--Purple
-			ele.widget.idle = tables.colors["dark_purple"]
-		elseif string.match(table[num], "AURA") then
-			--UI Blue
-			ele.widget.idle = tables.colors["ui_blue"]
-		end
-	end
+        if string.match(t[num], "TRIGGER") then
+            ele.widget.idle = tables.colors["green"]
+        elseif string.match(t[num], "COMBAT") then
+            ele.widget.idle = tables.colors["red"]
+        elseif string.match(t[num], "TECHNIQUE") then
+            ele.widget.idle = tables.colors["dark_purple"]
+        elseif string.match(t[num], "AURA") then
+            ele.widget.idle = tables.colors["ui_blue"]
+        end
+    end
 end
 
 --pane sort function?

@@ -646,7 +646,7 @@ abMod:createSlider {
 
 abMod:createOnOffButton {
     label = "Triggered Abilities: Combat",
-    description = "If this is enabled, certain NPC and creature abilities with combat special effects are able to be triggered. \n\nFor example: Jesters will sometimes provoke NPC enemies, reducing their Agility and Luck. \n\nDefault: On",
+    description = "If this is enabled, certain NPC and creature abilities with combat special effects are able to be triggered. \n\nFor example: Jesters will sometimes provoke NPC enemies, reducing their Agility. \n\nDefault: On",
     variable = mwse.mcm.createTableVariable { id = "combatAbilities", table = config }
 }
 
