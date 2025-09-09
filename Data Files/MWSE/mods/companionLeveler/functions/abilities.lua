@@ -1997,7 +1997,10 @@ function this.venomous(e)
 end
 
 --Guild-Trained---------------------------------------------------------------------------------------------------------------------
-function this.fightersGuild(e)
+
+--Mages Guild 1: Fortify Maximum Magicka 1.8x, +2 TP
+
+function this.fightersGuildCre(e)
     log = logger.getLogger("Companion Leveler")
     if config.combatAbilities == false then return 0 end
     log:trace("Fighters Guild training triggered.")
@@ -2008,8 +2011,8 @@ function this.fightersGuild(e)
         if func.validCompanionCheck(e.attacker) and e.attacker.actorType ~= 1 then
             local modData = func.getModData(e.attacker.reference)
 
-            if modData.guildTraining and modData.guildTraining[1] == "Fighters Guild" or modData.guildTraining[2] == "Fighters Guild" then
-                num = math.random(1, 4)
+            if modData.guildTraining and modData.guildTraining[1] == tables.factions[2] or modData.guildTraining[2] == tables.factions[2] then
+                num = math.random(0, 4)
                 log:debug("Fighters Guild creature: " .. num .. " damage added.")
             end
         end

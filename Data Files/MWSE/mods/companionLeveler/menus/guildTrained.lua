@@ -159,8 +159,16 @@ function guild.onOK()
 	if (menu) then
 		tes3.messageBox("" .. guild.ref.object.name .. " received guild training. (" .. guild.faction.name .. ")")
 		log:info("" .. guild.ref.object.name .. " received guild training. (" .. guild.faction.name .. ")")
-		--modData["infiltrated"] = guild.faction.id
+
+		if not modData.guildTraining then
+			modData["guildTraining"] = { guild.faction.id }
+		else
+			table.insert(modData.guildTraining, guild.faction.id)
+		end
+
 		table.insert(modData.factions, guild.faction.id)
+
+		tes3.addSpell({ reference = guild.ref, spell = "kl_ability_gTrained_" .. guild.id .. "" })
 
 		menu:destroy()
 		tes3ui.leaveMenuMode()
@@ -178,16 +186,15 @@ end
 function guild.onSelect(elem, faction, id)
 	local menu = tes3ui.findMenu(guild.id_menu)
 	if (menu) then
-		local modData = func.getModData(guild.ref)
-
 		guild.faction = faction
+		guild.id = id
 
 		--States
 		for n = 0, guild.total do
-			local id = menu:findChild("kl_guild_btn_" .. n .. "")
-			if id then
-				if id.widget.state == 4 then
-					id.widget.state = 1
+			local id2 = menu:findChild("kl_guild_btn_" .. n .. "")
+			if id2 then
+				if id2.widget.state == 4 then
+					id2.widget.state = 1
 				end
 			end
 		end
@@ -195,8 +202,10 @@ function guild.onSelect(elem, faction, id)
 		elem.widget.state = 4
 
 		--Change Text
+		local spellObject = tes3.getObject("kl_ability_gTrained_" .. id .. "")
 		local sText = menu:findChild("kl_spec1")
-		sText.text = "" .. id .. ""
+		sText.text = "" .. spellObject.name .. ""
+		func.guildTooltip(sText, id)
 
 		local mAttributes = faction.attributes
 		for n = 1, 2 do

@@ -1028,6 +1028,42 @@ function this.patronTooltip(ele, key)
 	end)
 end
 
+function this.guildTooltip(ele, key)
+	local spellObject = tes3.getObject("kl_ability_gTrained_" .. key .. "")
+	local type = tables.guildTrainedTypes[key]
+
+	ele:register("help", function(e)
+		local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
+
+		local contentElement = tooltip:getContentElement()
+		contentElement.paddingAllSides = 12
+		contentElement.childAlignX = 0.5
+		contentElement.childAlignY = 0.5
+
+		tooltip:createDivider()
+
+		local typeLabel = tooltip:createLabel { text = type }
+		typeLabel.color = tables.colors["white"]
+
+		if string.match(typeLabel.text, "TRIGGERED") then
+			--Green
+			typeLabel.color = tables.colors["green"]
+		elseif string.match(typeLabel.text, "COMBAT") then
+			--Red
+			typeLabel.color = tables.colors["red"]
+		elseif string.match(typeLabel.text, "TECHNIQUE") then
+			--Purple
+			typeLabel.color = tables.colors["dark_purple"]
+		elseif string.match(typeLabel.text, "AURA") then
+			--Blue
+			typeLabel.color = { 0.3, 0.3, 0.7 }
+		end
+
+		local helpLabel = tooltip:createLabel { text = tables.guildTrainedMessages[key] }
+		helpLabel.borderTop = 7
+	end)
+end
+
 --CL General Tooltips.
 --
 --1st: tes3uiElement

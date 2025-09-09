@@ -3549,21 +3549,21 @@ stuff.hircineHunts = {
 }
 
 stuff.guildTrainedMessages = {
-	[1] = "The Guild of Fighters trained this creature to swiftly deal with any threat on command.", --flat physical dmg on hit
-	[2] = "This specimen was chosen for further study by the Guild of Mages due to its abnormally large magicka pool.", --magicka pool increase, +1 TP
-	[3] = "The Legion employed this creature as a guard, utilizing their naturally sharp senses to detect intruders.", --instantly damages ambushing enemies, buffs player.
-	[4] = "This creature was recognized for their connection to the divine, which allows them to bestow blessings.", --bestow a party wide blessing as a technique.
+	[1] = "This organism was chosen for further study by the Guild of Mages due to its abnormally large magicka pool.\nTechnique Points increase by 2.", --magicka pool increase, +1 TP
+	[2] = "The Guild of Fighters trained this creature to swiftly deal with any threat on command.", --flat physical dmg on hit
+	[3] = "The Thieves Guild trained this creature to steal all sorts of items from unsuspecting marks.", --Steals items nearby under a certain weight.
+	[4] = "The Blades utilized this creature to carry coded messages quickly across all manner of terrain.", -- +1 SPD per level.
 	[5] = "The Temple blessed this creature, protecting them from all forms of disease.", --resist common 100%, resist blight 50%, resist corprus 25%.
-	[6] = "The Thieves Guild trained this creature to steal all sorts of items from unsuspecting marks.", --Steals random items from NPCs under a certain value?
-	[7] = "The Morag Tong taught this creature how to target vital weakpoints, allowing them to kill efficiently.", --Critical strike chance
-	[8] = "The Blades utilized this creature to carry coded messages quickly across all manner of terrain.", -- +1 SPD per level.
-	[9] = "This creature has been twisted by the unnatural blight, becoming a pestilent vessel for disease.", --Chance to blight on strike
-	[10] = "House Hlaalu has shown a vested interest in this creature's future, due to their potential for making them money.", -- Receive gold per level based on current level?
-	[11] = "Honorable House Redoran has bred this creature to destroy their enemies, the profane ash creatures of Red Mountain.", -- Trigger enrage when engaging Ash Creatures.
-	[12] = "This creature was experimented on by a Telvanni wizard lord, who subsequently discarded them once their inscrutable needs were met.", -- +5 TP
+	[6] = "This creature was recognized for their connection to the divine, which allows them to bestow blessings.", --bestow a party wide blessing as a technique.
+	[7] = "This specimen was experimented on by a Telvanni wizard lord, who subsequently discarded it once their inscrutable needs were met.", -- +5 TP
+	[8] = "Honorable House Redoran has bred this creature to destroy their enemies, the profane ash creatures of Red Mountain.", -- Trigger enrage when engaging Ash Creatures.
+	[9] = "House Hlaalu has shown a vested interest in this creature's future, due to their potential for making them money.", -- Receive gold per level based on current level?
+	[10] = "The Morag Tong taught this creature how to target vital weakpoints, allowing them to kill efficiently.", --Critical strike chance
+	[11] = "The Legion employed this creature as a guard, utilizing their naturally sharp senses to detect intruders.", --instantly damages ambushing enemies, buffs player.
+	[12] = "The Imperial Census and Excise employed this creature to effectively seek out certain individuals of interest.", --Detect NPCs by name, change tracked name as a technique.
 	[13] = "The East Empire Company taught this creature to survey caves and sniff out natural glass and ebony deposits.", -- Detects Glass/Ebony nodes upon cell change.
-	[14] = "This creature once roamed about with Ashlanders, living a rough nomadic life with them some time before joining you.", --Ashstorms trigger a buff.
-	[15] = "The Twin Lamps trained this creature to navigate labyrinthine tunnels, leading many slaves to freedom while eluding their lost pursuers.", --ninja technique, or speed aura
+	[14] = "The Twin Lamps trained this creature to navigate labyrinthine tunnels, leading many slaves to freedom while eluding their lost pursuers.", --ninja technique, or speed aura
+	[15] = "This creature once roamed about with Ashlanders, living a rough nomadic life with them some time before joining you.", --Ashstorms trigger a buff.
 	[16] = "The Camonna Tong used this creature as a drug mule for some time, causing the creature to develop a curious taste for drugs.", --Consume Skooma as a technique.
 	[17] = "House Dres instilled a deep bias against all non-Dunmer races in this creature, in order to aid in intimidating or subduing slaves.", -- +5% dmg to all non-Dunmer
 	[18] = "House Indoril, through traditional ceremony, bestowed upon this creature a protective Ancestral Guardian.", -- Ancestor Guardian follows, comes back
@@ -3573,9 +3573,9 @@ stuff.guildTrainedMessages = {
 }
 
 stuff.guildTrainedTypes = {
-	[1] = "[COMBAT]",
-	[2] = "[PASSIVE]",
-	[3] = "[TRIGGERED]: SPECIFIC",
+	[1] = "[PASSIVE]",
+	[2] = "[COMBAT]",
+	[3] = "[TECHNIQUE]",
 	[4] = "[TECHNIQUE]: ACTIVE",
 	[5] = "[PASSIVE]",
 	[6] = "[TRIGGERED]: TOWN",
