@@ -414,6 +414,8 @@ local function onDamage(e)
 	if e.source == "attack" then
 		local result = 0
 
+		--split this between creature and npc to limit type checks?
+
 		--Reliable
 		abilities.ignition(e)
 		abilities.permafrost(e)
@@ -427,7 +429,7 @@ local function onDamage(e)
 		result = result - abilities.talosDuty(e)
 		abilities.malacathGift(e)
 		abilities.namiraGift(e)
-		result = result + abilities.fightersGuild(e)
+		result = result + abilities.fightersGuildCre(e)
 
 		--Combat Chance
 		if math.random(0, 99) < config.combatChance then

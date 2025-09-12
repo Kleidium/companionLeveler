@@ -1061,6 +1061,13 @@ function this.guildTooltip(ele, key)
 
 		local helpLabel = tooltip:createLabel { text = tables.guildTrainedMessages[key] }
 		helpLabel.borderTop = 7
+
+		local desc2 = tables.guildTrainedHints[key]
+
+		if desc2 ~= "" then
+			local helpLabel2 = tooltip:createLabel { text = desc2 }
+			helpLabel2.borderTop = 7
+		end
 	end)
 end
 

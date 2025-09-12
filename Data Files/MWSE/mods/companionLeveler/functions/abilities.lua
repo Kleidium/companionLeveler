@@ -1206,6 +1206,13 @@ function this.creatureAbilities(cType, companionRef)
             end
         end
     end
+
+    if modData.guildTraining then
+        if modData.guildTraining[1] == tables.factions[4] or modData.guildTraining[2] == tables.factions[4] then
+            --Blades Training
+            this.bladesCre(companionRef)
+        end
+    end
 end
 
 --Greater Instinct #3-------------------------------------------------------------------------------------------------------------------
@@ -2019,6 +2026,25 @@ function this.fightersGuildCre(e)
     end
 
     return num
+end
+
+function this.bladesCre(ref)
+    log = logger.getLogger("Companion Leveler")
+    if config.triggeredAbilities == false then return end
+    log:trace("Blades creature training triggered.")
+
+    local modData = func.getModData(ref)
+
+    if modData.level % 2  == 0 then
+        func.modStatAndTrack("attribute", tes3.attribute.speed, 1, ref, modData)
+        tes3.messageBox("" .. ref.object.name .. "'s Blades training increased Speed by 1.")
+    end
+    if modData.level % 3 == 0 then
+        func.modStatAndTrack("attribute", tes3.attribute.agility, 1, ref, modData)
+        tes3.messageBox("" .. ref.object.name .. "'s Blades training increased Agility by 1.")
+    end
+
+    log:debug("Blades training applied to " .. ref.object.name .. ".")
 end
 
 

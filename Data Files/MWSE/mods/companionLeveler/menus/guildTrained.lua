@@ -65,9 +65,9 @@ function guild.pickFaction(ref, aID)
 		local temp = tes3.getFaction(tables.factions[i])
 		if temp ~= nil then
 			local found = false
-			if modData.guildTrained then
-				for n = 1, #modData.guildTrained do
-					if temp.id == modData.guildTrained[n] then
+			if modData.guildTraining then
+				for n = 1, #modData.guildTraining do
+					if temp.id == modData.guildTraining[n] then
 						found = true
 						break
 					end
@@ -112,9 +112,9 @@ function guild.pickFaction(ref, aID)
 	major_block.borderLeft = 60
 
 	--Ability
-	local kl_spec = spec_block:createLabel({ text = "Faction Ability:", id = "kl_spec" })
-	kl_spec.color = tables.colors["white"]
-	spec_block:createLabel({ text = "", id = "kl_spec1" })
+	local kl_ability = spec_block:createLabel({ text = "Faction Ability:", id = "kl_ability" })
+	kl_ability.color = tables.colors["white"]
+	spec_block:createLabel({ text = "", id = "kl_ability1" })
 
 	--Attributes
 	local kl_att = spec_block:createLabel({ text = "Favored Attributes:", id = "kl_att" })
@@ -170,9 +170,25 @@ function guild.onOK()
 
 		tes3.addSpell({ reference = guild.ref, spell = "kl_ability_gTrained_" .. guild.id .. "" })
 
+		if guild.id == 1 then
+			modData.tp_current = modData.tp_current + 2
+			modData.tp_max = modData.tp_max + 2
+		end
+
+		if guild.id == 7 then
+			modData.tp_current = modData.tp_current + 5
+			modData.tp_max = modData.tp_max + 5
+		end
+
+		if guild.id == 21 then
+			modData.tp_current = modData.tp_current + 1
+			modData.tp_max = modData.tp_max + 1
+		end
+
 		menu:destroy()
 		tes3ui.leaveMenuMode()
-
+		func.updateIdealSheet(guild.ref)
+		
 		--Faction Check
 		if #modData.factions > 3 then
 			local faction1, faction2, faction3, faction4 = tes3.getFaction(modData.factions[1]), tes3.getFaction(modData.factions[2]), tes3.getFaction(modData.factions[3]), tes3.getFaction(modData.factions[4])
@@ -203,7 +219,7 @@ function guild.onSelect(elem, faction, id)
 
 		--Change Text
 		local spellObject = tes3.getObject("kl_ability_gTrained_" .. id .. "")
-		local sText = menu:findChild("kl_spec1")
+		local sText = menu:findChild("kl_ability1")
 		sText.text = "" .. spellObject.name .. ""
 		func.guildTooltip(sText, id)
 

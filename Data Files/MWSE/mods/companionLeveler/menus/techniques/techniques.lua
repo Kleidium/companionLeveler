@@ -217,10 +217,12 @@ function tech.createWindow(ref)
 			button_fire:register("mouseClick", function() tech.onAspect(id, msg) end)
 		end
 
-		if tech.modData.guildTrained and tech.modData.guildTrained[1] == tables.factions[3] or tech.modData.guildTrained[2] == tables.factions[3] then
-			--Thieves Guild Training
-			local button_steal = tech_block:createButton { id = tech.id_steal, text = "Steal" }
-			button_steal:register("mouseClick", function() tech.menu:destroy() steal.createWindow(ref) end)
+		if tech.modData.guildTraining then
+			if tech.modData.guildTraining[1] == tables.factions[3] or tech.modData.guildTraining[2] == tables.factions[3] then
+				--Thieves Guild Training
+				local button_steal = tech_block:createButton { id = tech.id_steal, text = "Fetch" }
+				button_steal:register("mouseClick", function() tech.menu:destroy() steal.createWindow(ref) end)
+			end
 		end
 	else
 		--NPC Techniques-------------------------------------------------------------------------------------------------------------------------

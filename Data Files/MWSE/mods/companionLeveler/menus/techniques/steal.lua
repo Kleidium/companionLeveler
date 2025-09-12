@@ -13,6 +13,8 @@ function steal.createWindow(ref)
 	steal.id_pane = tes3ui.registerID("kl_steal_pane")
 	steal.id_pane2 = tes3ui.registerID("kl_steal_pane2")
 	steal.id_ok = tes3ui.registerID("kl_steal_ok")
+	steal.id_tp_bar = tes3ui.registerID("kl_steal_tp_bar")
+	steal.id_fat_bar = tes3ui.registerID("kl_steal_fat_bar")
 
 	log = logger.getLogger("Companion Leveler")
 	log:debug("Steal menu initialized.")
@@ -93,10 +95,10 @@ function steal.createWindow(ref)
 			local dist = pos:distance(tes3.player.position)
 			log:debug("" .. refe.object.name .. "'s distance: " .. dist .. "")
 
-			if dist < 250 and refe.object.name ~= "" then
+			if dist < 350 and refe.object.name ~= ""and refe.object.weight and refe.object.weight < 30 then
 				steal.obj_choices = steal.obj_choices + 1
 
-				local a = pane:createTextSelect { text = "" .. refe.object.name .. "\nDistance: " .. math.round(dist) .."", id = "kl_steal_obj_btn_" .. steal.obj_choices .. ""}
+				local a = pane:createTextSelect { text = "" .. refe.object.name .. "", id = "kl_steal_obj_btn_" .. steal.obj_choices .. ""}
 
 				a:register("help", function(e)
 					local tooltip = tes3ui.createTooltipMenu { item = refe.object }
@@ -112,12 +114,12 @@ function steal.createWindow(ref)
 	end
 
 	--Calculate Bonuses
-	local modifier = steal.agility.current
-	if modifier > 200 then
-		modifier = 200
+	steal.modifier = steal.agility.current
+	if steal.modifier > 200 then
+		steal.modifier = 200
 	end
 
-	steal.fatReduction = math.round(modifier * 0.33)
+	steal.fatReduction = math.round(steal.modifier * 0.33)
 
 	--Text Block
 	local text_block = menu:createBlock { id = "text_block_steal" }
@@ -159,7 +161,7 @@ function steal.createWindow(ref)
 	--Lock Level/trap
 	local lock_title = lock_block:createLabel({ text = "Target: " })
 	lock_title.color = tables.colors["white"]
-	steal.weight_label = lock_block:createLabel { text = "" .. tes3.findGMST(tes3.gmst.sLockLevel).value .. ": ", id = "kl_steal_weight_label" }
+	steal.weight_label = lock_block:createLabel { text = "" .. steal.weightText .. ": ", id = "kl_steal_weight_label" }
 	steal.value_label = lock_block:createLabel { text = "" .. steal.valueText .. ": ", id = "kl_steal_value_label" }
 
 	--Chance
@@ -199,22 +201,18 @@ function steal.createWindow(ref)
 		tes3.modStatistic({ reference = ref, name = "fatigue", current = (steal.fatCost * -1) })
 
 		--Roll
-		if math.random(0, 99) > steal.chance then
+		local owned = tes3.getOwner({ reference = steal.target })
+
+		if owned and math.random(0, 99) > steal.chance then
 			--Fail
-			ref:activate(steal.target)
-			tes3.playSound({ sound = "Open Lock Fail", reference = steal.target })
-			tes3.messageBox("" .. tes3.findGMST("sLockFail").value .. "")
+			tes3.messageBox("" .. ref.object.name .. " failed to find an opening!")
 		else
 			--Success
-
-			--Remove Trap
-			--tes3.setTrap({ reference = steal.target, spell = nil })
-
-			--Unlock
-			--tes3.unlock({ reference = steal.target })
-			tes3.playSound({ sound = "Open Lock", reference = steal.target })
-			tes3.messageBox("" .. tes3.findGMST("sLockSuccess").value .. "")
+			tes3.addItem({ reference = tes3.player, item = steal.target.object, showMessage = true })
+			steal.target:delete()
 		end
+
+		steal.createWindow(ref)
 	end)
 	button_cancel:register("mouseClick", function() menu:destroy() tech.createWindow(ref) end)
 
@@ -243,13 +241,21 @@ function steal.onSelectTarget(elem, ref)
 		--Trap Label
 		steal.value_label.text = "" .. steal.valueText .. ": " .. steal.value .. ""
 
-		steal.chance = math.round(80 - (steal.value - steal.agility.current))
+		local owned = tes3.getOwner({ reference = ref })
+
+		steal.chance = math.round(70 - (((steal.value / 3) + steal.weight * 3) - steal.modifier))
+		if not owned then
+			steal.chance = 100
+		end
 		steal.chance_label.text = "" .. steal.chance .. "%"
 		steal.weight_label.text = "" .. steal.weightText .. ": " .. steal.weight .. ""
 
-		steal.fatCost = math.round((steal.weight * 2.25) * (1 - (steal.fatReduction * 0.01)))
+		steal.fatCost = math.round((steal.weight * 8.5) * (1 - (steal.fatReduction * 0.01)))
+		if steal.fatCost < 1 then
+			steal.fatCost = 1
+		end
 
-		steal.base_fat.text = "Base: " .. (steal.weight * 2.25) .. ""
+		steal.base_fat.text = "Base: " .. math.round(steal.weight * 7.5) .. ""
 		steal.total_fat.text = "Total Cost: " .. steal.fatCost .. ""
 
 		if steal.target ~= nil then
