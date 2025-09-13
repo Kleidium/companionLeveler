@@ -171,8 +171,8 @@ function guild.onOK()
 		tes3.addSpell({ reference = guild.ref, spell = "kl_ability_gTrained_" .. guild.id .. "" })
 
 		if guild.id == 1 then
-			modData.tp_current = modData.tp_current + 2
-			modData.tp_max = modData.tp_max + 2
+			modData.tp_current = modData.tp_current + 1
+			modData.tp_max = modData.tp_max + 1
 		end
 
 		if guild.id == 7 then

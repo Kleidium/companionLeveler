@@ -14,6 +14,7 @@ local safe = require("companionLeveler.menus.techniques.safe")
 local molag = require("companionLeveler.menus.techniques.molagGift")
 local drugs = require("companionLeveler.menus.techniques.drugs")
 local steal = require("companionLeveler.menus.techniques.steal")
+local bless = require("companionLeveler.menus.techniques.bless")
 
 local tech = {}
 
@@ -222,6 +223,18 @@ function tech.createWindow(ref)
 				--Thieves Guild Training
 				local button_steal = tech_block:createButton { id = tech.id_steal, text = "Fetch" }
 				button_steal:register("mouseClick", function() tech.menu:destroy() steal.createWindow(ref) end)
+			end
+			if tech.modData.guildTraining[1] == tables.factions[5] or tech.modData.guildTraining[2] == tables.factions[5] then
+				--Temple Training
+				local button_almsivi = tech_block:createButton { id = tech.id_almsivi, text = "Ritual: Almsivi Intervention" }
+				local msg = "Perform the Almsivi Intervention Ritual?\nTP Cost: 2"
+				local spellID = "almsivi intervention"
+				button_almsivi:register("mouseClick", function() tech.onRitual(msg, spellID) end)
+			end
+			if tech.modData.guildTraining[1] == tables.factions[6] or tech.modData.guildTraining[2] == tables.factions[6] then
+				--Imperial Cult Training
+				local button_bless = tech_block:createButton { id = tech.id_bless, text = "Channel Divinity" }
+				button_bless:register("mouseClick", function() bless.createWindow(ref) end)
 			end
 		end
 	else
@@ -659,7 +672,7 @@ function tech.onSmokeConfirm(e)
 			local cell = tes3.player.cell
 
 			if cell.isInterior then
-				if tes3.worldController.flagTeleportingDisabled == true then
+				if tes3.getWorldController().flagTeleportingDisabled == true then
 					--Teleportation Disabled
 					tes3.messageBox("A strange force prevents " .. tech.ref.object.name .. " your party from escaping this way...")
 					tech.log:debug("Teleportation is currently disabled. Smoke Bomb failed.")
@@ -837,5 +850,41 @@ function tech.onTransformConfirm(e)
     end
 end
 
+--Rituals
+function tech.onRitual(msg, id)
+    if tech.menu then
+		tech.ritual = id
+        tes3.messageBox({ message = msg,
+            buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
+            callback = tech.onRitualConfirm })
+    end
+end
+
+function tech.onRitualConfirm(e)
+	tech.log:trace("Ritual cast triggered on " .. tech.ref.object.name ..".")
+
+    if (tech.menu) then
+		if e.button == 0 then
+			if tech.ritual == "almsivi intervention" then
+				if tes3.getWorldController().flagTeleportingDisabled then
+					tes3.messageBox("" .. tes3.findGMST("sTeleportDisabled").value .. "")
+				else
+					if func.spendTP(tech.ref, 2) == false then return end
+
+					tes3ui.leaveMenuMode()
+					tech.menu:destroy()
+
+					tes3.messageBox("" .. tech.ref.object.name .. " performed the Ritual of Almsivi Intervention!")
+
+					local almsivi = tes3.findClosestExteriorReferenceOfObject({ object = "TempleMarker", position = tes3.getLastExteriorPosition() })
+					tes3.positionCell({ reference = tes3.player, cell = almsivi.cell, position = almsivi.position, orientation = almsivi.orientation, forceCellChange = true })
+
+                    tes3.playSound({ sound = "mysticism hit" })
+                    tes3.createVisualEffect({ object = "VFX_MysticismHit", lifespan = 3, reference = tech.ref })
+				end
+			end
+		end
+    end
+end
 
 return tech

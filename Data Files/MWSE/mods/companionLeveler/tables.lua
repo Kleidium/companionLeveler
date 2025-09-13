@@ -3553,7 +3553,7 @@ stuff.guildTrainedMessages = {
 	[2] = "The Guild of Fighters trained this creature to swiftly deal with any threat on command.", --flat physical dmg on hit
 	[3] = "The Thieves Guild trained this creature to steal all sorts of items from unsuspecting marks or hard-to-reach places.", --Steals items nearby under a certain weight.
 	[4] = "The Blades utilized this creature to carry coded messages quickly and discreetly across all manner of terrain.", -- +1 SPD per level.
-	[5] = "The Temple blessed this creature, fashioning it into a living reminder of the power of the Tribunal.", --resist common 100%, resist blight 50%, resist corprus 25%.
+	[5] = "The Temple blessed this creature, fashioning it into a living proof of the power of the Tribunal.", --resist common 100%, resist blight 50%, resist corprus 25%.
 	[6] = "The Divines have always favored this creature, prompting the Imperial Cult to draw out these favors through hallowed training.", --bestow a party wide blessing as a technique.
 	[7] = "This specimen was experimented on by a Telvanni wizard lord, who subsequently discarded it once their inscrutable needs were met.", -- +5 TP
 	[8] = "Honorable House Redoran has bred this creature to destroy their enemies, the profane ash creatures of Red Mountain.", -- Trigger enrage when engaging Ash Creatures.
@@ -3573,11 +3573,11 @@ stuff.guildTrainedMessages = {
 }
 
 stuff.guildTrainedHints = {
-	[1] = "Technique Points increase by 2.", --magicka pool increase, +1 TP
+	[1] = "Technique Points increase by 1.", --magicka pool increase, +1 TP
 	[2] = "Attacks deal 0-4 flat additional damage.", --flat physical dmg on hit
 	[3] = "(Agility) Retrieve nearby items as a technique. Only certain, smaller items may be retrieved.", --Steals items nearby under a certain weight.
 	[4] = "+1 Speed every 2 levels, and +1 Agility every 3 levels.", -- +1 SPD per level.
-	[5] = "Cast Almsivi Intervention on the party as a technique.", --resist common 100%, resist blight 50%, resist corprus 25%.
+	[5] = "Perform the Almsivi Intervention ritual on the party as a technique.", --resist common 100%, resist blight 50%, resist corprus 25%.
 	[6] = "May bestow one of nine blessings upon the party as a technique.", --bestow a party wide blessing as a technique.
 	[7] = "Technique Points increase by 5.", -- +5 TP
 	[8] = "Ash Creatures incite a zealous fervor upon this creature in combat.", -- Trigger enrage when engaging Ash Creatures.
