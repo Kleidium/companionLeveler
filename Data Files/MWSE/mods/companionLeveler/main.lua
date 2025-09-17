@@ -394,6 +394,7 @@ local function onCombat(e)
 	abilities.combustion(e) --Mehrunes Dagon
 	abilities.sheoCombat(e) --Sheogorath
 	abilities.nightmare(e) --Vaermina
+	abilities.lament(e)
 
 	if math.random(0, 99) < config.combatChance then
 		abilities.jest(e)
@@ -430,6 +431,7 @@ local function onDamage(e)
 		abilities.malacathGift(e)
 		abilities.namiraGift(e)
 		result = result + abilities.fightersGuildCre(e)
+		result = result + abilities.tongCre(e)
 
 		--Combat Chance
 		if math.random(0, 99) < config.combatChance then
@@ -504,6 +506,8 @@ local function onCellChanged(e)
 	abilities.intuition()
 	abilities.kynareth(e)
 	abilities.sanguineGift()
+	abilities.censusCre()
+	abilities.companyCre()
 
 	if config.expMode == false then return end
 
@@ -520,6 +524,7 @@ event.register(tes3.event.cellChanged, onCellChanged)
 --On Rest Abilities
 local function onCalcRestInterrupt(e)
 	abilities.cunning(e)
+	abilities.legionCre(e)
 	if e.resting then
 		abilities.vaerminaGift()
 	end

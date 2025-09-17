@@ -10,7 +10,7 @@ function bless.createWindow(ref)
 	local menu = tes3ui.createMenu { id = "kl_simple_list", fixedFrame = true }
     menu.alpha = 1.0
 
-	local label = menu:createLabel { text = "Choose a blessing. TP Cost: 2" }
+	local label = menu:createLabel { text = "Choose a blessing. TP Cost: 3" }
     label.wrapText = true
     label.justifyText = "center"
     label.borderBottom = 16
@@ -68,7 +68,7 @@ function bless.createWindow(ref)
 
 		if not once then tes3.messageBox("Only one blessing may be channeled at once.") return end
 
-		if not func.spendTP(ref, 2) then return end
+		if not func.spendTP(ref, 3) then return end
 
 		--Reset
 		local tech = require("companionLeveler.menus.techniques.techniques")

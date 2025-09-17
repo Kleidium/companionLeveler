@@ -1212,6 +1212,12 @@ function this.creatureAbilities(cType, companionRef)
             --Blades Training
             this.bladesCre(companionRef)
         end
+        if modData.guildTraining[1] == tables.factions[9] or modData.guildTraining[2] == tables.factions[9] then
+            --Hlaalu Training
+            local count = (modData.level * 4) + (tes3.player.object.reputation * 7)
+            tes3.addItem({ reference = tes3.player, item = "Gold_001", count = count })
+            tes3.messageBox("House Hlaalu has sent you a stipend of " .. count .. " to support " .. companionRef.object.name .. "'s future growth.")
+        end
     end
 end
 
@@ -2007,6 +2013,7 @@ end
 
 --Mages Guild 1: Fortify Maximum Magicka 1.8x, +2 TP
 
+--Fighters Guild
 function this.fightersGuildCre(e)
     log = logger.getLogger("Companion Leveler")
     if config.combatAbilities == false then return 0 end
@@ -2028,6 +2035,7 @@ function this.fightersGuildCre(e)
     return num
 end
 
+--Blades
 function this.bladesCre(ref)
     log = logger.getLogger("Companion Leveler")
     if config.triggeredAbilities == false then return end
@@ -2047,6 +2055,175 @@ function this.bladesCre(ref)
     log:debug("Blades training applied to " .. ref.object.name .. ".")
 end
 
+--House Redoran
+function this.lament(e)
+    if config.combatAbilities == false then return end
+
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Lament of Ash triggered.")
+
+	if (e.target == tes3.mobilePlayer) then
+        log:trace("Combat target is player.")
+		for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+            if string.startswith(actor.object.id, "ash_") or (actor.object.type and actor.object.type == 3) then
+                local creTable = func.creTable()
+
+                for i = 1, #creTable do
+                    local reference = creTable[i]
+                    local modData = func.getModData(reference)
+
+                    if modData.guildTraining then
+                        if modData.guildTraining[1] == tables.factions[8] or modData.guildTraining[2] == tables.factions[8] then
+                            log:debug("" .. reference.object.name .. " spotted an Ash creature!")
+
+                            local affected = tes3.isAffectedBy({ reference = reference, object = "kl_spell_lament" })
+
+                            if not affected then
+                                tes3.cast({ reference = reference, target = reference, spell = "kl_spell_lament", instant = true, bypassResistances = true })
+
+                                log:debug("" .. reference.object.name .. " is overcome with fury!")
+                                if config.bMessages == true then
+                                    tes3.messageBox("" .. reference.object.name .. " is overcome with fury at the sight of the Ash Creature!")
+                                end
+                            else
+                                log:debug("" .. reference.object.name .. " is already affected by Lament of Ash.")
+                            end
+                        end
+                    end
+                end
+            end
+        end
+	end
+end
+
+--Morag Tong
+function this.tongCre(e)
+    log = logger.getLogger("Companion Leveler")
+    if config.combatAbilities == false then return end
+    log:trace("Tong training triggered.")
+
+    local answer = 0
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) and e.attacker.actorType ~= 1 then
+            local modData = func.getModData(e.attacker.reference)
+
+            if modData.guildTraining then
+                if modData.guildTraining[1] == tables.factions[10] or modData.guildTraining[2] == tables.factions[10] then
+                    --Crit Chance
+                    if math.random(1, 20) == 20 then
+                        answer = math.round(e.damage * 0.40)
+                        tes3.playSound({ sound = "critical damage", reference = e.mobile.reference, volume = 0.8, pitch = 0.8 })
+                        log:debug("Tong training critical!")
+                    end
+                end
+            end
+        end
+    end
+
+    return answer
+end
+
+--Imperial Legion
+function this.legionCre(e)
+    if config.triggeredAbilities == false then return end
+
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Legion training triggered.")
+
+    if e.count > 0 then
+        local creTable = func.creTable()
+
+        for i = 1, #creTable do
+            local reference = creTable[i]
+            local modData = func.getModData(reference)
+
+            if modData.guildTraining then
+                if modData.guildTraining[1] == tables.factions[11] or modData.guildTraining[2] == tables.factions[11] then
+                    --Prevent Ambush
+                    e.count = 0
+                    log:info("" .. reference.object.name .. " prevented an ambush.")
+                    tes3.messageBox("" .. reference.object.name .. " prevented an ambush!")
+                    break
+                end
+            end
+        end
+    end
+end
+
+--Census and Excise
+function this.censusCre()
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Census Training triggered.")
+
+    if config.triggeredAbilities == false then
+        --Remove Aura
+        tes3.removeSpell({ reference = tes3.player, spell = "kl_ability_detectench2" })
+        log:debug("Census Training removed from player.")
+        return
+    end
+
+    local trigger = 0
+    local creTable = func.creTable()
+
+    for i = 1, #creTable do
+        local reference = creTable[i]
+        local modData = func.getModData(reference)
+
+        if modData.guildTraining then
+            if modData.guildTraining[1] == tables.factions[12] or modData.guildTraining[2] == tables.factions[12] then
+                trigger = 1
+                break
+            end
+        end
+    end
+
+    if trigger == 1 then
+        --Confer Aura
+        tes3.addSpell({ reference = tes3.player, spell = "kl_ability_detectench2" })
+        log:debug("Census Training added to player.")
+    else
+        --Remove Aura
+        tes3.removeSpell({ reference = tes3.player, spell = "kl_ability_detectench2" })
+        log:debug("Census Training removed from player.")
+    end
+end
+
+--East Empire Company
+function this.companyCre()
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Company Training triggered.")
+
+    local trigger = 0
+    local creTable = func.creTable()
+    local name = ""
+
+    for i = 1, #creTable do
+        local reference = creTable[i]
+        local modData = func.getModData(reference)
+
+        if modData.guildTraining then
+            if modData.guildTraining[1] == tables.factions[13] or modData.guildTraining[2] == tables.factions[13] then
+                trigger = 1
+                name = reference.object.name
+                break
+            end
+        end
+    end
+
+    if trigger == 1 then
+        --Detect Ore
+        for refe in tes3.getPlayerCell():iterateReferences({ tes3.objectType.container }) do
+            if refe.cell == tes3.getPlayerCell() and refe.disabled == false then
+                if string.startswith(refe.object.id, "rock_glass") or string.startswith(refe.object.id, "rock_ebony") then
+                    tes3.messageBox("" .. name .. " detects glass or ebony nearby.")
+                    break
+                end
+            end
+        end
+        log:debug("Census Training added to player.")
+    end
+end
 
 --
 ----NPC Abilities----------------------------------------------------------------------------------------------------------------------------------------------
