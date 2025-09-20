@@ -2026,7 +2026,7 @@ function this.fightersGuildCre(e)
             local modData = func.getModData(e.attacker.reference)
 
             if modData.guildTraining and modData.guildTraining[1] == tables.factions[2] or modData.guildTraining[2] == tables.factions[2] then
-                num = math.random(0, 4)
+                num = math.random(1, 4)
                 log:debug("Fighters Guild creature: " .. num .. " damage added.")
             end
         end
@@ -2224,6 +2224,122 @@ function this.companyCre()
         log:debug("Census Training added to player.")
     end
 end
+
+--Ashlanders
+function this.ashlandCre(e)
+    log = logger.getLogger("Companion Leveler")
+    if config.combatAbilities == false then return end
+    log:trace("Ashlander training triggered.")
+
+    local answer = 0
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) and e.attacker.actorType ~= 1 and e.mobile.object.objectType == tes3.objectType.creature then
+            local modData = func.getModData(e.attacker.reference)
+            if modData.guildTraining then
+                if modData.guildTraining[1] == tables.factions[15] or modData.guildTraining[2] == tables.factions[15] then
+                    answer = math.round(e.damage * 0.05)
+                    log:debug("Ashland training bonus damage!")
+                end
+            end
+        end
+    end
+
+    return answer
+end
+
+--House Dres
+function this.dresCre(e)
+    log = logger.getLogger("Companion Leveler")
+    if config.combatAbilities == false then return end
+    log:trace("Dres training triggered.")
+
+    local answer = 0
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) and e.attacker.actorType ~= 1 and e.mobile.object.race and e.mobile.object.race ~= "Dark Elf" then
+            local modData = func.getModData(e.attacker.reference)
+            if modData.guildTraining then
+                if modData.guildTraining[1] == tables.factions[17] or modData.guildTraining[2] == tables.factions[17] then
+                    answer = math.round(e.damage * 0.07)
+                    log:debug("Dres training bonus damage!")
+                end
+            end
+        end
+    end
+
+    return answer
+end
+
+--House Indoril
+function this.indorilCre(e)
+    if config.combatAbilities == false then return end
+
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Indoril training triggered.")
+
+	if (e.target == tes3.mobilePlayer) then
+        log:trace("Combat target is player.")
+        local creTable = func.creTable()
+
+        for i = 1, #creTable do
+            local reference = creTable[i]
+            local modData = func.getModData(reference)
+
+            if modData.guildTraining then
+                if modData.guildTraining[1] == tables.factions[18] or modData.guildTraining[2] == tables.factions[18] then
+
+                    local affected = tes3.isAffectedBy({ reference = reference, object = "summon ancestral ghost" })
+
+                    if not affected then
+                        tes3.cast({ reference = reference, target = reference, spell = "summon ancestral ghost", instant = true, bypassResistances = true })
+                        local affected2 = tes3.isAffectedBy({ reference = reference, object = "first barrier" })
+                        if not affected2 then
+                            tes3.cast({ reference = reference, target = reference, spell = "first barrier", instant = true, bypassResistances = true })
+                        end
+                        log:debug("" .. reference.object.name .. "'s Ancestral Ghost appeared!")
+                    else
+                        log:debug("" .. reference.object.name .. "'s Ghost is already here.")
+                    end
+                end
+            end
+        end
+	end
+end
+
+--Astrological Society
+function this.astroCre()
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Astrological Training triggered.")
+
+    local creTable = func.creTable()
+
+    for i = 1, #creTable do
+        local reference = creTable[i]
+        local modData = func.getModData(reference)
+
+        if modData.guildTraining then
+            if modData.guildTraining[1] == tables.factions[20] or modData.guildTraining[2] == tables.factions[20] then
+                --Remove Existing Effect(s)
+                for n = 0, 12 do
+                    tes3.removeSpell({ reference = reference, spell = "kl_ability_astroCre_" .. n .. "" })
+                end
+
+                local month = tes3.worldController.month.value
+
+                --Apply New Effect
+                if month >= 0 and month <= 11 then
+                    tes3.addSpell({ reference = reference, spell = "kl_ability_astroCre_" .. month .. "" })
+                    log:debug("Astrological training bestowed upon " .. reference.object.name .. ".")
+                elseif month > 11 then
+                    tes3.addSpell({ reference = reference, spell = "kl_ability_astroCre_12" })
+                    log:debug("Astrological training bestowed upon " .. reference.object.name .. ".")
+                end
+            end
+        end
+    end
+end
+
 
 --
 ----NPC Abilities----------------------------------------------------------------------------------------------------------------------------------------------
@@ -2760,7 +2876,7 @@ function this.executeAbilities(companionRef)
         tes3.messageBox("" .. companionRef.object.name .. " shared a cut of their profits with you. (" .. amount .. " Gold)")
     end
 
-    --Archeologist digs artifacts up as a technique. (see techniques.lua) #41 Archeological Inclination
+    --Archaeologist digs artifacts up as a technique. (see techniques.lua) #41 Archaeological Inclination
 
     --Artificer can create constructs as a technique. (see techniques.lua) #42 Skilled Artificer
 

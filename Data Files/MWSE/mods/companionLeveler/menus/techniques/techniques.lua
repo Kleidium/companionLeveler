@@ -15,6 +15,7 @@ local molag = require("companionLeveler.menus.techniques.molagGift")
 local drugs = require("companionLeveler.menus.techniques.drugs")
 local steal = require("companionLeveler.menus.techniques.steal")
 local bless = require("companionLeveler.menus.techniques.bless")
+local ruin = require("companionLeveler.menus.techniques.ruin")
 
 local tech = {}
 
@@ -236,6 +237,17 @@ function tech.createWindow(ref)
 				local button_bless = tech_block:createButton { id = tech.id_bless, text = "Channel Divinity" }
 				button_bless:register("mouseClick", function() bless.createWindow(ref) end)
 			end
+			if tech.modData.guildTraining[1] == tables.factions[14] or tech.modData.guildTraining[2] == tables.factions[14] then
+				--Twin Lamps Training
+				local button_smoke = tech_block:createButton { id = tech.id_smoke, text = "Escape Route" }
+				local msg = "Utilize " .. tech.ref.object.name .. "'s escape route?\nThis will drain their stamina.\nTP Cost: 3"
+				button_smoke:register("mouseClick", function() tech.onSmoke(msg) end)
+			end
+			if tech.modData.guildTraining[1] == tables.factions[19] or tech.modData.guildTraining[2] == tables.factions[19] then
+				--Archaeologist Training
+				local button_ruin = tech_block:createButton { id = tech.id_ruin, text = "Ruin-Sense" }
+				button_ruin:register("mouseClick", function() ruin.createWindow(ref) end)
+			end
 		end
 	else
 		--NPC Techniques-------------------------------------------------------------------------------------------------------------------------
@@ -261,9 +273,9 @@ function tech.createWindow(ref)
 		end
 
 		if tech.modData.abilities[41] == true then
-			--Archeologist
-			local button_dig = tech_block:createButton { id = tech.id_dig, text = "Archeological Dig" }
-			button_dig:register("mouseClick", function() tech.onDig("archeologist") end)
+			--Archaeologist
+			local button_dig = tech_block:createButton { id = tech.id_dig, text = "Archaeological Dig" }
+			button_dig:register("mouseClick", function() tech.onDig("archaeologist") end)
 		end
 
 		if tech.modData.abilities[42] == true then
@@ -474,11 +486,11 @@ function tech.onServiceExit()
 	end
 end
 
---Archeologist/Normal Type
+--Archaeologist/Normal Type
 function tech.onDig(type)
 	if tech.menu then
 		tech.digtype = type
-		if type == "archeologist" then
+		if type == "archaeologist" then
 			tes3.messageBox({ message = "Dig for artifacts?\nTP Cost: 3",
             buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
             callback = tech.onDigConfirm })
@@ -655,7 +667,7 @@ function tech.onWeatherConfirm(e)
     end
 end
 
---Ninja/Shadow Warrior
+--Ninja/Shadow Warrior/Twin Lamps Creature
 function tech.onSmoke(msg)
     if tech.menu then
         tes3.messageBox({ message = msg,
@@ -886,5 +898,6 @@ function tech.onRitualConfirm(e)
 		end
     end
 end
+
 
 return tech

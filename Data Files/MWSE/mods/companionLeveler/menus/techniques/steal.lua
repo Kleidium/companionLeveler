@@ -77,6 +77,14 @@ function steal.createWindow(ref)
 	border.paddingAllSides = 4
 	border.borderLeft = 126
 
+	--Calculate Bonuses
+	steal.modifier = steal.agility.current
+	if steal.modifier > 200 then
+		steal.modifier = 200
+	end
+
+	steal.fatReduction = math.round(steal.modifier * 0.33)
+
 
 	----Populate-----------------------------------------------------------------------------------------------------
 
@@ -95,7 +103,7 @@ function steal.createWindow(ref)
 			local dist = pos:distance(tes3.player.position)
 			log:debug("" .. refe.object.name .. "'s distance: " .. dist .. "")
 
-			if dist < 350 and refe.object.name ~= ""and refe.object.weight and refe.object.weight < 30 then
+			if dist < (300 + steal.modifier) and refe.object.name ~= ""and refe.object.weight and refe.object.weight < 30 then
 				steal.obj_choices = steal.obj_choices + 1
 
 				local a = pane:createTextSelect { text = "" .. refe.object.name .. "", id = "kl_steal_obj_btn_" .. steal.obj_choices .. ""}
@@ -112,14 +120,6 @@ function steal.createWindow(ref)
 			end
 		end
 	end
-
-	--Calculate Bonuses
-	steal.modifier = steal.agility.current
-	if steal.modifier > 200 then
-		steal.modifier = 200
-	end
-
-	steal.fatReduction = math.round(steal.modifier * 0.33)
 
 	--Text Block
 	local text_block = menu:createBlock { id = "text_block_steal" }
@@ -167,7 +167,7 @@ function steal.createWindow(ref)
 	--Chance
 	local chance_title = total_block:createLabel({ text = "Success Chance:" })
 	chance_title.color = tables.colors["white"]
-	func.clTooltip(chance_title, "skill:18")
+	func.clTooltip(chance_title, "att:2")
 	steal.chance_label = total_block:createLabel { text = "", id = "kl_steal_chance" }
 
 

@@ -395,6 +395,7 @@ local function onCombat(e)
 	abilities.sheoCombat(e) --Sheogorath
 	abilities.nightmare(e) --Vaermina
 	abilities.lament(e)
+	abilities.indorilCre(e)
 
 	if math.random(0, 99) < config.combatChance then
 		abilities.jest(e)
@@ -432,6 +433,8 @@ local function onDamage(e)
 		abilities.namiraGift(e)
 		result = result + abilities.fightersGuildCre(e)
 		result = result + abilities.tongCre(e)
+		result = result + abilities.ashlandCre(e)
+		result = result + abilities.dresCre(e)
 
 		--Combat Chance
 		if math.random(0, 99) < config.combatChance then
@@ -508,6 +511,7 @@ local function onCellChanged(e)
 	abilities.sanguineGift()
 	abilities.censusCre()
 	abilities.companyCre()
+	abilities.astroCre()
 
 	if config.expMode == false then return end
 
