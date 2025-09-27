@@ -366,6 +366,40 @@ function specList.createWindow(reference)
         end
     else
 		--Creature special information
+
+        --Guild Training Information
+        local trainLabel = pBlock:createLabel({ text = "Guild Training:" })
+        trainLabel.borderBottom = 12
+        trainLabel.borderTop = 24
+        trainLabel.color = tables.colors["white"]
+
+        if specList.modData.guildTraining then
+            local key = 1
+            for i = 1, #tables.factions do
+                if specList.modData.guildTraining[1] == tables.factions[i] then
+                    key = i
+                    break
+                end
+            end
+            local abil = tes3.getObject("kl_ability_gTrained_" .. key .. "")
+			local lbl = pBlock:createLabel({ text = "" .. abil.name .. "", id = "kl_guild_label_spec" })
+            lbl.borderBottom = 12
+			func.guildTooltip(lbl, key)
+
+            if specList.modData.guildTraining[2] then
+                local key2 = 1
+                for i = 1, #tables.factions do
+                    if specList.modData.guildTraining[2] == tables.factions[i] then
+                        key2 = i
+                        break
+                    end
+                end
+                local abil2 = tes3.getObject("kl_ability_gTrained_" .. key2 .. "")
+                local lbl2 = pBlock:createLabel({ text = "" .. abil2.name .. "", id = "kl_guild2_label_spec" })
+                lbl2.borderBottom = 12
+                func.guildTooltip(lbl2, key2)
+            end
+        end
     end
 
     --Button Block

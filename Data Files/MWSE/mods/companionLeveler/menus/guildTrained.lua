@@ -163,7 +163,12 @@ function guild.onOK()
 		if not modData.guildTraining then
 			modData["guildTraining"] = { guild.faction.id }
 		else
-			table.insert(modData.guildTraining, guild.faction.id)
+			if guild.aID == 82 then
+				modData.guildTraining[1] = guild.faction.id
+			elseif guild.aID == 84 then
+				modData.guildTraining[2] = guild.faction.id
+			end
+			--table.insert(modData.guildTraining, guild.faction.id)
 		end
 
 		table.insert(modData.factions, guild.faction.id)

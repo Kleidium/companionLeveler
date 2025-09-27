@@ -18,8 +18,8 @@ local this = {}
 --- @param partyTable table party table
 --- @param spellId string the spell id to add/remove
 --- @param add boolean true to add, false to remove
---- @param onApply function(ref) or nil, called after adding spell
---- @param onRemove function(ref) or nil, called after removing spell
+--- @param onApply function?function(ref) or nil, called after adding spell
+--- @param onRemove function?function(ref) or nil, called after removing spell
 function this.updatePartyAura(partyTable, spellId, add, onApply, onRemove)
     for n = 1, #partyTable do
         local ref = partyTable[n]
@@ -1130,7 +1130,7 @@ function this.creatureAbilities(cType, companionRef)
             if wasAdded == true then
                 tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
-                tes3.playSound({ sound = "scroll" })
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[81] = true
                 modData.att_gained[1] = modData.att_gained[1] + 1
                 modData.att_gained[2] = modData.att_gained[2] + 1
@@ -1165,7 +1165,7 @@ function this.creatureAbilities(cType, companionRef)
             if wasAdded == true then
                 tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
-                tes3.playSound({ sound = "scroll" })
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[82] = true
                 modData.att_gained[2] = modData.att_gained[2] + 5
                 timer.start({ type = timer.simulate, duration = 1, iterations = 1, callback = function()
@@ -1181,7 +1181,7 @@ function this.creatureAbilities(cType, companionRef)
             if wasAdded == true then
                 tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
-                tes3.playSound({ sound = "scroll" })
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[83] = true
                 modData.att_gained[3] = modData.att_gained[3] + 5
                 modData.att_gained[7] = modData.att_gained[7] + 5
@@ -1195,12 +1195,236 @@ function this.creatureAbilities(cType, companionRef)
             if wasAdded == true then
                 tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
-                tes3.playSound({ sound = "scroll" })
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[84] = true
                 modData.att_gained[2] = modData.att_gained[2] + 5
                 timer.start({ type = timer.simulate, duration = 1, iterations = 1, callback = function()
                     guild.pickFaction(companionRef, 84)
                 end })
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+    end
+    if cType == "Pestilent" then
+        if modData.typelevels[22] >= 5 then
+            local ability = tes3.getObject(tables.abList[85])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "rat scream" })
+                modData.abilities[85] = true
+                modData.att_gained[4] = modData.att_gained[4] + 3
+                modData.att_gained[5] = modData.att_gained[5] + 3
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[22] >= 10 then
+            local ability = tes3.getObject(tables.abList[86])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "rat scream" })
+                modData.abilities[86] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[22] >= 15 then
+            local ability = tes3.getObject(tables.abList[87])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "rat scream" })
+                modData.abilities[87] = true
+                modData.att_gained[4] = modData.att_gained[4] + 3
+                modData.att_gained[5] = modData.att_gained[5] + 3
+                modData.att_gained[6] = modData.att_gained[6] + 3
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[22] >= 20 then
+            local ability = tes3.getObject(tables.abList[88])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ sound = "rat scream" })
+                modData.abilities[88] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+    end
+    if cType == "Fungal" then
+        if modData.typelevels[23] >= 5 then
+            local ability = tes3.getObject(tables.abList[89])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[89] = true
+                modData.att_gained[2] = modData.att_gained[2] + 3
+                modData.tp_max = modData.tp_max + 1
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[23] >= 10 then
+            local ability = tes3.getObject(tables.abList[90])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[90] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[23] >= 15 then
+            local ability = tes3.getObject(tables.abList[91])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[91] = true
+                modData.att_gained[5] = modData.att_gained[5] + 5
+                modData.tp_max = modData.tp_max + 1
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[23] >= 20 then
+            local ability = tes3.getObject(tables.abList[92])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[92] = true
+                modData.tp_max = modData.tp_max + 2
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+    end
+    if cType == "Seismic" then
+        if modData.typelevels[24] >= 5 then
+            local ability = tes3.getObject(tables.abList[93])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[93] = true
+                modData.tp_max = modData.tp_max + 1
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[24] >= 10 then
+            local ability = tes3.getObject(tables.abList[94])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[94] = true
+                modData.att_gained[1] = modData.att_gained[1] + 4
+                modData.att_gained[6] = modData.att_gained[6] + 4
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[24] >= 15 then
+            local ability = tes3.getObject(tables.abList[95])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[95] = true
+                modData.att_gained[6] = modData.att_gained[6] + 10
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[24] >= 20 then
+            local ability = tes3.getObject(tables.abList[96])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[96] = true
+                modData.att_gained[1] = modData.att_gained[1] + 5
+                modData.att_gained[3] = modData.att_gained[3] + 5
+                modData.att_gained[6] = modData.att_gained[6] + 5
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+    end
+    if cType == "Feline" then
+        if modData.typelevels[25] >= 5 then
+            local ability = tes3.getObject(tables.abList[97])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[97] = true
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[25] >= 10 then
+            local ability = tes3.getObject(tables.abList[98])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[98] = true
+                modData.att_gained[4] = modData.att_gained[4] + 5
+                modData.att_gained[5] = modData.att_gained[5] + 5
+                modData.att_gained[8] = modData.att_gained[8] + 5
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[25] >= 15 then
+            local ability = tes3.getObject(tables.abList[99])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[99] = true
+                modData.att_gained[1] = modData.att_gained[1] + 5
+            else
+                log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
+            end
+        end
+        if modData.typelevels[25] >= 20 then
+            local ability = tes3.getObject(tables.abList[100])
+            local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
+            if wasAdded == true then
+                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
+                log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
+                tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
+                modData.abilities[100] = true
+                modData.att_gained[8] = modData.att_gained[8] + 3
+                modData.att_gained[4] = modData.att_gained[4] + 3
+                modData.att_gained[3] = modData.att_gained[3] + 3
             else
                 log:debug("" .. name .. " already has the " .. ability.name .. " Ability.")
             end
@@ -1919,6 +2143,32 @@ function this.manasponge()
     end
 end
 
+--Warm Aura #66--------------------------------------------------------------------------------------------------------------------
+function this.warmAura()
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Warm Aura triggered.")
+
+    local party = func.partyTable()
+    local trigger = false
+    local creTable = func.creTable()
+
+    for i = 1, #creTable do
+        local reference = creTable[i]
+        local modData = func.getModData(reference)
+        if modData.abilities[66] == true then
+            trigger = true
+            break
+        end
+    end
+
+    this.updatePartyAura(party, "kl_ability_fireAura", trigger)
+    if trigger then
+        log:debug("Warm Aura bestowed upon party.")
+    else
+        log:debug("Warm Aura removed from party.")
+    end
+end
+
 --Ignition #68----------------------------------------------------------------------------------------------------------------------
 function this.ignition(e)
     if config.combatAbilities == false then return end
@@ -1934,6 +2184,32 @@ function this.ignition(e)
                     tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_ignition", instant = true })
             end
         end
+    end
+end
+
+--Chill Aura #70--------------------------------------------------------------------------------------------------------------------
+function this.chillAura()
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Chill Aura triggered.")
+
+    local party = func.partyTable()
+    local trigger = false
+    local creTable = func.creTable()
+
+    for i = 1, #creTable do
+        local reference = creTable[i]
+        local modData = func.getModData(reference)
+        if modData.abilities[70] == true then
+            trigger = true
+            break
+        end
+    end
+
+    this.updatePartyAura(party, "kl_ability_frostAura", trigger)
+    if trigger then
+        log:debug("Chill Aura bestowed upon party.")
+    else
+        log:debug("Chill Aura removed from party.")
     end
 end
 
@@ -1955,6 +2231,32 @@ function this.permafrost(e)
     end
 end
 
+--Static Aura #74--------------------------------------------------------------------------------------------------------------------
+function this.staticAura()
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Static Aura triggered.")
+
+    local party = func.partyTable()
+    local trigger = false
+    local creTable = func.creTable()
+
+    for i = 1, #creTable do
+        local reference = creTable[i]
+        local modData = func.getModData(reference)
+        if modData.abilities[74] == true then
+            trigger = true
+            break
+        end
+    end
+
+    this.updatePartyAura(party, "kl_ability_shockAura", trigger)
+    if trigger then
+        log:debug("Static Aura bestowed upon party.")
+    else
+        log:debug("Static Aura removed from party.")
+    end
+end
+
 --Voltaic Grasp #76-----------------------------------------------------------------------------------------------------------------
 function this.voltaic(e)
     if config.combatAbilities == false then return end
@@ -1970,6 +2272,32 @@ function this.voltaic(e)
                 tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_voltaic_grasp", instant = true })
             end
         end
+    end
+end
+
+--Toxic Aura #78--------------------------------------------------------------------------------------------------------------------
+function this.toxicAura()
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Toxic Aura triggered.")
+
+    local party = func.partyTable()
+    local trigger = false
+    local creTable = func.creTable()
+
+    for i = 1, #creTable do
+        local reference = creTable[i]
+        local modData = func.getModData(reference)
+        if modData.abilities[78] == true then
+            trigger = true
+            break
+        end
+    end
+
+    this.updatePartyAura(party, "kl_ability_poisAura", trigger)
+    if trigger then
+        log:debug("Toxic Aura bestowed upon party.")
+    else
+        log:debug("Toxic Aura removed from party.")
     end
 end
 
@@ -2009,6 +2337,244 @@ function this.venomous(e)
     end
 end
 
+--Inoculate #86-----------------------------------------------------------------------------------------------------------------
+function this.inoculateCre(e)
+    if config.combatAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Creature Inoculate triggered.")
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) then
+            local modData = func.getModData(e.attacker.reference)
+
+            if modData.abilities[86] and (e.attacker.actorType == 0 or modData.metamorph == true) then
+                --Random Common Disease
+                if math.random(1, 10) == 10 then
+                    local dis = tes3.getObject(tables.commonDiseases[math.random(1, #tables.commonDiseases)])
+                    tes3.applyMagicSource({ reference = e.mobile, source = dis })
+                    func.simulateSpellHit(e.mobile.reference, dis.effects[1], false)
+                    log:trace("" .. e.attacker.reference.object.name .. " inoculated " .. e.mobile.object.name .. "!")
+                end
+            end
+        end
+    end
+end
+
+--Pathogen #88-----------------------------------------------------------------------------------------------------------------
+function this.pathogen(e)
+    if config.combatAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Black Pathogen triggered.")
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) then
+            local modData = func.getModData(e.attacker.reference)
+
+            if modData.abilities[88] and (e.attacker.actorType == 0 or modData.metamorph == true) then
+                --Random Blight Disease
+                if math.random(1, 25) == 25 then
+                    local dis = tes3.getObject(tables.blightDiseases[math.random(1, #tables.blightDiseases)])
+                    tes3.applyMagicSource({ reference = e.mobile, source = dis })
+                    func.simulateSpellHit(e.mobile.reference, dis.effects[1], false)
+                    log:trace("" .. e.attacker.reference.object.name .. " blighted " .. e.mobile.object.name .. "!")
+                end
+            end
+        end
+    end
+end
+
+--Mollifying Spores #90---------------------------------------------------------------------------------------------------------------------
+function this.spores(e)
+    if config.combatAbilities == false then return end
+
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Spores triggered.")
+
+	if (e.target == tes3.mobilePlayer) then
+        log:trace("Combat target is player.")
+        local creTable = func.creTable()
+
+        local trigger = 0
+        local caster
+
+        for i = 1, #creTable do
+            local reference = creTable[i]
+            local modData = func.getModData(reference)
+            if (modData.abilities[90] == true) then
+                trigger = 1
+                caster = reference.object.name
+                break
+            end
+        end
+
+        if trigger == 1 then
+            for actor in tes3.iterate(tes3.mobilePlayer.hostileActors) do
+                if actor.reference.object.level < 5 then
+                    tes3.applyMagicSource({
+                        reference = actor.reference,
+                        name = "Mollifying Spores",
+                        bypassResistances = false,
+                        effects = {
+                            { id = tes3.effect.calmCreature, duration = 20, min = 20, max = 20 },
+                            { id = tes3.effect.calmHumanoid, duration = 20, min = 20, max = 20 }
+                        },
+                    })
+                    func.simulateSpellHit(actor.reference, tes3.getObject("calm humanoid").effects[1])
+                    log:debug("" .. actor.reference.object.name .. " was mollified by " .. caster .. "'s Mollifying Spores!")
+                end
+		    end
+        end
+	end
+end
+
+--Quake #94-----------------------------------------------------------------------------------------------------------------
+function this.quake(e)
+    if config.combatAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Quake triggered.")
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) then
+            local modData = func.getModData(e.attacker.reference)
+
+            if modData.abilities[94] and (e.attacker.actorType == 0 or modData.metamorph == true) then
+                local will = e.attacker.attributes[3].current
+
+                if will < 50 then
+                    tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_quake_01", instant = true })
+                    log:debug("Quake 1!")
+                elseif will < 75 then
+                    tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_quake_02", instant = true })
+                    log:debug("Quake 2!")
+                elseif will < 100 then
+                    tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_quake_03", instant = true })
+                    log:debug("Quake 3!")
+                elseif will < 150 then
+                    tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_quake_04", instant = true })
+                    log:debug("Quake 4!")
+                else
+                    tes3.cast({ reference = e.attacker, target = e.mobile, spell = "kl_spell_quake_05", instant = true })
+                    log:debug("Quake 5!")
+                end
+            end
+        end
+    end
+end
+
+--Potential Energy #96-----------------------------------------------------------------------------------------------------------------
+function this.pEnergy(e)
+    if config.combatAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Potential Energy triggered.")
+
+    local result = 0
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) then
+            local modData = func.getModData(e.attacker.reference)
+
+            if modData.abilities[96] and (e.attacker.actorType == 0 or modData.metamorph == true) then
+                if modData.tp_current > 1 then
+                    modData.tp_current = modData.tp_current - 1
+                    result = math.round(e.damage * 0.33)
+                    log:debug("" .. e.attacker.object.name .. " added " .. result .. " potential energy damage!")
+                end
+            end
+        end
+    end
+
+    return result
+end
+
+--Twist Reflex #98-----------------------------------------------------------------------------------------------------------------
+function this.twist(e)
+    if config.triggeredAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Twist triggered.")
+
+    local result = e.damage
+
+    if e.mobile then
+        if func.validCompanionCheck(e.mobile) then
+            local modData = func.getModData(e.mobile.reference)
+            if e.mobile.actorType == 0 or modData.metamorph == true then
+                if modData.abilities[98] then
+                    result = 0
+                end
+            end
+        end
+    end
+
+    return result
+end
+
+--Hidden Claws #99-----------------------------------------------------------------------------------------------------------------
+function this.claws(e)
+    if config.combatAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Claws triggered.")
+
+    if e.attacker then
+        if func.validCompanionCheck(e.attacker) then
+            local modData = func.getModData(e.attacker.reference)
+
+            if modData.abilities[99] and (e.attacker.actorType == 0 or modData.metamorph == true) then
+                local agi = e.attacker.attributes[4].current
+                if agi > 200 then
+                    agi = 200
+                end
+                local dur = math.round(agi * 0.15)
+                local max = math.round(agi * 0.02)
+                if max < 1 then
+                    max = 1
+                end
+
+                tes3.applyMagicSource({
+                    reference = e.mobile.reference,
+                    name = "Claws",
+                    bypassResistances = true,
+                    effects = {
+                        { id = tes3.effect.damageHealth,
+                            duration = dur,
+                            min = 0,
+                            max = max }
+                    },
+				})
+                log:debug("Claws inflict bleeding on " .. e.mobile.reference.object.name .. "!")
+            end
+        end
+    end
+end
+
+--Whisker Alarum #100-----------------------------------------------------------------------------------------------------------------
+function this.whisker(e)
+    if config.combatAbilities == false then return end
+    log:trace("Whisker triggered.")
+
+    if e.caster == nil then return e.resistedPercent end
+    log:debug("Caster is " .. e.caster.object.name .. " and target is " .. e.target.object.name .. ".")
+
+    local result = e.resistedPercent
+
+    if func.validCompanionCheck(e.target.mobile) then
+        local modData = func.getModData(e.target)
+        if modData.abilities[100] and modData.typelevels[25] >= 20 then
+            local will = e.target.mobile.attributes[3].current
+            if will > 200 then
+                will = 200
+            end
+
+            if will > (e.caster.mobile.attributes[3].current + math.random(1, 120)) then
+                result = 100
+                log:debug("" .. e.target.object.name .. " avoided the spell!")
+            end
+        end
+    end
+
+    return result
+end
+
+
 --Guild-Trained---------------------------------------------------------------------------------------------------------------------
 
 --Mages Guild 1: Fortify Maximum Magicka 1.8x, +2 TP
@@ -2025,7 +2591,7 @@ function this.fightersGuildCre(e)
         if func.validCompanionCheck(e.attacker) and e.attacker.actorType ~= 1 then
             local modData = func.getModData(e.attacker.reference)
 
-            if modData.guildTraining and modData.guildTraining[1] == tables.factions[2] or modData.guildTraining[2] == tables.factions[2] then
+            if modData.guildTraining and (modData.guildTraining[1] == tables.factions[2] or modData.guildTraining[2] == tables.factions[2]) then
                 num = math.random(1, 4)
                 log:debug("Fighters Guild creature: " .. num .. " damage added.")
             end
@@ -3450,7 +4016,7 @@ end
 
 --Acrobatic #1-----------------------------------------------------------------------------------------------------------------------
 function this.acrobatic(e)
-    if config.combatAbilities == false then return end
+    if config.triggeredAbilities == false then return end
     log = logger.getLogger("Companion Leveler")
     log:trace("Acrobatic triggered.")
 
@@ -5344,6 +5910,51 @@ function this.weather(e)
 		end
 	end
 end
+
+--Kyne's Breath #142-----------------------------------------------------------------------------------------------------------------
+function this.kyne(e)
+    if config.combatAbilities == false then return end
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Kyne triggered.")
+
+    if e.attacker then
+        if func.validCompanionCheck(e.mobile) then
+            local modData = func.getModData(e.mobile.reference)
+
+            if e.mobile.actorType == 1 and modData.abilities[142] and not modData.metamorph then
+                local will = e.mobile.attributes[3].current
+
+                if will < 50 then
+                    local affected = tes3.isAffectedBy({ reference = e.attacker, obect = "kl_spell_squall_01"})
+                    if not affected then
+                        tes3.cast({ reference = e.mobile, target = e.attacker, spell = "kl_spell_squall_01", instant = true })
+                        log:debug("Squall 1!")
+                    end
+                elseif will < 80 then
+                    local affected = tes3.isAffectedBy({ reference = e.attacker, obect = "kl_spell_squall_02"})
+                    if not affected then
+                        tes3.cast({ reference = e.mobile, target = e.attacker, spell = "kl_spell_squall_02", instant = true })
+                        log:debug("Squall 2!")
+                    end
+                elseif will < 100 then
+                    local affected = tes3.isAffectedBy({ reference = e.attacker, obect = "kl_spell_squall_03"})
+                    if not affected then
+                        tes3.cast({ reference = e.mobile, target = e.attacker, spell = "kl_spell_squall_03", instant = true })
+                        log:debug("Squall 3!")
+                    end
+                else
+                    local affected = tes3.isAffectedBy({ reference = e.attacker, obect = "kl_spell_squall_04"})
+                    if not affected then
+                        tes3.cast({ reference = e.mobile, target = e.attacker, spell = "kl_spell_squall_04", instant = true })
+                        log:debug("Squall 4!")
+                    end
+                end
+            end
+        end
+    end
+end
+
+
 
 
 -------Patrons------------------------------------------------------------------------------------------------

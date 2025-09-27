@@ -5,8 +5,8 @@ local stuff = {}
 --Always make sure these values are correct.
 stuff.version = 3.30
 stuff.npcAbilityAmount = 140
-stuff.creAbilityAmount = 84
-stuff.creTypeAmount = 21
+stuff.creAbilityAmount = 100
+stuff.creTypeAmount = 25
 
 ----Companion Classes-------------------------------------------------------------------------------------------------------------------------
 
@@ -118,7 +118,11 @@ stuff.typeTable = {
 	[18] = "Frozen",
 	[19] = "Galvanic",
 	[20] = "Poisonous",
-	[21] = "Guild-Trained"
+	[21] = "Guild-Trained",
+	[22] = "Pestilent",
+	[23] = "Fungal",
+	[24] = "Seismic",
+	[25] = "Feline"
 }
 
 stuff.typeDesc1 = {
@@ -138,11 +142,15 @@ stuff.typeDesc1 = {
 	[14] = "Stealth Type. Disruptive Illusion spells. Learns to fly quickly and distract enemies when attacking.",
 	[15] = "Physical Type. Calls other beasts to their side. Learns to assert dominance over other creatures, which may cause them to flee.",
 	[16] = "Magical Type. Proficient in all magic. Reduced health growth. Learns various powerful auras. Guaranteed bonus Intelligence.",
-	[17] = "Elemental Type. Learns some Fire magic. Learns to burn enemies with attacks and guard themselves and their master against Fire.",
-	[18] = "Elemental Type. Learns some Frost magic. Learns to frostbite enemies with attacks and guard themselves and their master against Frost.",
-	[19] = "Elemental Type. Learns some Shock magic. Learns to electrocute enemies with attacks and guard themselves and their master against Shock.",
-	[20] = "Elemental Type. Learns some Poison magic. Learns to poison enemies with attacks and guard themselves and their master against Poison.",
-	[21] = "Specialist Type. Joins up to two guilds. May receive specialized training and abilities from their chosen guilds."
+	[17] = "Elemental Type. Learns some Fire magic. Learns to burn enemies with attacks and guard themselves and the party against Fire.",
+	[18] = "Elemental Type. Learns some Frost magic. Learns to frostbite enemies with attacks and guard themselves and the party against Frost.",
+	[19] = "Elemental Type. Learns some Shock magic. Learns to electrocute enemies with attacks and guard themselves and the party against Shock.",
+	[20] = "Elemental Type. Learns some Poison magic. Learns to poison enemies with attacks and guard themselves and the party against Poison.",
+	[21] = "Specialist Type. Joins up to two guilds. May receive specialized training and abilities from their chosen guilds.",
+	[22] = "Mixed Type. Restoration and Destruction magic. Opens themselves to the power of disease, becoming weaker to diseases whilst spreading them to others.",
+	[23] = "Magical Type. Proficient in Mysticism, Alteration, and Illusion. Bonus Technique Points. Deploys calming spores and learns ritual techniques.",
+	[24] = "Physical Type. Weak shield spells. Develops an ability to create shockwaves. May use Technique Points to augment physical attacks.",
+	[25] = "Stealth Type. Highly evasive, but fairly frail. Immune to fall damage. May parry hostile spells and inflict bleeding wounds."
 }
 
 stuff.typeDesc2 = {
@@ -166,123 +174,39 @@ stuff.typeDesc2 = {
 	[18] = "\"CLAVIDES: He's dead. He was found a few hours ago dying of frostbite in the ashlands. He was hysterical, nearly incomprehensible, but among his last words were 'castle' and 'Xyr.'\n\nANARA: Dying of frostbite in summertide in the ashlands? B'vek, that's strange.\" - The Horror of Castle Xyr",
 	[19] = "\"That's a well-reasoned response. As for myself, again, not saying I would ever do this, but I think a simple, sudden electrical bolt would serve my purposes admirably.\" - A Hypothetical Treachery",
 	[20] = "\"I didn't guess who you were working for, or even that you were a spy. But you're also wrong about me poisoning you. You poisoned yourself when you drank from the tureen.\" - A Game at Dinner",
-	[21] = "\"My boys, the lesson is you have to learn from a teacher to avoid those small but essential errors that claimed the life of such self-taught enchanters as Peothil. And yet, the only way to become truly great is to try all the possibilities on your own.\" - The Final Lesson"
+	[21] = "\"My boys, the lesson is you have to learn from a teacher to avoid those small but essential errors that claimed the life of such self-taught enchanters as Peothil. And yet, the only way to become truly great is to try all the possibilities on your own.\" - The Final Lesson",
+	[22] = "\"Lord Vivec looked upon this wizard, and listened to his boasting, then asked him, 'How can you pretend to prescribe for others the cure to all diseases, when you are unable to cure yourself of your own manifest arrogance and foolishness?'\" - Homilies of Blessed Almalexia",
+	[23] = "\"The common man looks at an object and fits it into a place in his way of thinking. Those skilled in the Old Ways, in the way of the Psijic, in Mysticism, can see an object and identify it by its proper role. But one more layer is needed to be peeled back to achieve understanding.\" - 2920, The Last Year of the First Era",
+	[24] = "\"On the world of Nirn, all was chaos. The only survivors of the twelve worlds of Creation were the Ehlnofey and the Hist. The Ehlnofey are the ancestors of Mer and Men. The Hist are the trees of Argonia. Nirn originally was all land, with interspersed seas, but no oceans.\" - The Annotated Anuad",
+	[25] = "\"Nirni stopped weeping, and Azurah spoke the First Secret to the Moons and they parted and let Azurah pass. And Azurah took some forest people who were torn between man and beast, and she placed them in the best deserts and forests on Nirni. And Azurah in her wisdom made them of many shapes, one for every purpose.\" - Words of Clan Mother Ahnissi"
 }
 
-stuff.typeStat1 = {
-	[1] = 0,
-	[2] = 0,
-	[3] = 1,
-	[4] = 1,
-	[5] = 0,
-	[6] = 1,
-	[7] = 3,
-	[8] = 6,
-	[9] = 1,
-	[10] = 5,
-	[11] = 0,
-	[12] = 0,
-	[13] = 4,
-	[14] = 4,
-	[15] = 0,
-	[16] = 1,
-	[17] = 2,
-	[18] = 5,
-	[19] = 4,
-	[20] = 3,
-	[21] = 6
-}
-
-stuff.typeStat2 = {
-	[1] = 3,
-	[2] = 1,
-	[3] = 5,
-	[4] = 2,
-	[5] = 5,
-	[6] = 7,
-	[7] = 1,
-	[8] = 7,
-	[9] = 2,
-	[10] = 4,
-	[11] = 1,
-	[12] = 5,
-	[13] = 1,
-	[14] = 3,
-	[15] = 4,
-	[16] = 6,
-	[17] = 7,
-	[18] = 7,
-	[19] = 7,
-	[20] = 7,
-	[21] = 2
-}
-
-----Specialization Attributes-----------------------------------------------------------------------------------------------------
-
---Agility, Speed, Personality, Luck------------------------------------------
-stuff.stealthTable = {
-	[1] = 6,
-	[2] = 7,
-	[3] = 3,
-	[4] = 4
-}
-
---Intelligence, Willpower, Personality, Luck---------------------------------
-stuff.magicTable = {
-	[1] = 1,
-	[2] = 2,
-	[3] = 6,
-	[4] = 7
-}
-
---Strength, Endurance, Agility, Speed----------------------------------------
-stuff.combatTable = {
-	[1] = 0,
-	[2] = 3,
-	[3] = 4,
-	[4] = 5
-}
-
-
-----Specialization Skills----------------------------------------------------------------------------------------------------
-
-----Acrobatics, Light Armor, Marksman, Sneak, Hand to Hand, Short Blade, Mercantile, Speechcraft, Security
-stuff.stealthSkillTable = {
-	[1] = 20,
-	[2] = 21,
-	[3] = 23,
-	[4] = 19,
-	[5] = 26,
-	[6] = 22,
-	[7] = 24,
-	[8] = 25,
-	[9] = 18
-}
-
-----Unarmored, Illusion, Alchemy, Conjuration, Enchant, Alteration, Destruction, Mysticism, Restoration
-stuff.magicSkillTable = {
-	[1] = 17,
-	[2] = 12,
-	[3] = 16,
-	[4] = 13,
-	[5] = 9,
-	[6] = 11,
-	[7] = 10,
-	[8] = 14,
-	[9] = 15
-}
-
-----Heavy Armor, Medium Armor, Spear, Armorer, Axe, Blunt Weapon, Long Blade, Block, Athletics
-stuff.combatSkillTable = {
-	[1] = 3,
-	[2] = 2,
-	[3] = 7,
-	[4] = 1,
-	[5] = 6,
-	[6] = 4,
-	[7] = 5,
-	[8] = 0,
-	[9] = 8
+stuff.typeStats = {
+	[1] = {0, 3},
+	[2] = {0, 1},
+	[3] = {1, 5},
+	[4] = {1, 2},
+	[5] = {0, 5},
+	[6] = {1, 7},
+	[7] = {3, 1},
+	[8] = {6, 7},
+	[9] = {1, 2},
+	[10] = {5, 4},
+	[11] = {0, 1},
+	[12] = {0, 5},
+	[13] = {4, 1},
+	[14] = {4, 3},
+	[15] = {0, 4},
+	[16] = {1, 6},
+	[17] = {0, 7},
+	[18] = {5, 7},
+	[19] = {4, 7},
+	[20] = {3, 7},
+	[21] = {6, 2},
+	[22] = {5, 2},
+	[23] = {2, 7},
+	[24] = {0, 2},
+	[25] = {3, 2}
 }
 
 
@@ -1472,6 +1396,75 @@ stuff.poisonTable = {
 	[4] = "Deadly Poison"
 }
 
+stuff.pestTable = {
+	[1] = "Cure Poison",
+	[2] = "Nimbleness",
+	[3] = "Quicksilver",
+	[4] = "Vitality",
+	[5] = "Great Resist Common Disease",
+	[6] = "Strong Resist Magicka",
+	[7] = "Strong Resist Poison",
+	[8] = "Restore Endurance",
+	[9] = "Restore Strength",
+	[10] = "Restore Agility",
+	[11] = "Restore Speed",
+	[12] = "Balyna's Efficacious Balm",
+	[13] = "Regenerate",
+	[14] = "Cure Common Disease",
+	[15] = "Clench",
+	[16] = "Fuddle",
+	[17] = "Emasculate",
+	[18] = "Doze",
+	[19] = "Black Hand",
+	[20] = "Armor Eater",
+	[21] = "Weapon Eater",
+	[22] = "Clumsy Touch",
+	[23] = "Enervate",
+	[24] = "Torpor",
+	[25] = "Poisonous Touch",
+	[26] = "Weakness to Common Disease",
+	[27] = "Distraction",
+	[28] = "Strength Leech"
+}
+
+stuff.fungalTable = {
+	[1] = "absorb luck",
+	[2] = "dispel",
+	[3] = "reflect",
+	[4] = "weak spelldrinker",
+	[5] = "vampire touch",
+	[6] = "tap energy",
+	[7] = "alad's caliginy",
+	[8] = "calm creature",
+	[9] = "calm humanoid",
+	[10] = "hide",
+	[11] = "light",
+	[12] = "paralysis",
+	[13] = "sanctuary",
+	[14] = "far silence",
+	[15] = "wild earwig",
+	[16] = "frenzying touch",
+	[17] = "frenzy creature",
+	[18] = "heavy burden",
+	[19] = "strong feather",
+	[20] = "lightning shield",
+	[21] = "first barrier",
+	[22] = "second barrier",
+	[23] = "third barrier",
+	[24] = "water breathing",
+	[25] = "water walking"
+}
+
+stuff.seisTable = {
+	[1] = "shield",
+	[2] = "fire barrier",
+	[3] = "frost barrier",
+	[4] = "shock barrier",
+	[5] = "first barrier",
+	[6] = "burden",
+	[7] = "water walking"
+}
+
 
 ----Creature Abilities-------------------------------------------------------------------------------------------------------
 
@@ -1559,7 +1552,23 @@ stuff.abList = {
 	[81] = "kl_ab_guild_01",
 	[82] = "kl_ab_guild_02",
 	[83] = "kl_ab_guild_03",
-	[84] = "kl_ab_guild_04"
+	[84] = "kl_ab_guild_04",
+	[85] = "kl_ab_pest_01",
+	[86] = "kl_ab_pest_02",
+	[87] = "kl_ab_pest_03",
+	[88] = "kl_ab_pest_04",
+	[89] = "kl_ab_fungal_01",
+	[90] = "kl_ab_fungal_02",
+	[91] = "kl_ab_fungal_03",
+	[92] = "kl_ab_fungal_04",
+	[93] = "kl_ab_seis_01",
+	[94] = "kl_ab_seis_02",
+	[95] = "kl_ab_seis_03",
+	[96] = "kl_ab_seis_04",
+	[97] = "kl_ab_feli_01",
+	[98] = "kl_ab_feli_02",
+	[99] = "kl_ab_feli_03",
+	[100] = "kl_ab_feli_04"
 }
 
 stuff.abType = {
@@ -1628,25 +1637,41 @@ stuff.abType = {
 	[63] = "[AURA]",
 	[64] = "[AURA]",
 	[65] = "[PASSIVE]",
-	[66] = "[PASSIVE]",
-	[67] = "[TECHNIQUE]",
+	[66] = "[AURA]",
+	[67] = "[TECHNIQUE]: ACTIVATED",
 	[68] = "[COMBAT]",
 	[69] = "[PASSIVE]",
-	[70] = "[PASSIVE]",
-	[71] = "[TECHNIQUE]",
+	[70] = "[AURA]",
+	[71] = "[TECHNIQUE]: ACTIVATED",
 	[72] = "[COMBAT]",
 	[73] = "[PASSIVE]",
-	[74] = "[PASSIVE]",
-	[75] = "[TECHNIQUE]",
+	[74] = "[AURA]",
+	[75] = "[TECHNIQUE]: ACTIVATED",
 	[76] = "[COMBAT]",
 	[77] = "[PASSIVE]",
-	[78] = "[PASSIVE]",
-	[79] = "[TECHNIQUE]",
+	[78] = "[AURA]",
+	[79] = "[TECHNIQUE]: ACTIVATED",
 	[80] = "[COMBAT]",
 	[81] = "[TRIGGERED]: LEVEL UP",
 	[82] = "[TRIGGERED]: GUILD CHOICE",
 	[83] = "[PASSIVE]",
 	[84] = "[TRIGGERED]: GUILD CHOICE",
+	[85] = "[TECHNIQUE]: RITUAL",
+	[86] = "[COMBAT]",
+	[87] = "[TECHNIQUE]: RITUAL",
+	[88] = "[COMBAT]",
+	[89] = "[TECHNIQUE]: RITUAL",
+	[90] = "[COMBAT]",
+	[91] = "[TECHNIQUE]: RITUAL",
+	[92] = "[TECHNIQUE]: RITUAL",
+	[93] = "[PASSIVE]",
+	[94] = "[COMBAT]",
+	[95] = "[TECHNIQUE]: RITUAL",
+	[96] = "[COMBAT]",
+	[97] = "[PASSIVE]",
+	[98] = "[TRIGGERED]: FALLS",
+	[99] = "[COMBAT]",
+	[100] = "[COMBAT]"
 }
 
 stuff.abDescription = {
@@ -1670,7 +1695,7 @@ stuff.abDescription = {
 	[18] = "Weep not for the flesh, for something greater lies ahead.",
 	[19] = "Those who lack control possess not the means of change.",
 	[20] = "We must make our own way, instead of relying on the generosity of gods.",
-	[21] = "Nature is bountiful, and as such must be protected.",
+	[21] = "Nature's gifts rely on the preservation of a fragile balance.",
 	[22] = "The gentle sigh, a sign of peace. The raging winds, a herald of change.",
 	[23] = "The common ground upon which we tread will pave the way to something greater.",
 	[24] = "All that is will one day be reclaimed.",
@@ -1733,8 +1758,26 @@ stuff.abDescription = {
 	[81] = "There resides a unique potential within all beings; it is up to them to shape it.",
 	[82] = "Mistakes are lessons. Teachers have experienced many lessons.",
 	[83] = "Camaraderie imposes burdens of its own.",
-	[84] = "The unknown is death potential; stagnation is death assured."
+	[84] = "The unknown is death potential; stagnation is death assured.",
+	[85] = "What is clean will one day be dirtied anew.",
+	[86] = "Those far apart may yet share one thing in common.",
+	[87] = "It takes will to seek the pain of knowledge.",
+	[88] = "Certain thresholds are only crossed once.",
+	[89] = "Communication: the precursor of civilized society.",
+	[90] = "Minds need not be changed, only deceived.",
+	[91] = "Life, fortunately, has many shortcuts.",
+	[92] = "Peel away expectation from a man, and what is left?",
+	[93] = "Most only reveal those sides which most flatter them.",
+	[94] = "What rises together, may fall together.",
+	[95] = "Hardship; the crucible of the heart.",
+	[96] = "Only by relinquishing the past will you become something more.",
+	[97] = "Survival means playing to one's strengths.",
+	[98] = "The mind forgets, but the body remembers.",
+	[99] = "For the observer, a rose. For the gardener, a thorn.",
+	[100] = "Even weakness can be a tool of strength."
 }
+
+--What hope is there, for those who know their doom?
 
 stuff.abDescription2 = {
 	[1] = "[Normal Type Level 5 Ability] Allows this creature to dig for items on command.",
@@ -1802,25 +1845,41 @@ stuff.abDescription2 = {
 	[63] = "[Impish Type Level 15 Ability] A mysterious aura increases the party's affinity to all magic.",
 	[64] = "[Impish Type Level 20 Ability] A powerful aura draws in ambient magicka, possibly absorbing spells completely.",
 	[65] = "[Fiery Type Level 5 Ability]",
-	[66] = "[Fiery Type Level 10 Ability]",
+	[66] = "[Fiery Type Level 10 Ability] A warm aura increases the party's resistance to fire.",
 	[67] = "[Fiery Type Level 15 Ability] May bestow the Aspect of Fire upon its master.",
 	[68] = "[Fiery Type Level 20 Ability] A smoldering touch allows attacks to reliably deal small bonus fire damage.",
 	[69] = "[Frozen Type Level 5 Ability]",
-	[70] = "[Frozen Type Level 10 Ability]",
+	[70] = "[Frozen Type Level 10 Ability] A chill aura increases the party's resistance to frost.",
 	[71] = "[Frozen Type Level 15 Ability] May bestow the Aspect of Frost upon its master.",
 	[72] = "[Frozen Type Level 20 Ability] A frigid touch allows attacks to deal light bonus frost and fatigue damage.",
 	[73] = "[Galvanic Type Level 5 Ability]",
-	[74] = "[Galvanic Type Level 10 Ability]",
+	[74] = "[Galvanic Type Level 10 Ability] A static aura increases the party's resistance to shock.",
 	[75] = "[Galvanic Type Level 15 Ability] May bestow the Aspect of Shock upon its master.",
 	[76] = "[Galvanic Type Level 20 Ability] An electric touch allows attacks to chaotically deal bonus shock damage.",
 	[77] = "[Poisonous Type Level 5 Ability]",
-	[78] = "[Poisonous Type Level 10 Ability]",
+	[78] = "[Poisonous Type Level 10 Ability] A toxic aura increases the party's resistance to poison.",
 	[79] = "[Poisonous Type Level 15 Ability] May bestow the Aspect of Poison upon its master.",
 	[80] = "[Poisonous Type Level 20 Ability] A venomous touch allows attacks to poison foes over time.",
 	[81] = "[Guild-Trained Type Level 5 Ability] Earn an additional level once this ability is learned.",
 	[82] = "[Guild-Trained Type Level 10 Ability] Choose a guild to train under, and learn their Ability.",
 	[83] = "[Guild-Trained Type Level 15 Ability]",
 	[84] = "[Guild-Trained Type Level 10 Ability] Choose another guild to train under, and learn their Ability.",
+	[85] = "[Pestilent Type Level 5 Ability] Cure Common Disease on self as a ritual technique.",
+	[86] = "[Pestilent Type Level 10 Ability] Attacks may spread a random common disease.",
+	[87] = "[Pestilent Type Level 15 Ability] Cure Blight Disease on self as a ritual technique.",
+	[88] = "[Pestilent Type Level 20 Ability] Attacks may also spread a random blight disease.",
+	[89] = "[Fungal Type Level 5 Ability] Telekinesis as a ritual technique. Technique Points increase by 1.",
+	[90] = "[Fungal Type Level 10 Ability] Unleash calming spores in combat, pacifying weak enemies.",
+	[91] = "[Fungal Type Level 15 Ability] Levitate as a ritual technique. Technique Points increase by 1.",
+	[92] = "[Fungal Type Level 20 Ability] Dispel the player as a ritual technique. Technique Points increase by 2.",
+	[93] = "[Seismic Type Level 5 Ability] Technique Points increase by 1.",
+	[94] = "[Seismic Type Level 10 Ability] (Willpower) Attacks may create shockwaves, dealing area damage.",
+	[95] = "[Seismic Type Level 15 Ability] Second Barrier on self as a ritual technique.",
+	[96] = "[Seismic Type Level 20 Ability] Attacks may consume Technique Points for bonus damage.",
+	[97] = "[Feline Type Level 5 Ability]",
+	[98] = "[Feline Type Level 10 Ability] Become immune to fall damage.",
+	[99] = "[Feline Type Level 15 Ability] (Agility) Sharp claws may induce bleeding on strike.",
+	[100] = "[Feline Type Level 20 Ability] (Willpower) Avoid spells as if they were physical strikes."
 }
 
 ----NPC Abilities------------------------------------------------------------------------------------------------------
@@ -1965,7 +2024,11 @@ stuff.classesSpecial = {
 	[137] = "Reaver",
 	[138] = "Meteoromancer",
 	[139] = "Cleric",
-	[140] = "Skooma Cook"
+	[140] = "Skooma Cook",
+	[141] = "Duelist",
+	[142] = "Fryse Hag",
+	[143] = "Hood",
+	[144] = "Marauder"
 }
 
 stuff.abListNPC = {
@@ -2108,11 +2171,15 @@ stuff.abListNPC = {
 	[137] = "kl_ab_npc_reaver",
 	[138] = "kl_ab_npc_meteoromancer",
 	[139] = "kl_ab_npc_cleric",
-	[140] = "kl_ab_npc_skooma_cook"
+	[140] = "kl_ab_npc_skooma_cook",
+	[141] = "kl_ab_npc_duelist",
+	[142] = "kl_ab_npc_fryse",
+	[143] = "kl_ab_npc_hood",
+	[144] = "klab_npc_marauder"
 }
 
 stuff.abTypeNPC = {
-	[1] = "[TRIGGERED]: SPECIFIC",
+	[1] = "[TRIGGERED]: FALLS",
 	[2] = "[TECHNIQUE]: TRAINING",
 	[3] = "[TECHNIQUE]: TRAINING",
 	[4] = "[TRIGGERED]: JOB",
@@ -2251,7 +2318,11 @@ stuff.abTypeNPC = {
 	[137] = "[PASSIVE]",
 	[138] = "[COMBAT]",
 	[139] = "[TRIGGERED]: PATRON",
-	[140] = "[TECHNIQUE]: SERVICE"
+	[140] = "[TECHNIQUE]: SERVICE",
+	[141] = "[TECHNIQUE]: ACTIVATED",
+	[142] = "[COMBAT]",
+	[143] = "[PASSIVE]",
+	[144] = "[PASSIVE]"
 }
 
 stuff.abDescriptionNPC = {
@@ -2394,7 +2465,11 @@ stuff.abDescriptionNPC = {
 	[137] = "What's theirs is ours, if they cannot protect it.",
 	[138] = "In all things, a pattern. The movement of the atmosphere is one such pattern.",
 	[139] = "One God's pawn is another God's rook;\nboth are but pieces upon the same board.",
-	[140] = "Create your own happiness!!"
+	[140] = "Create your own happiness!!",
+	[141] = "Some spend their lives in pursuit of naught but death.",
+	[142] = "Deep faith is all too often scorned.",
+	[143] = "Hesitation is a self-inflicted poison.",
+	[144] = "Power is a universal language."
 }
 
 stuff.abDescriptionNPC2 = {
@@ -2536,7 +2611,11 @@ stuff.abDescriptionNPC2 = {
 	[137] = "",
 	[138] = "Meteoromancers utilize the ambient magicks contained within weather to disrupt their foes in various ways.",
 	[139] = "Clerics devote themselves to the service of a chosen deity, which may afford them certain benefits in exchange.",
-	[140] = "(Alchemy) A skooma cook can refine moon sugar into various types of skooma."
+	[140] = "(Alchemy) A skooma cook can refine moon sugar into various types of skooma.",
+	[141] = "(Speechcraft) Duelists may convince others to duel them to the death.",
+	[142] = "(Willpower) These followers of Kyne may call upon Her wrath when struck by a foe in combat.",
+	[143] = "",
+	[144] = ""
 }
 
 
@@ -3601,7 +3680,7 @@ stuff.guildTrainedTypes = {
 	[2] = "[COMBAT]",
 	[3] = "[TECHNIQUE]",
 	[4] = "[TRIGGERED]: LEVEL UP",
-	[5] = "[TECHNIQUE]: ACTIVATED",
+	[5] = "[TECHNIQUE]: RITUAL",
 	[6] = "[TECHNIQUE]: ACTIVATED",
 	[7] = "[PASSIVE]",
 	[8] = "[COMBAT]",
@@ -3620,6 +3699,33 @@ stuff.guildTrainedTypes = {
 	[21] = "[PASSIVE]"
 }
 
+stuff.commonDiseases = {
+	[1] = "ataxia",
+	[2] = "brown rot",
+	[3] = "chills",
+	[4] = "collywobbles",
+	[5] = "crimson_plague",
+	[6] = "dampworm",
+	[7] = "droops",
+	[8] = "greenspore",
+	[9] = "helljoint",
+	[10] = "rattles",
+	[11] = "rockjoint",
+	[12] = "rotbone",
+	[13] = "rust chancre",
+	[14] = "serpiginous dementia",
+	[15] = "swamp fever",
+	[16] = "witbane",
+	[17] = "wither",
+	[18] = "yellow tick"
+}
+
+stuff.blightDiseases = {
+	[1] = "ash woe blight",
+	[2] = "ash-chancre",
+	[3] = "black-heart blight",
+	[4] = "chanthrax blight"
+}
 
 ----NPC Level Up Messages-------------------------------------------------------------------------------------------
 stuff.npcMessage = {

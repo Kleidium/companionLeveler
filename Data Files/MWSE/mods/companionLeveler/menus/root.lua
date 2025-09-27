@@ -77,7 +77,8 @@ function root.createWindow(reference)
     local button_sheet = root_block:createButton { id = root.id_sheet, text = "Character Sheet" }
     local button_change = root_block:createButton { id = root.id_change, text = "Change Class/Type" }
     local button_tech = root_block:createButton { id = root.id_tech, text = "Use Techniques" }
-    local button_cast = root_block:createButton { id = root.id_cast, text = "Cast Spells"}
+    local button_cast = root_block:createButton { id = root.id_cast, text = "Cast Spells" }
+    local button_item = root_block:createButton { id = root.id_item, text = "Use Items" }
     if config.buildMode == true then
         local button_build = root_block:createButton { id = root.id_build, text = "Change Build" }
         button_build:register("mouseClick", function() menu:destroy() buildChange.buildChange(reference) end)
@@ -111,12 +112,53 @@ function root.createWindow(reference)
     button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
     button_tech:register("mouseClick", function() menu:destroy() tech.createWindow(reference) end)
     button_cast:register("mouseClick", function() menu:destroy() cast.createWindow(reference) end)
+    button_item:register("mouseClick", function()
+        tes3ui.showInventorySelectMenu({
+            reference = tes3.player,
+            title = "Choose an item for " .. reference.object.name .. " to use.",
+            filter = function(e)
+                if e.item.objectType == tes3.objectType.alchemy or (e.item.enchantment and (e.item.enchantment.castType == 0 or e.item.enchantment.castType == 2)) then
+                    return true
+                else
+                    return false
+                end
+            end,
+            callback =
+            function(e)
+                if not e.item then return end
+
+                if e.item.objectType == tes3.objectType.alchemy then
+                    --Potion
+                    tes3.applyMagicSource({ reference = reference, source = e.item })
+                    tes3.removeItem({ reference = tes3.player, item = e.item })
+                elseif e.item.enchantment.castType == 2 then
+                    --On Use Enchantment
+                    local cost = tes3.calculateChargeUse({ mobile = reference.mobile, enchantment = e.item.enchantment })
+                    if e.itemData.charge >= cost then
+                        tes3.applyMagicSource({ reference = reference, effects = e.item.enchantment.effects, name = e.item.name })
+                        e.itemData.charge = e.itemData.charge - cost
+                        --Play Correct Sound
+                        func.simulateSpellHit(reference, e.item.enchantment.effects[1])
+                    else
+                        tes3.messageBox("" .. tes3.findGMST(tes3.gmst.sMagicInsufficientCharge).value .. "")
+                        --Play Correct Sound
+                        func.simulateSpellHit(reference, e.item.enchantment.effects[1], true)
+                    end
+                elseif e.item.enchantment.castType == 0 then
+                    --Scroll
+                    tes3.applyMagicSource({ reference = reference, effects = e.item.enchantment.effects, name = e.item.name })
+                    tes3.removeItem({ reference = tes3.player, item = e.item })
+                    --Play Correct Sound
+                    func.simulateSpellHit(reference, e.item.enchantment.effects[1])
+                end
+            end
+        })
+    end)
     button_cancel:register("mouseClick", function() tes3ui.leaveMenuMode() menu:destroy() end)
 
     -- Final setup
     menu:updateLayout()
     tes3ui.enterMenuMode(root.id_menu)
 end
-
 
 return root

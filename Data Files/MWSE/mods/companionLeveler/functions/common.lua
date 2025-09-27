@@ -27,6 +27,7 @@ function this.getModDataP()
 end
 
 --Companion Mod Data
+--- @ param  ref tes3reference
 function this.getModData(ref)
 	log = logger.getLogger("Companion Leveler")
 	log:trace("Checking " .. ref.object.name .. "'s Mod Data.")
@@ -108,6 +109,7 @@ function this.getModData(ref)
 end
 
 --Simple Mod Data Check
+--- @ param  ref tes3reference
 function this.checkModData(ref)
 	log = logger.getLogger("Companion Leveler")
 	log:trace("Checking for existing Mod Data.")
@@ -120,6 +122,7 @@ function this.checkModData(ref)
 end
 
 --Version Control
+--- @ param  ref tes3reference
 function this.updateModData(ref)
 	log = logger.getLogger("Companion Leveler")
 	log:trace("Checking for updated Mod Data on " .. ref.object.name .. ".")
@@ -420,6 +423,7 @@ function this.updateModData(ref)
 end
 
 --Update Ideal Character Sheet Values
+--- @ param  companionRef tes3reference
 function this.updateIdealSheet(companionRef)
 	local modData = this.getModData(companionRef)
 	local attTable = companionRef.mobile.attributes
@@ -467,6 +471,7 @@ end
 ----Companion Check-------------------------------------------------------------------------------------------------------------
 --
 
+--- @ param  mobileActor tes3mobileActor
 function this.validCompanionCheck(mobileActor)
 	log = logger.getLogger("Companion Leveler")
 	log:trace("Checking " .. mobileActor.object.name .. "...")
@@ -589,6 +594,7 @@ end
 ----Determine Default Creature Type-------------------------------------------------------------------------------------------------------
 --
 
+--- @ param  ref tes3reference
 function this.determineDefault(ref)
 	local name = ref.object.name
 	local answer = "Normal"
@@ -647,6 +653,8 @@ end
 ----Remove/Re-Add Abilities------------------------------------------------------------------------------------------------------------
 --
 
+--- @ param  ref tes3reference
+--- @ param  spellTable table
 local function removeAbilities(ref, spellTable)
     log = logger.getLogger("Companion Leveler")
     for i = 1, #spellTable do
@@ -657,6 +665,9 @@ local function removeAbilities(ref, spellTable)
     end
 end
 
+--- @ param  ref tes3reference
+--- @ param  spellTable table
+--- @ param  abilities table
 local function addAbilities(ref, spellTable, abilities)
     log = logger.getLogger("Companion Leveler")
     for i = 1, #spellTable do
@@ -669,24 +680,29 @@ local function addAbilities(ref, spellTable, abilities)
     end
 end
 
+--- @ param  ref tes3reference
 function this.removeAbilitiesCre(ref)
     removeAbilities(ref, tables.abList)
 end
 
+--- @ param  ref tes3reference
 function this.addAbilitiesCre(ref)
     local modData = this.getModData(ref)
     addAbilities(ref, tables.abList, modData.abilities)
 end
 
+--- @ param  ref tes3reference
 function this.removeAbilitiesNPC(ref)
     removeAbilities(ref, tables.abListNPC)
 end
 
+--- @ param  ref tes3reference
 function this.addAbilitiesNPC(ref)
     local modData = this.getModData(ref)
     addAbilities(ref, tables.abListNPC, modData.abilities)
 end
 
+--- @ param  ref tes3reference
 function this.removePatron(ref)
 	log = logger.getLogger("Companion Leveler")
 	for i = 1, #tables.patrons do
@@ -719,6 +735,7 @@ end
 ----Experience Functions--------------------------------------------------------------------------------------------------
 --
 
+--- @ param  ref tes3reference
 function this.calcEXP(ref)
 	log = logger.getLogger("Companion Leveler")
 	local modData = this.getModData(ref)
@@ -726,6 +743,7 @@ function this.calcEXP(ref)
 	log:debug("" .. ref.object.name .. "'s EXP requirement recalculated.")
 end
 
+--- @ param  amount integer
 function this.awardEXP(amount)
 	if config.buildMode == true then
 		--Build Mode
@@ -818,6 +836,8 @@ end
 ----Technique Functions--------------------------------------------------------------------------------------------------
 --
 
+--- @ param ref tes3reference
+--- @ param cost integer
 function this.spendTP(ref, cost)
 	local modData = this.getModData(ref)
 
@@ -830,6 +850,10 @@ function this.spendTP(ref, cost)
 	end
 end
 
+--- @ param test boolean
+--- @ param item string
+--- @ param count integer
+--- @ param ref tes3reference
 function this.checkReq(test, item, count, ref)
 	log = logger.getLogger("Companion Leveler")
 	log:trace("Check Req triggered.")
@@ -880,6 +904,55 @@ function this.calculatePosition()
 	return position
 end
 
+--- @param ref tes3reference
+--- @param effect tes3effect|integer
+--- @param failed? boolean
+--For simulating Alteration, Conjuration, etc spell hits. Used for scripted spells/effects that require visual hit confirmations.
+function this.simulateSpellHit(ref, effect, failed)
+	local id = effect.id or effect
+	local sound = ""
+	local sFailure = ""
+	local visual = ""
+
+	if id <= 13 then
+		sound = "alteration hit"
+		sFailure = "Spell Failure Alteration"
+		visual = "VFX_AlterationHit"
+	elseif id > 13 and id < 39 then
+		sound = "destruction hit"
+		sFailure = "Spell Failure Destruction"
+		visual = "VFX_DestructHit"
+	elseif id > 38 and id < 57 then
+		sound = "illusion hit"
+		sFailure = "Spell Failure Illusion"
+		visual = "VFX_IllusionHit"
+	elseif id > 56 and id < 69 then
+		sound = "mysticism hit"
+		sFailure = "Spell Failure Mysticism"
+		visual = "VFX_MysticismHit"
+	elseif (id > 68 and id < 101) or id == 117 then
+		sound = "restoration hit"
+		sFailure = "Spell Failure Restoration"
+		visual = "VFX_RestorationHit"
+	else
+		sound = "conjuration hit"
+		sFailure = "Spell Failure Conjuration"
+		visual = "VFX_DefaultHit"
+	end
+
+	if failed then
+		tes3.playSound({ sound = sFailure, reference = ref })
+	else
+		tes3.playSound({ sound = sound, reference = ref })
+		tes3.createVisualEffect({ reference = ref, lifespan = 2, object = visual })
+	end
+
+end
+
+--- @ param  actor tes3mobileActor
+--- @ param contractId string
+--- @ param aiConfigField string?
+--- @ param barterGoldValue integer?
 function this.applyScampsonContract(actor, contractId, aiConfigField, barterGoldValue)
     if this.checkReq(true, contractId, 1, tes3.player) then
         if aiConfigField then
@@ -900,12 +973,9 @@ end
 --
 
 --Creates a Bar.
---
---1st: tes3uiElement
---
---2nd: string: small/standard
---
---3rd: string: red/blue/green/gold/purple/crimson/bloodmoon/silver/azure
+--- @ param  ele tes3uiElement
+--- @ param type string small or standard
+--- @ param color string red/blue/green/gold/purple/crimson/bloodmoon/silver/azure
 function this.configureBar(ele, type, color)
 	ele.widget.showText = true
 	ele.widget.fillColor = tables.colors[color]
@@ -943,6 +1013,9 @@ function this.configureBar(ele, type, color)
 end
 
 --Ability Tooltips. displays class ability (spell) tooltips
+--- @param ele tes3uiElement
+--- @param key integer
+--- @param npc boolean
 function this.abilityTooltip(ele, key, npc)
 	local spellObject, type, desc, desc2
 
@@ -995,6 +1068,8 @@ function this.abilityTooltip(ele, key, npc)
 	end)
 end
 
+--- @param ele tes3uiElement
+--- @param key integer
 function this.patronTooltip(ele, key)
 	local spellObject = tes3.getObject("kl_ability_patron_" .. key .. "")
 	local type = tables.patronTypes[key]
@@ -1028,6 +1103,8 @@ function this.patronTooltip(ele, key)
 	end)
 end
 
+--- @param ele tes3uiElement
+--- @param key integer
 function this.guildTooltip(ele, key)
 	local spellObject = tes3.getObject("kl_ability_gTrained_" .. key .. "")
 	local type = tables.guildTrainedTypes[key]
@@ -1072,10 +1149,8 @@ function this.guildTooltip(ele, key)
 end
 
 --CL General Tooltips.
---
---1st: tes3uiElement
---
---2nd: string: tp/exp/health/magicka/fatigue/ignore_skill/skill:0/att:0
+--- @param ele tes3uiElement
+--- @param type string tp/exp/health/magicka/fatigue/ignore_skill/skill:0/att:0
 function this.clTooltip(ele, type)
 	ele:register("help", function(e)
 		local tooltip = tes3ui.createTooltipMenu()
@@ -1149,6 +1224,9 @@ end
 --2nd: int (the ability #)
 --
 --3rd: NPC? Boolean
+--- @param ele tes3uiElement
+--- @param num integer
+--- @param npc boolean
 function this.abilityColor(ele, num, npc)
     if config.abilityColors == true then
         ele.widget.idle = tables.colors["white"]

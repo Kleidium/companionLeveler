@@ -86,8 +86,8 @@ function typeModule.typeChange(reference)
 	for i = 1, #tables.typeTable do
 		if tables.typeTable[i] == modData.type then
 			--Stats
-			mAtt1 = tables.typeStat1[i]
-			mAtt2 = tables.typeStat2[i]
+			mAtt1 = tables.typeStats[i][1]
+			mAtt2 = tables.typeStats[i][2]
 
 			--Descriptions
 			mSkillType = tables.typeDesc1[i]
@@ -327,10 +327,10 @@ function typeModule.onSelect(i)
 		text.text = tables.typeDesc2[i]
 
 		local text2 = menu:findChild("kl_att1_type")
-		text2.text = tables.capitalization[tables.typeStat1[i]]
+		text2.text = tables.capitalization[tables.typeStats[i][1]]
 
 		local text3 = menu:findChild("kl_att2_type")
-		text3.text = tables.capitalization[tables.typeStat2[i]]
+		text3.text = tables.capitalization[tables.typeStats[i][2]]
 
 		local text5 = menu:findChild("kl_att3_type")
 		text5.text = ""
@@ -405,10 +405,10 @@ function typeModule.defSelect()
 				text.text = tables.typeDesc2[i]
 
 				local text2 = menu:findChild("kl_att1_type")
-				text2.text = tables.capitalization[tables.typeStat1[i]]
+				text2.text = tables.capitalization[tables.typeStats[i][1]]
 
 				local text3 = menu:findChild("kl_att2_type")
-				text3.text = tables.capitalization[tables.typeStat2[i]]
+				text3.text = tables.capitalization[tables.typeStats[i][2]]
 
 				local text5 = menu:findChild("kl_att3_type")
 				text5.text = ""

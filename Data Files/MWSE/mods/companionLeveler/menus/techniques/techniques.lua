@@ -16,6 +16,8 @@ local drugs = require("companionLeveler.menus.techniques.drugs")
 local steal = require("companionLeveler.menus.techniques.steal")
 local bless = require("companionLeveler.menus.techniques.bless")
 local ruin = require("companionLeveler.menus.techniques.ruin")
+local ritual = require("companionLeveler.menus.techniques.ritual")
+local duel = require("companionLeveler.menus.techniques.duel")
 
 local tech = {}
 
@@ -124,7 +126,7 @@ function tech.createWindow(ref)
 
 
     -- Main Buttons
-	if ref.object.objectType == tes3.objectType.creature then
+	if ref.object.objectType == tes3.objectType.creature or tech.modData.metamorph == true then
 		--Creature Techniques
 		if tech.modData.abilities[1] == true then
 			--Normal Level 5
@@ -225,13 +227,6 @@ function tech.createWindow(ref)
 				local button_steal = tech_block:createButton { id = tech.id_steal, text = "Fetch" }
 				button_steal:register("mouseClick", function() tech.menu:destroy() steal.createWindow(ref) end)
 			end
-			if tech.modData.guildTraining[1] == tables.factions[5] or tech.modData.guildTraining[2] == tables.factions[5] then
-				--Temple Training
-				local button_almsivi = tech_block:createButton { id = tech.id_almsivi, text = "Ritual: Almsivi Intervention" }
-				local msg = "Perform the Almsivi Intervention Ritual?\nTP Cost: 2"
-				local spellID = "almsivi intervention"
-				button_almsivi:register("mouseClick", function() tech.onRitual(msg, spellID) end)
-			end
 			if tech.modData.guildTraining[1] == tables.factions[6] or tech.modData.guildTraining[2] == tables.factions[6] then
 				--Imperial Cult Training
 				local button_bless = tech_block:createButton { id = tech.id_bless, text = "Channel Divinity" }
@@ -247,6 +242,15 @@ function tech.createWindow(ref)
 				--Archaeologist Training
 				local button_ruin = tech_block:createButton { id = tech.id_ruin, text = "Ruin-Sense" }
 				button_ruin:register("mouseClick", function() ruin.createWindow(ref) end)
+			end
+		end
+
+		for i = 1, #tables.abType do
+			if (tables.abType[i] == "[TECHNIQUE]: RITUAL" and tech.modData.abilities[i] == true) or (tech.modData.guildTraining and (tech.modData.guildTraining[1] == tables.factions[5] or tech.modData.guildTraining[2] == tables.factions[5])) then
+				--Ritual Ability
+				local button_ritual = tech_block:createButton { id = tech.id_ritual, text = "Perform Ritual" }
+				button_ritual:register("mouseClick", function() tech.menu:destroy() ritual.createWindow(ref) end)
+				break
 			end
 		end
 	else
@@ -384,6 +388,11 @@ function tech.createWindow(ref)
 			--Skooma Cook
 			local button_drugs = tech_block:createButton { id = tech.id_drugs, text = "Skooma Refining"}
 			button_drugs:register("mouseClick", function() tech.menu:destroy() drugs.createWindow(ref) end)
+		end
+		if tech.modData.abilities[141] == true then
+			--Duelist
+			local button_duel = tech_block:createButton { id = tech.id_duel, text = "Request Duel"}
+			button_duel:register("mouseClick", function() tech.menu:destroy() duel.createWindow(ref) end)
 		end
 	end
 
@@ -858,43 +867,6 @@ function tech.onTransformConfirm(e)
 			tes3.triggerCrime({ type = tes3.crimeType.werewolf })
 
 			timer.start({ type = timer.simulate, duration = (15 + tech.modData.level + (tech.modData.lycanthropicPower * 6)), iterations = 1, callback = "companionLeveler:wereTimer" })
-		end
-    end
-end
-
---Rituals
-function tech.onRitual(msg, id)
-    if tech.menu then
-		tech.ritual = id
-        tes3.messageBox({ message = msg,
-            buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
-            callback = tech.onRitualConfirm })
-    end
-end
-
-function tech.onRitualConfirm(e)
-	tech.log:trace("Ritual cast triggered on " .. tech.ref.object.name ..".")
-
-    if (tech.menu) then
-		if e.button == 0 then
-			if tech.ritual == "almsivi intervention" then
-				if tes3.getWorldController().flagTeleportingDisabled then
-					tes3.messageBox("" .. tes3.findGMST("sTeleportDisabled").value .. "")
-				else
-					if func.spendTP(tech.ref, 2) == false then return end
-
-					tes3ui.leaveMenuMode()
-					tech.menu:destroy()
-
-					tes3.messageBox("" .. tech.ref.object.name .. " performed the Ritual of Almsivi Intervention!")
-
-					local almsivi = tes3.findClosestExteriorReferenceOfObject({ object = "TempleMarker", position = tes3.getLastExteriorPosition() })
-					tes3.positionCell({ reference = tes3.player, cell = almsivi.cell, position = almsivi.position, orientation = almsivi.orientation, forceCellChange = true })
-
-                    tes3.playSound({ sound = "mysticism hit" })
-                    tes3.createVisualEffect({ object = "VFX_MysticismHit", lifespan = 3, reference = tech.ref })
-				end
-			end
 		end
     end
 end

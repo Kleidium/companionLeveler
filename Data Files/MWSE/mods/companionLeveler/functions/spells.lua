@@ -7,6 +7,14 @@ local log = logger.getLogger("Companion Leveler")
 local this = {}
 
 -- Helper: Try to teach a spell from a table to a companion, with custom message/sound/log.
+--- @param spellTable table
+--- @param modData table
+--- @param companionRef tes3reference
+--- @param sound string|tes3sound?
+--- @param message string?
+--- @param logFunc function?
+--- @param spellNameOverride function?
+--- @param soundPath string?
 local function tryLearnSpell(spellTable, modData, companionRef, sound, message, logFunc, spellNameOverride, soundPath)
     local iterations = 0
     local wasAdded = false
@@ -418,6 +426,45 @@ function this.creatureSpellRoll(level, cType, companionRef)
                     end
                 end
             end
+        end
+    elseif cType == "Pestilent" then
+        if level > 2 then
+            tryLearnSpell(
+                tables.pestTable, modData, companionRef,
+                "rat roar",
+                "%s learned to cast %s!",
+                function(n, s) log:info("%s learned to cast %s.", n, s) end,
+                function(learned)
+                    local obj = tes3.getObject(learned)
+                    return obj and obj.name or learned
+                end
+            )
+        end
+    elseif cType == "Fungal" then
+        if level > 2 then
+            tryLearnSpell(
+                tables.fungalTable, modData, companionRef,
+                nil,
+                "%s learned to cast %s!",
+                function(n, s) log:info("%s learned to cast %s.", n, s) end,
+                function(learned)
+                    local obj = tes3.getObject(learned)
+                    return obj and obj.name or learned
+                end, "companionLeveler\\creature_spell.wav"
+            )
+        end
+    elseif cType == "Seismic" then
+        if level > 2 then
+            tryLearnSpell(
+                tables.seisTable, modData, companionRef,
+                nil,
+                "%s learned to cast %s!",
+                function(n, s) log:info("%s learned to cast %s.", n, s) end,
+                function(learned)
+                    local obj = tes3.getObject(learned)
+                    return obj and obj.name or learned
+                end, "companionLeveler\\creature_spell.wav"
+            )
         end
     end
 end

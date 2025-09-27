@@ -162,8 +162,11 @@ event.register("uiActivated", function()
 	local actor = tes3ui.getServiceActor()
 	log:debug("Object Type: " .. actor.reference.baseObject.objectType .. "")
 
+	--local share = false
+
 	if actor and func.validCompanionCheck(actor) and actor.inCombat == false then
 		log:debug("NPC Follower detected. Giving class change topic.")
+		--share = true
 		tes3.setGlobal("kl_companion", 1)
 	else
 		log:debug("Target not an NPC Follower. No class change topic given.")
@@ -193,6 +196,16 @@ event.register("uiActivated", function()
 		func.applyScampsonContract(actor, "kl_scampson_pearl_contract", nil, 3000)
 		func.applyScampsonContract(actor, "kl_scampson_diamond_contract", nil, 5000)
 		func.applyScampsonContract(actor, "kl_scampson_crystal_contract", nil, 10000)
+	-- else
+	-- 	if share then
+	-- 		local menu = tes3ui.findMenu("MenuDialog")
+	-- 		local companionShareElement = menu:findChild("MenuDialog_service_companion")
+	-- 		companionShareElement.visible = true
+	-- 		companionShareElement.visible = true
+	-- 		menu:updateLayout()
+	-- 		log:debug("Companion Share set to visible.")
+	-- 		--companionShareElement:registerBefore("mouseClick", function(e) tes3ui.enterMenuMode(0) end)
+	-- 	end
 	end
 
 end, { filter = "MenuDialog" })
@@ -407,6 +420,7 @@ local function onCombat(e)
 		abilities.communion(e)
 		abilities.dominance(e)
 		abilities.weather(e)
+		abilities.spores(e)
 	end
 end
 event.register(tes3.event.combatStarted, onCombat)
@@ -422,6 +436,8 @@ local function onDamage(e)
 		abilities.ignition(e)
 		abilities.permafrost(e)
 		abilities.venomous(e)
+		abilities.inoculateCre(e)
+		abilities.pathogen(e)
 		result = result + abilities.poach(e)
 		result = result + abilities.deceptor(e)
 		result = result + abilities.shed(e)
@@ -441,12 +457,15 @@ local function onDamage(e)
 			result = result + abilities.thuum(e)
 			result = result + abilities.maneater(e)
 			result = result + abilities.ladykiller(e)
+			result = result + abilities.pEnergy(e) --Before Quake
 			abilities.misdirection(e)
 			abilities.misstep(e)
 			abilities.rage(e)
 			abilities.voltaic(e)
 			abilities.mephalaGift(e)
 			abilities.meridiaGift(e)
+			abilities.quake(e)
+			abilities.claws(e)
 
 			if e.projectile then
 				abilities.arcaneA(e)
@@ -457,8 +476,12 @@ local function onDamage(e)
 		end
 
 		e.damage = e.damage + result
+
+		--After Added Damage
+
 	elseif e.source == "fall" then
 		e.damage = abilities.acrobatic(e)
+		e.damage = abilities.twist(e)
 	end
 end
 event.register("damage", onDamage)
@@ -476,6 +499,7 @@ local function damaged(e)
 	--Combat Chance
 	if math.random(0, 99) < config.combatChance then
 		abilities.adrenaline(e)
+		abilities.kyne(e)
 	end
 end
 event.register("damaged", damaged)
@@ -486,6 +510,12 @@ local function damagedHandToHandCallback(e)
 	abilities.knifehand(e)
 end
 event.register(tes3.event.damagedHandToHand, damagedHandToHandCallback)
+
+--Spell Resist Checks
+local function onSpellResist(e)
+	e.resistedPercent = abilities.whisker(e)
+end
+event.register(tes3.event.spellResist, onSpellResist)
 
 --Cell Change Abilities
 local function onCellChanged(e)
@@ -512,6 +542,10 @@ local function onCellChanged(e)
 	abilities.censusCre()
 	abilities.companyCre()
 	abilities.astroCre()
+	abilities.warmAura()
+	abilities.chillAura()
+	abilities.staticAura()
+	abilities.toxicAura()
 
 	if config.expMode == false then return end
 

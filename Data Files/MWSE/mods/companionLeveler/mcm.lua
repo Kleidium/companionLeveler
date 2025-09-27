@@ -15,7 +15,7 @@ local function createPage(label)
         noScroll = false,
     }
     page.sidebar:createInfo {
-        text = "                        [Companion Leveler]\n\nThis mod allows both NPC and Creature companions to level up based on their Class/Creature Type (Class Mode) or specific player selected build settings (Build Mode). \n\nCompanions level up when the player does (Default) or through experience gain (Experience Mode). \n\nIn Class Mode, you also have the choice of changing the Class/Creature Type your companions level as, or gaining Faction/Mentor and Specialization/Racial bonuses at a small chance. In Build Mode, the player chooses which attributes and skills their followers level and by how much.\n\nNPCs also have a chance of learning new spells when they train a spell school skill. Creatures have a lower chance to learn spells every level up.\n\nCompanions may learn abilities, which have various effects."
+        text = "                        [Companion Leveler]\n\nThis mod allows both NPC and Creature companions to level up based on their Class/Creature Type (Class Mode) or specific player selected build settings (Build Mode). \n\nCompanions level up when the player does (Default) or through experience gain (Experience Mode). \n\nIn Class Mode, you also have the choice of changing the Class/Creature Type your companions level as, or gaining Faction/Mentor and Specialization/Racial bonuses at a small chance. In Build Mode, the player chooses which attributes and skills their followers level and by how much.\n\nNPCs also have a chance of learning new spells when they train a spell school skill. Creatures have a lower chance to learn spells every level up.\n\nCompanions may learn abilities and techniques, which have various effects."
     }
     page.sidebar:createHyperLink {
         text = "Made by Kleidium",
@@ -59,13 +59,13 @@ globalSettings:createOnOffButton {
 
 globalSettings:createOnOffButton {
     label = "Enable Skills Above 100",
-    description = "If this is enabled, allows companion skills to go above 100.\n\nDefault: Off",
+    description = "If this is enabled, allows companion skills to go above 100 through leveling up. Abilities may still allow Skills above 100.\n\nDefault: Off",
     variable = mwse.mcm.createTableVariable { id = "aboveMaxSkill", table = config }
 }
 
 globalSettings:createOnOffButton {
     label = "Enable Attributes Above 100",
-    description = "If this is enabled, allows companion attributes to go above 100.\n\nDefault: Off",
+    description = "If this is enabled, allows companion attributes to go above 100 through leveling up. Abilities may still allow Attributes above 100.\n\nDefault: Off",
     variable = mwse.mcm.createTableVariable { id = "aboveMaxAtt", table = config }
 }
 
@@ -212,8 +212,8 @@ specMod:createSlider {
 }
 
 specMod:createOnOffButton {
-    label = "NPC Faction Bonus",
-    description = "Turn on or off NPC companion faction bonus. If an NPC companion belongs to a faction, they will occasionally train in that faction's favored attributes and skills as a bonus.",
+    label = "Faction Bonus",
+    description = "Turn on or off companion faction bonus. If a companion belongs to a faction, they will occasionally train in that faction's favored attributes and skills as a bonus.",
     variable = mwse.mcm.createTableVariable { id = "factionBonus", table = config }
 }
 
@@ -504,7 +504,7 @@ local expMod = pageEXP:createCategory("Experience Modifiers")
 
 expMod:createOnOffButton {
     label = "Catch-Up EXP",
-    description = "If this is enabled, followers that are 3 levels or more weaker than you gain x3 EXP in Experience Mode.\n\nExample: You are level 10. Your followers level 7 and below gain x3 EXP.\n\nDefault: Off",
+    description = "If this is enabled, followers that are 3 levels or more below you gain x3 EXP in Experience Mode.\n\nExample: You are level 10. Your followers level 7 and below gain x3 EXP.\n\nDefault: Off",
     variable = mwse.mcm.createTableVariable { id = "expCatchUp", table = config }
 }
 
@@ -521,7 +521,7 @@ expMod:createSlider {
 
 expMod:createSlider {
     label = "Experience Increment",
-    description = "The amount of additional experience a follower requires to level up per level gained. \n\nDefault: 10",
+    description = "The amount of additional experience a follower requires to level up per level gained. \n\nDefault: 7",
     max = 200,
     min = 0,
     variable = EasyMCM:createTableVariable {

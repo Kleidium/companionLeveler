@@ -44,8 +44,8 @@ function creClassMode.levelUp(companions)
                 if tables.typeTable[n] == cName then
                     modData.typelevels[n] = modData.typelevels[n] + 1
                     storedTlevel = modData.typelevels[n]
-                    trainedAtt1 = tables.typeStat1[n]
-                    trainedAtt2 = tables.typeStat2[n]
+                    trainedAtt1 = tables.typeStats[n][1]
+                    trainedAtt2 = tables.typeStats[n][2]
                     if cName == "Daedra" then
                         chance = chance + 2
                     end

@@ -154,7 +154,7 @@ function steal.createWindow(ref)
 	steal.base_fat = base_block:createLabel({ text = "Base: ", id = "kl_sabo_fat" })
 	--Reductions
 	local reduce_label = base_block:createLabel { text = "Reduction: " .. steal.fatReduction .. "%", id = "kl_sabo_fat_e" }
-	func.clTooltip(reduce_label, "skill:18")
+	func.clTooltip(reduce_label, "att:2")
 	--Totals
 	steal.total_fat = base_block:createLabel { text = "Total Cost: ", id = "kl_sabo_fat_t" }
 
