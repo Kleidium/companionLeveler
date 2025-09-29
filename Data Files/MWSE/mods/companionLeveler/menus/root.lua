@@ -36,6 +36,7 @@ function root.createWindow(reference)
     func.updateModData(reference)
 
     local menu = tes3ui.createMenu { id = root.id_menu, fixedFrame = true }
+    menu.minWidth = 218
     local modData = func.getModData(reference)
     local class
 

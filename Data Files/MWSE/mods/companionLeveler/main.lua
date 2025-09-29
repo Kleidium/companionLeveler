@@ -671,10 +671,10 @@ event.register("modConfigReady", function()
 end)
 
 --for testing:
-local function expTest()
-	if config.expMode == false then return end
-	tes3.player.mobile:exerciseSkill(10, 100)
-end
+-- local function expTest()
+-- 	if config.expMode == false then return end
+-- 	tes3.player.mobile:exerciseSkill(10, 100)
+-- end
 
-event.register("jump", onLevelUp)
-event.register("jump", expTest)
+-- event.register("jump", onLevelUp)
+-- event.register("jump", expTest)
