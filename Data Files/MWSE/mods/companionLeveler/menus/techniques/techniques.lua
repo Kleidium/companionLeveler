@@ -49,8 +49,15 @@ function tech.createWindow(ref)
 	tech.id_drugs = tes3ui.registerID("kl_tech_drugs_btn")
 
 
-    tech.log = logger.getLogger("Companion Leveler")
-    tech.log:debug("Technique menu initialized.")
+	-- use module-level logger
+	if tech.log then tech.log:debug("Technique menu initialized.") end
+	tech.id_cancel = tes3ui.registerID("kl_tech_cancel_btn")
+	tech.id_fire = tes3ui.registerID("kl_tech_fire_btn")
+	tech.id_ritual = tes3ui.registerID("kl_tech_ritual_btn")
+	tech.id_steal = tes3ui.registerID("kl_tech_steal_btn")
+	tech.id_bless = tes3ui.registerID("kl_tech_bless_btn")
+	tech.id_ruin = tes3ui.registerID("kl_tech_ruin_btn")
+	tech.id_duel = tes3ui.registerID("kl_tech_duel_btn")
 
 	local root = require("companionLeveler.menus.root")
 
@@ -58,7 +65,6 @@ function tech.createWindow(ref)
 
     tech.menu = tes3ui.createMenu { id = tech.id_menu, fixedFrame = true }
     tech.modData = func.getModData(ref)
-
 
     --Labels
     local label = tech.menu:createLabel { text = "Techniques", id = tech.id_label }
@@ -652,7 +658,7 @@ function tech.onWeatherConfirm(e)
 				tech.menu:destroy()
 
 				local region = cell.region
-				region:changeWeather(tech.weatherType)
+				if region then region:changeWeather(tech.weatherType) end
 				tes3.playSound({ sound = "alteration hit", reference = tech.ref })
 
 				if tech.weatherType == 0 then

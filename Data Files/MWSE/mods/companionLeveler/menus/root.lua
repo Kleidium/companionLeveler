@@ -24,10 +24,12 @@ function root.createWindow(reference)
     root.id_growth = tes3ui.registerID("kl_root_growth_btn")
     root.id_cast = tes3ui.registerID("kl_root_cast_btn")
     root.id_tech = tes3ui.registerID("kl_root_tech_btn")
+    root.id_item = tes3ui.registerID("kl_root_item_btn")
+    root.id_cancel = tes3ui.registerID("kl_root_cancel_btn")
     root.id_exp = tes3ui.registerID("kl_root_exp_bar")
 
-    log = logger.getLogger("Companion Leveler")
-    log:debug("Root menu initialized.")
+    -- reuse the module-level logger and guard the debug call
+    if log then log:debug("Root menu initialized.") end
 
     root.reference = reference
     --Check for version update
@@ -112,48 +114,7 @@ function root.createWindow(reference)
     button_growth:register("mouseClick", function() menu:destroy() growth.createWindow(reference) end)
     button_tech:register("mouseClick", function() menu:destroy() tech.createWindow(reference) end)
     button_cast:register("mouseClick", function() menu:destroy() cast.createWindow(reference) end)
-    button_item:register("mouseClick", function()
-        tes3ui.showInventorySelectMenu({
-            reference = tes3.player,
-            title = "Choose an item for " .. reference.object.name .. " to use.",
-            filter = function(e)
-                if e.item.objectType == tes3.objectType.alchemy or (e.item.enchantment and (e.item.enchantment.castType == 0 or e.item.enchantment.castType == 2)) then
-                    return true
-                else
-                    return false
-                end
-            end,
-            callback =
-            function(e)
-                if not e.item then return end
-
-                if e.item.objectType == tes3.objectType.alchemy then
-                    --Potion
-                    tes3.applyMagicSource({ reference = reference, source = e.item })
-                    tes3.removeItem({ reference = tes3.player, item = e.item })
-                elseif e.item.enchantment.castType == 2 then
-                    --On Use Enchantment
-                    local cost = tes3.calculateChargeUse({ mobile = reference.mobile, enchantment = e.item.enchantment })
-                    if e.itemData.charge >= cost then
-                        tes3.applyMagicSource({ reference = reference, effects = e.item.enchantment.effects, name = e.item.name })
-                        e.itemData.charge = e.itemData.charge - cost
-                        --Play Correct Sound
-                        func.simulateSpellHit(reference, e.item.enchantment.effects[1])
-                    else
-                        tes3.messageBox("" .. tes3.findGMST(tes3.gmst.sMagicInsufficientCharge).value .. "")
-                        --Play Correct Sound
-                        func.simulateSpellHit(reference, e.item.enchantment.effects[1], true)
-                    end
-                elseif e.item.enchantment.castType == 0 then
-                    --Scroll
-                    tes3.applyMagicSource({ reference = reference, effects = e.item.enchantment.effects, name = e.item.name })
-                    tes3.removeItem({ reference = tes3.player, item = e.item })
-                    --Play Correct Sound
-                    func.simulateSpellHit(reference, e.item.enchantment.effects[1])
-                end
-            end
-        })
-    end)
+    button_item:register("mouseClick", function() root.onItem() end)
     button_cancel:register("mouseClick", function() tes3ui.leaveMenuMode() menu:destroy() end)
 
     -- Final setup
@@ -161,4 +122,58 @@ function root.createWindow(reference)
     tes3ui.enterMenuMode(root.id_menu)
 end
 
+function root.onItem()
+	tes3.messageBox({ message = "From whose inventory?", buttons = { tes3.player.object.name, root.reference.object.name,  tes3.findGMST("sCancel").value }, callback = root.useItem })
+end
+
+function root.useItem(ev)
+    if ev.button == 2 then return end
+
+    local user = tes3.player
+    if ev.button == 1 then
+        user = root.reference
+    end
+
+    --Use Items--
+    tes3ui.showInventorySelectMenu({
+        reference = user,
+        title = "Choose an item for " .. root.reference.object.name .. " to use.\nUsed items will not appear in \"Active Effects\".",
+        filter = function(e)
+            if e.item.objectType == tes3.objectType.alchemy or (e.item.enchantment and (e.item.enchantment.castType == 0 or e.item.enchantment.castType == 2)) then
+                return true
+            else
+                return false
+            end
+        end,
+        callback =
+        function(e)
+            if not e.item then return end
+
+            if e.item.objectType == tes3.objectType.alchemy then
+                --Potion
+                tes3.applyMagicSource({ reference = root.reference, source = e.item })
+                tes3.removeItem({ reference = user, item = e.item })
+            elseif e.item.enchantment.castType == 2 then
+                --On Use Enchantment
+                local cost = tes3.calculateChargeUse({ mobile = root.reference.mobile, enchantment = e.item.enchantment })
+                if e.itemData.charge >= cost then
+                    tes3.applyMagicSource({ reference = root.reference, effects = e.item.enchantment.effects, name = e.item.name })
+                    e.itemData.charge = e.itemData.charge - cost
+                    --Play Correct Sound
+                    func.simulateSpellHit(root.reference, e.item.enchantment.effects[1])
+                else
+                    tes3.messageBox("" .. tes3.findGMST(tes3.gmst.sMagicInsufficientCharge).value .. "")
+                    --Play Correct Sound
+                    func.simulateSpellHit(root.reference, e.item.enchantment.effects[1], true)
+                end
+            elseif e.item.enchantment.castType == 0 then
+                --Scroll
+                tes3.applyMagicSource({ reference = root.reference, effects = e.item.enchantment.effects, name = e.item.name })
+                tes3.removeItem({ reference = user, item = e.item })
+                --Play Correct Sound
+                func.simulateSpellHit(root.reference, e.item.enchantment.effects[1])
+            end
+        end
+    })
+end
 return root

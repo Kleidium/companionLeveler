@@ -29,6 +29,7 @@ function sheet.createWindow(reference)
     sheet.id_original = tes3ui.registerID("kl_sheet_orig_btn")
     sheet.id_current = tes3ui.registerID("kl_sheet_current_btn")
     sheet.id_ideal = tes3ui.registerID("kl_sheet_ideal_btn")
+    sheet.id_fix = tes3ui.registerID("kl_sheet_fix_btn")
     sheet.id_growth = tes3ui.registerID("kl_sheet_growth_btn")
     sheet.id_ability = tes3ui.registerID("kl_sheet_ability_btn")
     sheet.id_spell = tes3ui.registerID("kl_sheet_spell_btn")
@@ -37,8 +38,8 @@ function sheet.createWindow(reference)
     local root = require("companionLeveler.menus.root")
     local viewportWidth, viewportHeight = tes3ui.getViewportSize()
 
-    log = logger.getLogger("Companion Leveler")
-    log:debug("Character sheet menu initialized.")
+    -- reuse module-level logger; guard debug call to avoid nil/deprecated issues
+    if log then log:debug("Character sheet menu initialized.") end
 
     if (reference) then
         sheet.reference = reference
@@ -388,8 +389,10 @@ end
 
 function sheet.onOK()
     local menu = tes3ui.findMenu(sheet.id_menu)
-    tes3ui.leaveMenuMode()
-    menu:destroy()
+    if menu then
+        tes3ui.leaveMenuMode()
+        menu:destroy()
+    end
 end
 
 function sheet.onOriginal()
@@ -441,13 +444,12 @@ function sheet.onOriginal()
                 local typeList = menu:findChild("kl_sheet_creType_" .. i .. "")
                 if typeList then
                     typeList.color = tables.colors["grey"]
-                end
-
-                if string.startswith(typeList.text, default) then
-                    typeList.text = "" .. tables.typeTable[i] .. ": Level " .. sheet.reference.object.level .. ""
-                    typeList.color = tables.colors["white"]
-                else
-                    typeList.text = "" .. tables.typeTable[i] .. ": Level 1"
+                    if type(typeList.text) == "string" and string.startswith(typeList.text, default) then
+                        typeList.text = "" .. tables.typeTable[i] .. ": Level " .. sheet.reference.object.level .. ""
+                        typeList.color = tables.colors["white"]
+                    else
+                        typeList.text = "" .. tables.typeTable[i] .. ": Level 1"
+                    end
                 end
             end
         else
@@ -600,6 +602,13 @@ function sheet.fixStats(e)
                 modData.abilities[i] = false
             end
 
+            --Remove Faction ModData
+            if sheet.reference.object.faction == nil then
+                sheet.reference.data.companionLeveler["factions"] = {}
+            else
+                sheet.reference.data.companionLeveler["factions"] = { sheet.reference.object.faction.id }
+            end
+
             if sheet.reference.object.objectType == tes3.objectType.creature then
                 func.removeAbilitiesCre(sheet.reference)
                 --Type Levels
@@ -610,16 +619,12 @@ function sheet.fixStats(e)
                         modData.typelevels[i] = sheet.reference.object.level
                     end
                 end
+                func.removeGuildTraining(sheet.reference)
             else
                 func.removeAbilitiesNPC(sheet.reference)
                 modData.metamorph = false
                 for i = 1, #modData.typelevels do
                     modData.typelevels[i] = 1
-                end
-                if sheet.reference.object.faction == nil then
-                    sheet.reference.data.companionLeveler["factions"] = {}
-                else
-                    sheet.reference.data.companionLeveler["factions"] = { sheet.reference.object.faction.id }
                 end
                 func.removePatron(sheet.reference)
             end
@@ -674,6 +679,13 @@ function sheet.fixStats(e)
             --Add Abilities first
             if sheet.reference.object.objectType == tes3.objectType.creature or modData.metamorph == true then
                 func.addAbilitiesCre(sheet.reference)
+                if modData.guildTraining then
+                    for i = 1, #modData.guildTraining do
+                        if modData.guildTraining[i] ~= nil then
+                            tes3.addSpell({ spell = "kl_ability_gTraining_" .. modData.guildTraining[i] .. "", reference = sheet.reference })
+                        end
+                    end
+                end
             else
                 func.addAbilitiesNPC(sheet.reference)
                 if modData.patron then
@@ -723,6 +735,7 @@ function sheet.fixStats(e)
 
             if sheet.reference.object.objectType == tes3.objectType.creature then
                 func.removeAbilitiesCre(sheet.reference)
+                func.removeGuildTraining(sheet.reference)
             else
                 func.removeAbilitiesNPC(sheet.reference)
                 modData.metamorph = false
@@ -808,41 +821,42 @@ function sheet.setIgnore(e)
         if e.button == 0 then
             --Change Ignore Skill label
             local ignoreLabel = menu:findChild("kl_sheet_ignore_label")
-            ignoreLabel.text = "Ignored Skill: " .. tes3.getSkillName(sheet.ignore_skill) .. ""
+            if ignoreLabel then ignoreLabel.text = "Ignored Skill: " .. tes3.getSkillName(sheet.ignore_skill) .. "" end
 
             for n = 0, 26 do
                 local label = menu:findChild("kl_sheet_skill_" .. n .. "")
+                if label then
+                    if modData.ignore_skill ~= 99 then
+                        --Clear previous Ignore Skill color
+                        if type(label.text) == "string" and string.startswith(label.text, tes3.getSkillName(modData.ignore_skill)) then
+                            if label.widget then label.widget.idle = tables.colors["default_font"] end
 
-                if modData.ignore_skill ~= 99 then
-                    --Clear previous Ignore Skill color
-                    if string.startswith(label.text, tes3.getSkillName(modData.ignore_skill)) then
-                        label.widget.idle = tables.colors["default_font"]
+                            --Check page, update colors
+                            local title = menu:findChild(sheet.id_label)
+                            local tempSkill = sheet.reference.mobile:getSkillStatistic(n)
 
-                        --Check page, update colors
-                        local title = menu:findChild(sheet.id_label)
-                        local tempSkill = sheet.reference.mobile:getSkillStatistic(n)
-
-                        if string.endswith(title.text, "Ideal Statistics:") then
-                            local baseSkillTable = sheet.reference.baseObject.skills
-                            if tempSkill.base ~= (baseSkillTable[n + 1] + modData.skill_gained[n + 1]) then
-                                label.widget.idle = tables.colors["light_blue"]
+                            if title and type(title.text) == "string" and string.endswith(title.text, "Ideal Statistics:") then
+                                local baseSkillTable = sheet.reference.baseObject.skills
+                                if tempSkill.base ~= (baseSkillTable[n + 1] + modData.skill_gained[n + 1]) then
+                                    if label.widget then label.widget.idle = tables.colors["light_blue"] end
+                                end
                             end
-                        end
 
-                        if string.endswith(title.text, "Current Statistics:") then
-                            if tempSkill.current < tempSkill.base then
-                                label.widget.idle = tables.colors["red"]
-                            end
-                            if tempSkill.current > tempSkill.base then
-                                label.widget.idle = tables.colors["green"]
+                            if title and type(title.text) == "string" and string.endswith(title.text, "Current Statistics:") then
+                                if tempSkill.current < tempSkill.base then
+                                    if label.widget then label.widget.idle = tables.colors["red"] end
+                                end
+                                if tempSkill.current > tempSkill.base then
+                                    if label.widget then label.widget.idle = tables.colors["green"] end
+                                end
                             end
                         end
                     end
-                end
 
-                --Indicate Ignored Skill
-                if n == sheet.ignore_skill then
-                    label.widget.idle = tables.colors["yellow"]
+                    --Indicate Ignored Skill
+                    if n == sheet.ignore_skill and label.widget then
+                        label.widget.idle = tables.colors["yellow"]
+                    end
                 end
             end
 
@@ -857,30 +871,30 @@ function sheet.setIgnore(e)
         if e.button == 1 then
             --Change Ignore Skill label
             local ignoreLabel = menu:findChild("kl_sheet_ignore_label")
-            ignoreLabel.text = "Ignored Skill: None"
+            if ignoreLabel then ignoreLabel.text = "Ignored Skill: None" end
 
             for n = 0, 26 do
                 local label = menu:findChild("kl_sheet_skill_" .. n .. "")
-                if string.startswith(label.text, tes3.getSkillName(modData.ignore_skill)) then
-                    label.widget.idle = tables.colors["default_font"]
+                if label and type(label.text) == "string" and string.startswith(label.text, tes3.getSkillName(modData.ignore_skill)) then
+                    if label.widget then label.widget.idle = tables.colors["default_font"] end
 
                     --Check Page, Update Colors
                     local title = menu:findChild(sheet.id_label)
                     local tempSkill = sheet.reference.mobile:getSkillStatistic(n)
 
-                    if string.endswith(title.text, "Ideal Statistics:") then
+                    if title and type(title.text) == "string" and string.endswith(title.text, "Ideal Statistics:") then
                         local baseSkillTable = sheet.reference.baseObject.skills
                         if tempSkill.base ~= (baseSkillTable[n + 1] + modData.skill_gained[n + 1]) then
-                            label.widget.idle = tables.colors["light_blue"]
+                            if label.widget then label.widget.idle = tables.colors["light_blue"] end
                         end
                     end
 
-                    if string.endswith(title.text, "Current Statistics:") then
+                    if title and type(title.text) == "string" and string.endswith(title.text, "Current Statistics:") then
                         if tempSkill.current < tempSkill.base then
-                            label.widget.idle = tables.colors["red"]
+                            if label.widget then label.widget.idle = tables.colors["red"] end
                         end
                         if tempSkill.current > tempSkill.base then
-                            label.widget.idle = tables.colors["green"]
+                            if label.widget then label.widget.idle = tables.colors["green"] end
                         end
                     end
                 end

@@ -4,7 +4,7 @@ local stuff = {}
 
 --Always make sure these values are correct.
 stuff.version = 3.30
-stuff.npcAbilityAmount = 140
+stuff.npcAbilityAmount = 145
 stuff.creAbilityAmount = 100
 stuff.creTypeAmount = 25
 
@@ -2028,7 +2028,8 @@ stuff.classesSpecial = {
 	[141] = "Duelist",
 	[142] = "Fryse Hag",
 	[143] = "Hood",
-	[144] = "Marauder"
+	[144] = "Marauder",
+	[145] = "Relic Seeker"
 }
 
 stuff.abListNPC = {
@@ -2175,7 +2176,8 @@ stuff.abListNPC = {
 	[141] = "kl_ab_npc_duelist",
 	[142] = "kl_ab_npc_fryse",
 	[143] = "kl_ab_npc_hood",
-	[144] = "klab_npc_marauder"
+	[144] = "kl_ab_npc_marauder",
+	[145] = "kl_ab_npc_relic_seeker"
 }
 
 stuff.abTypeNPC = {
@@ -2322,7 +2324,8 @@ stuff.abTypeNPC = {
 	[141] = "[TECHNIQUE]: ACTIVATED",
 	[142] = "[COMBAT]",
 	[143] = "[PASSIVE]",
-	[144] = "[PASSIVE]"
+	[144] = "[PASSIVE]",
+	[145] = "[TRIGGERED]: ANYWHERE"
 }
 
 stuff.abDescriptionNPC = {
@@ -2469,7 +2472,8 @@ stuff.abDescriptionNPC = {
 	[141] = "Some spend their lives in pursuit of naught but death.",
 	[142] = "Deep faith is all too often scorned.",
 	[143] = "Hesitation is a self-inflicted poison.",
-	[144] = "Power is a universal language."
+	[144] = "Power is a universal language.",
+	[145] = "The search for greatness never really ends."
 }
 
 stuff.abDescriptionNPC2 = {
@@ -2615,7 +2619,8 @@ stuff.abDescriptionNPC2 = {
 	[141] = "(Speechcraft) Duelists may convince others to duel them to the death.",
 	[142] = "(Willpower) These followers of Kyne may call upon Her wrath when struck by a foe in combat.",
 	[143] = "",
-	[144] = ""
+	[144] = "",
+	[145] = "Automatically detect the presence of nearby artifacts, such as daedric armor."
 }
 
 
@@ -3521,7 +3526,7 @@ stuff.patronDuties = {
 	[1] = "Being caught breaking the law will incur a permanent Endurance/Speed loss to the Cleric and a temporary Endurance/Speed loss to you, their leader.",
 	[2] = "Your party can no longer capture non-daedric souls in soul gems. The souls of mortals are safe from you and yours.",
 	[3] = "The Cleric deals less physical damage for the sake of preserving all physical beauty.",
-	[4] = "Breaking the law and being caught will cause the Cleric to permanently forget a bit about each of their skills.",
+	[4] = "Breaking the law and being caught will cause the Cleric to permanently forget a bit about some of their skills.",
 	[5] = "The Cleric's connection to Kynareth results in a greater understanding of the weather as well as a greater sensitivity to its effects.",
 	[6] = "A Mother's love is blind. As such, Mara will never forsake those who love her by punishing them unjustly.",
 	[7] = "Mercilessly killing the weak (< level 5) will weaken the Cleric in return, permanently reducing their Strength and Endurance.",

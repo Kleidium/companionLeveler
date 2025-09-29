@@ -457,12 +457,16 @@ end
 --- @param ref tes3reference reference to modify
 --- @param modData table companion modData table
 function this.modStatAndTrack(type, index, value, ref, modData)
+	log = logger.getLogger("Companion Leveler")
+
     if type == "attribute" then
         tes3.modStatistic({ reference = ref, attribute = index, value = value })
         modData.att_gained[index + 1] = (modData.att_gained[index + 1] or 0) + value
+		log:debug(""  .. ref.object.name .. "'s ".. tes3.attributeName[index] .. " modified by " .. value .. ".")
     elseif type == "skill" then
         tes3.modStatistic({ reference = ref, skill = index, value = value })
         modData.skill_gained[index + 1] = (modData.skill_gained[index + 1] or 0) + value
+		log:debug(""  .. ref.object.name .. "'s ".. tes3.skillName[index] .. " modified by " .. value .. ".")
     end
 end
 
@@ -727,6 +731,21 @@ function this.removePatron(ref)
 			end
 		else
 			log:trace("Patron " .. tables.patrons[i] .. " not removed from " .. ref.object.name .. ".")
+		end
+	end
+end
+
+--- @ param  ref tes3reference
+function this.removeGuildTraining(ref)
+	log = logger.getLogger("Companion Leveler")
+	for i = 1, #tables.factions do
+		local wasRemoved = tes3.removeSpell({ spell = "kl_ability_gTrained_" .. i .. "", reference = ref, })
+		if wasRemoved == true then
+			log:debug("Guild Training " .. tables.factions[i] .. " removed from " .. ref.object.name .. ".")
+			local modData = this.getModData(ref)
+			modData.guildTraining = {}
+		else
+			log:trace("Guild Training " .. tables.factions[i] .. " not removed from " .. ref.object.name .. ".")
 		end
 	end
 end

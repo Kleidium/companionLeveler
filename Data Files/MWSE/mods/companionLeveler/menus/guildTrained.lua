@@ -168,10 +168,21 @@ function guild.onOK()
 			elseif guild.aID == 84 then
 				modData.guildTraining[2] = guild.faction.id
 			end
-			--table.insert(modData.guildTraining, guild.faction.id)
 		end
 
-		table.insert(modData.factions, guild.faction.id)
+		local found2 = false
+		for i = 1, #modData.factions do
+			if guild.faction.id == modData.factions[i] then
+				found2 = true
+				break
+			end
+		end
+
+		if not found2 then
+			table.insert(modData.factions, guild.faction.id)
+		else
+			tes3.messageBox("" .. guild.ref.object.name .. " was already a member of the " .. guild.faction.name .. " faction.")
+		end
 
 		tes3.addSpell({ reference = guild.ref, spell = "kl_ability_gTrained_" .. guild.id .. "" })
 

@@ -162,11 +162,8 @@ event.register("uiActivated", function()
 	local actor = tes3ui.getServiceActor()
 	log:debug("Object Type: " .. actor.reference.baseObject.objectType .. "")
 
-	--local share = false
-
 	if actor and func.validCompanionCheck(actor) and actor.inCombat == false then
 		log:debug("NPC Follower detected. Giving class change topic.")
-		--share = true
 		tes3.setGlobal("kl_companion", 1)
 	else
 		log:debug("Target not an NPC Follower. No class change topic given.")
@@ -196,16 +193,6 @@ event.register("uiActivated", function()
 		func.applyScampsonContract(actor, "kl_scampson_pearl_contract", nil, 3000)
 		func.applyScampsonContract(actor, "kl_scampson_diamond_contract", nil, 5000)
 		func.applyScampsonContract(actor, "kl_scampson_crystal_contract", nil, 10000)
-	-- else
-	-- 	if share then
-	-- 		local menu = tes3ui.findMenu("MenuDialog")
-	-- 		local companionShareElement = menu:findChild("MenuDialog_service_companion")
-	-- 		companionShareElement.visible = true
-	-- 		companionShareElement.visible = true
-	-- 		menu:updateLayout()
-	-- 		log:debug("Companion Share set to visible.")
-	-- 		--companionShareElement:registerBefore("mouseClick", function(e) tes3ui.enterMenuMode(0) end)
-	-- 	end
 	end
 
 end, { filter = "MenuDialog" })
@@ -546,6 +533,7 @@ local function onCellChanged(e)
 	abilities.chillAura()
 	abilities.staticAura()
 	abilities.toxicAura()
+	abilities.farseek()
 
 	if config.expMode == false then return end
 

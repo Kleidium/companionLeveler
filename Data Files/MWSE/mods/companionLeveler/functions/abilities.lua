@@ -2787,7 +2787,6 @@ function this.companyCre()
                 end
             end
         end
-        log:debug("Census Training added to player.")
     end
 end
 
@@ -5954,7 +5953,53 @@ function this.kyne(e)
     end
 end
 
+--Farseek #145-----------------------------------------------------------------------------------------------------------------
+function this.farseek()
+    log = logger.getLogger("Companion Leveler")
+    log:trace("Farseek triggered.")
 
+    local trigger = 0
+    local npcTable = func.npcTable()
+    local name = ""
+
+    for i = 1, #npcTable do
+        local reference = npcTable[i]
+        local modData = func.getModData(reference)
+
+        if modData.abilities[145] then
+            trigger = 1
+            name = reference.object.name
+            break
+        end
+    end
+
+    if trigger == 1 then
+        --Detect Daedric/Unique Weapons and Armor
+        for refe in tes3.getPlayerCell():iterateReferences({ tes3.objectType.armor, tes3.objectType.weapon, tes3.objectType.container }) do
+            if refe.cell == tes3.getPlayerCell() and refe.disabled == false then
+                if refe.object.objectType == tes3.objectType.container then
+                    local found = false
+                    for _, stack in pairs(refe.object.inventory) do
+                        local item = stack.object
+                        if string.startswith(item.id, "daedric") or string.find(item.id, "unique") then
+                            tes3.messageBox("" .. name .. " detects the presence of a powerful artifact!")
+                            found = true
+                            log:debug("" .. item.id .. " found in the " .. refe.object.name .. " container.")
+                            break
+                        end
+                    end
+                    if found then break end
+                else
+                    if string.startswith(refe.object.id, "daedric") or string.find(refe.object.id, "unique") or string.startswith(refe.object.id, "keening") or string.startswith(refe.object.id, "sunder") then
+                        tes3.messageBox("" .. name .. " detects the presence of a powerful artifact!")
+                        log:debug("" .. refe.object.id .. " found in the current cell.")
+                        break
+                    end
+                end
+            end
+        end
+    end
+end
 
 
 -------Patrons------------------------------------------------------------------------------------------------
@@ -5994,9 +6039,9 @@ function this.akatosh(e)
             local modData = func.getModData(clerics[i])
             modData.att_gained[6] = modData.att_gained[6] - 1
             modData.att_gained[5] = modData.att_gained[5] - 1
-            log:debug("" .. patron .. " duty inflicted upon " .. clerics[i].object.name .. ".")
+            log:debug("" .. tables.patrons[patron] .. " duty inflicted upon " .. clerics[i].object.name .. ".")
         end
-        log:debug("" .. patron .. " duty inflicted upon player.")
+        log:debug("" .. tables.patrons[patron] .. " duty inflicted upon player.")
     end
 end
 
@@ -6025,7 +6070,7 @@ function this.arkay(e)
     if #clerics >= 1 then
         if e.mobile.object.type and e.mobile.object.type ~= 1 then
             answer = false
-            log:debug("" .. patron .. " duty upheld.")
+            log:debug("" .. tables.patrons[patron] .. " duty upheld.")
         end
     end
 
@@ -6068,7 +6113,6 @@ function this.dibellaDuty(e)
     log:trace("Dibella triggered.")
 
     local answer = 0
-    local patron = ""
 
     if e.attacker then
         if func.validCompanionCheck(e.attacker) and e.attacker.actorType == 1 then
@@ -6077,7 +6121,7 @@ function this.dibellaDuty(e)
             if modData.patron and modData.patron == 3 then
                 --Damage Penalty
                 answer = math.round(e.damage * 0.10)
-                log:debug("" .. patron .. " duty upheld.")
+                log:debug("" .. tables.patrons[modData.patron] .. " duty upheld.")
             end
         end
     end
@@ -6109,11 +6153,15 @@ function this.julianosDuty(e)
     if #clerics >= 1 then
         for i = 1, #clerics do
             local modData = func.getModData(clerics[i])
-            for n = 0, 26 do
-                func.modStatAndTrack("skill", n, -1, clerics[i], modData)
+            for n = 1, 7 do
+                local rd = math.random(0, 26)
+                func.modStatAndTrack("skill", rd, -1, clerics[i], modData)
             end
+            -- for n = 0, 26 do
+            --     func.modStatAndTrack("skill", n, -1, clerics[i], modData)
+            -- end
             tes3.messageBox("Julianos punishes " .. clerics[i].object.name .. " for breaking the law!")
-            log:debug("" .. patron .. " duty inflicted upon " .. clerics[i].object.name .. ".")
+            log:debug("" .. tables.patrons[patron] .. " duty inflicted upon " .. clerics[i].object.name .. ".")
         end
     end
 end
@@ -6146,7 +6194,7 @@ function this.julianos(e)
                 modData.skill_gained[e.skill + 1] = modData.skill_gained[e.skill + 1] + 1
 
                 tes3.messageBox("" .. clerics[i].object.name .. "'s " .. tes3.getSkillName(e.skill) .. " " .. tes3.findGMST(tes3.gmst.sSkill).value .. " increased to " .. clerics[i].mobile:getSkillStatistic(e.skill).base .. ".")
-                log:debug("" .. patron .. " gift bestowed upon " .. clerics[i].object.name .. ".")
+                log:debug("" .. tables.patrons[patron] .. " gift bestowed upon " .. clerics[i].object.name .. ".")
             end
         end
     end
@@ -6249,7 +6297,7 @@ function this.stendarrDuty(e)
                     tes3.modStatistic({ reference = clerics[i], attribute = tes3.attribute.endurance, value = -1, limit = true })
                     modData.att_gained[1] = modData.att_gained[1] - 1
                     modData.att_gained[6] = modData.att_gained[6] - 1
-                    log:debug("" .. patron .. " duty inflicted upon " .. clerics[i].object.name .. ".")
+                    log:debug("" .. tables.patrons[patron] .. " duty inflicted upon " .. clerics[i].object.name .. ".")
                     tes3.messageBox("Stendarr judges " .. clerics[i].object.name .. " for the death of the meek!")
                 end
             end
@@ -6280,7 +6328,6 @@ function this.talosDuty(e)
     log:trace("Talos duty triggered.")
 
     local answer = 0
-    local patron = ""
 
     if e.attacker then
         if func.validCompanionCheck(e.attacker) and e.attacker.actorType == 1 and e.mobile.object.objectType == tes3.objectType.npc then
@@ -6289,7 +6336,7 @@ function this.talosDuty(e)
             if modData.patron and modData.patron == 8 then
                 --Damage Penalty
                 answer = math.round(e.damage * 0.20)
-                log:debug("" .. patron .. " duty upheld.")
+                log:debug("" .. tables.patrons[modData.patron] .. " duty upheld.")
             end
         end
     end

@@ -1,6 +1,7 @@
 local logger = require("logging.logger")
 local log = logger.getLogger("Companion Leveler")
 local func = require("companionLeveler.functions.common")
+local tables = require("companionLeveler.tables")
 
 local spList = {}
 
@@ -84,6 +85,60 @@ function spList.createWindow(reference)
         end)
 
         listItem:register("mouseClick", function() spList.onSelect2(spell.id) end)
+    end
+
+    --Active Effects
+    local activeEffectsLabel = pane:createLabel({ text = "Active Effects:" })
+    activeEffectsLabel.borderBottom = 12
+    activeEffectsLabel.borderTop = 12
+    activeEffectsLabel.color = { 1.0, 1.0, 1.0 }
+
+    local effects = reference.mobile:getActiveMagicEffects({})
+    local sources = {}
+    for i = 1, #effects do
+        local found = false
+        for n = 1, #sources do
+            if effects[i].instance.source == sources[n] then
+                found = true
+                break
+            end
+        end
+
+        if not found then
+            table.insert(sources, effects[i].instance.source)
+
+            if effects[i].instance.source.isAbility == false then
+                local listItem = pane:createTextSelect({ text = "" .. effects[i].instance.source.name .. " : " .. math.round(effects[i].duration - effects[i].effectInstance.timeActive) .. "s", id = "kl_spList_effect_" .. i .. "" })
+                listItem.widget.idle = tables.colors["pink"]
+
+                listItem:register("help", function(e)
+                    local tooltip = tes3ui.createTooltipMenu({ spell = effects[i].instance.source })
+
+                    local contentElement = tooltip:getContentElement()
+                    contentElement.paddingAllSides = 12
+                    contentElement.childAlignX = 0.5
+                    contentElement.childAlignY = 0.5
+                end)
+            end
+        end
+
+        --local listItem = pane:createTextSelect({ text = tes3.getMagicEffect(effects[i].effectId).name, id = "kl_spList_effect_" .. i .. "" })
+
+        -- listItem:register("help", function(e)
+        --     local tooltip = tes3ui.createTooltipMenu()
+
+        --     local contentElement = tooltip:getContentElement()
+        --     contentElement.paddingAllSides = 12
+        --     contentElement.childAlignX = 0.5
+        --     contentElement.childAlignY = 0.5
+
+        --     local name = contentElement:createLabel({ text = "" .. effects[i].instance.source.name .. "" })
+        --     local magnitude = contentElement:createLabel({ text = "" .. math.round(effects[i].effectInstance.effectiveMagnitude) .. "pts" })
+        --     local duration = contentElement:createLabel({ text = "" .. math.round(effects[i].duration - effects[i].effectInstance.timeActive) .. "s" })
+        --     if effects[i].instance.source.isAbility then
+        --         duration.text = "Ability"
+        --     end
+        -- end)
     end
 
     --Button Block

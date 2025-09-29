@@ -5,6 +5,45 @@ local tables = require("companionLeveler.tables")
 
 local specList = {}
 
+-- Helpers ------------------------------------------------------------------
+local function registerHelp(item, getTextFn)
+    item:register("help", function()
+        local tooltip = tes3ui.createTooltipMenu()
+        local contentElement = tooltip:getContentElement()
+        contentElement.paddingAllSides = 12
+        contentElement.childAlignX = 0.5
+        contentElement.childAlignY = 0.5
+
+        tooltip:createLabel({ text = getTextFn() })
+    end)
+end
+
+local function getLocationHint(source)
+    source = source or ""
+    if source == "Morrowind.esm" then
+        return "Likely somewhere in Vvardenfell..."
+    elseif source == "Tamriel_Data.esm" or source == "Tribunal.esm" or source == "TR_Mainland.esm" then
+        return "Could be somewhere on the mainland..."
+    elseif string.startswith(source, "Wares") then
+        return "In Vvardenfell, or somewhere just outside of it..."
+    else
+        return "Located somewhere outside of Morrowind..?"
+    end
+end
+
+local function createTextItem(block, text, id, opts)
+    local item = block:createTextSelect({ text = text, id = id })
+    if opts then
+        if opts.borderBottom then item.borderBottom = opts.borderBottom end
+        if opts.absolutePosAlignX then item.absolutePosAlignX = opts.absolutePosAlignX end
+        if opts.color then item.widget.idle = opts.color end
+        if opts.helpFn then registerHelp(item, opts.helpFn) end
+        if opts.clickFn then item:register("mouseClick", opts.clickFn) end
+    end
+    return item
+end
+-- End helpers --------------------------------------------------------------
+
 
 function specList.createWindow(reference)
     specList.id_menu = tes3ui.registerID("kl_specList_menu")
@@ -56,31 +95,21 @@ function specList.createWindow(reference)
 		contractLabel.color = { 1.0, 1.0, 1.0 }
 
         for i = 1, #specList.modData.contracts do
-			local npc = tes3.getObject(specList.modData.contracts[i][1])
-            local msg = "Location unknown."
-            if npc.sourceMod == "Morrowind.esm" then
-                msg = "Likely somewhere in Vvardenfell..."
-            elseif npc.sourceMod == "Tamriel_Data.esm" or npc.sourceMod == "Tribunal.esm" or npc.sourceMod == "TR_Mainland.esm" then
-                msg = "Could be somewhere on the mainland..."
-            elseif string.startswith(npc.sourceMod, "Wares") then
-                msg = "In Vvardenfell, or somewhere just outside of it..."
-            else
-                msg = "Located somewhere outside of Morrowind..?"
-            end
-            local listItem = pBlock:createTextSelect({ text = "#" .. i .. ": " .. npc.name .. "\n " .. msg .. "", id = "kl_contract_listItem_" .. i .. "" })
-            listItem.borderBottom = 12
-            listItem.absolutePosAlignX = 0.0
-            listItem:register("help", function(e)
-                local tooltip = tes3ui.createTooltipMenu()
-
-                local contentElement = tooltip:getContentElement()
-                contentElement.paddingAllSides = 12
-                contentElement.childAlignX = 0.5
-                contentElement.childAlignY = 0.5
-
-                tooltip:createLabel({ text = "" .. tes3.findGMST(tes3.gmst.sValue).value .. ": " .. specList.modData.contracts[i][2] .. " " .. tes3.findGMST(tes3.gmst.sGold).value .. "" })
-            end)
-            listItem:register("mouseClick", function() specList.onSelect(i, 1) end)
+            local idx = i
+            local npc = tes3.getObject(specList.modData.contracts[idx][1])
+            local msg = getLocationHint(npc.sourceMod)
+            createTextItem(pBlock,
+                "#" .. idx .. ": " .. npc.name .. "\n " .. msg,
+                "kl_contract_listItem_" .. idx,
+                {
+                    borderBottom = 12,
+                    absolutePosAlignX = 0.0,
+                    helpFn = function()
+                        return tes3.findGMST(tes3.gmst.sValue).value .. ": " .. specList.modData.contracts[idx][2] .. " " .. tes3.findGMST(tes3.gmst.sGold).value
+                    end,
+                    clickFn = function() specList.onSelect(idx, 1) end
+                }
+            )
         end
 
 
@@ -92,13 +121,13 @@ function specList.createWindow(reference)
 
         --Remove text after comma
         for i = 1, #specList.modData.bounties do
-            local cellName = specList.modData.bounties[i]
+            local idx = i
+            local cellName = specList.modData.bounties[idx]
             local unused
             if string.match(cellName, ",") then
-                cellName, unused = specList.modData.bounties[i]:match("([^,]+),([^,]+)")
+                cellName, unused = specList.modData.bounties[idx]:match("([^,]+),([^,]+)")
             end
-            local listItem = pBlock:createTextSelect({ text = "#" .. i .. ": " .. cellName .. "", id = "kl_bounty_listItem_" .. i .."" })
-            listItem:register("mouseClick", function() specList.onSelect(i, 2) end)
+            createTextItem(pBlock, "#" .. idx .. ": " .. cellName, "kl_bounty_listItem_" .. idx, { clickFn = function() specList.onSelect(idx, 2) end })
         end
 
 
@@ -109,32 +138,21 @@ function specList.createWindow(reference)
         deliveryLabel.color = { 1.0, 1.0, 1.0 }
         
         for i = 1, #specList.modData.deliveries do
-            local npc = tes3.getObject(specList.modData.deliveries[i][1])
-            local msg = "Location unknown."
-            local source = npc.sourceMod or ""
-            if source == "Morrowind.esm" then
-                msg = "Likely somewhere in Vvardenfell..."
-            elseif source == "Tamriel_Data.esm" or source == "Tribunal.esm" or source == "TR_Mainland.esm" then
-                msg = "Could be somewhere on the mainland..."
-            elseif string.startswith(source, "Wares") then
-                msg = "In Vvardenfell, or somewhere just outside of it..."
-            else
-                msg = "Located somewhere outside of Morrowind..?"
-            end
-            local listItem = pBlock:createTextSelect({ text = "#" .. i .. ": " .. tes3.getObject(specList.modData.deliveries[i][3]).name .. "\n " .. msg .. "", id = "kl_delivery_listItem_" .. i .. "" })
-            listItem.borderBottom = 4
-            listItem.absolutePosAlignX = 0.0
-            listItem:register("help", function(e)
-                local tooltip = tes3ui.createTooltipMenu()
-
-                local contentElement = tooltip:getContentElement()
-                contentElement.paddingAllSides = 12
-                contentElement.childAlignX = 0.5
-                contentElement.childAlignY = 0.5
-
-                tooltip:createLabel({ text = "" .. tes3.findGMST(tes3.gmst.sValue).value .. ": " .. specList.modData.deliveries[i][2] .. " " .. tes3.findGMST(tes3.gmst.sGold).value .. "" })
-            end)
-            listItem:register("mouseClick", function() specList.onSelect(i, 3) end)
+            local idx = i
+            local npc = tes3.getObject(specList.modData.deliveries[idx][1])
+            local msg = getLocationHint(npc.sourceMod)
+            createTextItem(pBlock,
+                "#" .. idx .. ": " .. tes3.getObject(specList.modData.deliveries[idx][3]).name .. "\n " .. msg,
+                "kl_delivery_listItem_" .. idx,
+                {
+                    borderBottom = 4,
+                    absolutePosAlignX = 0.0,
+                    helpFn = function()
+                        return tes3.findGMST(tes3.gmst.sValue).value .. ": " .. specList.modData.deliveries[idx][2] .. " " .. tes3.findGMST(tes3.gmst.sGold).value
+                    end,
+                    clickFn = function() specList.onSelect(idx, 3) end
+                }
+            )
         end
 
 
