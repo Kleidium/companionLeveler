@@ -16,7 +16,7 @@ When changing class/type, the selection is memorized by the mod and does not act
 
 NPC companions have access to all player classes as well as most NPC classes, with a few exceptions.
 
-Creature companions have access to Morrowind's original 4 creature types (Normal, Daedra, Undead, Humanoid) as well as 12 new types (Centurion, Spriggan, Goblin, Domestic, Spectral, Insectile, Draconic, Brute, Aquatic, Avian, Bestial, Impish). All types have favored attributes just like NPC classes, and have the additional benefit of imparting abilities the further you level into that type.
+Creature companions have access to Morrowind's original 4 creature types (Normal, Daedra, Undead, Humanoid) as well as 21 new types (Centurion, Spriggan, Goblin, Domestic, Spectral, Insectile, Draconic, Brute, Aquatic, Avian, Bestial, Impish). All types have favored attributes just like NPC classes, and have the additional benefit of imparting abilities the further you level into that type.
 
 Both NPC and Creature companions have the ability to learn spells based on magic schools trained (NPCs) or creature type (creatures).
 
@@ -40,7 +40,7 @@ Mentor Bonuses are based on the Major Skills of the player's class, even custom 
 
 Spell Learning is also available. Whenever an NPC trains a school of magic, the NPC rolls to learn a spell of that school (50% chance configurable), chosen from a table of spells that grows larger with greater skill. (Apprentice spells at 25+, Journeyman at 50+, Expert at 75+ and Master at 100+)
 
-NPC Abilities are now here. All vanilla classes and some classes from Danae's Ahead of the Classes﻿ have abilities. Abilities are learned every 5 levels, and are based on the class your companion is training as at that 5th level. Each class only has one ability to learn, so don't be afraid to mix and match abilities! There are 110 abilities in total.</details>
+NPC Abilities are now here. All vanilla classes and some classes from Danae's Ahead of the Classes﻿ have abilities. Abilities are learned every 5 levels, and are based on the class your companion is training as at that 5th level. Each class only has one ability to learn, so don't be afraid to mix and match abilities! There are over 140 NPC Abilities.</details>
 
 
 
