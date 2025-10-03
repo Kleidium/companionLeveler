@@ -16,7 +16,7 @@ When changing class/type, the selection is memorized by the mod and does not act
 
 NPC companions have access to all player classes as well as most NPC classes, with a few exceptions.
 
-Creature companions have access to Morrowind's original 4 creature types (Normal, Daedra, Undead, Humanoid) as well as 21 new types (Centurion, Spriggan, Goblin, Domestic, Spectral, Insectile, Draconic, Brute, Aquatic, Avian, Bestial, Impish). All types have favored attributes just like NPC classes, and have the additional benefit of imparting abilities the further you level into that type.
+Creature companions have access to Morrowind's original 4 creature types (Normal, Daedra, Undead, Humanoid) as well as 21 new types (Centurion, Spriggan, Goblin, Domestic, Spectral, Insectile, Draconic, Brute, Aquatic, Avian, Bestial, Impish and more). All types have favored attributes just like NPC classes, and have the additional benefit of imparting abilities the further you level into that type.
 
 Both NPC and Creature companions have the ability to learn spells based on magic schools trained (NPCs) or creature type (creatures).
 
