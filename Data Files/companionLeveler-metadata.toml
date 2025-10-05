@@ -1,0 +1,33 @@
+[package]
+name = "Companion Leveler"
+description = "This MWSE mod allows both NPC and Creature companions to level up with the player based on their Class/Creature Type (Class Mode) or specific player selected build settings (Build Mode). Companions are also able to learn spells and abilities."
+homepage = "https://www.nexusmods.com/morrowind/mods/51760"
+repository = "https://github.com/Kleidium/companionLeveler"
+authors = ["Kleidium"]
+version = "3.3.0"
+
+[tools.mwse]
+lua-mod = "companionLeveler"
+wait-until-initialize = true
+
+[dependencies]
+assets = [
+	"Sound\\companionLeveler\\ability.wav",
+	"Sound\\companionLeveler\\creature_ability.wav",
+	"Sound\\companionLeveler\\creature_spell.wav",
+	"Sound\\companionLeveler\\dragon_ability.wav",
+	"Sound\\companionLeveler\\dragon_spell.wav",
+	"Sound\\companionLeveler\\levelUP2.wav",
+	"Sound\\companionLeveler\\rock_shatter.wav",
+	"Sound\\companionLeveler\\sheo_1.wav",
+	"Sound\\companionLeveler\\sheo_2.wav",
+	"Sound\\companionLeveler\\sheo_3.wav",
+	"Sound\\companionLeveler\\sheo_4.wav",
+	"Textures\\companionLeveler\\bk_icon.tga",
+	"Textures\\companionLeveler\\exp_icon.tga",
+	"Textures\\companionLeveler\\lp_icon.tga",
+	"Textures\\companionLeveler\\os_icon.tga",
+	"Textures\\companionLeveler\\se_icon.tga",
+	"Textures\\companionLeveler\\tech_icon.tga",
+	"Textures\\companionLeveler\\star.tga"
+]
