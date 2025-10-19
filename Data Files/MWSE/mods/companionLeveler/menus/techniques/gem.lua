@@ -185,17 +185,17 @@ function gem.createWindow(ref)
 	--Events
 	button_ok:register("mouseClick", function()
 		if enchant.current < gem.req then
-			tes3.messageBox("" .. ref.object.name .. " is not skilled enough to synthesize " .. gem.obj.name .. ".")
+			func.clMessageBox("" .. ref.object.name .. " is not skilled enough to synthesize " .. gem.obj.name .. ".")
 			return
 		end
 
 		if modData.tp_current < gem.tp then
-			tes3.messageBox("Not enough Technique Points!")
+			func.clMessageBox("Not enough Technique Points!")
 			return
 		end
 
 		if ref.mobile.magicka.current < gem.mgkCost then
-			tes3.messageBox("Not enough " .. gem.magickaText .. "!")
+			func.clMessageBox("Not enough " .. gem.magickaText .. "!")
 			return
 		end
 
@@ -273,11 +273,11 @@ function gem.createWindow(ref)
 
 			--Synthesize Gem
 			tes3.addItem({ reference = tes3.player, item = gem.obj, count = 1 })
-			tes3.messageBox("" .. gem.obj.name .. " synthesized.")
+			func.clMessageBox("" .. gem.obj.name .. " synthesized.")
 			menu:updateLayout()
 		else
 			--Not Enough Materials
-			tes3.messageBox("Not enough materials.")
+			func.clMessageBox("Not enough materials.")
 		end
 	end)
 

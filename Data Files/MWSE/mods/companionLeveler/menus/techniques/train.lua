@@ -213,17 +213,17 @@ function train.createWindow(ref)
 		local trainedSkill = train.trainee:getSkillStatistic(train.trainedSkill)
 
 		if train.modData.tp_current < train.tp then
-			tes3.messageBox("Not enough Technique Points!")
+			func.clMessageBox("Not enough Technique Points!")
 			return
 		end
 
 		if train.req > train.trainer.mobile:getSkillStatistic(train.trainedSkill).base or train.amount == 0 then
-			tes3.messageBox("" .. tes3.findGMST(tes3.gmst.sServiceTrainingWords).value .. "")
+			func.clMessageBox("" .. tes3.findGMST(tes3.gmst.sServiceTrainingWords).value .. "")
 			return
 		end
 
 		if train.modData.sessions_current >= train.modData.sessions_max then
-			tes3.messageBox("" .. train.trainer.object.name .. " can't train any more pupils until their next level.")
+			func.clMessageBox("" .. train.trainer.object.name .. " can't train any more pupils until their next level.")
 			return
 		end
 
@@ -246,7 +246,7 @@ function train.createWindow(ref)
 		else
 			tes3.playSound({ sound = "skillraise" })
 		end
-		tes3.messageBox("" .. ref.object.name .. " trained " .. train.trainee.object.name .. "'s " .. train.skillName .. " to " .. trainedSkill.base .. "!")
+		func.clMessageBox("" .. ref.object.name .. " trained " .. train.trainee.object.name .. "'s " .. train.skillName .. " to " .. trainedSkill.base .. "!")
 
 		--Pass Time
 		local gameHour = tes3.getGlobal('GameHour')

@@ -19,7 +19,7 @@ local function initialized()
 	log:info("" .. tables.version .. " Initialized.")
 	if not tes3.isModActive("companionLeveler.ESP") then
 		log:warn("companionLeveler.esp not active. Errors will occur.")
-		tes3.messageBox("companionLeveler.esp not active. Errors will occur.")
+		func.clMessageBox("companionLeveler.esp not active. Errors will occur.")
 	end
 end
 event.register("initialized", initialized)
@@ -293,7 +293,7 @@ local function hourlyTimer()
 
 	--Patrons--
 	log:debug("Time is now " .. gameHour .. ".")
-	--tes3.messageBox("Time is now " .. gameHour .. " (" .. tes3.getGlobal('GameHour') .. ").")
+	--func.clMessageBox("Time is now " .. gameHour .. " (" .. tes3.getGlobal('GameHour') .. ").")
 
 	--Vaermina Tribute
 	abilities.vaerminaTribute()

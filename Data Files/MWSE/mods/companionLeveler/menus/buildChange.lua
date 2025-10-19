@@ -389,7 +389,7 @@ function buildModule.onOK(e)
         end
         tes3ui.leaveMenuMode()
         menu:destroy()
-        tes3.messageBox { message = "" .. buildModule.reference.object.name .. "'s Build changed." }
+        func.clMessageBox("" .. buildModule.reference.object.name .. "'s Build changed.")
     end
 end
 

@@ -160,7 +160,7 @@ function spList.forget(e)
         if e.button == 0 then
             tes3.removeSpell({ reference = spList.reference, spell = spList.spell.id})
             spList.modData.unusedSpells[#spList.modData.unusedSpells + 1] = spList.spell.id
-            tes3.messageBox("" .. spList.reference.object.name .. " unequipped the " .. spList.spell.name .. " spell.")
+            func.clMessageBox("" .. spList.reference.object.name .. " unequipped the " .. spList.spell.name .. " spell.")
             menu:destroy()
             spList.createWindow(spList.reference)
         end
@@ -178,7 +178,7 @@ function spList.remember(e)
                     break
                 end
             end
-            tes3.messageBox("" .. spList.reference.object.name .. " equipped the " .. spList.spell.name .. " spell.")
+            func.clMessageBox("" .. spList.reference.object.name .. " equipped the " .. spList.spell.name .. " spell.")
             menu:destroy()
             spList.createWindow(spList.reference)
         end

@@ -229,12 +229,12 @@ function necro.createWindow(ref)
 	button_ok:register("mouseClick", function()
 
 		if conjuration.current < necro.req then
-			tes3.messageBox("" .. ref.object.name .. " is not skilled enough to enthrall " .. necro.ref.object.name .. ".")
+			func.clMessageBox("" .. ref.object.name .. " is not skilled enough to enthrall " .. necro.ref.object.name .. ".")
 			return
 		end
 
 		if modData.tp_current < necro.tp then
-			tes3.messageBox("Not enough Technique Points!")
+			func.clMessageBox("Not enough Technique Points!")
 			return
 		end
 
@@ -245,7 +245,7 @@ function necro.createWindow(ref)
 			and string.startswith(mobileActor.reference.object.name, "Summoned") == false then
 				thralls = thralls + 1
 				if thralls >= necro.limit then
-					tes3.messageBox("" .. ref.object.name .. "'s Willpower can only extend to " .. necro.limit .. " minion(s)!")
+					func.clMessageBox("" .. ref.object.name .. "'s Willpower can only extend to " .. necro.limit .. " minion(s)!")
 					return
 				end
 			end

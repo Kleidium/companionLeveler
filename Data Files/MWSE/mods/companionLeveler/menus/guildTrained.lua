@@ -85,7 +85,7 @@ function guild.pickFaction(ref, aID)
 
 	--No Choices
 	if guild.total == 0 then
-		tes3.messageBox("No valid factions found!")
+		func.clMessageBox("No valid factions found!")
 		log:warn("No valid factions found!")
 		menu:destroy()
 		tes3ui.leaveMenuMode()
@@ -157,7 +157,7 @@ function guild.onOK()
 	local menu = tes3ui.findMenu(guild.id_menu)
 	local modData = func.getModData(guild.ref)
 	if (menu) then
-		tes3.messageBox("" .. guild.ref.object.name .. " received guild training. (" .. guild.faction.name .. ")")
+		func.clMessageBox("" .. guild.ref.object.name .. " received guild training. (" .. guild.faction.name .. ")")
 		log:info("" .. guild.ref.object.name .. " received guild training. (" .. guild.faction.name .. ")")
 
 		if not modData.guildTraining then
@@ -181,7 +181,7 @@ function guild.onOK()
 		if not found2 then
 			table.insert(modData.factions, guild.faction.id)
 		else
-			tes3.messageBox("" .. guild.ref.object.name .. " was already a member of the " .. guild.faction.name .. " faction.")
+			func.clMessageBox("" .. guild.ref.object.name .. " was already a member of the " .. guild.faction.name .. " faction.")
 		end
 
 		tes3.addSpell({ reference = guild.ref, spell = "kl_ability_gTrained_" .. guild.id .. "" })
@@ -262,7 +262,7 @@ function guild.forgetFaction(e)
 	local modData = func.getModData(guild.ref)
 	for i = 0, 3 do
 		if e.button == i then
-			tes3.messageBox("" .. guild.ref.object.name .. " renounced a faction. (" .. tes3.getFaction(modData.factions[i + 1]).name .. ").")
+			func.clMessageBox("" .. guild.ref.object.name .. " renounced a faction. (" .. tes3.getFaction(modData.factions[i + 1]).name .. ").")
 			table.remove(modData.factions, (i + 1))
 		end
 	end

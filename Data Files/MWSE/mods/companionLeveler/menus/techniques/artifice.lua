@@ -227,7 +227,7 @@ function artifice.createWindow(ref)
 	--Events
 	button_ok:register("mouseClick", function()
 		if modData.tp_current < artifice.tp then
-			tes3.messageBox("Not enough Technique Points!")
+			func.clMessageBox("Not enough Technique Points!")
 			return
 		end
 
@@ -238,7 +238,7 @@ function artifice.createWindow(ref)
 		for mobileActor in tes3.iterate(tes3.mobilePlayer.friendlyActors) do
 			if (mobileActor.reference.object.objectType == tes3.objectType.creature) and string.match(mobileActor.object.name, "Centurion")
 			and string.startswith(mobileActor.object.name, "Summoned") == false then
-				tes3.messageBox("You can only have one construct at a time!")
+				func.clMessageBox("You can only have one construct at a time!")
 				limit = true
 				break
 			end
@@ -416,11 +416,11 @@ function artifice.createWindow(ref)
 				tes3ui.leaveMenuMode()
 			else
 				--Not Enough Materials
-				tes3.messageBox("Not enough materials or blueprints.")
+				func.clMessageBox("Not enough materials or blueprints.")
 			end
 		else
 			--Unsuitable Conditions
-			tes3.messageBox("" .. ref.object.name .. " cannot work in water or with enemies nearby.")
+			func.clMessageBox("" .. ref.object.name .. " cannot work in water or with enemies nearby.")
 		end
 	end)
 	button_cancel:register("mouseClick", function() menu:destroy() tech.createWindow(ref) end)

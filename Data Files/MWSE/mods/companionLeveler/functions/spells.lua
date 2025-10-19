@@ -36,7 +36,7 @@ local function tryLearnSpell(spellTable, modData, companionRef, sound, message, 
             if wasAdded == true then
                 local spellName = spellNameOverride and spellNameOverride(learned) or (learnedObj.name or learnedObj.id or learnedObj)
                 if message then
-                    tes3.messageBox(message:format(name, spellName))
+                    func.clMessageBox(message:format(name, spellName))
                 end
                 if logFunc then
                     logFunc(name, spellName)
@@ -339,7 +339,7 @@ function this.creatureSpellRoll(level, cType, companionRef)
                 if not found then
                     local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
                     if wasAdded == true then
-                        tes3.messageBox(("%s learned to cast %s!"):format(companionRef.object.name, learned.name))
+                        func.clMessageBox(("%s learned to cast %s!"):format(companionRef.object.name, learned.name))
                         log:info("%s learned to cast %s.", companionRef.object.name, learned.name)
                         firstLearned = true
                         tes3.playSound({ sound = "destruction cast" })
@@ -365,7 +365,7 @@ function this.creatureSpellRoll(level, cType, companionRef)
                 if not found then
                     local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
                     if wasAdded == true then
-                        tes3.messageBox(("%s learned to cast %s!"):format(companionRef.object.name, learned.name))
+                        func.clMessageBox(("%s learned to cast %s!"):format(companionRef.object.name, learned.name))
                         log:info("%s learned to cast %s.", companionRef.object.name, learned.name)
                         firstLearned = true
                         tes3.playSound({ sound = "frost_cast" })
@@ -391,7 +391,7 @@ function this.creatureSpellRoll(level, cType, companionRef)
                 if not found then
                     local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
                     if wasAdded == true then
-                        tes3.messageBox(("%s learned to cast %s!"):format(companionRef.object.name, learned.name))
+                        func.clMessageBox(("%s learned to cast %s!"):format(companionRef.object.name, learned.name))
                         log:info("%s learned to cast %s.", companionRef.object.name, learned.name)
                         firstLearned = true
                         tes3.playSound({ sound = "shock cast" })
@@ -417,7 +417,7 @@ function this.creatureSpellRoll(level, cType, companionRef)
                 if not found then
                     local wasAdded = tes3.addSpell({ reference = companionRef, spell = learned.id })
                     if wasAdded == true then
-                        tes3.messageBox(("%s learned to cast %s!"):format(companionRef.object.name, learned.name))
+                        func.clMessageBox(("%s learned to cast %s!"):format(companionRef.object.name, learned.name))
                         log:info("%s learned to cast %s.", companionRef.object.name, learned.name)
                         firstLearned = true
                         tes3.playSound({ sound = "alteration cast" })

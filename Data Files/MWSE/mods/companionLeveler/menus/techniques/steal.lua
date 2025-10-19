@@ -189,7 +189,7 @@ function steal.createWindow(ref)
 		if not func.spendTP(ref, 1) then return end
 
 		if ref.mobile.fatigue.current < steal.fatCost then
-			tes3.messageBox("Not enough " .. steal.fatigueText .. "!")
+			func.clMessageBox("Not enough " .. steal.fatigueText .. "!")
 			return
 		end
 
@@ -205,7 +205,7 @@ function steal.createWindow(ref)
 
 		if owned and math.random(0, 99) > steal.chance then
 			--Fail
-			tes3.messageBox("" .. ref.object.name .. " failed to find an opening!")
+			func.clMessageBox("" .. ref.object.name .. " failed to find an opening!")
 		else
 			--Success
 			tes3.addItem({ reference = tes3.player, item = steal.target.object, showMessage = true })

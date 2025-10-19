@@ -110,7 +110,7 @@ function ritual.execution(e)
     if ritual.choice == "almsivi intervention" then
 		--Siwwy wittle teweport wituwals
         if tes3.getWorldController().flagTeleportingDisabled then
-            tes3.messageBox(tes3.findGMST("sTeleportDisabled").value)
+            func.clMessageBox(tes3.findGMST("sTeleportDisabled").value)
             return
         end
         if not func.spendTP(ritual.ref, ritual.tp) then return end

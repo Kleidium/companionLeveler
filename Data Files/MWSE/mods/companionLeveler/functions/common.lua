@@ -5,6 +5,7 @@ local log = logger.getLogger("Companion Leveler")
 
 
 local this = {}
+this.msgBox = include("messageBox.box")
 
 --
 ----Mod Data------------------------------------------------------------------------------------------------------------------
@@ -861,7 +862,7 @@ function this.spendTP(ref, cost)
 	local modData = this.getModData(ref)
 
 	if modData.tp_current < cost then
-		tes3.messageBox("Not enough Technique Points!")
+		func.clMessageBox("Not enough Technique Points!")
 		return false
 	else
 		modData.tp_current = modData.tp_current - cost
@@ -1265,5 +1266,28 @@ end
 
 --pane sort function?
 --error handling?
+
+
+
+
+--
+--Interop-------------------------------------------------------------------------------------------
+--
+
+--- @param str string --The message to display in a tes3messageBox OR in the Message Box mod
+function this.clMessageBox(str)
+	if this.msgBox then
+		this.msgBox.logMessage("" .. str, { this.msgBox.config.clRed, this.msgBox.config.clGreen, this.msgBox.config.clBlue })
+	else
+		tes3.messageBox("" .. str)
+	end
+end
+
+
+
+
+
+
+
 
 return this

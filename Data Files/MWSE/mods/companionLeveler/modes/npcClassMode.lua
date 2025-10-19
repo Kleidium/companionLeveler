@@ -725,7 +725,7 @@ function npcClassMode.levelUp(companions)
 
                 menu:updateLayout()
             else
-                tes3.messageBox("" .. name .. " ascended to Level " .. storedLevel .. "!")
+                func.clMessageBox("" .. name .. " ascended to Level " .. storedLevel .. "!")
             end
         else
             cre.levelUp({ companions[i] })

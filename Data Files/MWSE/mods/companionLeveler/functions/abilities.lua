@@ -52,7 +52,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[1]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Normal Type Ability Instinct!")
+                func.clMessageBox("" .. name .. " learned the Normal Type Ability Instinct!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[1] .. ".")
                 tes3.playSound({ sound = "alitSCRM" })
                 modData.abilities[1] = true
@@ -64,7 +64,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[2]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Normal Type Ability Beast Blood!")
+                func.clMessageBox("" .. name .. " learned the Normal Type Ability Beast Blood!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[2] .. ".")
                 tes3.playSound({ sound = "alitSCRM" })
                 modData.abilities[2] = true
@@ -76,7 +76,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[3]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Normal Type Ability Greater Instinct!")
+                func.clMessageBox("" .. name .. " learned the Normal Type Ability Greater Instinct!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[3] .. ".")
                 tes3.playSound({ sound = "alitSCRM" })
                 modData.abilities[3] = true
@@ -89,7 +89,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[4]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Normal Type Ability Evolutionary Stamina!")
+                func.clMessageBox("" .. name .. " learned the Normal Type Ability Evolutionary Stamina!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[4] .. ".")
                 tes3.playSound({ sound = "alitSCRM" })
                 modData.abilities[4] = true
@@ -105,7 +105,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[5]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Daedra Type Ability Taste of Freedom!")
+                func.clMessageBox("" .. name .. " learned the Daedra Type Ability Taste of Freedom!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[5] .. ".")
                 tes3.playSound({ sound = "dremora scream" })
                 modData.abilities[5] = true
@@ -118,7 +118,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[6]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Daedra Type Ability Daedric Skin!")
+                func.clMessageBox("" .. name .. " learned the Daedra Type Ability Daedric Skin!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[6] .. ".")
                 tes3.playSound({ sound = "dremora scream" })
                 modData.abilities[6] = true
@@ -130,7 +130,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[7]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Daedra Type Ability Sinful Freedom!")
+                func.clMessageBox("" .. name .. " learned the Daedra Type Ability Sinful Freedom!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[7] .. ".")
                 tes3.playSound({ sound = "dremora scream" })
                 modData.abilities[7] = true
@@ -143,7 +143,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[8]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Daedra Type Ability Dark Barrier!")
+                func.clMessageBox("" .. name .. " learned the Daedra Type Ability Dark Barrier!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[8] .. ".")
                 tes3.playSound({ sound = "dremora scream" })
                 modData.abilities[8] = true
@@ -157,7 +157,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[9]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Undead Type Ability Numbed Flesh!")
+                func.clMessageBox("" .. name .. " learned the Undead Type Ability Numbed Flesh!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[9] .. ".")
                 tes3.playSound({ sound = "skeleton moan" })
                 modData.abilities[9] = true
@@ -170,7 +170,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[10]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Undead Type Ability Ancestral Memory!")
+                func.clMessageBox("" .. name .. " learned the Undead Type Ability Ancestral Memory!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[10] .. ".")
                 tes3.playSound({ sound = "skeleton moan" })
                 modData.abilities[10] = true
@@ -186,7 +186,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[11]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Undead Type Ability Still Breath!")
+                func.clMessageBox("" .. name .. " learned the Undead Type Ability Still Breath!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[11] .. ".")
                 tes3.playSound({ sound = "skeleton moan" })
                 modData.abilities[11] = true
@@ -200,7 +200,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[12]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Undead Type Ability Total Decay!")
+                func.clMessageBox("" .. name .. " learned the Undead Type Ability Total Decay!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[12] .. ".")
                 tes3.playSound({ sound = "skeleton moan" })
                 modData.abilities[12] = true
@@ -214,7 +214,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[13]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Humanoid Type Ability Strange Dream!")
+                func.clMessageBox("" .. name .. " learned the Humanoid Type Ability Strange Dream!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[13] .. ".")
                 tes3.playSound({ sound = "ash vampire moan" })
                 modData.abilities[13] = true
@@ -228,7 +228,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[14]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Humanoid Type Ability Abnormal Growth!")
+                func.clMessageBox("" .. name .. " learned the Humanoid Type Ability Abnormal Growth!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[14] .. ".")
                 tes3.playSound({ sound = "ash vampire moan" })
                 modData.abilities[14] = true
@@ -241,7 +241,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[15]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Humanoid Type Ability Painfully Awake!")
+                func.clMessageBox("" .. name .. " learned the Humanoid Type Ability Painfully Awake!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[15] .. ".")
                 tes3.playSound({ sound = "ash vampire moan" })
                 modData.abilities[15] = true
@@ -254,7 +254,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[16]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Humanoid Type Ability Dream Mastery!")
+                func.clMessageBox("" .. name .. " learned the Humanoid Type Ability Dream Mastery!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[16] .. ".")
                 tes3.playSound({ sound = "ash vampire moan" })
                 modData.abilities[16] = true
@@ -268,7 +268,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[17]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Centurion Type Ability Precision!")
+                func.clMessageBox("" .. name .. " learned the Centurion Type Ability Precision!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[17] .. ".")
                 tes3.playSound({ sound = "cent sphere scream" })
                 modData.abilities[17] = true
@@ -280,7 +280,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[18]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Centurion Type Ability Insulated Exoskeleton!")
+                func.clMessageBox("" .. name .. " learned the Centurion Type Ability Insulated Exoskeleton!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[18] .. ".")
                 tes3.playSound({ sound = "cent sphere scream" })
                 modData.abilities[18] = true
@@ -293,7 +293,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[19]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Centurion Type Ability Augmented Grip!")
+                func.clMessageBox("" .. name .. " learned the Centurion Type Ability Augmented Grip!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[19] .. ".")
                 tes3.playSound({ sound = "cent sphere scream" })
                 modData.abilities[19] = true
@@ -306,7 +306,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[20]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Centurion Type Ability Dwemer Refractors!")
+                func.clMessageBox("" .. name .. " learned the Centurion Type Ability Dwemer Refractors!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[20] .. ".")
                 tes3.playSound({ sound = "cent sphere scream" })
                 modData.abilities[20] = true
@@ -321,7 +321,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[21]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Spriggan Type Ability Sap Secretion!")
+                func.clMessageBox("" .. name .. " learned the Spriggan Type Ability Sap Secretion!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[21] .. ".")
                 tes3.playSound({ sound = "sprigganmagic" })
                 modData.abilities[21] = true
@@ -333,7 +333,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[22]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Spriggan Type Ability Jade Wind!")
+                func.clMessageBox("" .. name .. " learned the Spriggan Type Ability Jade Wind!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[22] .. ".")
                 tes3.playSound({ sound = "sprigganmagic" })
                 modData.abilities[22] = true
@@ -346,7 +346,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[23]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Spriggan Type Ability Synthesis!")
+                func.clMessageBox("" .. name .. " learned the Spriggan Type Ability Synthesis!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[23] .. ".")
                 tes3.playSound({ sound = "sprigganmagic" })
                 modData.abilities[23] = true
@@ -359,7 +359,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[24]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Spriggan Type Ability Overgrowth!")
+                func.clMessageBox("" .. name .. " learned the Spriggan Type Ability Overgrowth!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[24] .. ".")
                 tes3.playSound({ sound = "sprigganmagic" })
                 modData.abilities[24] = true
@@ -373,7 +373,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[25]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Goblin Type Ability Quickness!")
+                func.clMessageBox("" .. name .. " learned the Goblin Type Ability Quickness!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[25] .. ".")
                 tes3.playSound({ sound = "goblin scream" })
                 modData.abilities[25] = true
@@ -386,7 +386,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[26]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Goblin Type Ability Springstep!")
+                func.clMessageBox("" .. name .. " learned the Goblin Type Ability Springstep!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[26] .. ".")
                 tes3.playSound({ sound = "goblin scream" })
                 modData.abilities[26] = true
@@ -399,7 +399,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[27]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Goblin Type Ability Enduring Quickness!")
+                func.clMessageBox("" .. name .. " learned the Goblin Type Ability Enduring Quickness!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[27] .. ".")
                 tes3.playSound({ sound = "goblin scream" })
                 modData.abilities[27] = true
@@ -411,7 +411,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[28]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Goblin Type Ability Feral Parrying!")
+                func.clMessageBox("" .. name .. " learned the Goblin Type Ability Feral Parrying!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[28] .. ".")
                 tes3.playSound({ sound = "goblin scream" })
                 modData.abilities[28] = true
@@ -423,7 +423,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[29]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Goblin Type Ability Chameleon Skin!")
+                func.clMessageBox("" .. name .. " learned the Goblin Type Ability Chameleon Skin!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[29] .. ".")
                 tes3.playSound({ sound = "goblin scream" })
                 modData.abilities[29] = true
@@ -435,7 +435,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[30]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Goblin Type Ability Boon of Muluk!")
+                func.clMessageBox("" .. name .. " learned the Goblin Type Ability Boon of Muluk!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[30] .. ".")
                 tes3.playSound({ sound = "goblin scream" })
                 modData.abilities[30] = true
@@ -451,7 +451,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[31]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Goblin Type Ability Freedom of Movement!")
+                func.clMessageBox("" .. name .. " learned the Goblin Type Ability Freedom of Movement!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[31] .. ".")
                 tes3.playSound({ sound = "goblin scream" })
                 modData.abilities[31] = true
@@ -463,7 +463,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[32]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Goblin Type Ability Perfect Dodge!")
+                func.clMessageBox("" .. name .. " learned the Goblin Type Ability Perfect Dodge!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[32] .. ".")
                 tes3.playSound({ sound = "goblin scream" })
                 modData.abilities[32] = true
@@ -485,7 +485,7 @@ function this.creatureAbilities(cType, companionRef)
             tes3.modStatistic({ attribute = 7, value = pAmount, reference = tes3.player })
             log:info("" ..
                 name .. " Domestic Type bonus increased " .. tes3.player.object.name .. "'s Luck by " .. pAmount .. ".")
-            tes3.messageBox("" .. name .. "'s presence made you feel lucky to have them around!")
+            func.clMessageBox("" .. name .. "'s presence made you feel lucky to have them around!")
             tes3.playSound({ sound = "guar moan" })
         end
     end
@@ -494,7 +494,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[33]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Spectral Type Ability Unafraid!")
+                func.clMessageBox("" .. name .. " learned the Spectral Type Ability Unafraid!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[33] .. ".")
                 tes3.playSound({ sound = "ancestor ghost scream" })
                 modData.abilities[33] = true
@@ -506,7 +506,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[34]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Spectral Type Ability Spectral Will!")
+                func.clMessageBox("" .. name .. " learned the Spectral Type Ability Spectral Will!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[34] .. ".")
                 tes3.playSound({ sound = "ancestor ghost scream" })
                 modData.abilities[34] = true
@@ -519,7 +519,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[35]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Spectral Type Ability Aetherial Link!")
+                func.clMessageBox("" .. name .. " learned the Spectral Type Ability Aetherial Link!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[35] .. ".")
                 tes3.playSound({ sound = "ancestor ghost scream" })
                 modData.abilities[35] = true
@@ -532,7 +532,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[36]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Spectral Type Ability Incorporeal!")
+                func.clMessageBox("" .. name .. " learned the Spectral Type Ability Incorporeal!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[36] .. ".")
                 tes3.playSound({ sound = "ancestor ghost scream" })
                 modData.abilities[36] = true
@@ -547,7 +547,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[37]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Insectile Type Ability Entomic!")
+                func.clMessageBox("" .. name .. " learned the Insectile Type Ability Entomic!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[37] .. ".")
                 tes3.playSound({ sound = "kwamQ scream" })
                 modData.abilities[37] = true
@@ -559,7 +559,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[38]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Insectile Type Ability Jointed Legs!")
+                func.clMessageBox("" .. name .. " learned the Insectile Type Ability Jointed Legs!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[38] .. ".")
                 tes3.playSound({ sound = "kwamQ scream" })
                 modData.abilities[38] = true
@@ -574,7 +574,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[39]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Insectile Type Ability Venomous Mandibles!")
+                func.clMessageBox("" .. name .. " learned the Insectile Type Ability Venomous Mandibles!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[39] .. ".")
                 tes3.playSound({ sound = "kwamQ scream" })
                 modData.abilities[39] = true
@@ -587,7 +587,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[40]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Insectile Type Ability Pheromone!")
+                func.clMessageBox("" .. name .. " learned the Insectile Type Ability Pheromone!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[40] .. ".")
                 tes3.playSound({ sound = "kwamQ scream" })
                 modData.abilities[40] = true
@@ -601,7 +601,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[41]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Draconic Type Ability Dragon Scales!")
+                func.clMessageBox("" .. name .. " learned the Draconic Type Ability Dragon Scales!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[41] .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\dragon_ability.wav", volume = 0.8 })
                 modData.abilities[41] = true
@@ -613,7 +613,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[42]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Draconic Type Ability Ancient Memory!")
+                func.clMessageBox("" .. name .. " learned the Draconic Type Ability Ancient Memory!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[42] .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\dragon_ability.wav", volume = 0.8 })
                 modData.abilities[42] = true
@@ -627,7 +627,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[43]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Draconic Type Ability Burning Grip!")
+                func.clMessageBox("" .. name .. " learned the Draconic Type Ability Burning Grip!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[43] .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\dragon_ability.wav", volume = 0.8 })
                 modData.abilities[43] = true
@@ -640,7 +640,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[44]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Draconic Type Ability Dragonflight!")
+                func.clMessageBox("" .. name .. " learned the Draconic Type Ability Dragonflight!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[44] .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\dragon_ability.wav", volume = 0.8 })
                 modData.abilities[44] = true
@@ -655,7 +655,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[45]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Brute Type Ability Durable!")
+                func.clMessageBox("" .. name .. " learned the Brute Type Ability Durable!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[45] .. ".")
                 tes3.playSound({ sound = "ogrim moan" })
                 modData.abilities[45] = true
@@ -669,7 +669,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[46]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Brute Type Ability Short Temper!")
+                func.clMessageBox("" .. name .. " learned the Brute Type Ability Short Temper!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[46] .. ".")
                 tes3.playSound({ sound = "ogrim moan" })
                 modData.abilities[46] = true
@@ -683,7 +683,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[47]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Brute Type Ability Stubborn Muscle!")
+                func.clMessageBox("" .. name .. " learned the Brute Type Ability Stubborn Muscle!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[47] .. ".")
                 tes3.playSound({ sound = "ogrim moan" })
                 modData.abilities[47] = true
@@ -695,7 +695,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[48]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Brute Type Ability Wanton Destruction!")
+                func.clMessageBox("" .. name .. " learned the Brute Type Ability Wanton Destruction!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[48] .. ".")
                 tes3.playSound({ sound = "ogrim moan" })
                 modData.abilities[48] = true
@@ -711,7 +711,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[49]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Aquatic Type Ability Buoyancy!")
+                func.clMessageBox("" .. name .. " learned the Aquatic Type Ability Buoyancy!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[49] .. ".")
                 tes3.playSound({ sound = "dreugh scream" })
                 modData.abilities[49] = true
@@ -723,7 +723,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[50]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Aquatic Type Ability Gills!")
+                func.clMessageBox("" .. name .. " learned the Aquatic Type Ability Gills!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[50] .. ".")
                 tes3.playSound({ sound = "dreugh scream" })
                 modData.abilities[50] = true
@@ -735,7 +735,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[51]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Aquatic Type Ability Vaporous Aura!")
+                func.clMessageBox("" .. name .. " learned the Aquatic Type Ability Vaporous Aura!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[51] .. ".")
                 tes3.playSound({ sound = "dreugh scream" })
                 modData.abilities[51] = true
@@ -748,7 +748,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[52]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the Aquatic Type Ability Aquatic Ascendancy!")
+                func.clMessageBox("" .. name .. " learned the Aquatic Type Ability Aquatic Ascendancy!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[52] .. ".")
                 tes3.playSound({ sound = "dreugh scream" })
                 modData.abilities[52] = true
@@ -764,7 +764,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[53]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[14] .. " Type Ability Avian Eye!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[14] .. " Type Ability Avian Eye!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[53] .. ".")
                 tes3.playSound({ sound = "cliff racer scream" })
                 modData.abilities[53] = true
@@ -777,7 +777,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[54]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[14] .. " Type Ability Take to the Skies!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[14] .. " Type Ability Take to the Skies!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[54] .. ".")
                 tes3.playSound({ sound = "cliff racer scream" })
                 modData.abilities[54] = true
@@ -790,7 +790,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[55]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[14] .. " Type Ability Misdirection!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[14] .. " Type Ability Misdirection!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[55] .. ".")
                 tes3.playSound({ sound = "cliff racer scream" })
                 modData.abilities[55] = true
@@ -803,7 +803,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tables.abList[56]
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[14] .. " Type Ability Mental Misstep!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[14] .. " Type Ability Mental Misstep!")
                 log:info("" .. name .. " learned the Ability " .. tables.abList[56] .. ".")
                 tes3.playSound({ sound = "cliff racer scream" })
                 modData.abilities[56] = true
@@ -817,7 +817,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[57])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[15] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[15] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "wolf moan" })
                 modData.abilities[57] = true
@@ -830,7 +830,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[58])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[15] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[15] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "wolf moan" })
                 modData.abilities[58] = true
@@ -846,7 +846,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[59])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[15] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[15] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "wolf moan" })
                 modData.abilities[59] = true
@@ -859,7 +859,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[60])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[15] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[15] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "wolf moan" })
                 modData.abilities[60] = true
@@ -877,7 +877,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[61])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[16] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[16] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "scamp roar" })
                 modData.abilities[61] = true
@@ -889,7 +889,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[62])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[16] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[16] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "scamp roar" })
                 modData.abilities[62] = true
@@ -901,7 +901,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[63])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[16] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[16] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "scamp roar" })
                 modData.abilities[63] = true
@@ -914,7 +914,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[64])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[16] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[16] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "scamp roar" })
                 modData.abilities[64] = true
@@ -928,7 +928,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[65])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "destruction area" })
                 modData.abilities[65] = true
@@ -940,7 +940,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[66])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "destruction area" })
                 modData.abilities[66] = true
@@ -952,7 +952,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[67])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "destruction area" })
                 modData.abilities[67] = true
@@ -964,7 +964,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[68])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[17] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "destruction area" })
                 modData.abilities[68] = true
@@ -978,7 +978,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[69])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "frost area" })
                 modData.abilities[69] = true
@@ -990,7 +990,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[70])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "frost area" })
                 modData.abilities[70] = true
@@ -1002,7 +1002,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[71])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "frost area" })
                 modData.abilities[71] = true
@@ -1014,7 +1014,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[72])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[18] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "frost area" })
                 modData.abilities[72] = true
@@ -1028,7 +1028,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[73])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "shock area" })
                 modData.abilities[73] = true
@@ -1040,7 +1040,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[74])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "shock area" })
                 modData.abilities[74] = true
@@ -1052,7 +1052,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[75])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "shock area" })
                 modData.abilities[75] = true
@@ -1064,7 +1064,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[76])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[19] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "shock area" })
                 modData.abilities[76] = true
@@ -1078,7 +1078,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[77])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "alteration area" })
                 modData.abilities[77] = true
@@ -1090,7 +1090,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[78])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "alteration area" })
                 modData.abilities[78] = true
@@ -1102,7 +1102,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[79])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "alteration area" })
                 modData.abilities[79] = true
@@ -1114,7 +1114,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[80])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[20] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "alteration area" })
                 modData.abilities[80] = true
@@ -1128,7 +1128,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[81])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[81] = true
@@ -1151,7 +1151,7 @@ function this.creatureAbilities(cType, companionRef)
                     timer.delayOneFrame(function()
                         timer.delayOneFrame(function()
                             creMode.levelUp(table)
-                            tes3.messageBox("" .. companionRef.object.name .. " unlocked their potential!")
+                            func.clMessageBox("" .. companionRef.object.name .. " unlocked their potential!")
                         end)
                     end)
                 end)
@@ -1163,7 +1163,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[82])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[82] = true
@@ -1179,7 +1179,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[83])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[83] = true
@@ -1193,7 +1193,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[84])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[21] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[84] = true
@@ -1211,7 +1211,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[85])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "rat scream" })
                 modData.abilities[85] = true
@@ -1225,7 +1225,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[86])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "rat scream" })
                 modData.abilities[86] = true
@@ -1237,7 +1237,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[87])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "rat scream" })
                 modData.abilities[87] = true
@@ -1252,7 +1252,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[88])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[22] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ sound = "rat scream" })
                 modData.abilities[88] = true
@@ -1266,7 +1266,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[89])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[89] = true
@@ -1280,7 +1280,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[90])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[90] = true
@@ -1292,7 +1292,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[91])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[91] = true
@@ -1306,7 +1306,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[92])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[23] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[92] = true
@@ -1321,7 +1321,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[93])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[93] = true
@@ -1334,7 +1334,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[94])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[94] = true
@@ -1348,7 +1348,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[95])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[95] = true
@@ -1361,7 +1361,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[96])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[24] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[96] = true
@@ -1378,7 +1378,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[97])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[97] = true
@@ -1390,7 +1390,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[98])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[98] = true
@@ -1405,7 +1405,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[99])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[99] = true
@@ -1418,7 +1418,7 @@ function this.creatureAbilities(cType, companionRef)
             local ability = tes3.getObject(tables.abList[100])
             local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability.id })
             if wasAdded == true then
-                tes3.messageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
+                func.clMessageBox("" .. name .. " learned the " .. tables.typeTable[25] .. " Type Ability " .. ability.name .. "!")
                 log:info("" .. name .. " learned the Ability " .. ability.name .. ".")
                 tes3.playSound({ soundPath = "companionLeveler\\creature_ability.wav" })
                 modData.abilities[100] = true
@@ -1440,7 +1440,7 @@ function this.creatureAbilities(cType, companionRef)
             --Hlaalu Training
             local count = (modData.level * 4) + (tes3.player.object.reputation * 7)
             tes3.addItem({ reference = tes3.player, item = "Gold_001", count = count })
-            tes3.messageBox("House Hlaalu has sent you a stipend of " .. count .. " to support " .. companionRef.object.name .. "'s future growth.")
+            func.clMessageBox("House Hlaalu has sent you a stipend of " .. count .. " to support " .. companionRef.object.name .. "'s future growth.")
         end
     end
 end
@@ -1679,12 +1679,12 @@ function this.spectralWill(e)
                 e.mobile:resurrect({ resetState = false })
                 tes3.setAIFollow({ reference = e.reference, target = tes3.player })
 
-                tes3.messageBox("" .. e.reference.object.name .. " rises again!")
+                func.clMessageBox("" .. e.reference.object.name .. " rises again!")
                 log:info("" .. e.reference.object.name .. " rises again!")
 
                 risen = 1
             else
-                tes3.messageBox("" .. e.reference.object.name .. " failed to rise...")
+                func.clMessageBox("" .. e.reference.object.name .. " failed to rise...")
                 log:info("" .. e.reference.object.name .. " failed to rise...")
             end
         end
@@ -1697,7 +1697,7 @@ function this.spectralWill(e)
                 e.mobile:resurrect({ resetState = false })
                 tes3.setAIFollow({ reference = e.reference, target = tes3.player })
 
-                tes3.messageBox("" .. e.reference.object.name .. " regained their form through your Grand Soul Gem!")
+                func.clMessageBox("" .. e.reference.object.name .. " regained their form through your Grand Soul Gem!")
                 log:info("" .. e.reference.object.name .. " regained their form through your Grand Soul Gem!")
 
                 for i = 0, 7 do
@@ -1706,7 +1706,7 @@ function this.spectralWill(e)
 
                 log:info("" .. e.reference.object.name .. "'s attributes were reduced by 3 through resurrection.")
             else
-                tes3.messageBox("" .. e.reference.object.name .. " could not regain their form.")
+                func.clMessageBox("" .. e.reference.object.name .. " could not regain their form.")
                 log:info("" .. e.reference.object.name .. " could not regain their form. (No Grand Soul Gem)")
             end
         end
@@ -1960,12 +1960,12 @@ function this.dominance(e)
                             tes3.playSound({ sound = "illusion hit", reference = actor.reference, volume = 0.8 })
 							log:debug("" .. actor.reference.object.name .. " was intimidated by " .. caster .. "'s Dominance!")
                             if config.bMessages == true then
-                                tes3.messageBox("" .. actor.reference.object.name .. " was intimidated by " .. caster .. "'s Dominance!")
+                                func.clMessageBox("" .. actor.reference.object.name .. " was intimidated by " .. caster .. "'s Dominance!")
                             end
 						else
 							log:debug("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Dominance!")
                             if config.bMessages == true then
-                                tes3.messageBox("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Dominance!")
+                                func.clMessageBox("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Dominance!")
                             end
 						end
 					else
@@ -2611,11 +2611,11 @@ function this.bladesCre(ref)
 
     if modData.level % 2  == 0 then
         func.modStatAndTrack("attribute", tes3.attribute.speed, 1, ref, modData)
-        tes3.messageBox("" .. ref.object.name .. "'s Blades training increased Speed by 1.")
+        func.clMessageBox("" .. ref.object.name .. "'s Blades training increased Speed by 1.")
     end
     if modData.level % 3 == 0 then
         func.modStatAndTrack("attribute", tes3.attribute.agility, 1, ref, modData)
-        tes3.messageBox("" .. ref.object.name .. "'s Blades training increased Agility by 1.")
+        func.clMessageBox("" .. ref.object.name .. "'s Blades training increased Agility by 1.")
     end
 
     log:debug("Blades training applied to " .. ref.object.name .. ".")
@@ -2649,7 +2649,7 @@ function this.lament(e)
 
                                 log:debug("" .. reference.object.name .. " is overcome with fury!")
                                 if config.bMessages == true then
-                                    tes3.messageBox("" .. reference.object.name .. " is overcome with fury at the sight of the Ash Creature!")
+                                    func.clMessageBox("" .. reference.object.name .. " is overcome with fury at the sight of the Ash Creature!")
                                 end
                             else
                                 log:debug("" .. reference.object.name .. " is already affected by Lament of Ash.")
@@ -2709,7 +2709,7 @@ function this.legionCre(e)
                     --Prevent Ambush
                     e.count = 0
                     log:info("" .. reference.object.name .. " prevented an ambush.")
-                    tes3.messageBox("" .. reference.object.name .. " prevented an ambush!")
+                    func.clMessageBox("" .. reference.object.name .. " prevented an ambush!")
                     break
                 end
             end
@@ -2782,7 +2782,7 @@ function this.companyCre()
         for refe in tes3.getPlayerCell():iterateReferences({ tes3.objectType.container }) do
             if refe.cell == tes3.getPlayerCell() and refe.disabled == false then
                 if string.startswith(refe.object.id, "rock_glass") or string.startswith(refe.object.id, "rock_ebony") then
-                    tes3.messageBox("" .. name .. " detects glass or ebony nearby.")
+                    func.clMessageBox("" .. name .. " detects glass or ebony nearby.")
                     break
                 end
             end
@@ -2929,7 +2929,7 @@ function this.npcAbilities(class, companionRef)
         if modData.patron and modData.patron == 13 then
             modData.tp_max = modData.tp_max + 1
             modData.tp_current = modData.tp_current + 1
-            tes3.messageBox("Insight, gleaned amongst tides of fate! " .. companionRef.object.name .. "'s Technique Points increase by 1.")
+            func.clMessageBox("Insight, gleaned amongst tides of fate! " .. companionRef.object.name .. "'s Technique Points increase by 1.")
         end
     else
         --Namira
@@ -2956,7 +2956,7 @@ function this.npcAbilities(class, companionRef)
                     timer.delayOneFrame(function()
                         timer.delayOneFrame(function()
                             func.updateIdealSheet(companionRef)
-                            tes3.messageBox("" .. companionRef.object.name .. " walks the path of Order! All attributes increased by 1. Streak reset to 1.")
+                            func.clMessageBox("" .. companionRef.object.name .. " walks the path of Order! All attributes increased by 1. Streak reset to 1.")
                         end)
                     end)
                 end)
@@ -2969,7 +2969,7 @@ function this.npcAbilities(class, companionRef)
             end
         else
             modData.orderStreak = 1
-            tes3.messageBox("" .. companionRef.object.name .. "'s Order Streak was broken! Streak reset to 1.")
+            func.clMessageBox("" .. companionRef.object.name .. "'s Order Streak was broken! Streak reset to 1.")
         end
         modData.lastClass = modData.class
     end
@@ -2984,7 +2984,7 @@ function this.npcAbilities(class, companionRef)
                 local wasAdded = tes3.addSpell({ reference = companionRef, spell = ability })
 
                 if wasAdded == true then
-                    tes3.messageBox("" ..
+                    func.clMessageBox("" ..
                         companionRef.object.name .. " learned the " .. class .. " Ability " .. spellObject.name .. "!")
                     log:info("" .. companionRef.object.name .. " learned the Ability " .. ability .. ".")
 
@@ -3005,7 +3005,7 @@ function this.npcAbilities(class, companionRef)
                             timer.delayOneFrame(function()
                                 timer.delayOneFrame(function()
                                     npcMode.levelUp(table)
-                                    tes3.messageBox("" .. companionRef.object.name .. " unlocked their potential!")
+                                    func.clMessageBox("" .. companionRef.object.name .. " unlocked their potential!")
                                 end)
                             end)
                         end)
@@ -3130,7 +3130,7 @@ function this.npcAbilities(class, companionRef)
                     end)
                 else
                     log:debug("" .. companionRef.object.name .. " already has the " .. ability .. " Ability.")
-                    tes3.messageBox("" ..
+                    func.clMessageBox("" ..
                         companionRef.object.name .. " already has the " .. spellObject.name .. " Ability.")
                 end
             end
@@ -3189,7 +3189,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.stolenGoods[randNum], reference = companionRef })
     
                 local spoils = tes3.getObject(tables.stolenGoods[randNum])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " \"procured\" an item. (" .. spoils.name .. ").")
             end
         end
@@ -3204,7 +3204,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.alchemyPotionsB[selection], reference = tes3.player })
 
                 local potion = tes3.getObject(tables.alchemyPotionsB[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " brewed you a weak potion. (" .. potion.name .. ")")
             end
             if (alchemy.current >= 25 and alchemy.current < 50) then
@@ -3212,7 +3212,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.alchemyPotionsC[selection], reference = tes3.player })
 
                 local potion = tes3.getObject(tables.alchemyPotionsC[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " brewed you a cheap potion. (" .. potion.name .. ")")
             end
             if (alchemy.current >= 50 and alchemy.current < 75) then
@@ -3220,7 +3220,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.alchemyPotionsS[selection], reference = tes3.player })
 
                 local potion = tes3.getObject(tables.alchemyPotionsS[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " brewed you a decent potion. (" .. potion.name .. ")")
             end
             if (alchemy.current >= 75 and alchemy.current < 100) then
@@ -3228,7 +3228,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.alchemyPotionsQ[selection], reference = tes3.player })
 
                 local potion = tes3.getObject(tables.alchemyPotionsQ[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " brewed you a quality potion! (" .. potion.name .. ")")
             end
             if alchemy.current >= 100 then
@@ -3236,7 +3236,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.alchemyPotionsE[selection], reference = tes3.player })
 
                 local potion = tes3.getObject(tables.alchemyPotionsE[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " brewed you an exquisite potion! (" .. potion.name .. ")")
             end
         end
@@ -3256,7 +3256,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.huntedMeat[randNum], reference = tes3.player })
     
                 local spoils = tes3.getObject(tables.huntedMeat[randNum])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " shared some extra " .. spoils.name .. " with you.")
             end
         end
@@ -3376,7 +3376,7 @@ function this.executeAbilities(companionRef)
                 })
             end
         end
-        tes3.messageBox("" .. companionRef.object.name .. " conferred a blessing to the party.")
+        func.clMessageBox("" .. companionRef.object.name .. " conferred a blessing to the party.")
     end
 
     --Savant
@@ -3394,7 +3394,7 @@ function this.executeAbilities(companionRef)
         --Level random skill
         if math.random(1, 150) < (((attTable[2].current + speechcraft.current) / 2) + modData.level) then
             tes3.modStatistic({ skill = randSkill, value = value, reference = tes3.player })
-            tes3.messageBox("" .. companionRef.object.name .. " lectured you on " .. tes3.getSkillName(randSkill) .. ".")
+            func.clMessageBox("" .. companionRef.object.name .. " lectured you on " .. tes3.getSkillName(randSkill) .. ".")
         end
     end
 
@@ -3428,7 +3428,7 @@ function this.executeAbilities(companionRef)
             end
         end
 
-        tes3.messageBox("" ..
+        func.clMessageBox("" ..
             companionRef.object.name .. " reinforced the party's equipment by " .. amount .. ".")
     end
 
@@ -3438,7 +3438,7 @@ function this.executeAbilities(companionRef)
 
         --Generate Gold
         tes3.addItem({ reference = tes3.player, item = "Gold_001", count = amount })
-        tes3.messageBox("" .. companionRef.object.name .. " shared a cut of their profits with you. (" .. amount .. " Gold)")
+        func.clMessageBox("" .. companionRef.object.name .. " shared a cut of their profits with you. (" .. amount .. " Gold)")
     end
 
     --Archaeologist digs artifacts up as a technique. (see techniques.lua) #41 Archaeological Inclination
@@ -3454,7 +3454,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.artisanTools[selection], reference = companionRef })
 
                 local tool = tes3.getObject(tables.artisanTools[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " fashioned you a basic tool. (" .. tool.name .. ")")
             end
             if (armorer.current >= 25 and armorer.current < 50) then
@@ -3462,7 +3462,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.artisanTools2[selection], reference = companionRef })
 
                 local tool = tes3.getObject(tables.artisanTools2[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " fashioned you a decent tool. (" .. tool.name .. ")")
             end
             if (armorer.current >= 50 and armorer.current < 75) then
@@ -3470,7 +3470,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.artisanTools3[selection], reference = companionRef })
 
                 local tool = tes3.getObject(tables.artisanTools3[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " fashioned you a useful tool. (" .. tool.name .. ")")
             end
             if (armorer.current >= 75 and armorer.current < 100) then
@@ -3478,7 +3478,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.artisanTools4[selection], reference = companionRef })
 
                 local tool = tes3.getObject(tables.artisanTools4[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " fashioned you a well-made tool. (" .. tool.name .. ")")
             end
             if armorer.current >= 100 then
@@ -3486,7 +3486,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.artisanTools5[selection], reference = companionRef })
 
                 local tool = tes3.getObject(tables.artisanTools5[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " fashioned you an artisan tool. (" .. tool.name .. ")")
             end
         end
@@ -3510,7 +3510,7 @@ function this.executeAbilities(companionRef)
         tes3.addItem({ item = item, reference = companionRef })
 
         local food = tes3.getObject(item)
-        tes3.messageBox("" ..
+        func.clMessageBox("" ..
             companionRef.object.name .. " provided some food. (" .. food.name .. ")")
     end
 
@@ -3526,7 +3526,7 @@ function this.executeAbilities(companionRef)
                 else
                     tes3.mobilePlayer.bounty = (bounty - 700)
                 end
-                tes3.messageBox("" .. companionRef.object.name .. " reduced your bounty through a legal loophole!")
+                func.clMessageBox("" .. companionRef.object.name .. " reduced your bounty through a legal loophole!")
             end
         end
     end
@@ -3540,7 +3540,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.poisonsB[selection], reference = tes3.player })
 
                 local potion = tes3.getObject(tables.poisonsB[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " brewed you a weak poison. (" .. potion.name .. ")")
             end
             if (alchemy.current >= 25 and alchemy.current < 50) then
@@ -3548,7 +3548,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.poisonsC[selection], reference = tes3.player })
 
                 local potion = tes3.getObject(tables.poisonsC[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " brewed you a cheap poison. (" .. potion.name .. ")")
             end
             if (alchemy.current >= 50 and alchemy.current < 75) then
@@ -3556,7 +3556,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.poisonsS[selection], reference = tes3.player })
 
                 local potion = tes3.getObject(tables.poisonsS[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " brewed you a decent poison. (" .. potion.name .. ")")
             end
             if (alchemy.current >= 75 and alchemy.current < 100) then
@@ -3564,7 +3564,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.poisonsQ[selection], reference = tes3.player })
 
                 local potion = tes3.getObject(tables.poisonsQ[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " brewed you a quality poison! (" .. potion.name .. ")")
             end
             if alchemy.current >= 100 then
@@ -3572,7 +3572,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.poisonsE[selection], reference = tes3.player })
 
                 local potion = tes3.getObject(tables.poisonsE[selection])
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " brewed you an exquisite poison! (" .. potion.name .. ")")
             end
         end
@@ -3584,7 +3584,7 @@ function this.executeAbilities(companionRef)
             if math.random(1, 140) < (attTable[8].current + modData.level) then
                 --Find a Pearl
                 tes3.addItem({ item = "ingred_pearl_01", reference = companionRef })
-                tes3.messageBox("" .. companionRef.object.name .. " found a Pearl.")
+                func.clMessageBox("" .. companionRef.object.name .. " found a Pearl.")
             end
         end
     end
@@ -3608,7 +3608,7 @@ function this.executeAbilities(companionRef)
                     max = modData.level },
             },
         })
-        tes3.messageBox("" .. companionRef.object.name .. "'s charm rubbed off on you.")
+        func.clMessageBox("" .. companionRef.object.name .. "'s charm rubbed off on you.")
     end
 
     --Farmer and Gardener
@@ -3621,7 +3621,7 @@ function this.executeAbilities(companionRef)
         tes3.addItem({ item = tables.plants[randNum], reference = companionRef })
 
         local spoils = tes3.getObject(tables.plants[randNum])
-        tes3.messageBox("" ..
+        func.clMessageBox("" ..
             companionRef.object.name .. " gathered a plant. (" .. spoils.name .. ")")
     end
 
@@ -3634,7 +3634,7 @@ function this.executeAbilities(companionRef)
                     reference = tes3.player,
                     command = "ModReputation 1"
                 }
-                tes3.messageBox("" .. companionRef.object.name .. "'s article increased your reputation!")
+                func.clMessageBox("" .. companionRef.object.name .. "'s article increased your reputation!")
             end
         end
     end
@@ -3661,7 +3661,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = item, reference = companionRef })
     
                 local spoils = tes3.getObject(item)
-                tes3.messageBox("" ..
+                func.clMessageBox("" ..
                     companionRef.object.name .. " seems to have mined some " .. spoils.name .. ".")
             end
         end
@@ -3683,10 +3683,10 @@ function this.executeAbilities(companionRef)
                 local removedCount = tes3.removeItem({ reference = companionRef, item = "Gold_001", count = price, playSound = false })
                 if removedCount < price then
                     tes3.addItem({ reference = companionRef, item = "Gold_001", count = removedCount, playSound = false })
-                    tes3.messageBox("" .. companionRef.object.name .. " tried to buy " .. item.name .. " for " .. price .. ", but didn't have enough gold.")
+                    func.clMessageBox("" .. companionRef.object.name .. " tried to buy " .. item.name .. " for " .. price .. ", but didn't have enough gold.")
                 else
                     tes3.addItem({ reference = companionRef, item = item.id, count = 1 })
-                    tes3.messageBox("" .. companionRef.object.name .. " bought " .. item.name .. " for " .. price .. " gold.")
+                    func.clMessageBox("" .. companionRef.object.name .. " bought " .. item.name .. " for " .. price .. " gold.")
                 end
             end
         end
@@ -3710,7 +3710,7 @@ function this.executeAbilities(companionRef)
         tes3.addItem({ item = item, reference = tes3.player })
 
         local drink = tes3.getObject(item)
-        tes3.messageBox("" ..
+        func.clMessageBox("" ..
             companionRef.object.name .. " served you some " .. drink.name .. ".")
     end
 
@@ -3727,13 +3727,13 @@ function this.executeAbilities(companionRef)
                     --Success
                     local winnings = math.round(removedCount * (((attTable[8].current + 10) / 350) + math.random()))
                     tes3.addItem({ reference = companionRef, item = "Gold_001", count = (removedCount + winnings), playSound = true })
-                    tes3.messageBox("" .. companionRef.object.name .. " won " .. winnings .. " gold from their last gambling session.")
+                    func.clMessageBox("" .. companionRef.object.name .. " won " .. winnings .. " gold from their last gambling session.")
                 else
                     --Failure
-                    tes3.messageBox("" .. companionRef.object.name .. " lost " .. removedCount .. " gold from their last gambling session.")
+                    func.clMessageBox("" .. companionRef.object.name .. " lost " .. removedCount .. " gold from their last gambling session.")
                 end
             else
-                tes3.messageBox("" .. companionRef.object.name .. " had no gold to gamble with.")
+                func.clMessageBox("" .. companionRef.object.name .. " had no gold to gamble with.")
             end
         end
     end
@@ -3757,7 +3757,7 @@ function this.executeAbilities(companionRef)
                     max = 1 },
             },
         })
-        tes3.messageBox("" .. companionRef.object.name .. " imbued you with aetherial energy!")
+        func.clMessageBox("" .. companionRef.object.name .. " imbued you with aetherial energy!")
     end
 
     --Summoner
@@ -3773,7 +3773,7 @@ function this.executeAbilities(companionRef)
                     },
                 }
             })
-            tes3.messageBox("" .. companionRef.object.name .. " summoned a Scamp.")
+            func.clMessageBox("" .. companionRef.object.name .. " summoned a Scamp.")
         end
         if (conjuration.current >= 25 and conjuration.current < 50) then
             tes3.applyMagicSource({
@@ -3785,7 +3785,7 @@ function this.executeAbilities(companionRef)
                     },
                 }
             })
-            tes3.messageBox("" .. companionRef.object.name .. " summoned a Clannfear.")
+            func.clMessageBox("" .. companionRef.object.name .. " summoned a Clannfear.")
         end
         if (conjuration.current >= 50 and conjuration.current < 75) then
             local choice
@@ -3808,7 +3808,7 @@ function this.executeAbilities(companionRef)
                     },
                 }
             })
-            tes3.messageBox("" .. companionRef.object.name .. " summoned an Atronach.")
+            func.clMessageBox("" .. companionRef.object.name .. " summoned an Atronach.")
         end
         if (conjuration.current >= 75 and conjuration.current < 100) then
             local choice
@@ -3831,7 +3831,7 @@ function this.executeAbilities(companionRef)
                     },
                 }
             })
-            tes3.messageBox("" .. companionRef.object.name .. " summoned a greater Daedra.")
+            func.clMessageBox("" .. companionRef.object.name .. " summoned a greater Daedra.")
         end
         if conjuration.current >= 100 then
             tes3.applyMagicSource({
@@ -3843,7 +3843,7 @@ function this.executeAbilities(companionRef)
                     },
                 }
             })
-            tes3.messageBox("" .. companionRef.object.name .. " summoned a Golden Saint!")
+            func.clMessageBox("" .. companionRef.object.name .. " summoned a Golden Saint!")
         end
     end
 
@@ -3860,35 +3860,35 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = tables.scrolls[selection], reference = companionRef })
 
                 local scroll = tes3.getObject(tables.scrolls[selection])
-                tes3.messageBox("" .. companionRef.object.name .. " compiled a " .. scroll.name .. ".")
+                func.clMessageBox("" .. companionRef.object.name .. " compiled a " .. scroll.name .. ".")
             end
             if (enchant.current >= 25 and enchant.current < 50) then
                 local selection = math.random(1, 24)
                 tes3.addItem({ item = tables.scrolls[selection], reference = companionRef })
 
                 local scroll = tes3.getObject(tables.scrolls[selection])
-                tes3.messageBox("" .. companionRef.object.name .. " compiled a " .. scroll.name .. ".")
+                func.clMessageBox("" .. companionRef.object.name .. " compiled a " .. scroll.name .. ".")
             end
             if (enchant.current >= 50 and enchant.current < 75) then
                 local selection = math.random(1, 45)
                 tes3.addItem({ item = tables.scrolls[selection], reference = companionRef })
 
                 local scroll = tes3.getObject(tables.scrolls[selection])
-                tes3.messageBox("" .. companionRef.object.name .. " compiled a " .. scroll.name .. ".")
+                func.clMessageBox("" .. companionRef.object.name .. " compiled a " .. scroll.name .. ".")
             end
             if (enchant.current >= 75 and enchant.current < 100) then
                 local selection = math.random(1, 76)
                 tes3.addItem({ item = tables.scrolls[selection], reference = companionRef })
 
                 local scroll = tes3.getObject(tables.scrolls[selection])
-                tes3.messageBox("" .. companionRef.object.name .. " compiled a " .. scroll.name .. ".")
+                func.clMessageBox("" .. companionRef.object.name .. " compiled a " .. scroll.name .. ".")
             end
             if enchant.current >= 100 then
                 local selection = math.random(1, 91)
                 tes3.addItem({ item = tables.scrolls[selection], reference = companionRef })
 
                 local scroll = tes3.getObject(tables.scrolls[selection])
-                tes3.messageBox("" .. companionRef.object.name .. " compiled a " .. scroll.name .. ".")
+                func.clMessageBox("" .. companionRef.object.name .. " compiled a " .. scroll.name .. ".")
             end
         end
     end
@@ -3909,7 +3909,7 @@ function this.executeAbilities(companionRef)
         --Teach Speechcraft
         if math.random(1, 140) < (speechcraft.current + modData.level) then
             tes3.modStatistic({ skill = 25, value = value, reference = tes3.player })
-            tes3.messageBox("" .. companionRef.object.name .. " gave an epiphanic verse which taught you a bit about Speechcraft.")
+            func.clMessageBox("" .. companionRef.object.name .. " gave an epiphanic verse which taught you a bit about Speechcraft.")
         end
     end
 
@@ -3928,7 +3928,7 @@ function this.executeAbilities(companionRef)
     
                 --Generate Gold Interest
                 tes3.addItem({ reference = companionRef, item = "Gold_001", count = amount })
-                tes3.messageBox("" .. companionRef.object.name .. " generated " .. amount .. " gold in interest.")
+                func.clMessageBox("" .. companionRef.object.name .. " generated " .. amount .. " gold in interest.")
             end
         end
     end
@@ -3957,7 +3957,7 @@ function this.executeAbilities(companionRef)
                 tes3.addItem({ item = item, reference = companionRef })
 
                 local spoils = tes3.getObject(item)
-                tes3.messageBox("" .. companionRef.object.name .. " scavenged something from nearby. (" .. spoils.name .. ")")
+                func.clMessageBox("" .. companionRef.object.name .. " scavenged something from nearby. (" .. spoils.name .. ")")
             end
         end
     end
@@ -3985,7 +3985,7 @@ function this.executeAbilities(companionRef)
             tes3.addItem({ item = item, reference = companionRef })
 
             local spoils = tes3.getObject(item)
-            tes3.messageBox("" .. companionRef.object.name .. " fished something up. (" .. spoils.name .. ")")
+            func.clMessageBox("" .. companionRef.object.name .. " fished something up. (" .. spoils.name .. ")")
         end
     end
 
@@ -4112,7 +4112,7 @@ function this.contract(reference)
 
         table.insert(modData.contracts, data)
 
-        tes3.messageBox("" .. reference.object.name .. " received a contract to kill " .. choice.name .. " for " .. amount .. " gold.")
+        func.clMessageBox("" .. reference.object.name .. " received a contract to kill " .. choice.name .. " for " .. amount .. " gold.")
         log:info("" .. reference.object.name .. " received a contract to kill " .. choice.name .. " for " .. amount .. " gold.")
     end
 end
@@ -4144,7 +4144,7 @@ function this.contractKill(e)
                     tes3.addItem({ reference = reference, item = "Gold_001", count = amount })
                     tes3.playSound({ sound = "Item Gold Down" })
 
-                    tes3.messageBox("" .. reference.object.name .. " received a " .. amount .. " gold reward for " .. e.reference.object.name .. "'s death!")
+                    func.clMessageBox("" .. reference.object.name .. " received a " .. amount .. " gold reward for " .. e.reference.object.name .. "'s death!")
                     log:info("" .. reference.object.name .. " received a " .. amount .. " gold reward for " .. e.reference.object.name .. "'s death!")
                 end
             end
@@ -4175,7 +4175,7 @@ function this.rage(e)
                     if not affected then
                         tes3.cast({ reference = e.mobile, target = e.mobile, spell = "kl_spell_rage", instant = true })
                         log:debug("" .. e.mobile.object.name .. " became enraged!")
-                        tes3.messageBox("" .. e.mobile.object.name .. " became enraged!")
+                        func.clMessageBox("" .. e.mobile.object.name .. " became enraged!")
                     end
                 end
             end
@@ -4205,11 +4205,11 @@ function this.inspiration(companionRef, class, modData, speechcraft, encore)
                 },
             })
         end
-        tes3.messageBox("" .. companionRef.object.name .. " sang an inspiring song of " .. tes3.attributeName[attribute] .. "!")
+        func.clMessageBox("" .. companionRef.object.name .. " sang an inspiring song of " .. tes3.attributeName[attribute] .. "!")
 
         --Encore
         if not encore and math.random(0, 199) < speechcraft.current then
-            timer.start({ type = timer.game, duration = math.random(6, 12), iterations = 1, callback = function() tes3.messageBox("Encore!") this.inspiration(companionRef, class, modData, speechcraft, true) end })
+            timer.start({ type = timer.game, duration = math.random(6, 12), iterations = 1, callback = function() func.clMessageBox("Encore!") this.inspiration(companionRef, class, modData, speechcraft, true) end })
         end
     end
 end
@@ -4405,7 +4405,7 @@ function this.comprehension(e)
 				tes3.modStatistic({ skill = e.skill, value = 1, reference = tes3.player })
 			end
             log:debug("" .. name .. "'s literary insight enhanced your studies in " .. tes3.getSkillName(e.skill) .. ".")
-            tes3.messageBox("" .. name .. "'s literary insight enhanced your studies in " .. tes3.getSkillName(e.skill) .. ".")
+            func.clMessageBox("" .. name .. "'s literary insight enhanced your studies in " .. tes3.getSkillName(e.skill) .. ".")
 		end
 	end
 end
@@ -4519,12 +4519,12 @@ function this.jest(e)
 							})
 							log:debug("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Jest!")
                             if config.bMessages == true then
-                                tes3.messageBox("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Jest!")
+                                func.clMessageBox("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Jest!")
                             end
 						else
 							log:debug("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Jest!")
                             if config.bMessages == true then
-                                tes3.messageBox("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Jest!")
+                                func.clMessageBox("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Jest!")
                             end
 						end
 					else
@@ -4703,7 +4703,7 @@ function this.thaumaturgy(e)
                     tes3.playSound({ sound = "destruction hit", reference = actor.reference, volume = 0.8 })
                     log:debug("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Thaumaturgy!")
                     if config.bMessages == true then
-                        tes3.messageBox("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Thaumaturgy!")
+                        func.clMessageBox("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Thaumaturgy!")
                     end
                 else
                     log:debug("" .. actor.reference.object.name .. " is already affected by Shear.")
@@ -4756,7 +4756,7 @@ function this.insight(num)
 
     if trigger == 1 then
         log:debug("" .. name .. "'s insight granted bonus experience.")
-        tes3.messageBox("" .. name .. "'s insight granted bonus experience.")
+        func.clMessageBox("" .. name .. "'s insight granted bonus experience.")
 
         return num + 1
     else
@@ -4806,12 +4806,12 @@ function this.inoculate(e)
                                 tes3.createVisualEffect({ object = "VFX_PoisonHit", lifespan = 3, reference = actor.reference })
                                 tes3.playSound({ sound = "Drink", reference = actor.reference, volume = 0.8 })
                                 if config.bMessages == true then
-                                    tes3.messageBox("" .. actor.reference.object.name .. " was inflicted with " .. caster.object.name .. "'s " .. diseases[i].name .. "!")
+                                    func.clMessageBox("" .. actor.reference.object.name .. " was inflicted with " .. caster.object.name .. "'s " .. diseases[i].name .. "!")
                                 end
                             else
                                 log:debug("" .. actor.reference.object.name .. " resisted " .. caster.object.name .. "'s " .. diseases[i].name .. "!")
                                 if config.bMessages == true then
-                                    tes3.messageBox("" .. actor.reference.object.name .. " resisted " .. caster.object.name .. "'s " .. diseases[i].name .. "!") 
+                                    func.clMessageBox("" .. actor.reference.object.name .. " resisted " .. caster.object.name .. "'s " .. diseases[i].name .. "!") 
                                 end
                             end
                         else
@@ -4875,7 +4875,7 @@ function this.bounty(reference)
             cellName, unused = choice.displayName:match("([^,]+),([^,]+)")
         end
 
-        tes3.messageBox("" .. reference.object.name .. " received a bounty to kill a fugitive. They were last seen in " .. cellName .. ".")
+        func.clMessageBox("" .. reference.object.name .. " received a bounty to kill a fugitive. They were last seen in " .. cellName .. ".")
         log:info("" .. reference.object.name .. " received a bounty to kill a fugitive. They were last seen in " .. cellName .. ".")
     end
 end
@@ -4933,7 +4933,7 @@ function this.bountyKill(e)
                 tes3.addItem({ reference = reference, item = "Gold_001", count = amount })
                 tes3.playSound({ sound = "Item Gold Down" })
 
-                tes3.messageBox("" .. reference.object.name .. " received a " .. amount .. " bounty!")
+                func.clMessageBox("" .. reference.object.name .. " received a " .. amount .. " bounty!")
                 log:info("" .. reference.object.name .. " received a " .. amount .. " bounty!")
             end
         end
@@ -4967,7 +4967,7 @@ function this.requiem(e)
 
                             log:debug("" .. reference.object.name .. " entered a frenzy!")
                             if config.bMessages == true then
-                                tes3.messageBox("" .. reference.object.name .. " entered a frenzy!")
+                                func.clMessageBox("" .. reference.object.name .. " entered a frenzy!")
                             end
                         else
                             log:debug("" .. reference.object.name .. " is already affected by Moonlight Requiem.")
@@ -5039,12 +5039,12 @@ function this.dirge(e)
                             tes3.createVisualEffect({ object = "VFX_IllusionHit", lifespan = 4, reference = actor.reference })
 							log:debug("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Dirge!")
                             if config.bMessages == true then
-                                tes3.messageBox("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Dirge!")
+                                func.clMessageBox("" .. actor.reference.object.name .. " was affected by " .. caster .. "'s Dirge!")
                             end
 						else
 							log:debug("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Dirge!")
                             if config.bMessages == true then
-                                tes3.messageBox("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Dirge!")
+                                func.clMessageBox("" .. actor.reference.object.name .. " ignored " .. caster .. "'s Dirge!")
                             end
 						end
 					else
@@ -5096,7 +5096,7 @@ function this.elegy(e)
 
                             log:debug("" .. reference.object.name .. " entered a fervor!")
                             if config.bMessages == true then
-                                tes3.messageBox("" .. reference.object.name .. " entered a fervor!")
+                                func.clMessageBox("" .. reference.object.name .. " entered a fervor!")
                             end
                         else
                             log:debug("" .. reference.object.name .. " is already affected by Sanguine Elegy.")
@@ -5175,7 +5175,7 @@ function this.communion(e)
                             --Messages
                             log:debug("" .. actor.reference.object.name .. " was charmed by " .. caster.object.name .. "!")
                             if config.bMessages == true then
-                                tes3.messageBox("" .. actor.reference.object.name .. " was charmed by " .. caster.object.name .. "!")
+                                func.clMessageBox("" .. actor.reference.object.name .. " was charmed by " .. caster.object.name .. "!")
                             end
                         end
                     else
@@ -5386,7 +5386,7 @@ function this.cunning(e)
                     --Prevent Ambush
                     e.count = 0
                     log:info("" .. reference.object.name .. " prevented an ambush.")
-                    tes3.messageBox("" .. reference.object.name .. " prevented an ambush!")
+                    func.clMessageBox("" .. reference.object.name .. " prevented an ambush!")
                     break
                 end
             end
@@ -5507,7 +5507,7 @@ function this.delivery(reference)
         local data = { choice.id, amount, obj.id }
         table.insert(modData.deliveries, data)
 
-        tes3.messageBox("" .. reference.object.name .. " received a delivery to " .. choice.name .. " for " .. amount .. " gold.")
+        func.clMessageBox("" .. reference.object.name .. " received a delivery to " .. choice.name .. " for " .. amount .. " gold.")
         log:info("" .. reference.object.name .. " received a delivery to " .. choice.name .. " for " .. amount .. " gold.")
     end
 end
@@ -5535,13 +5535,13 @@ function this.deliveryCheck(e)
                         tes3.addItem({ reference = reference, item = "Gold_001", count = modData.deliveries[n][2] })
                         tes3.playSound({ sound = "Item Gold Down", volume = 0.9 })
 
-                        tes3.messageBox("" .. reference.object.name .. " received " .. modData.deliveries[n][2] .. " gold for delivering the " .. burden.name .. ".")
+                        func.clMessageBox("" .. reference.object.name .. " received " .. modData.deliveries[n][2] .. " gold for delivering the " .. burden.name .. ".")
                         log:info("" .. reference.object.name .. " received " .. modData.deliveries[n][2] .. " gold for delivering the " .. burden.name .. ".")
     
                         table.remove(modData.deliveries, n)
                     else
                         --Forgot Package
-                        tes3.messageBox("" .. reference.object.name .. " is missing the " .. burden.name .. ".")
+                        func.clMessageBox("" .. reference.object.name .. " is missing the " .. burden.name .. ".")
                         log:info("" .. reference.object.name .. " is missing the " .. burden.name .. ".")
                     end
                 end
@@ -5897,7 +5897,7 @@ function this.weather(e)
                         tes3.cast({ reference = caster, target = actor.reference, spell = spell, instant = true, bypassResistances = false })
                         log:debug("" .. actor.reference.object.name .. " was affected by the weather's " .. spell.name .. "!")
                         if config.bMessages == true then
-                            tes3.messageBox("" .. actor.reference.object.name .. " was affected by the weather's " .. spell.name .. "!")
+                            func.clMessageBox("" .. actor.reference.object.name .. " was affected by the weather's " .. spell.name .. "!")
                         end
                     else
                         log:debug("" .. actor.reference.object.name .. " couldn't find a weather spell.")
@@ -5982,7 +5982,7 @@ function this.farseek()
                     for _, stack in pairs(refe.object.inventory) do
                         local item = stack.object
                         if string.startswith(item.id, "daedric") or string.find(item.id, "unique") then
-                            tes3.messageBox("" .. name .. " detects the presence of a powerful artifact!")
+                            func.clMessageBox("" .. name .. " detects the presence of a powerful artifact!")
                             found = true
                             log:debug("" .. item.id .. " found in the " .. refe.object.name .. " container.")
                             break
@@ -5991,7 +5991,7 @@ function this.farseek()
                     if found then break end
                 else
                     if string.startswith(refe.object.id, "daedric") or string.find(refe.object.id, "unique") or string.startswith(refe.object.id, "keening") or string.startswith(refe.object.id, "sunder") then
-                        tes3.messageBox("" .. name .. " detects the presence of a powerful artifact!")
+                        func.clMessageBox("" .. name .. " detects the presence of a powerful artifact!")
                         log:debug("" .. refe.object.id .. " found in the current cell.")
                         break
                     end
@@ -6160,7 +6160,7 @@ function this.julianosDuty(e)
             -- for n = 0, 26 do
             --     func.modStatAndTrack("skill", n, -1, clerics[i], modData)
             -- end
-            tes3.messageBox("Julianos punishes " .. clerics[i].object.name .. " for breaking the law!")
+            func.clMessageBox("Julianos punishes " .. clerics[i].object.name .. " for breaking the law!")
             log:debug("" .. tables.patrons[patron] .. " duty inflicted upon " .. clerics[i].object.name .. ".")
         end
     end
@@ -6193,7 +6193,7 @@ function this.julianos(e)
                 tes3.modStatistic({ reference = clerics[i], skill = e.skill, value = 1 })
                 modData.skill_gained[e.skill + 1] = modData.skill_gained[e.skill + 1] + 1
 
-                tes3.messageBox("" .. clerics[i].object.name .. "'s " .. tes3.getSkillName(e.skill) .. " " .. tes3.findGMST(tes3.gmst.sSkill).value .. " increased to " .. clerics[i].mobile:getSkillStatistic(e.skill).base .. ".")
+                func.clMessageBox("" .. clerics[i].object.name .. "'s " .. tes3.getSkillName(e.skill) .. " " .. tes3.findGMST(tes3.gmst.sSkill).value .. " increased to " .. clerics[i].mobile:getSkillStatistic(e.skill).base .. ".")
                 log:debug("" .. tables.patrons[patron] .. " gift bestowed upon " .. clerics[i].object.name .. ".")
             end
         end
@@ -6250,7 +6250,7 @@ function this.kynareth(e)
                         if not affected then
                             tes3.cast({ reference = partyTable[i], target = partyTable[i], spell = "kl_spell_gift_5", instant = true, bypassResistances = true })
                             if partyTable[i] == tes3.player then
-                                tes3.messageBox("Kynareth's Auspicious Winds envelop you!")
+                                func.clMessageBox("Kynareth's Auspicious Winds envelop you!")
                             end
                         end
                     end
@@ -6298,7 +6298,7 @@ function this.stendarrDuty(e)
                     modData.att_gained[1] = modData.att_gained[1] - 1
                     modData.att_gained[6] = modData.att_gained[6] - 1
                     log:debug("" .. tables.patrons[patron] .. " duty inflicted upon " .. clerics[i].object.name .. ".")
-                    tes3.messageBox("Stendarr judges " .. clerics[i].object.name .. " for the death of the meek!")
+                    func.clMessageBox("Stendarr judges " .. clerics[i].object.name .. " for the death of the meek!")
                 end
             end
         end
@@ -6316,7 +6316,7 @@ function this.stendarr(ref)
     func.modStatAndTrack("attribute", tes3.attribute.strength, 1, ref, modData)
     func.modStatAndTrack("attribute", tes3.attribute.endurance, 1, ref, modData)
 
-    tes3.messageBox("" .. ref.object.name .. "'s Strength and Endurance were acknowledged by Stendarr!")
+    func.clMessageBox("" .. ref.object.name .. "'s Strength and Endurance were acknowledged by Stendarr!")
     log:debug("Stendarr gift bestowed upon " .. ref.object.name .. ".")
 end
 
@@ -6374,14 +6374,14 @@ function this.zenitharDuty(ref)
             if not seen then
                 tes3.mobilePlayer.bounty = tes3.mobilePlayer.bounty + value
             end
-            tes3.messageBox("Thief! Zenithar will expose your breach of contract!")
+            func.clMessageBox("Thief! Zenithar will expose your breach of contract!")
             log:debug("Zenithar caught you stealing!")
         elseif ref.baseObject.objectType == tes3.objectType.container or ref.baseObject.objectType == tes3.objectType.npc then
             local seen = tes3.triggerCrime({ value = 200, forceDetection = true })
             if not seen then
                 tes3.mobilePlayer.bounty = tes3.mobilePlayer.bounty + 200
             end
-            tes3.messageBox("Trespasser! Zenithar will expose your breach of contract!")
+            func.clMessageBox("Trespasser! Zenithar will expose your breach of contract!")
             log:debug("Zenithar caught you trespassing!")
         end
     end
@@ -6452,9 +6452,9 @@ function this.azuraTribute()
     
             if paid then
                 modData.tributeHours = 0
-                tes3.messageBox("" .. clerics[i].object.name .. " paid their tribute in deference to Azura.")
+                func.clMessageBox("" .. clerics[i].object.name .. " paid their tribute in deference to Azura.")
             else
-                tes3.messageBox("" .. clerics[i].object.name .. " failed to give tribute to Azura. Tribute may be offered again in 3 days.")
+                func.clMessageBox("" .. clerics[i].object.name .. " failed to give tribute to Azura. Tribute may be offered again in 3 days.")
             end
         end
     end
@@ -6483,7 +6483,7 @@ function this.azuraGift()
             local affected = tes3.isAffectedBy({ reference = clerics[i], object = "kl_spell_gift_10" })
             if not affected then
                 tes3.cast({ reference = clerics[i], target = clerics[i], spell = "kl_spell_gift_10", bypassResistances = true, instant = true })
-                tes3.messageBox("" .. clerics[i].object.name .. " is exposed to Azura's twilight!")
+                func.clMessageBox("" .. clerics[i].object.name .. " is exposed to Azura's twilight!")
             end
         end
     end
@@ -6527,7 +6527,7 @@ function this.boethiahTribute()
 
         if modData.bloodKarma and modData.bloodKarma >= -97 then
             modData.bloodKarma = modData.bloodKarma - 3
-            tes3.messageBox("" .. reference.object.name .. " paid a tribute of blood to Boethiah.")
+            func.clMessageBox("" .. reference.object.name .. " paid a tribute of blood to Boethiah.")
 
             if modData.bloodKarma < 0 then
                 local mod = math.round(modData.bloodKarma * 1)
@@ -6540,7 +6540,7 @@ function this.boethiahTribute()
                     bypassResistances = true,
                     effects = {{ id = tes3.effect.drainHealth, duration = mod * 15, min = mod, max = mod * 2, }},
                 })
-                tes3.messageBox("" .. reference.object.name .. " is subjected to a blood tithe.")
+                func.clMessageBox("" .. reference.object.name .. " is subjected to a blood tithe.")
             end
         end
     end
@@ -6619,9 +6619,9 @@ function this.moraTribute()
 
                                 if paid then
                                     modData.tributeHours = 0
-                                    tes3.messageBox("" .. clerics[i].object.name .. " paid their tribute in deference to Hermaeus Mora.")
+                                    func.clMessageBox("" .. clerics[i].object.name .. " paid their tribute in deference to Hermaeus Mora.")
                                 else
-                                    tes3.messageBox("" .. clerics[i].object.name .. " failed to give tribute to Hermaeus Mora, and suffers psychic damage! Tribute may be offered again in 3 days.")
+                                    func.clMessageBox("" .. clerics[i].object.name .. " failed to give tribute to Hermaeus Mora, and suffers psychic damage! Tribute may be offered again in 3 days.")
                                     tes3.modStatistic({ reference = clerics[i], attribute = tes3.attribute.intelligence, value = -1 })
                                 end
                             end
@@ -6655,28 +6655,28 @@ function this.huntCheck(e)
                 if num == 1 then
                     --lycanthropic power + 1
                     modData.lycanthropicPower = modData.lycanthropicPower + 1
-                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Lycanthropic Power increased by 1.")
+                    func.clMessageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Lycanthropic Power increased by 1.")
                 elseif num == 2 then
                     --strength + 2
                     func.modStatAndTrack("attribute", tes3.attribute.strength, 2, reference, modData)
-                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Strength increased by 2.")
+                    func.clMessageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Strength increased by 2.")
                 elseif num == 3 then
                     --agility + 2
                     func.modStatAndTrack("attribute", tes3.attribute.agility, 2, reference, modData)
-                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Agility increased by 2.")
+                    func.clMessageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Agility increased by 2.")
                 elseif num == 4 then
                     --endurance + 2
                     func.modStatAndTrack("attribute", tes3.attribute.endurance, 2, reference, modData)
-                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Endurance increased by 2.")
+                    func.clMessageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Endurance increased by 2.")
                 elseif num == 5 then
                     --speed + 2
                     func.modStatAndTrack("attribute", tes3.attribute.speed, 2, reference, modData)
-                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Speed increased by 2.")
+                    func.clMessageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Speed increased by 2.")
                 else
                     --health + 5
                     tes3.modStatistic({ reference = reference, name = "health", value = 5 })
                     modData.hth_gained = modData.hth_gained + 5
-                    tes3.messageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Health increased by 5.")
+                    func.clMessageBox("" .. reference.object.name .. " completed the hunt for " .. tes3.getObject(modData.hircineHunt[1]).name .. "! Health increased by 5.")
                 end
             end
             if modData.lycanthropicPower > 300 then
@@ -6708,12 +6708,12 @@ function this.hircineTribute()
         if modData.tributeHours >= (144 + math.random(12, 72)) then
             if modData.hircineHunt[3] < modData.hircineHunt[2] then
                 modData.tributePaid = false
-                tes3.messageBox("" .. clerics[i].object.name .. " failed to hunt " .. tes3.getObject(modData.hircineHunt[1]).name .. "!")
+                func.clMessageBox("" .. clerics[i].object.name .. " failed to hunt " .. tes3.getObject(modData.hircineHunt[1]).name .. "!")
             end
 
             modData.hircineHunt =  tables.hircineHunts[math.random(1, #tables.hircineHunts)]
             modData.tributeHours = 0
-            tes3.messageBox("" .. clerics[i].object.name .. " was issued a new hunt for " .. modData.hircineHunt[2] .. " " .. tes3.getObject(modData.hircineHunt[1]).name .. ".")
+            func.clMessageBox("" .. clerics[i].object.name .. " was issued a new hunt for " .. modData.hircineHunt[2] .. " " .. tes3.getObject(modData.hircineHunt[1]).name .. ".")
         end
     end
 end
@@ -6776,13 +6776,13 @@ function this.malacathTribute()
     
             if paid then
                 --All Good
-                tes3.messageBox("" .. clerics[i].object.name .. " paid their tribute in respect to Malacath.")
+                func.clMessageBox("" .. clerics[i].object.name .. " paid their tribute in respect to Malacath.")
             else
                 --Cursed
                 local num = math.random(1, 10)
                 local spell = tes3.getObject("kl_spell_curse_" .. num .. "")
                 tes3.applyMagicSource({ reference = clerics[i], source = spell, bypassResistances = true, target = clerics[i] })
-                tes3.messageBox("" .. clerics[i].object.name .. " failed to give tribute to Malacath! " .. clerics[i].object.name .. " was afflicted with the " .. spell.name .. "!")
+                func.clMessageBox("" .. clerics[i].object.name .. " failed to give tribute to Malacath! " .. clerics[i].object.name .. " was afflicted with the " .. spell.name .. "!")
             end
 
             modData.tributeHours = 0
@@ -6812,7 +6812,7 @@ function this.dagonTribute()
 
         if modData.tributeHours == 96 then
             if not modData.tributePaid then
-                tes3.messageBox("Dagon grows impatient, mortal. " .. clerics[i].object.name .. " must destroy!")
+                func.clMessageBox("Dagon grows impatient, mortal. " .. clerics[i].object.name .. " must destroy!")
             end
         end
 
@@ -6823,14 +6823,14 @@ function this.dagonTribute()
                 local light = tes3.createReference({ object = "red 256", position = clerics[i].mobile.position, cell = clerics[i].mobile.cell, orientation = clerics[i].mobile.orientation  })
                 tes3.playSound({ sound = "restoration area", reference = clerics[i] })
                 timer.start({ type = timer.simulate, duration = 4, callback = function() light:delete() end })
-                tes3.messageBox("Dagon commands " .. clerics[i].object.name .. " to destroy! The weak must be culled!")
+                func.clMessageBox("Dagon commands " .. clerics[i].object.name .. " to destroy! The weak must be culled!")
             else
                 local light = tes3.createReference({ object = "red 256", position = clerics[i].mobile.position, cell = clerics[i].mobile.cell, orientation = clerics[i].mobile.orientation  })
                 tes3.playSound({ sound = "destruction area", reference = clerics[i], volume = 1.2 })
                 timer.start({ type = timer.simulate, duration = 3, callback = function() light:delete() end })
                 tes3.createVisualEffect({ object = "VFX_DestructArea", lifespan = 2, reference = clerics[i], scale = 2 })
                 clerics[i].mobile:kill()
-                tes3.messageBox("" .. clerics[i].object.name .. " is annihilated. Dagon will not suffer fools.")
+                func.clMessageBox("" .. clerics[i].object.name .. " is annihilated. Dagon will not suffer fools.")
             end
         end
     end
@@ -6863,7 +6863,7 @@ function this.dagonSacrifice(e)
                     tes3.playSound({ sound = "destruction hit", reference = e.mobile, volume = 0.9 })
                     tes3.createVisualEffect({ object = "VFX_DestructHit", lifespan = 3, reference = e.mobile })
                     log:debug("" .. clerics[i].object.name .. " sacrificed " .. e.mobile.object.name .. " to Mehrunes Dagon.")
-                    tes3.messageBox("" .. clerics[i].object.name .. " sacrificed " .. e.mobile.object.name .. " to Mehrunes Dagon!")
+                    func.clMessageBox("" .. clerics[i].object.name .. " sacrificed " .. e.mobile.object.name .. " to Mehrunes Dagon!")
                 end
             end
         end
@@ -6963,7 +6963,7 @@ function this.mephalaTribute()
 
         if modData.tributeHours == 96 then
             if not modData.tributePaid then
-                tes3.messageBox("Mephala's whispers grow louder!")
+                func.clMessageBox("Mephala's whispers grow louder!")
             end
         end
 
@@ -6974,7 +6974,7 @@ function this.mephalaTribute()
                 local light = tes3.createReference({ object = "kl_light_purple_256", position = clerics[i].mobile.position, cell = clerics[i].mobile.cell, orientation = clerics[i].mobile.orientation  })
                 tes3.playSound({ sound = "mysticism cast", reference = clerics[i] })
                 timer.start({ type = timer.simulate, duration = 4, callback = function() light:delete() end })
-                tes3.messageBox("" .. clerics[i].object.name .. " feels their power begin to wane. The Webspinner commands betrayal!")
+                func.clMessageBox("" .. clerics[i].object.name .. " feels their power begin to wane. The Webspinner commands betrayal!")
             end
         end
     end
@@ -7016,7 +7016,7 @@ function this.mephalaSacrifice(e)
                     tes3.playSound({ sound = "mysticism hit", reference = e.mobile, volume = 0.9 })
                     tes3.createVisualEffect({ object = "VFX_MysticismHit", lifespan = 3, reference = e.mobile })
                     log:debug("" .. clerics[i].object.name .. " betrayed " .. e.mobile.object.name .. " in tribute to Mephala.")
-                    tes3.messageBox("" .. clerics[i].object.name .. " betrayed " .. e.mobile.object.name .. " in tribute to Mephala.")
+                    func.clMessageBox("" .. clerics[i].object.name .. " betrayed " .. e.mobile.object.name .. " in tribute to Mephala.")
                 end
             end
         end
@@ -7045,7 +7045,7 @@ function this.meridiaTribute()
 
         if modData.tributeHours == 48 then
             if not modData.tributePaid then
-                tes3.messageBox("Meridia demands judgment! Go forth and purify!")
+                func.clMessageBox("Meridia demands judgment! Go forth and purify!")
             end
         end
 
@@ -7055,7 +7055,7 @@ function this.meridiaTribute()
                 modData.tributeHours = 0
                 tes3.playSound({ sound = "restoration area", reference = clerics[i] })
                 tes3.removeSpell({ reference = clerics[i], spell = "kl_ability_patron_19" })
-                tes3.messageBox("" .. clerics[i].object.name .. "'s favor with Meridia begins to wane, and their powers with it!")
+                func.clMessageBox("" .. clerics[i].object.name .. "'s favor with Meridia begins to wane, and their powers with it!")
             end
         end
     end
@@ -7111,7 +7111,7 @@ function this.meridiaSacrifice(e)
                     tes3.playSound({ sound = "restoration hit", reference = e.mobile, volume = 0.9 })
                     tes3.createVisualEffect({ object = "VFX_RestorationHit", lifespan = 3, reference = e.mobile })
                     log:debug("" .. clerics[i].object.name .. " regained Meridia's favor!")
-                    tes3.messageBox("False life purified! " .. clerics[i].object.name .. " regained Meridia's favor!")
+                    func.clMessageBox("False life purified! " .. clerics[i].object.name .. " regained Meridia's favor!")
                 end
             end
         end
@@ -7184,7 +7184,7 @@ function this.namiraTribute(ref)
     modData.att_gained[7] = modData.att_gained[7] - 1
     modData.att_gained[6] = modData.att_gained[6] - 1
 
-    timer.start({ type = timer.simulate, duration = 5, iterations = 1, callback = function() tes3.messageBox("" .. ref.object.name .. " is affected by Namira's decay.") end })
+    timer.start({ type = timer.simulate, duration = 5, iterations = 1, callback = function() func.clMessageBox("" .. ref.object.name .. " is affected by Namira's decay.") end })
     log:debug("" .. ref.object.name .. " is affected by Namira's decay.")
 end
 
@@ -7271,14 +7271,14 @@ function this.peryiteTribute(ref)
                 tes3.playSound({ sound = "restoration cast", reference = ref })
                 timer.start({ type = timer.simulate, duration = 4, callback = function() light:delete() end })
                 log:debug("" .. ref.object.name .. " received " .. ability.name .. " #" .. id .. " from Peryite.")
-                timer.start({ type = timer.simulate, duration = 1, callback = function() tes3.messageBox("" .. ref.object.name .. " received " .. ability.name .. " #" .. id .. " from Peryite.") end })
+                timer.start({ type = timer.simulate, duration = 1, callback = function() func.clMessageBox("" .. ref.object.name .. " received " .. ability.name .. " #" .. id .. " from Peryite.") end })
             end
         end
     end
     local num = math.random(1, 17)
     tes3.addSpell({ reference = ref, spell = "kl_disease_blessing_" .. num .. ""})
     log:debug("" .. tes3.getObject("kl_disease_blessing_" .. num .."").name .. " disease received from Peryite.")
-    timer.start({ type = timer.simulate, duration = 3, callback = function() tes3.messageBox("" .. tes3.getObject("kl_disease_blessing_" .. num .."").name .. " disease received from Peryite.") end })
+    timer.start({ type = timer.simulate, duration = 3, callback = function() func.clMessageBox("" .. tes3.getObject("kl_disease_blessing_" .. num .."").name .. " disease received from Peryite.") end })
 end
 
 --Sanguine (Aura)------------------------------------------------------------------------------------------------------------------------
@@ -7315,9 +7315,9 @@ function this.sanguineTribute()
             if paid then
                 modData.tributeHours = 0
                 tes3.playSound({ sound = "Item Potion Up", reference = clerics[i], volume = 0.9, pitch = 0.9 })
-                tes3.messageBox("" .. clerics[i].object.name .. " poured their libation in tribute to Sanguine.")
+                func.clMessageBox("" .. clerics[i].object.name .. " poured their libation in tribute to Sanguine.")
             else
-                tes3.messageBox("" .. clerics[i].object.name .. " failed to give tribute to Sanguine. Tribute may be offered again in 4 days.")
+                func.clMessageBox("" .. clerics[i].object.name .. " failed to give tribute to Sanguine. Tribute may be offered again in 4 days.")
                 timer.start({ type = timer.simulate, duration = 2, callback = function()
                     local party = func.partyTable()
                     for n = 1, #party do
@@ -7387,7 +7387,7 @@ function this.sheoCombat(e)
             if modData.patron and modData.patron == 25 then
                 trigger = 1
                 log:debug("Sheogorath took an interest in the fight!")
-                tes3.messageBox("Sheogorath took an interest in the fight!")
+                func.clMessageBox("Sheogorath took an interest in the fight!")
                 cleric = reference
                 break
             end
@@ -7663,7 +7663,7 @@ function this.vaerminaGift()
                 modData.lvl_progress = modData.lvl_progress + num
             end
             modData.tributePaid = false
-            timer.start({ type = timer.simulate, duration = 2, callback = function() tes3.messageBox("Vaermina sent " .. clerics[i].object.name .. " a nightmare.") end})
+            timer.start({ type = timer.simulate, duration = 2, callback = function() func.clMessageBox("Vaermina sent " .. clerics[i].object.name .. " a nightmare.") end})
         end
         timer.delayOneFrame(function()
             tes3.addSpell({ reference = clerics[i], spell = "kl_ability_nightmare", bypassResistances = true })
@@ -7697,7 +7697,7 @@ function this.vaerminaTribute()
         if modData.tributeHours >= 24 then
             timer.delayOneFrame(function()
                 tes3.removeSpell({ reference = clerics[i], spell = "kl_ability_nightmare" })
-                tes3.messageBox("" .. clerics[i].object.name .. "'s nightmare is at an end...")
+                func.clMessageBox("" .. clerics[i].object.name .. "'s nightmare is at an end...")
             end)
         end
 

@@ -299,49 +299,49 @@ function molag.onGem()
 				btn1.widget.state = 2
 				btn1.disabled = true
 			end
-			btn1:register("mouseClick", function() molag.updateEnergy(30) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_petty_vestige") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a petty soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
+			btn1:register("mouseClick", function() molag.updateEnergy(30) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_petty_vestige") } func.clMessageBox("Molag Bal empowered the " .. e.item.name .. " with a petty soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
 			local btn2 = fill_block:createButton { id = "kl_soul_btn_2", text = "60pts: 80 Soul Energy" }
 			if capacity < 60 or molag.modData.soulEnergy < 80 then
 				btn2.widget.state = 2
 				btn2.disabled = true
 			end
-			btn2:register("mouseClick", function() molag.updateEnergy(80) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_lesser_vestige") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a lesser soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
+			btn2:register("mouseClick", function() molag.updateEnergy(80) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_lesser_vestige") } func.clMessageBox("Molag Bal empowered the " .. e.item.name .. " with a lesser soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
 			local btn3 = fill_block:createButton { id = "kl_soul_btn_3", text = "120pts: 150 Soul Energy" }
 			if capacity < 120 or molag.modData.soulEnergy < 150 then
 				btn3.widget.state = 2
 				btn3.disabled = true
 			end
-			btn3:register("mouseClick", function() molag.updateEnergy(150) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_common_vestige") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a common soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
+			btn3:register("mouseClick", function() molag.updateEnergy(150) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_common_vestige") } func.clMessageBox("Molag Bal empowered the " .. e.item.name .. " with a common soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
 			local btn4 = fill_block:createButton { id = "kl_soul_btn_4", text = "180pts: 250 Soul Energy" }
 			if capacity < 180 or molag.modData.soulEnergy < 250 then
 				btn4.widget.state = 2
 				btn4.disabled = true
 			end
-			btn4:register("mouseClick", function() molag.updateEnergy(250) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_greater_vestige") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a greater soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
+			btn4:register("mouseClick", function() molag.updateEnergy(250) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_greater_vestige") } func.clMessageBox("Molag Bal empowered the " .. e.item.name .. " with a greater soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
 			local btn5 = fill_block:createButton { id = "kl_soul_btn_5", text = "300pts: 400 Soul Energy" }
 			if capacity < 300 or molag.modData.soulEnergy < 400 then
 				btn5.widget.state = 2
 				btn5.disabled = true
 			end
-			btn5:register("mouseClick", function() molag.updateEnergy(400) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_grand_vestige") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a grand soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
+			btn5:register("mouseClick", function() molag.updateEnergy(400) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_grand_vestige") } func.clMessageBox("Molag Bal empowered the " .. e.item.name .. " with a grand soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
 			local btn6 = fill_block:createButton { id = "kl_soul_btn_6", text = "400pts: 600 Soul Energy" }
 			if capacity < 400 or molag.modData.soulEnergy < 600 then
 				btn6.widget.state = 2
 				btn6.disabled = true
 			end
-			btn6:register("mouseClick", function() molag.updateEnergy(600) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_powerful_vestige") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with a powerful soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
+			btn6:register("mouseClick", function() molag.updateEnergy(600) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_powerful_vestige") } func.clMessageBox("Molag Bal empowered the " .. e.item.name .. " with a powerful soul.") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
 			local btn7 = fill_block:createButton { id = "kl_soul_btn_7", text = "600pts: 2000 Soul Energy" }
 			if capacity < 600 or molag.modData.soulEnergy < 2000 then
 				btn7.widget.state = 2
 				btn7.disabled = true
 			end
-			btn7:register("mouseClick", function() molag.updateEnergy(2000) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_exceptional_vestige") } tes3.messageBox("Molag Bal empowered the " .. e.item.name .. " with an exceptionally powerful soul!") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
+			btn7:register("mouseClick", function() molag.updateEnergy(2000) tes3.removeItem({ reference = tes3.player, item = e.item, count = 1, playSound = false }) tes3.addItem{ reference = tes3.player, item = e.item, soul = tes3.getObject("kl_exceptional_vestige") } func.clMessageBox("Molag Bal empowered the " .. e.item.name .. " with an exceptionally powerful soul!") tes3.playSound({ sound = "enchant success" }) menu:destroy() end)
 
 			local button_block = menu:createBlock {}
 			button_block.widthProportional = 1.0

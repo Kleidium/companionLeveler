@@ -182,7 +182,7 @@ function safe.createWindow(ref)
 		if not func.spendTP(ref, 2) then return end
 
 		if ref.mobile.fatigue.current < safe.fatCost then
-			tes3.messageBox("Not enough " .. safe.fatigueText .. "!")
+			func.clMessageBox("Not enough " .. safe.fatigueText .. "!")
 			return
 		end
 
@@ -198,7 +198,7 @@ function safe.createWindow(ref)
 			--Fail
 			ref:activate(safe.target)
 			tes3.playSound({ sound = "Open Lock Fail", reference = safe.target })
-			tes3.messageBox("" .. tes3.findGMST("sLockFail").value .. "")
+			func.clMessageBox("" .. tes3.findGMST("sLockFail").value .. "")
 		else
 			--Success
 
@@ -208,7 +208,7 @@ function safe.createWindow(ref)
 			--Unlock
 			tes3.unlock({ reference = safe.target })
 			tes3.playSound({ sound = "Open Lock", reference = safe.target })
-			tes3.messageBox("" .. tes3.findGMST("sLockSuccess").value .. "")
+			func.clMessageBox("" .. tes3.findGMST("sLockSuccess").value .. "")
 		end
 
 		local owned = tes3.getOwner({ reference = safe.target })

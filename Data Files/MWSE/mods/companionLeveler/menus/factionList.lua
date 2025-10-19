@@ -103,10 +103,10 @@ function fact.pickFaction(ref, aID)
 	--No Choices
 	if fact.total == 0 then
 		if aID == 134 then
-			tes3.messageBox("No valid factions found! You must already be a member of a faction to use this ability!")
+			func.clMessageBox("No valid factions found! You must already be a member of a faction to use this ability!")
 			log:info("No valid factions found! You must already be a member of a faction to use this ability.")
 		else
-			tes3.messageBox("No valid factions found!")
+			func.clMessageBox("No valid factions found!")
 			log:warn("No valid factions found!")
 		end
 		menu:destroy()
@@ -181,13 +181,13 @@ function fact.onOK()
 	if (menu) then
 		if fact.aID == 129 then
 			--Infiltrator
-			tes3.messageBox("" .. fact.ref.object.name .. " began infiltrating a faction. (" .. fact.faction.name .. ")")
+			func.clMessageBox("" .. fact.ref.object.name .. " began infiltrating a faction. (" .. fact.faction.name .. ")")
 			log:info("" .. fact.ref.object.name .. " began infiltrating a faction. (" .. fact.faction.name .. ")")
 			modData["infiltrated"] = fact.faction.id
 			table.insert(modData.factions, fact.faction.id)
 		elseif fact.aID == 131 then
 			--Exile
-			tes3.messageBox("" .. fact.ref.object.name .. " joined a faction. (" .. fact.faction.name .. ")")
+			func.clMessageBox("" .. fact.ref.object.name .. " joined a faction. (" .. fact.faction.name .. ")")
 			log:info("" .. fact.ref.object.name .. " joined a faction. (" .. fact.faction.name .. ")")
 			modData["fEnemies"] = {}
 			for i = 1, #tes3.dataHandler.nonDynamicData.factions do
@@ -202,12 +202,12 @@ function fact.onOK()
 			table.insert(modData.factions, fact.faction.id)
 		elseif fact.aID == 132 then
 			--Diplomat
-			tes3.messageBox("" .. fact.ref.object.name .. " began diplomacy with a faction. (" .. fact.faction.name .. ")")
+			func.clMessageBox("" .. fact.ref.object.name .. " began diplomacy with a faction. (" .. fact.faction.name .. ")")
 			log:info("" .. fact.ref.object.name .. " began diplomacy with a faction. (" .. fact.faction.name .. ")")
 			modData["consulate"] = fact.faction.id
 		elseif fact.aID == 133 then
 			--Retainer
-			tes3.messageBox("" .. fact.ref.object.name .. " swore allegiance to a faction. (" .. fact.faction.name .. ")")
+			func.clMessageBox("" .. fact.ref.object.name .. " swore allegiance to a faction. (" .. fact.faction.name .. ")")
 			log:info("" .. fact.ref.object.name .. " swore allegiance to a faction. (" .. fact.faction.name .. ")")
 			modData["allegiances"] = { fact.faction.id, {} }
 			for i = 1, #tes3.dataHandler.nonDynamicData.factions do
@@ -224,7 +224,7 @@ function fact.onOK()
 			table.insert(modData.factions, fact.faction.id)
 		elseif fact.aID == 134 then
 			--Recruit
-			tes3.messageBox("" .. fact.ref.object.name .. " was recruited to your faction. (" .. fact.faction.name .. ")")
+			func.clMessageBox("" .. fact.ref.object.name .. " was recruited to your faction. (" .. fact.faction.name .. ")")
 			log:info("" .. fact.ref.object.name .. " was recruited to your faction. (" .. fact.faction.name .. ")")
 			fact.faction.playerReputation = fact.faction.playerReputation + 5
 			table.insert(modData.factions, fact.faction.id)
@@ -293,7 +293,7 @@ function fact.forgetFaction(e)
 	local modData = func.getModData(fact.ref)
 	for i = 0, 3 do
 		if e.button == i then
-			tes3.messageBox("" .. fact.ref.object.name .. " renounced a faction. (" .. tes3.getFaction(modData.factions[i + 1]).name .. ").")
+			func.clMessageBox("" .. fact.ref.object.name .. " renounced a faction. (" .. tes3.getFaction(modData.factions[i + 1]).name .. ").")
 			table.remove(modData.factions, (i + 1))
 		end
 	end

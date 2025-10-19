@@ -424,8 +424,7 @@ function classModule.classChange(reference)
 	end)
 	button_root:register("mouseClick",
 		function() menu:destroy()
-			tes3.messageBox { message = "" ..
-				classModule.reference.object.name .. " changed to " .. tes3.findClass(modData.class).name .. "." }
+			func.clMessageBox("" .. classModule.reference.object.name .. " changed to " .. tes3.findClass(modData.class).name .. ".")
 			root.createWindow(reference)
 		end)
 
@@ -442,7 +441,7 @@ function classModule.onOK()
 	if (menu) then
 		tes3ui.leaveMenuMode()
 		menu:destroy()
-		tes3.messageBox { message = "" .. classModule.reference.object.name .. " changed to " .. class.name .. "." }
+		func.clMessageBox("" .. classModule.reference.object.name .. " changed to " .. class.name .. ".")
 	end
 end
 

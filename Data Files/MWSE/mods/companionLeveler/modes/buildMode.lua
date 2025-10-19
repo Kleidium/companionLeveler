@@ -310,7 +310,7 @@ function buildMode.companionLevelBuild(companions)
 					menu:updateLayout()
 				end
 			else
-				tes3.messageBox("" .. name .. " grew to level " .. storedLevel .. "!")
+				func.clMessageBox("" .. name .. " grew to level " .. storedLevel .. "!")
 			end
 		end
 	end

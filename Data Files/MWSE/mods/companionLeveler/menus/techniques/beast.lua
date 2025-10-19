@@ -199,22 +199,22 @@ function beast.createWindow(ref)
 		local creModData = func.getModData(beast.ref)
 
 		if willpower.current < beast.req then
-			tes3.messageBox("" .. ref.object.name .. " is not skilled enough to train " .. beast.ref.object.name .. "'s " .. beast.attName ..".")
+			func.clMessageBox("" .. ref.object.name .. " is not skilled enough to train " .. beast.ref.object.name .. "'s " .. beast.attName ..".")
 			return
 		end
 
 		if modData.tp_current < beast.tp then
-			tes3.messageBox("Not enough Technique Points!")
+			func.clMessageBox("Not enough Technique Points!")
 			return
 		end
 
 		if modData.sessions_current >= modData.sessions_max then
-			tes3.messageBox("" .. ref.object.name .. " can't train any more pupils until their next level.")
+			func.clMessageBox("" .. ref.object.name .. " can't train any more pupils until their next level.")
 			return
 		end
 
 		if beast.amount == 0 then
-			tes3.messageBox("" .. tes3.findGMST(tes3.gmst.sServiceTrainingWords).value .. "")
+			func.clMessageBox("" .. tes3.findGMST(tes3.gmst.sServiceTrainingWords).value .. "")
 			return
 		end
 
@@ -228,7 +228,7 @@ function beast.createWindow(ref)
 		tes3.modStatistic{ reference = beast.ref, attribute = beast.att, value = 1}
 		creModData.att_gained[beast.att + 1] = creModData.att_gained[beast.att + 1] + 1
 		tes3.playSound({ soundPath = "companionLeveler\\levelUP2.wav" })
-		tes3.messageBox("" .. ref.object.name .. " trained " .. beast.ref.object.name .. "'s " .. beast.attName .. " to " .. beast.ref.mobile.attributes[beast.att + 1].base .. "!")
+		func.clMessageBox("" .. ref.object.name .. " trained " .. beast.ref.object.name .. "'s " .. beast.attName .. " to " .. beast.ref.mobile.attributes[beast.att + 1].base .. "!")
 
 		--Pass Time
 		local gameHour = tes3.getGlobal('GameHour')

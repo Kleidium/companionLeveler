@@ -199,12 +199,12 @@ function drugs.createWindow(ref)
 	--Events
 	button_ok:register("mouseClick", function()
 		if alchemy.current < drugs.req then
-			tes3.messageBox("" .. ref.object.name .. " is not skilled enough to refine " .. drugs.obj.name .. ".")
+			func.clMessageBox("" .. ref.object.name .. " is not skilled enough to refine " .. drugs.obj.name .. ".")
 			return
 		end
 
 		if modData.tp_current < drugs.tp then
-			tes3.messageBox("Not enough Technique Points!")
+			func.clMessageBox("Not enough Technique Points!")
 			return
 		end
 
@@ -305,12 +305,12 @@ function drugs.createWindow(ref)
 
 			--Synthesize Drugs
 			tes3.addItem({ reference = tes3.player, item = drugs.obj, count = 1 })
-			tes3.messageBox("" .. drugs.obj.name .. " refined.")
+			func.clMessageBox("" .. drugs.obj.name .. " refined.")
 			tes3.triggerCrime({ type = tes3.crimeType.theft, value = drugs.obj.value })
 			menu:updateLayout()
 		else
 			--Not Enough Materials
-			tes3.messageBox("Not enough materials.")
+			func.clMessageBox("Not enough materials.")
 		end
 	end)
 

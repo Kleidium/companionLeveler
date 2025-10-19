@@ -66,7 +66,7 @@ function bless.createWindow(ref)
 			end
 		end
 
-		if not once then tes3.messageBox("Only one blessing may be channeled at once.") return end
+		if not once then func.clMessageBox("Only one blessing may be channeled at once.") return end
 
 		if not func.spendTP(ref, 3) then return end
 
@@ -82,7 +82,7 @@ function bless.createWindow(ref)
 			tes3.cast({spell = bless.spell, reference = party[i], target = party[i], bypassResistances = true, instant = true })
 		end
 
-		tes3.messageBox("" .. ref.object.name .. " channels the " .. bless.spell.name .. "!")
+		func.clMessageBox("" .. ref.object.name .. " channels the " .. bless.spell.name .. "!")
 	end)
 	button_cancel:register("mouseClick", function() menu:destroy() end)
 

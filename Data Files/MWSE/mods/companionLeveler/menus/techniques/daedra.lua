@@ -262,12 +262,12 @@ function daedra.createWindow(ref)
 	--Events
 	button_ok:register("mouseClick", function()
 		if ref.mobile.magicka.current < daedra.mgkCost then
-			tes3.messageBox("Not enough magicka!")
+			func.clMessageBox("Not enough magicka!")
 			return
 		end
 
 		if modData.tp_current < daedra.tp then
-			tes3.messageBox("Not enough Technique Points!")
+			func.clMessageBox("Not enough Technique Points!")
 			return
 		end
 
@@ -278,7 +278,7 @@ function daedra.createWindow(ref)
 			and string.startswith(mobileActor.reference.object.name, "Summoned") == false then
 				thralls = thralls + 1
 				if thralls >= daedra.limit then
-					tes3.messageBox("Your party cannot summon more than one empowered daedra at a time.")
+					func.clMessageBox("Your party cannot summon more than one empowered daedra at a time.")
 					return
 				end
 			end

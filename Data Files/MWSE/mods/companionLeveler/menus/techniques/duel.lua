@@ -167,7 +167,7 @@ function duel.createWindow(ref)
 		--Roll
 		if math.random(0, 99) > duel.chance then
 			--Fail
-			tes3.messageBox("" .. ref.object.name .. " failed to convince " .. duel.target.object.name .. "!")
+			func.clMessageBox("" .. ref.object.name .. " failed to convince " .. duel.target.object.name .. "!")
 			menu:destroy()
 			duel.createWindow(duel.ref)
 		else

@@ -465,14 +465,14 @@ function specList.abandon(e)
         if e.button == 0 then
             if specList.type == 1 then
                 table.remove(specList.modData.contracts, specList.id)
-                tes3.messageBox("" .. specList.reference.object.name .. " abandoned the " .. specList.obj.name .. " contract.")
+                func.clMessageBox("" .. specList.reference.object.name .. " abandoned the " .. specList.obj.name .. " contract.")
             elseif specList.type == 2 then
-                tes3.messageBox("" .. specList.reference.object.name .. " abandoned the " .. specList.modData.bounties[specList.id] .. " bounty.")
+                func.clMessageBox("" .. specList.reference.object.name .. " abandoned the " .. specList.modData.bounties[specList.id] .. " bounty.")
                 table.remove(specList.modData.bounties, specList.id)
             else
                 tes3.removeItem({ reference = specList.reference, item = specList.modData.deliveries[specList.id][3], count = 1, playSound = true })
                 table.remove(specList.modData.deliveries, specList.id)
-                tes3.messageBox("" .. specList.reference.object.name .. " abandoned the " .. specList.obj.name .. " delivery.")
+                func.clMessageBox("" .. specList.reference.object.name .. " abandoned the " .. specList.obj.name .. " delivery.")
             end
             menu:destroy()
             specList.createWindow(specList.reference)

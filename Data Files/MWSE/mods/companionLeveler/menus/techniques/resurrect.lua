@@ -222,18 +222,18 @@ function rez.createWindow(ref, type)
 	button_ok:register("mouseClick", function()
 		if rez.requirement then
 			if ref.mobile.willpower.current < rez.req then
-				tes3.messageBox("" .. ref.object.name .. " is not powerful enough to resurrect " .. rez.ref.object.name .. ".")
+				func.clMessageBox("" .. ref.object.name .. " is not powerful enough to resurrect " .. rez.ref.object.name .. ".")
 				return
 			end
 		end
 
 		if modData.tp_current < rez.tp then
-			tes3.messageBox("Not enough Technique Points!")
+			func.clMessageBox("Not enough Technique Points!")
 			return
 		end
 
 		if rez.id == "vivec_god" or rez.id == "almalexia" or rez.id == "Almalexia_warrior" or string.startswith(rez.id, "dagoth") or string.startswith(rez.id, "Dagoth") then
-			tes3.messageBox("Some fates cannot be avoided.")
+			func.clMessageBox("Some fates cannot be avoided.")
 			return
 		end
 
@@ -244,7 +244,7 @@ function rez.createWindow(ref, type)
 		rez.ref.mobile:resurrect({ resetState = false })
 		tes3.createVisualEffect({ object = "VFX_RestorationHit", lifespan = 3, reference = rez.ref })
 		tes3.playSound({ sound = "restoration hit", reference = rez.ref })
-		tes3.messageBox("" .. rez.ref.object.name .. " was resurrected!")
+		func.clMessageBox("" .. rez.ref.object.name .. " was resurrected!")
 
 		--Apply Changes
 		if rez.changes ~= 0 then

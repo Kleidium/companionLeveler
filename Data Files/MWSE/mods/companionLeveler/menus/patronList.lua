@@ -174,7 +174,7 @@ function pat.onOK()
 	if (menu) then
 		if pat.aID == 139 then
 			--Cleric
-			tes3.messageBox("" .. pat.ref.object.name .. " entered the service of " .. pat.patron .. ".")
+			func.clMessageBox("" .. pat.ref.object.name .. " entered the service of " .. pat.patron .. ".")
 			log:info("" .. pat.ref.object.name .. " entered the service of " .. pat.patron .. ".")
 			modData["patron"] = pat.id
 			modData["tributePaid"] = true
@@ -193,7 +193,7 @@ function pat.onOK()
 			if pat.id == 14 then
 				modData["hircineHunt"] =  tables.hircineHunts[math.random(1, #tables.hircineHunts)]
 				modData["lycanthropicPower"] = 1
-				tes3.messageBox("" .. pat.ref.object.name .. " was issued a new hunt for " .. modData.hircineHunt[2] .. " " .. tes3.getObject(modData.hircineHunt[1]).name .. ".")
+				func.clMessageBox("" .. pat.ref.object.name .. " was issued a new hunt for " .. modData.hircineHunt[2] .. " " .. tes3.getObject(modData.hircineHunt[1]).name .. ".")
 			end
 
 			if pat.id == 15 then

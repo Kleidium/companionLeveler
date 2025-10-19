@@ -537,7 +537,7 @@ function tech.onDigConfirm(e)
 				tes3.playSound({ soundPath = "companionLeveler\\rock_shatter.wav" })
 			end })
 		else
-			tes3.messageBox("" .. tech.ref.object.name .. " cannot dig here.")
+			func.clMessageBox("" .. tech.ref.object.name .. " cannot dig here.")
         end
 	end
 end
@@ -551,7 +551,7 @@ function tech.digResult()
 
 	if tech.digtype == "normal" then
 		if math.random(1, 10) > 7 then
-			tes3.messageBox("" .. tech.ref.object.name .. " couldn't find anything.")
+			func.clMessageBox("" .. tech.ref.object.name .. " couldn't find anything.")
 			tech.log:debug("Dig roll failed.")
 		else
 			randNum = math.random(1, #tables.digList)
@@ -566,7 +566,7 @@ function tech.digResult()
 			tes3.addItem({ item = item, reference = tes3.player })
 
 			local spoils = tes3.getObject(item)
-			tes3.messageBox("" .. tech.ref.object.name .. " dug something up for you. (" .. spoils.name .. ")")
+			func.clMessageBox("" .. tech.ref.object.name .. " dug something up for you. (" .. spoils.name .. ")")
 		end
 	else
 		if tes3.player.cell.isOrBehavesAsExterior then
@@ -600,14 +600,14 @@ function tech.digResult()
 
 		--Dig
 		if randNum > 27 then
-			tes3.messageBox("" .. tech.ref.object.name .. " couldn't find anything.")
+			func.clMessageBox("" .. tech.ref.object.name .. " couldn't find anything.")
 			tech.log:debug("Dig roll failed.")
 		else
 			--Find random artifacts
 			tes3.addItem({ item = tables.unearthedObjects[randNum], reference = tech.ref })
 
 			local spoils = tes3.getObject(tables.unearthedObjects[randNum])
-			tes3.messageBox("" .. tech.ref.object.name .. " dug something up. (" .. spoils.name .. ")")
+			func.clMessageBox("" .. tech.ref.object.name .. " dug something up. (" .. spoils.name .. ")")
 			tech.log:debug("Dig roll succeeded.")
 		end
 	end
@@ -662,20 +662,20 @@ function tech.onWeatherConfirm(e)
 				tes3.playSound({ sound = "alteration hit", reference = tech.ref })
 
 				if tech.weatherType == 0 then
-					tes3.messageBox("" .. tech.ref.object.name .. " cleared the skies!")
+					func.clMessageBox("" .. tech.ref.object.name .. " cleared the skies!")
 				elseif tech.weatherType == 5 then
-					tes3.messageBox("" .. tech.ref.object.name .. " called forth storm clouds.")
+					func.clMessageBox("" .. tech.ref.object.name .. " called forth storm clouds.")
 				elseif tech.weatherType == 6 then
-					tes3.messageBox("" .. tech.ref.object.name .. " dreamt of ash...")
+					func.clMessageBox("" .. tech.ref.object.name .. " dreamt of ash...")
 				end
 			else
 				--Inside
 				if tech.weatherType == 0 then
-					tes3.messageBox("" .. tech.ref.object.name .. " cannot reach the skies from here.")
+					func.clMessageBox("" .. tech.ref.object.name .. " cannot reach the skies from here.")
 				elseif tech.weatherType == 5 then
-					tes3.messageBox("" .. tech.ref.object.name .. " cannot call storms here.")
+					func.clMessageBox("" .. tech.ref.object.name .. " cannot call storms here.")
 				elseif tech.weatherType == 6 then
-					tes3.messageBox("" .. tech.ref.object.name .. " cannot manifest ash storms here.")
+					func.clMessageBox("" .. tech.ref.object.name .. " cannot manifest ash storms here.")
 				end
 			end
 		end
@@ -701,7 +701,7 @@ function tech.onSmokeConfirm(e)
 			if cell.isInterior then
 				if tes3.getWorldController().flagTeleportingDisabled == true then
 					--Teleportation Disabled
-					tes3.messageBox("A strange force prevents " .. tech.ref.object.name .. " your party from escaping this way...")
+					func.clMessageBox("A strange force prevents " .. tech.ref.object.name .. " your party from escaping this way...")
 					tech.log:debug("Teleportation is currently disabled. Smoke Bomb failed.")
 				else
 					--Escape Interior
@@ -724,7 +724,7 @@ function tech.onSmokeConfirm(e)
 				end
 			else
 				--Already Outside
-				tes3.messageBox("You are already outside.")
+				func.clMessageBox("You are already outside.")
 				tech.log:debug("You are already outside. Smoke Bomb failed.")
 			end
 		end
@@ -765,7 +765,7 @@ function tech.onScampsonConfirm(e)
 		if e.button == 0 then
 			if func.spendTP(tech.ref, 1) == false then return end
 			if not func.checkReq(false, "Gold_001", 500, tes3.player) then
-				tes3.messageBox("Not enough Gold.")
+				func.clMessageBox("Not enough Gold.")
 				return
 			end
 

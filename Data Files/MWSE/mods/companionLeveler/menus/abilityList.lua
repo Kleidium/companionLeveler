@@ -141,7 +141,7 @@ function abList.forget(e)
                 end
             end
 
-            tes3.messageBox("" .. abList.reference.object.name .. " forgot the " .. abList.spell.name .. " ability.")
+            func.clMessageBox("" .. abList.reference.object.name .. " forgot the " .. abList.spell.name .. " ability.")
 
             abList.onOK()
             local sMenu = tes3ui.findMenu("kl_sheet_menu")

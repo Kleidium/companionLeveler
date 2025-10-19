@@ -670,7 +670,7 @@ function sheet.fixStats(e)
                 end)
             end)
 
-            tes3.messageBox("" .. sheet.reference.object.name .. " has reverted to their original statistics.")
+            func.clMessageBox("" .. sheet.reference.object.name .. " has reverted to their original statistics.")
         end
 
         if e.button == 1 then
@@ -718,13 +718,13 @@ function sheet.fixStats(e)
                 end)
             end)
 
-            tes3.messageBox("" .. sheet.reference.object.name .. "'s statistics have been fixed to their ideal values.")
+            func.clMessageBox("" .. sheet.reference.object.name .. "'s statistics have been fixed to their ideal values.")
         end
 
         if e.button == 2 then
             func.updateIdealSheet(sheet.reference)
             sheet.onCurrent()
-            tes3.messageBox("" .. sheet.reference.object.name .. "'s current statistics are now recognized as their ideal values.")
+            func.clMessageBox("" .. sheet.reference.object.name .. "'s current statistics are now recognized as their ideal values.")
         end
 
         if e.button == 3 then
@@ -749,12 +749,12 @@ function sheet.fixStats(e)
                     timer.delayOneFrame(function()
                         sheet.createWindow(sheet.reference)
                         sheet.onCurrent()
-                        tes3.messageBox("Checking Ideal Stats is recommended.")
+                        func.clMessageBox("Checking Ideal Stats is recommended.")
                     end)
                 end)
             end)
 
-            tes3.messageBox("" .. sheet.reference.object.name .. " has forgotten their abilities.")
+            func.clMessageBox("" .. sheet.reference.object.name .. " has forgotten their abilities.")
         end
 
         if e.button == 4 then
@@ -767,24 +767,24 @@ function sheet.fixStats(e)
 
             modData.unusedSpells = {}
 
-            tes3.messageBox("" .. sheet.reference.object.name .. " has forgotten their spells.")
+            func.clMessageBox("" .. sheet.reference.object.name .. " has forgotten their spells.")
         end
         if e.button == 5 then
             --Remove All Contracts
             if sheet.reference.object.objectType == tes3.objectType.creature then
-                tes3.messageBox("" .. sheet.reference.object.name .. " is incapable of accepting contracts!")
+                func.clMessageBox("" .. sheet.reference.object.name .. " is incapable of accepting contracts!")
             else
                 modData.contracts = {}
-                tes3.messageBox("" .. sheet.reference.object.name .. " has abandoned all contracts.")
+                func.clMessageBox("" .. sheet.reference.object.name .. " has abandoned all contracts.")
             end
         end
         if e.button == 6 then
             --Remove All Bounties
             if sheet.reference.object.objectType == tes3.objectType.creature then
-                tes3.messageBox("" .. sheet.reference.object.name .. " is incapable of accepting bounties!")
+                func.clMessageBox("" .. sheet.reference.object.name .. " is incapable of accepting bounties!")
             else
                 modData.bounties = {}
-                tes3.messageBox("" .. sheet.reference.object.name .. " has given up on all bounties.")
+                func.clMessageBox("" .. sheet.reference.object.name .. " has given up on all bounties.")
             end
         end
         if e.button == 7 then
@@ -797,7 +797,7 @@ function sheet.fixStats(e)
                     npcMode.levelUp({sheet.reference})
                 end
             else
-                tes3.messageBox("" .. sheet.reference.object.name .. " is caught up.")
+                func.clMessageBox("" .. sheet.reference.object.name .. " is caught up.")
             end
         end
     end
@@ -863,7 +863,7 @@ function sheet.setIgnore(e)
             --Set Ignore Skill in modData
             modData.ignore_skill = sheet.ignore_skill
 
-            tes3.messageBox("" ..
+            func.clMessageBox("" ..
                 sheet.reference.object.name .. " will no longer train " .. tes3.getSkillName(sheet.ignore_skill) .. ".")
         end
 
@@ -903,7 +903,7 @@ function sheet.setIgnore(e)
             --Unset Ignore Skill in modData
             modData.ignore_skill = 99
 
-            tes3.messageBox("" ..
+            func.clMessageBox("" ..
                 sheet.reference.object.name .. " is no longer ignoring any skills.")
         end
 

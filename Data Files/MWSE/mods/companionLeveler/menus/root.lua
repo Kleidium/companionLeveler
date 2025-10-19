@@ -163,7 +163,7 @@ function root.useItem(ev)
                     --Play Correct Sound
                     func.simulateSpellHit(root.reference, e.item.enchantment.effects[1])
                 else
-                    tes3.messageBox("" .. tes3.findGMST(tes3.gmst.sMagicInsufficientCharge).value .. "")
+                    func.clMessageBox("" .. tes3.findGMST(tes3.gmst.sMagicInsufficientCharge).value .. "")
                     --Play Correct Sound
                     func.simulateSpellHit(root.reference, e.item.enchantment.effects[1], true)
                 end

@@ -222,7 +222,7 @@ function sabo.createWindow(ref)
 		if not func.spendTP(ref, 3) then return end
 
 		if ref.mobile.magicka.current < sabo.mgkCost then
-			tes3.messageBox("Not enough " .. sabo.magickaText .. "!")
+			func.clMessageBox("Not enough " .. sabo.magickaText .. "!")
 			return
 		end
 
