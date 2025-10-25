@@ -301,6 +301,11 @@ function buildMode.companionLevelBuild(companions)
 						", Personality: + " .. attTable[7] .. ", Luck: + " .. attTable[8] .. ".\n\nAbilities: " .. abilityString .. ""
 					modData.summary = regsum
 					sumr.createWindow(companionRef)
+					--Message Box Interop
+					if func.msgBox then
+						local msg = string.gsub(regsum, "\n\n", "\n")
+						func.msgBox.logMessage("\n***\n" .. msg .. "\n***", { func.msgBox.config.clRed, func.msgBox.config.clGreen, func.msgBox.config.clBlue })
+					end
 					log:debug("Level Summary triggered from " .. name .. "'s Creature Build Mode.")
 					local menu = tes3ui.findMenu(sumr.id_menu)
 					local block = menu:findChild("pane_block_sum")

@@ -275,7 +275,7 @@ function typeModule.typeChange(reference)
 	button_root:register("mouseClick", function()
 		menu:destroy()
 		root.createWindow(reference)
-		func.clMessageBox { message = "" .. typeModule.reference.object.name .. " changed to " .. modData.type .. "." }
+		func.clMessageBox("" .. typeModule.reference.object.name .. " changed to " .. modData.type .. ".")
 	end)
 
 	-- Final setup
@@ -290,7 +290,7 @@ function typeModule.onOK()
 		tes3ui.leaveMenuMode()
 		menu:destroy()
 		log:info("" .. typeModule.reference.object.name .. " changed to " .. modData.type .. ".")
-		func.clMessageBox { message = "" .. typeModule.reference.object.name .. " changed to " .. modData.type .. "." }
+		func.clMessageBox("" .. typeModule.reference.object.name .. " changed to " .. modData.type .. ".")
 	end
 end
 
