@@ -1,7 +1,6 @@
 local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 
 
@@ -15,7 +14,6 @@ function guild.pickFaction(ref, aID)
 	guild.id_pane = tes3ui.registerID("kl_faction_pane")
 	guild.id_ok = tes3ui.registerID("kl_faction_ok")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Faction menu initialized.")
 
 	if (ref) then

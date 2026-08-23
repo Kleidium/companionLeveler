@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
 
@@ -14,7 +13,6 @@ function sabo.createWindow(ref)
 	sabo.id_pane2 = tes3ui.registerID("kl_sabo_pane2")
 	sabo.id_ok = tes3ui.registerID("kl_sabo_ok")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Set Trap menu initialized.")
 
 	local tech = require("companionLeveler.menus.techniques.techniques")

@@ -1,7 +1,6 @@
 local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 
 
 local this = {}
@@ -13,7 +12,6 @@ this.msgBox = include("messageBox.box")
 
 --Player Mod Data
 function this.getModDataP()
-	log = logger.getLogger("Companion Leveler")
     log:trace("Checking player's saved Mod Data.")
 
     if not tes3.player.data.companionLeveler then
@@ -30,7 +28,6 @@ end
 --Companion Mod Data
 --- @ param  ref tes3reference
 function this.getModData(ref)
-	log = logger.getLogger("Companion Leveler")
 	log:trace("Checking " .. ref.object.name .. "'s Mod Data.")
 
 	if not ref.data.companionLeveler then
@@ -112,7 +109,6 @@ end
 --Simple Mod Data Check
 --- @ param  ref tes3reference
 function this.checkModData(ref)
-	log = logger.getLogger("Companion Leveler")
 	log:trace("Checking for existing Mod Data.")
 
 	if not ref.data.companionLeveler then
@@ -125,7 +121,6 @@ end
 --Version Control
 --- @ param  ref tes3reference
 function this.updateModData(ref)
-	log = logger.getLogger("Companion Leveler")
 	log:trace("Checking for updated Mod Data on " .. ref.object.name .. ".")
 
 	if ref == tes3.player then
@@ -458,8 +453,6 @@ end
 --- @param ref tes3reference reference to modify
 --- @param modData table companion modData table
 function this.modStatAndTrack(type, index, value, ref, modData)
-	log = logger.getLogger("Companion Leveler")
-
     if type == "attribute" then
         tes3.modStatistic({ reference = ref, attribute = index, value = value })
         modData.att_gained[index + 1] = (modData.att_gained[index + 1] or 0) + value
@@ -478,7 +471,6 @@ end
 
 --- @ param  mobileActor tes3mobileActor
 function this.validCompanionCheck(mobileActor)
-	log = logger.getLogger("Companion Leveler")
 	log:trace("Checking " .. mobileActor.object.name .. "...")
 
 	if (mobileActor == tes3.mobilePlayer) then
@@ -661,7 +653,6 @@ end
 --- @ param  ref tes3reference
 --- @ param  spellTable table
 local function removeAbilities(ref, spellTable)
-    log = logger.getLogger("Companion Leveler")
     for i = 1, #spellTable do
         local wasRemoved = tes3.removeSpell({ spell = spellTable[i], reference = ref })
         if wasRemoved == true then
@@ -674,7 +665,6 @@ end
 --- @ param  spellTable table
 --- @ param  abilities table
 local function addAbilities(ref, spellTable, abilities)
-    log = logger.getLogger("Companion Leveler")
     for i = 1, #spellTable do
         if abilities[i] == true then
             local wasAdded = tes3.addSpell({ spell = spellTable[i], reference = ref })
@@ -709,7 +699,6 @@ end
 
 --- @ param  ref tes3reference
 function this.removePatron(ref)
-	log = logger.getLogger("Companion Leveler")
 	for i = 1, #tables.patrons do
 		local wasRemoved = tes3.removeSpell({ spell = "kl_ability_patron_" .. i .. "", reference = ref, })
 		if wasRemoved == true then
@@ -738,7 +727,6 @@ end
 
 --- @ param  ref tes3reference
 function this.removeGuildTraining(ref)
-	log = logger.getLogger("Companion Leveler")
 	for i = 1, #tables.factions do
 		local wasRemoved = tes3.removeSpell({ spell = "kl_ability_gTrained_" .. i .. "", reference = ref, })
 		if wasRemoved == true then
@@ -757,7 +745,6 @@ end
 
 --- @ param  ref tes3reference
 function this.calcEXP(ref)
-	log = logger.getLogger("Companion Leveler")
 	local modData = this.getModData(ref)
 	modData.lvl_req = (config.expRequirement + (modData.level * config.expRate))
 	log:debug("" .. ref.object.name .. "'s EXP requirement recalculated.")
@@ -862,7 +849,7 @@ function this.spendTP(ref, cost)
 	local modData = this.getModData(ref)
 
 	if modData.tp_current < cost then
-		func.clMessageBox("Not enough Technique Points!")
+		this.clMessageBox("Not enough Technique Points!")
 		return false
 	else
 		modData.tp_current = modData.tp_current - cost
@@ -875,7 +862,6 @@ end
 --- @ param count integer
 --- @ param ref tes3reference
 function this.checkReq(test, item, count, ref)
-	log = logger.getLogger("Companion Leveler")
 	log:trace("Check Req triggered.")
 
 	if test then

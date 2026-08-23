@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 
 
@@ -14,7 +13,6 @@ function siphon.createWindow(ref, type)
 	siphon.id_interval = tes3ui.registerID("kl_siphon_interval")
 	siphon.id_minus = tes3ui.registerID("kl_siphon_minus")
 
-    log = logger.getLogger("Companion Leveler")
     log:debug("Siphon menu initialized.")
 
 	local tech = require("companionLeveler.menus.techniques.techniques")

@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 
 
@@ -12,7 +11,6 @@ function daedra.createWindow(ref)
 	daedra.id_pane = tes3ui.registerID("kl_daedra_pane")
 	daedra.id_ok = tes3ui.registerID("kl_daedra_ok")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("daedra menu initialized.")
 
 	local tech = require("companionLeveler.menus.techniques.techniques")

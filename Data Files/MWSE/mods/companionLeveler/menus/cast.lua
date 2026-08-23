@@ -1,6 +1,5 @@
-local logger = require("logging.logger")
+local log = mwse.Logger.new()
 local config = require("companionLeveler.config")
-local log = logger.getLogger("Companion Leveler")
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
 
@@ -15,7 +14,6 @@ function cast.createWindow(ref)
 	cast.id_pane2 = tes3ui.registerID("kl_cast_pane2")
 	cast.id_ok = tes3ui.registerID("kl_cast_ok")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("cast menu initialized.")
 
 	local root = require("companionLeveler.menus.root")
@@ -260,7 +258,6 @@ end
 
 --- @param magicSource tes3spell|tes3enchantment|tes3alchemy
 function cast.isSpellHostile(magicSource)
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Hostile spell check triggered.")
     for _, effect in ipairs(magicSource.effects) do
         if (effect.object.isHarmful) then

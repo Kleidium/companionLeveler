@@ -1,7 +1,6 @@
 local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 
 local abList = {}
@@ -11,7 +10,6 @@ function abList.createWindow(reference)
     abList.reference = reference
 
 
-    log = logger.getLogger("Companion Leveler")
     log:debug("Ability List menu initialized.")
 
 

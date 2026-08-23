@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
 
@@ -16,7 +15,6 @@ function duel.createWindow(ref)
 	duel.id_tp_bar = tes3ui.registerID("kl_duel_tp_bar")
 	duel.id_fat_bar = tes3ui.registerID("kl_duel_fat_bar")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Duel menu initialized.")
 
 	local tech = require("companionLeveler.menus.techniques.techniques")

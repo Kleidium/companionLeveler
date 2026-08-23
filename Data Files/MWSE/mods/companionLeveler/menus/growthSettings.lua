@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 
 
@@ -17,7 +16,6 @@ function growth.createWindow(reference)
     growth.id_power_level = tes3ui.registerID("kl_growth_power_btn")
 
 
-    log = logger.getLogger("Companion Leveler")
     log:debug("Growth Settings menu initialized.")
 
     local root = require("companionLeveler.menus.root")

@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 
 
@@ -12,7 +11,6 @@ function necro.createWindow(ref)
 	necro.id_pane = tes3ui.registerID("kl_necro_pane")
 	necro.id_ok = tes3ui.registerID("kl_necro_ok")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Necro menu initialized.")
 
 	local tech = require("companionLeveler.menus.techniques.techniques")

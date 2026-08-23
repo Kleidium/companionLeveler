@@ -1,6 +1,5 @@
 local tables = require("companionLeveler.tables")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 local growth = require("companionLeveler.menus.growthSettings")
 
@@ -16,7 +15,6 @@ function buildModule.buildChange(reference)
 
     local root = require("companionLeveler.menus.root")
 
-    log = logger.getLogger("Companion Leveler")
     log:debug("Build menu initialized.")
 
     if (reference) then

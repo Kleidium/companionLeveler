@@ -1,7 +1,6 @@
 --local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 local abilityList = require("companionLeveler.menus.abilityList")
 local spellList = require("companionLeveler.menus.spellList")
@@ -38,8 +37,7 @@ function sheet.createWindow(reference)
     local root = require("companionLeveler.menus.root")
     local viewportWidth, viewportHeight = tes3ui.getViewportSize()
 
-    -- reuse module-level logger; guard debug call to avoid nil/deprecated issues
-    if log then log:debug("Character sheet menu initialized.") end
+    log:debug("Character sheet menu initialized.")
 
     if (reference) then
         sheet.reference = reference

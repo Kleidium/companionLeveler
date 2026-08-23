@@ -1,8 +1,7 @@
 local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local fact = require("companionLeveler.menus.factionList")
 local pat = require("companionLeveler.menus.patronList")
 local guild = require("companionLeveler.menus.guildTrained")
@@ -42,7 +41,6 @@ end
 ----Creature Abilities------------------------------------------------------------------------------------------------------------
 --
 function this.creatureAbilities(cType, companionRef)
-    log = logger.getLogger("Companion Leveler")
     local name = companionRef.object.name
     local modData = func.getModData(companionRef)
 
@@ -1447,7 +1445,6 @@ end
 
 --Greater Instinct #3-------------------------------------------------------------------------------------------------------------------
 function this.instinct()
-    log = logger.getLogger("Companion Leveler")
     log:trace("Greater Instinct triggered.")
 
     if config.triggeredAbilities == false then
@@ -1483,7 +1480,6 @@ end
 
 --Dark Barrier #8 (Aura)-------------------------------------------------------------------------------------------------------------------
 function this.barrier()
-    log = logger.getLogger("Companion Leveler")
     log:trace("Dark Barrier triggered.")
 
     local party = func.partyTable()
@@ -1515,7 +1511,6 @@ end
 
 --Dream Mastery #16 (Aura)-------------------------------------------------------------------------------------------------------------------
 function this.dream()
-    log = logger.getLogger("Companion Leveler")
     log:trace("Dream Mastery triggered.")
 
     local party = func.partyTable()
@@ -1541,7 +1536,6 @@ end
 
 --Dwemer Refractors #20 (Aura)-------------------------------------------------------------------------------------------------------------------
 function this.refractors()
-    log = logger.getLogger("Companion Leveler")
     log:trace("Refraction Field triggered.")
 
     local party = func.partyTable()
@@ -1567,7 +1561,6 @@ end
 
 --Jade Wind #22 (Aura)-------------------------------------------------------------------------------------------------------------------
 function this.jadewind()
-    log = logger.getLogger("Companion Leveler")
     log:trace("Jade Wind triggered.")
 
     local party = func.partyTable()
@@ -1600,7 +1593,6 @@ end
 
 --Springstep #26 (Aura)-------------------------------------------------------------------------------------------------------------------
 function this.springstep()
-    log = logger.getLogger("Companion Leveler")
     log:trace("Springstep triggered.")
 
     local party = func.partyTable()
@@ -1626,7 +1618,6 @@ end
 
 --Freedom of Movement #31 (Aura)-------------------------------------------------------------------------------------------------------------------
 function this.freedom()
-    log = logger.getLogger("Companion Leveler")
     log:trace("Freedom of Movement triggered.")
 
     local party = func.partyTable()
@@ -1660,7 +1651,6 @@ end
 --Spectral Will #34, Total Decay #12---------------------------------------------------------------------------------------------------------------
 function this.spectralWill(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
     log:trace("Spectral Will triggered.")
     local modData
     if func.checkModData(e.reference) then
@@ -1716,7 +1706,6 @@ end
 --Pheromone #40-------------------------------------------------------------------------------------------------------------------
 function this.pheromone(ref)
     if config.triggeredAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
 
 	if (string.startswith(ref.object.name, "Kwama") or string.endswith(ref.object.name, "Kwama") or string.startswith(ref.object.name, "Shalk") or string.endswith(ref.object.name, "Shalk")) then
 		local creTable = func.creTable()
@@ -1742,7 +1731,7 @@ end
 --Ancient Memory #42--------------------------------------------------------------------------------------------------------------
 function this.thuum(e)
     if config.triggeredAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Thuum triggered.")
 
     local result = 0
@@ -1769,7 +1758,7 @@ end
 
 --Short Temper #46 (Aura)-------------------------------------------------------------------------------------------------------------------
 function this.temper()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Short Temper triggered.")
 
     local party = func.partyTable()
@@ -1800,7 +1789,7 @@ end
 
 --Aquatic Ascendancy #52 (Aura)----------------------------------------------------------------------------------------------------------
 function this.aqualung()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Aqualung triggered.")
 
     local party = func.partyTable()
@@ -1832,7 +1821,7 @@ end
 --Misdirection #55-----------------------------------------------------------------------------------------------------------------
 function this.misdirection(e)
     if config.triggeredAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Misdirection triggered.")
 
     if e.attacker then
@@ -1853,7 +1842,7 @@ end
 --Mental Misstep #56---------------------------------------------------------------------------------------------------------------
 function this.misstep(e)
     if config.triggeredAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Mental Misstep triggered.")
 
     if e.attacker then
@@ -1874,7 +1863,7 @@ end
 --Beast Within #58------------------------------------------------------------------------------------------------------------------
 function this.beastwithin(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Beast Within triggered.")
 
     if e.killingBlow and e.attacker ~= nil then
@@ -1907,7 +1896,7 @@ end
 function this.dominance(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Dominance triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -1979,7 +1968,7 @@ end
 
 --Alchemical Composition #62 (Aura)--------------------------------------------------------------------------------------------------------
 function this.composition()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Alchemical Composition triggered.")
 
     local party = func.partyTable()
@@ -2027,7 +2016,7 @@ end
 
 --Mysterious Aura #63 (Aura)---------------------------------------------------------------------------------------------------------------
 function this.mystery()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Mysterious Aura triggered.")
 
     local party = func.partyTable()
@@ -2119,7 +2108,7 @@ end
 
 --Manasponge Aura #64 (Aura)---------------------------------------------------------------------------------------------------------------
 function this.manasponge()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Manasponge Aura triggered.")
 
     local party = func.partyTable()
@@ -2145,7 +2134,7 @@ end
 
 --Warm Aura #66--------------------------------------------------------------------------------------------------------------------
 function this.warmAura()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Warm Aura triggered.")
 
     local party = func.partyTable()
@@ -2172,7 +2161,7 @@ end
 --Ignition #68----------------------------------------------------------------------------------------------------------------------
 function this.ignition(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Ignition triggered.")
 
     if e.attacker then
@@ -2189,7 +2178,7 @@ end
 
 --Chill Aura #70--------------------------------------------------------------------------------------------------------------------
 function this.chillAura()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Chill Aura triggered.")
 
     local party = func.partyTable()
@@ -2216,7 +2205,7 @@ end
 --Permafrost #72--------------------------------------------------------------------------------------------------------------------
 function this.permafrost(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Permafrost triggered.")
 
     if e.attacker then
@@ -2233,7 +2222,7 @@ end
 
 --Static Aura #74--------------------------------------------------------------------------------------------------------------------
 function this.staticAura()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Static Aura triggered.")
 
     local party = func.partyTable()
@@ -2260,7 +2249,7 @@ end
 --Voltaic Grasp #76-----------------------------------------------------------------------------------------------------------------
 function this.voltaic(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Voltaic Grasp triggered.")
 
     if e.attacker then
@@ -2277,7 +2266,7 @@ end
 
 --Toxic Aura #78--------------------------------------------------------------------------------------------------------------------
 function this.toxicAura()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Toxic Aura triggered.")
 
     local party = func.partyTable()
@@ -2304,7 +2293,7 @@ end
 --Venomous Kiss #80-----------------------------------------------------------------------------------------------------------------
 function this.venomous(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Venomous Kiss triggered.")
 
     if e.attacker then
@@ -2340,7 +2329,7 @@ end
 --Inoculate #86-----------------------------------------------------------------------------------------------------------------
 function this.inoculateCre(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Creature Inoculate triggered.")
 
     if e.attacker then
@@ -2363,7 +2352,7 @@ end
 --Pathogen #88-----------------------------------------------------------------------------------------------------------------
 function this.pathogen(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Black Pathogen triggered.")
 
     if e.attacker then
@@ -2387,7 +2376,7 @@ end
 function this.spores(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Spores triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -2430,7 +2419,7 @@ end
 --Quake #94-----------------------------------------------------------------------------------------------------------------
 function this.quake(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Quake triggered.")
 
     if e.attacker then
@@ -2464,7 +2453,7 @@ end
 --Potential Energy #96-----------------------------------------------------------------------------------------------------------------
 function this.pEnergy(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Potential Energy triggered.")
 
     local result = 0
@@ -2489,7 +2478,7 @@ end
 --Twist Reflex #98-----------------------------------------------------------------------------------------------------------------
 function this.twist(e)
     if config.triggeredAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Twist triggered.")
 
     local result = e.damage
@@ -2511,7 +2500,7 @@ end
 --Hidden Claws #99-----------------------------------------------------------------------------------------------------------------
 function this.claws(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Claws triggered.")
 
     if e.attacker then
@@ -2581,7 +2570,7 @@ end
 
 --Fighters Guild
 function this.fightersGuildCre(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return 0 end
     log:trace("Fighters Guild training triggered.")
 
@@ -2603,7 +2592,7 @@ end
 
 --Blades
 function this.bladesCre(ref)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.triggeredAbilities == false then return end
     log:trace("Blades creature training triggered.")
 
@@ -2625,7 +2614,7 @@ end
 function this.lament(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Lament of Ash triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -2664,7 +2653,7 @@ end
 
 --Morag Tong
 function this.tongCre(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return end
     log:trace("Tong training triggered.")
 
@@ -2694,7 +2683,7 @@ end
 function this.legionCre(e)
     if config.triggeredAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Legion training triggered.")
 
     if e.count > 0 then
@@ -2719,7 +2708,7 @@ end
 
 --Census and Excise
 function this.censusCre()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Census Training triggered.")
 
     if config.triggeredAbilities == false then
@@ -2757,7 +2746,7 @@ end
 
 --East Empire Company
 function this.companyCre()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Company Training triggered.")
 
     local trigger = 0
@@ -2792,7 +2781,7 @@ end
 
 --Ashlanders
 function this.ashlandCre(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return end
     log:trace("Ashlander training triggered.")
 
@@ -2815,7 +2804,7 @@ end
 
 --House Dres
 function this.dresCre(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return end
     log:trace("Dres training triggered.")
 
@@ -2840,7 +2829,7 @@ end
 function this.indorilCre(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Indoril training triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -2874,7 +2863,7 @@ end
 
 --Astrological Society
 function this.astroCre()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Astrological Training triggered.")
 
     local creTable = func.creTable()
@@ -2912,7 +2901,7 @@ end
 
 --Learn Abilities-----------------------------------------------------------------------------------------------------------------
 function this.npcAbilities(class, companionRef)
-    log = logger.getLogger("Companion Leveler")
+    
     local modData = func.getModData(companionRef)
 
     --Stendarr
@@ -3143,7 +3132,7 @@ function this.executeAbilities(companionRef)
     if config.triggeredAbilities == false then return end
     if (tes3.mobilePlayer.inCombat == true or companionRef.mobile.inCombat == true) then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Execute Abilities function triggered on " .. companionRef.object.name .. ".")
 
     local attTable = companionRef.mobile.attributes
@@ -4016,7 +4005,7 @@ end
 --Acrobatic #1-----------------------------------------------------------------------------------------------------------------------
 function this.acrobatic(e)
     if config.triggeredAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Acrobatic triggered.")
 
     if e.mobile then
@@ -4064,7 +4053,7 @@ end
 
 --Opportunist #4---------------------------------------------------------------------------------------------------------------------
 function this.contract(reference)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Contract check triggered on " .. reference.object.name .. ".")
 
     local modData = func.getModData(reference)
@@ -4118,7 +4107,7 @@ function this.contract(reference)
 end
 
 function this.contractKill(e)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Contract kill check triggered.")
 
     local npcTable = func.npcTable()
@@ -4155,7 +4144,7 @@ end
 --Inner Rage #5--------------------------------------------------------------------------------------------------------------
 function this.rage(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Inner Rage triggered.")
 
     if e.attacker then
@@ -4216,7 +4205,7 @@ end
 
 --Resolve #8------------------------------------------------------------------------------------------------------------------
 function this.resolve()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Resolve triggered.")
 
     local trigger = 0
@@ -4279,7 +4268,7 @@ end
 
 --Blessed Aura #9---------------------------------------------------------------------------------------------------------------------
 function this.blessed()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Blessed Aura triggered.")
 
     local party = func.partyTable()
@@ -4343,7 +4332,7 @@ function this.survey(e)
     if config.triggeredAbilities == false then return 0 end
     if e.cell.restingIsIllegal then return 0 end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Survey triggered.")
 
     local npcTable = func.npcTable()
@@ -4374,7 +4363,7 @@ end
 function this.comprehension(e)
     if config.triggeredAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Comprehension triggered.")
 
 	if e.source == "book" then
@@ -4413,7 +4402,7 @@ end
 --Rugged Navigator #68--------------------------------------------------------------------------------------------------------------
 function this.navigator(e)
     if config.triggeredAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Navigator triggered.")
     if e.mobile and e.mobile.reference.object.faction and e.mobile.reference.object.faction.id == "Mages Guild" then return end
 
@@ -4437,7 +4426,7 @@ end
 
 --Tranquility #72-------------------------------------------------------------------------------------------------------------------
 function this.tranquility(ref)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Tranquility triggered.")
 
     if config.triggeredAbilities == false then return end
@@ -4468,7 +4457,7 @@ function this.jest(e)
     --change caster to companion?
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Jest triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -4539,7 +4528,7 @@ end
 --Flayer #75-------------------------------------------------------------------------------------------------------------
 function this.poach(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Poach triggered.")
 
     local result = 0
@@ -4566,7 +4555,7 @@ end
 --Runic #77--------------------------------------------------------------------------------------------------------------
 function this.arcaneK(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Runic triggered.")
 
     if e.attacker then
@@ -4604,7 +4593,7 @@ end
 --Arcane Augmentation #78--------------------------------------------------------------------------------------------------------------
 function this.arcaneA(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Arcane Augmentation triggered.")
 
     if e.attacker then
@@ -4643,7 +4632,7 @@ end
 function this.thaumaturgy(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Thaumaturgy triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -4716,7 +4705,7 @@ end
 --Living Weapon #84-------------------------------------------------------------------------------------------------------------
 function this.knifehand(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Knifehand triggered.")
 
     if e.attacker ~= nil and e.mobile ~= nil then
@@ -4736,7 +4725,7 @@ end
 function this.insight(num)
     if config.triggeredAbilities == false then return num end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Insight triggered.")
 
     local npcTable = func.npcTable()
@@ -4768,7 +4757,7 @@ end
 function this.inoculate(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Inoculate triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -4830,7 +4819,7 @@ end
 function this.bounty(reference)
     if config.triggeredAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Bounty triggered on " .. reference.object.name .. ".")
 
     local modData = func.getModData(reference)
@@ -4883,7 +4872,7 @@ end
 function this.bountyCheck()
     if config.triggeredAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Bounty check triggered.")
 
     local npcTable = func.npcTable()
@@ -4913,7 +4902,7 @@ function this.bountyCheck()
 end
 
 function this.bountyKill(e)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Bounty kill check triggered.")
 
     local npcTable = func.npcTable()
@@ -4944,7 +4933,7 @@ end
 function this.requiem(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Moonlight Requiem triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -4983,7 +4972,7 @@ end
 function this.dirge(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Dirge triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -5060,7 +5049,7 @@ end
 function this.elegy(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Sanguine Elegy triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -5112,7 +5101,7 @@ end
 function this.communion(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Communion triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -5189,7 +5178,7 @@ end
 
 --Experienced Tracker #108-------------------------------------------------------------------------------------------------------------------
 function this.track()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Track triggered.")
 
     local trigger = 0
@@ -5246,7 +5235,7 @@ end
 --Maneater #109--------------------------------------------------------------------------------------------------------------
 function this.maneater(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Maneater triggered.")
 
     local result = 0
@@ -5307,7 +5296,7 @@ end
 --Lady Killer #110--------------------------------------------------------------------------------------------------------------
 function this.ladykiller(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Lady Killer triggered.")
 
     local result = 0
@@ -5369,7 +5358,7 @@ end
 function this.cunning(e)
     if config.triggeredAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Cunning triggered.")
 
     if e.count > 0 then
@@ -5396,7 +5385,7 @@ end
 
 --Transporter #116---------------------------------------------------------------------------------------------------------------------------
 function this.delivery(reference)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Delivery check triggered on " .. reference.object.name .. ".")
 
     local modData = func.getModData(reference)
@@ -5513,7 +5502,7 @@ function this.delivery(reference)
 end
 
 function this.deliveryCheck(e)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Delivery check triggered.")
 
     local npcTable = func.npcTable()
@@ -5552,7 +5541,7 @@ end
 
 --Celestial Wont #117 (Aura)----------------------------------------------------------------------------------------------------------------------
 function this.wont()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Wont triggered.")
 
     local trigger = 0
@@ -5594,7 +5583,7 @@ end
 
 --Groundskeeper's Intuition #119 (Aura)----------------------------------------------------------------------------------------------------------
 function this.intuition()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Intuition triggered.")
 
     local trigger = 0
@@ -5623,7 +5612,7 @@ end
 --Adrenaline #120-------------------------------------------------------------------------------------------------------------------------
 function this.adrenaline(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Adrenaline triggered.")
 
     if e.killingBlow then
@@ -5683,7 +5672,7 @@ end
 --Deceptor #129---------------------------------------------------------------------------------------------------------------------------
 function this.deceptor(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Deceptor triggered.")
 
     local result = 0
@@ -5714,7 +5703,7 @@ end
 --Shed Regret #131------------------------------------------------------------------------------------------------------------------------
 function this.shed(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Shed triggered.")
 
     local result = 0
@@ -5756,7 +5745,7 @@ function this.fRep(mobile)
     if config.triggeredAbilities == false then return end
     if mobile == nil then return end
     if mobile.object.faction == nil then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Faction Rep triggered.")
 
     local npcTable = func.npcTable()
@@ -5803,7 +5792,7 @@ end
 --Broadside #135-------------------------------------------------------------------------------------------------------------
 function this.broadside(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Broadside triggered.")
 
     local result = 0
@@ -5827,7 +5816,7 @@ end
 
 --Shadow Manipulation #136 (Pseudo Aura)---------------------------------------------------------------------------------------------------------------------
 function this.shadow(e)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Shadow Manipulation triggered.")
 
     local trigger = 0
@@ -5861,7 +5850,7 @@ end
 function this.weather(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Weather triggered.")
 
 	if (e.target == tes3.mobilePlayer and tes3.getPlayerCell().isOrBehavesAsExterior == true) then
@@ -5913,7 +5902,7 @@ end
 --Kyne's Breath #142-----------------------------------------------------------------------------------------------------------------
 function this.kyne(e)
     if config.combatAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Kyne triggered.")
 
     if e.attacker then
@@ -5955,7 +5944,7 @@ end
 
 --Farseek #145-----------------------------------------------------------------------------------------------------------------
 function this.farseek()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Farseek triggered.")
 
     local trigger = 0
@@ -6013,7 +6002,7 @@ end
 
 --Akatosh---------------------------------------------------------------------------------------tested
 function this.akatosh(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.triggeredAbilities == false then return end
     log:trace("Akatosh triggered.")
 
@@ -6047,7 +6036,7 @@ end
 
 --Arkay---------------------------------------------------------------------------------------tested
 function this.arkay(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.triggeredAbilities == false then return end
     log:trace("Arkay triggered.")
 
@@ -6080,7 +6069,7 @@ end
 --Dibella---------------------------------------------------------------------------------------tested
 --Gift
 function this.dibella(mobile)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.triggeredAbilities == false then return end
     log:trace("Dibella gift triggered.")
 
@@ -6108,7 +6097,7 @@ function this.dibella(mobile)
 end
 --Duty
 function this.dibellaDuty(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return end
     log:trace("Dibella triggered.")
 
@@ -6132,7 +6121,7 @@ end
 --Julianos---------------------------------------------------------------------------------------tested
 --Duty
 function this.julianosDuty(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.triggeredAbilities == false then return end
     log:trace("Julianos duty triggered.")
 
@@ -6167,7 +6156,7 @@ function this.julianosDuty(e)
 end
 --Gift
 function this.julianos(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.triggeredAbilities == false then return end
     log:trace("Julianos gift triggered.")
 
@@ -6202,7 +6191,7 @@ end
 
 --Kynareth--------------------------------------------------------------------------------------------tested
 function this.kynareth(e)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Kynareth triggered.")
 
     local npcTable = func.npcTable()
@@ -6271,7 +6260,7 @@ end
 --Duty
 function this.stendarrDuty(e)
     if e.attacker == nil or config.triggeredAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Stendarr duty triggered.")
 
     if e.killingBlow and e.mobile.object.level < 5 then
@@ -6307,7 +6296,7 @@ end
 
 --Gift
 function this.stendarr(ref)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.triggeredAbilities == false then return end
     log:trace("Stendarr gift triggered.")
 
@@ -6323,7 +6312,7 @@ end
 --Talos------------------------------------------------------------------------------------------------------------------------------------------------------tested
 --Duty
 function this.talosDuty(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return end
     log:trace("Talos duty triggered.")
 
@@ -6348,7 +6337,7 @@ end
 --Duty
 function this.zenitharDuty(ref)
     if config.triggeredAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Zenithar duty triggered.")
 
     local npcTable = func.npcTable()
@@ -6389,7 +6378,7 @@ end
 --Gift
 function this.zenithar(e)
     if config.triggeredAbilities == false then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Zenithar gift triggered.")
 
     local originalPrice = e.price
@@ -6492,7 +6481,7 @@ end
 --Boethiah--------------------------------------------------------------------------------------------
 
 function this.bloodKarma(e)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Blood karma check triggered.")
 
     local npcTable = func.npcTable()
@@ -6547,7 +6536,7 @@ function this.boethiahTribute()
 end
 
 function this.boethiahGift(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return end
     log:trace("Boethiah Gift triggered.")
 
@@ -6635,7 +6624,7 @@ end
 
 --Hircine--------------------------------------------------------------------------------------------------
 function this.huntCheck(e)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Hircine hunt check triggered.")
 
     local npcTable = func.npcTable()
@@ -6726,7 +6715,7 @@ end
 --Malacath----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function this.malacathGift(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return end
     log:trace("Malacath gift triggered.")
 
@@ -6838,7 +6827,7 @@ end
 
 function this.dagonSacrifice(e)
     if e.attacker == nil then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Dagon sacrifice triggered.")
 
     if e.killingBlow and e.mobile.fight < 71 and e.mobile.object.objectType == tes3.objectType.npc then
@@ -6873,7 +6862,7 @@ end
 function this.combustion(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Combustion triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -6923,7 +6912,7 @@ end
 
 --Mephala-------------------------------------------------------------------------------------------------------------------------------------------------
 function this.mephalaGift(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return end
     log:trace("Mephala Gift triggered.")
 
@@ -6982,7 +6971,7 @@ end
 
 function this.mephalaSacrifice(e)
     if e.attacker == nil then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Mephala sacrifice triggered.")
 
     if e.killingBlow then
@@ -7062,7 +7051,7 @@ function this.meridiaTribute()
 end
 
 function this.meridiaGift(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return end
     log:trace("Meridia Gift triggered.")
 
@@ -7082,7 +7071,7 @@ end
 
 function this.meridiaSacrifice(e)
     if e.attacker == nil then return end
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Meridia sacrifice triggered.")
 
     if string.startswith(e.mobile.object.name, "Summoned") then return end
@@ -7120,7 +7109,7 @@ end
 
 --Molag Bal-------------------------------------------------------------------------------------------------------------------------------------------------
 function this.molagTribute(e)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Molag tribute triggered.")
 
     local npcTable = func.npcTable()
@@ -7140,7 +7129,7 @@ function this.molagTribute(e)
 end
 
 function this.molagGift(e)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Molag gift triggered.")
 
     if not e.killingBlow or not e.attacker then return end
@@ -7174,7 +7163,7 @@ end
 
 --Namira----------------------------------------------------------------------------------------------------------------------------------------------------
 function this.namiraTribute(ref)
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Namira tribute triggered.")
 
     local modData = func.getModData(ref)
@@ -7189,7 +7178,7 @@ function this.namiraTribute(ref)
 end
 
 function this.namiraGift(e)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.combatAbilities == false then return end
     log:trace("Namira Gift triggered.")
     
@@ -7215,7 +7204,7 @@ end
 
 --Nocturnal--------------------------------------------------------------------------------------------------------------------------------------------------
 function this.nocturnalGift(ref)
-    log = logger.getLogger("Companion Leveler")
+    
     if config.triggeredAbilities == false then return end
     log:trace("Nocturnal Gift triggered.")
 
@@ -7333,7 +7322,7 @@ function this.sanguineTribute()
 end
 
 function this.sanguineGift()
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Sanguine Gift triggered.")
 
     local party = func.partyTable()
@@ -7372,7 +7361,7 @@ end
 function this.sheoCombat(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Sheogorath Combat triggered.")
 
 	if (e.target == tes3.mobilePlayer) then
@@ -7712,7 +7701,7 @@ end
 function this.nightmare(e)
     if config.combatAbilities == false then return end
 
-    log = logger.getLogger("Companion Leveler")
+    
     log:trace("Nightmare triggered.")
 
 	if (e.target == tes3.mobilePlayer) then

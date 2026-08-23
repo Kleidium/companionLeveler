@@ -1,7 +1,6 @@
 local EasyMCM = require("easyMCM.EasyMCM");
 local config  = require("companionLeveler.config")
-local logger  = require("logging.logger")
-local log     = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 
 local modName = 'Companion Leveler';
 local template = EasyMCM.createTemplate { name = modName }

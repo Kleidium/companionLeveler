@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 local tables = require("companionLeveler.tables")
 
@@ -13,7 +12,6 @@ function spList.createWindow(reference)
     spList.reference = reference
     spList.modData = func.getModData(reference)
 
-    log = logger.getLogger("Companion Leveler")
     log:debug("Spell List menu initialized.")
 
 

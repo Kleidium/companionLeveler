@@ -1,6 +1,6 @@
 ----Initialize-------------------------------------------------------------------------------------------------------------------
 local config = require("companionLeveler.config")
-local logger = require("logging.logger")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 local buildMode = require("companionLeveler.modes.buildMode")
 local npcMode = require("companionLeveler.modes.npcClassMode")
@@ -9,11 +9,6 @@ local root = require("companionLeveler.menus.root")
 local abilities = require("companionLeveler.functions.abilities")
 local tables = require("companionLeveler.tables")
 
-local log = logger.new {
-	name = "Companion Leveler",
-	logLevel = "TRACE",
-}
-log:setLogLevel(config.logLevel)
 
 local function initialized()
 	log:info("" .. tables.version .. " Initialized.")

@@ -1,6 +1,5 @@
 local config = require("companionLeveler.config")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
 
@@ -14,7 +13,6 @@ function rez.createWindow(ref, type)
 	rez.id_pane = tes3ui.registerID("kl_rez_pane")
 	rez.id_ok = tes3ui.registerID("kl_rez_ok")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Resurrect menu initialized.")
 
 	local tech = require("companionLeveler.menus.techniques.techniques")

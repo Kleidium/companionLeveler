@@ -1,8 +1,7 @@
 ----Initialize----------------------------------------------------------------------------------------------------------
 local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 local spells = require("companionLeveler.functions.spells")
 local abilities = require("companionLeveler.functions.abilities")
@@ -16,7 +15,6 @@ local npcClassMode = {}
 ----NPC Class Mode----------------------------------------------------------------------------------------------------------------------
 --
 function npcClassMode.levelUp(companions)
-    log = logger.getLogger("Companion Leveler")
     local leveled = 0
 
     for i = #companions, 1, -1 do

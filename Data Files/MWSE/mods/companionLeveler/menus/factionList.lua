@@ -1,7 +1,6 @@
 local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 
 
@@ -17,7 +16,6 @@ function fact.pickFaction(ref, aID)
 	fact.id_growth = tes3ui.registerID("kl_faction_growth_btn")
 	fact.id_image = tes3ui.registerID("kl_faction_image")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Faction menu initialized.")
 
 	if (ref) then

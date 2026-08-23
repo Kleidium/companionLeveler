@@ -1,6 +1,5 @@
 local tables = require("companionLeveler.tables")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 local config = require("companionLeveler.config")
 
@@ -15,13 +14,9 @@ function typeModule.typeChange(reference)
 	typeModule.id_ok = tes3ui.registerID("kl_type_ok")
 	typeModule.id_growth = tes3ui.registerID("kl_type_growth_btn")
 	typeModule.id_root = tes3ui.registerID("kl_type_root")
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Type menu initialized.")
 
 	local root = require("companionLeveler.menus.root")
-
-	log = logger.getLogger("Companion Leveler")
-	log:debug("Type menu initialized.")
 
 	if (reference) then
 		typeModule.reference = reference

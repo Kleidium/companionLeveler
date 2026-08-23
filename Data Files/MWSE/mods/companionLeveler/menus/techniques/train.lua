@@ -1,6 +1,5 @@
-local logger = require("logging.logger")
+local log = mwse.Logger.new()
 local config = require("companionLeveler.config")
-local log = logger.getLogger("Companion Leveler")
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
 
@@ -15,7 +14,6 @@ function train.createWindow(ref)
 	train.id_pane2 = tes3ui.registerID("kl_train_pane2")
 	train.id_ok = tes3ui.registerID("kl_train_ok")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Train menu initialized.")
 
 	local tech = require("companionLeveler.menus.techniques.techniques")

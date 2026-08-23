@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
 
@@ -16,7 +15,6 @@ function steal.createWindow(ref)
 	steal.id_tp_bar = tes3ui.registerID("kl_steal_tp_bar")
 	steal.id_fat_bar = tes3ui.registerID("kl_steal_fat_bar")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Steal menu initialized.")
 
 	local tech = require("companionLeveler.menus.techniques.techniques")

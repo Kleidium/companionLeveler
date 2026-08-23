@@ -1,4 +1,4 @@
-local logger = require("logging.logger")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 local tables = require("companionLeveler.tables")
 local siphon = require("companionLeveler.menus.techniques.siphon")
@@ -48,9 +48,8 @@ function tech.createWindow(ref)
 	tech.id_transform = tes3ui.registerID("kl_tech_xform_btn")
 	tech.id_drugs = tes3ui.registerID("kl_tech_drugs_btn")
 
-
 	-- use module-level logger
-	if tech.log then tech.log:debug("Technique menu initialized.") end
+	log:debug("Technique menu initialized.")
 	tech.id_cancel = tes3ui.registerID("kl_tech_cancel_btn")
 	tech.id_fire = tes3ui.registerID("kl_tech_fire_btn")
 	tech.id_ritual = tes3ui.registerID("kl_tech_ritual_btn")
@@ -425,7 +424,7 @@ end
 --Alchemist/Enchanter
 function tech.onService(type)
 	if type == "Alchemy" then
-		tech.log:trace("Alchemy Service triggered on " .. tech.ref.object.name ..".")
+		log:trace("Alchemy Service triggered on " .. tech.ref.object.name ..".")
 
 		--Time Consumer Compatibility
 		tech.pcAlchemy = tes3.player.mobile.alchemy.current
@@ -452,7 +451,7 @@ end
 
 function tech.showEnchantMenu(e)
 	if e.item then
-		tech.log:trace("Enchanting Service triggered on " .. tech.ref.object.name ..".")
+		log:trace("Enchanting Service triggered on " .. tech.ref.object.name ..".")
 
 		tes3.mobilePlayer:equip{ item = e.item }
 		tech.menu:destroy()
@@ -482,14 +481,14 @@ end
 
 function tech.onServiceExit()
 	if tech.service == "Alchemy" then
-		tech.log:trace("Alchemy exit check triggered on " .. tech.ref.object.name ..".")
+		log:trace("Alchemy exit check triggered on " .. tech.ref.object.name ..".")
 
 		--Time Consumer Compatibility
 		tes3.setStatistic({ reference = tes3.player, skill = 16, current = tech.pcAlchemy })
 		tes3.setStatistic({ reference = tes3.player, attribute = tes3.attribute.intelligence, current = tech.pcInt })
 		tes3.setStatistic({ reference = tes3.player, attribute = tes3.attribute.luck, current = tech.pcLuck })
 	elseif tech.service == "Enchanting" then
-		tech.log:trace("Enchanting exit check triggered on " .. tech.ref.object.name ..".")
+		log:trace("Enchanting exit check triggered on " .. tech.ref.object.name ..".")
 
 		tes3.setStatistic({ reference = tes3.player, skill = tes3.skill.enchant, current = tech.pcEnchant })
 		tes3.setStatistic({ reference = tes3.player, attribute = tes3.attribute.intelligence, current = tech.pcInt })
@@ -519,7 +518,7 @@ end
 
 function tech.onDigConfirm(e)
 	if e.button == 0 then
-		tech.log:trace("Dig Technique triggered.")
+		log:trace("Dig Technique triggered.")
 
 		if tes3.player.cell.restingIsIllegal == false then
 			if func.spendTP(tech.ref, 3) == false then
@@ -552,7 +551,7 @@ function tech.digResult()
 	if tech.digtype == "normal" then
 		if math.random(1, 10) > 7 then
 			func.clMessageBox("" .. tech.ref.object.name .. " couldn't find anything.")
-			tech.log:debug("Dig roll failed.")
+			log:debug("Dig roll failed.")
 		else
 			randNum = math.random(1, #tables.digList)
 			if randNum == 3 then
@@ -572,7 +571,7 @@ function tech.digResult()
 		if tes3.player.cell.isOrBehavesAsExterior then
 			--Roughly 60% Chance: Exterior
 			randNum = math.random(1, 45)
-			tech.log:debug("Exterior digsite detected.")
+			log:debug("Exterior digsite detected.")
 		else
 			local cell = tes3.getPlayerCell()
 			local dwemer = 0
@@ -590,25 +589,25 @@ function tech.digResult()
 			if dwemer > other then
 				--Roughly 93% Chance + Increased Dwemeri Item Chance
 				randNum = math.random(13, 28)
-				tech.log:debug("Dwemer digsite detected.")
+				log:debug("Dwemer digsite detected.")
 			else
 				--Roughly 87% Chance: Interior
 				randNum = math.random(1, 31)
-				tech.log:debug("Interior digsite detected.")
+				log:debug("Interior digsite detected.")
 			end
 		end
 
 		--Dig
 		if randNum > 27 then
 			func.clMessageBox("" .. tech.ref.object.name .. " couldn't find anything.")
-			tech.log:debug("Dig roll failed.")
+			log:debug("Dig roll failed.")
 		else
 			--Find random artifacts
 			tes3.addItem({ item = tables.unearthedObjects[randNum], reference = tech.ref })
 
 			local spoils = tes3.getObject(tables.unearthedObjects[randNum])
 			func.clMessageBox("" .. tech.ref.object.name .. " dug something up. (" .. spoils.name .. ")")
-			tech.log:debug("Dig roll succeeded.")
+			log:debug("Dig roll succeeded.")
 		end
 	end
 
@@ -692,7 +691,7 @@ function tech.onSmoke(msg)
 end
 
 function tech.onSmokeConfirm(e)
-	tech.log:trace("Smoke Bomb triggered on " .. tech.ref.object.name ..".")
+	log:trace("Smoke Bomb triggered on " .. tech.ref.object.name ..".")
 
     if (tech.menu) then
 		if e.button == 0 then
@@ -702,14 +701,14 @@ function tech.onSmokeConfirm(e)
 				if tes3.getWorldController().flagTeleportingDisabled == true then
 					--Teleportation Disabled
 					func.clMessageBox("A strange force prevents " .. tech.ref.object.name .. " your party from escaping this way...")
-					tech.log:debug("Teleportation is currently disabled. Smoke Bomb failed.")
+					log:debug("Teleportation is currently disabled. Smoke Bomb failed.")
 				else
 					--Escape Interior
 					if func.spendTP(tech.ref, 3) == false then return end
 
 					local modDataP = func.getModDataP()
 					local lastExterior = tes3.getDataHandler().lastExteriorCell
-					tech.log:debug("Last Exterior Cell: " .. lastExterior.displayName .. ", Last Exterior Position: " .. tostring(modDataP.lastExteriorPosition) .. "")
+					log:debug("Last Exterior Cell: " .. lastExterior.displayName .. ", Last Exterior Position: " .. tostring(modDataP.lastExteriorPosition) .. "")
 
 					tes3ui.leaveMenuMode()
 					tech.menu:destroy()
@@ -719,13 +718,13 @@ function tech.onSmokeConfirm(e)
 					timer.start({ duration = 2, type = timer.simulate, callback = function()
 						tes3.positionCell({ reference = tes3.player, cell = lastExterior, position = modDataP.lastExteriorPosition })
 						tes3.setStatistic({ name = "fatigue", current = 0, reference = tech.ref })
-						tech.log:debug("Smoke Bomb succeeded.")
+						log:debug("Smoke Bomb succeeded.")
 					end})
 				end
 			else
 				--Already Outside
 				func.clMessageBox("You are already outside.")
-				tech.log:debug("You are already outside. Smoke Bomb failed.")
+				log:debug("You are already outside. Smoke Bomb failed.")
 			end
 		end
     end
@@ -778,11 +777,11 @@ function tech.onScampsonConfirm(e)
 
 			if not scampson then
 				scampson = tes3.createReference({ object = "kl_scamp_scampson", cell = cell, position = pos, orientation = tes3.getPlayerEyeVector()})
-				tech.log:debug("Scampson created and summoned.")
+				log:debug("Scampson created and summoned.")
 			else
 				scampson:enable()
 				tes3.positionCell({ reference = scampson, cell = cell, position = pos })
-				tech.log:debug("Scampson summoned.")
+				log:debug("Scampson summoned.")
 			end
 
 			tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 1, reference = scampson })
@@ -839,7 +838,7 @@ function tech.onTransformConfirm(e)
 				md["lycanthropicPower"] = tech.modData.lycanthropicPower
 				md["hircineHunt"] = tech.modData.hircineHunt
 				md["npcID"] = tech.ref.baseObject.id
-				tech.log:debug("Werewolf alter ego created.")
+				log:debug("Werewolf alter ego created.")
 			else
 				werewolf:enable()
 				tes3.positionCell({ reference = werewolf, cell = cell, position = pos })
@@ -847,7 +846,7 @@ function tech.onTransformConfirm(e)
 				local md = func.getModData(werewolf)
 				md.lycanthropicPower = tech.modData.lycanthropicPower
 				md.hircineHunt = tech.modData.hircineHunt
-				tech.log:debug("Werewolf transformed.")
+				log:debug("Werewolf transformed.")
 			end
 
 			tes3.createVisualEffect({ object = "VFX_DefaultHit", lifespan = 1, reference = werewolf })

@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 local tables = require("companionLeveler.tables")
 
@@ -48,7 +47,6 @@ end
 function specList.createWindow(reference)
     specList.id_menu = tes3ui.registerID("kl_specList_menu")
 
-    log = logger.getLogger("Companion Leveler")
     log:debug("Special List menu initialized.")
 
 

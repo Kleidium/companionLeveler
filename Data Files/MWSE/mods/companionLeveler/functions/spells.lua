@@ -1,8 +1,7 @@
 local config = require("companionLeveler.config")
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 
 local this = {}
 
@@ -55,9 +54,7 @@ end
 ----NPC Spells--------------------------------------------------------------------------------------------------------------------------
 --
 function this.spellRoll(schools, skills, companionRef)
-    local name = companionRef.object.name
     local modData = func.getModData(companionRef)
-    log = logger.getLogger("Companion Leveler")
     for i = 1, 6 do
         if schools[i] == true then
             if math.random(0, 99) < config.spellChance then
@@ -90,7 +87,6 @@ end
 --
 function this.creatureSpellRoll(level, cType, companionRef)
     local modData = func.getModData(companionRef)
-    log = logger.getLogger("Companion Leveler")
 
     if cType == "Normal" then
         if level < 10 then

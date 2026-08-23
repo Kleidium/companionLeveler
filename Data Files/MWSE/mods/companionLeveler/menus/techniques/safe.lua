@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local tables = require("companionLeveler.tables")
 local func = require("companionLeveler.functions.common")
 
@@ -14,7 +13,6 @@ function safe.createWindow(ref)
 	safe.id_pane2 = tes3ui.registerID("kl_safe_pane2")
 	safe.id_ok = tes3ui.registerID("kl_safe_ok")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Unlock menu initialized.")
 
 	local tech = require("companionLeveler.menus.techniques.techniques")

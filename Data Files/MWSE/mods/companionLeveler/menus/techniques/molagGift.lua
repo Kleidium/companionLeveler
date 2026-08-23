@@ -1,5 +1,4 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 
 
@@ -14,7 +13,6 @@ function molag.createWindow(ref)
 	molag.id_interval = tes3ui.registerID("kl_molag_interval")
 	molag.id_gemFill = tes3ui.registerID("kl_molag_menu_gemFill")
 
-    log = logger.getLogger("Companion Leveler")
     log:debug("Soul Energy menu initialized.")
 
     molag.ref = ref

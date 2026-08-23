@@ -1,6 +1,5 @@
 local config = require("companionLeveler.config")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 local typeChange = require("companionLeveler.menus.typeChange")
 local classChange = require("companionLeveler.menus.classChange")
@@ -28,8 +27,7 @@ function root.createWindow(reference)
     root.id_cancel = tes3ui.registerID("kl_root_cancel_btn")
     root.id_exp = tes3ui.registerID("kl_root_exp_bar")
 
-    -- reuse the module-level logger and guard the debug call
-    if log then log:debug("Root menu initialized.") end
+    log:debug("Root menu initialized.")
 
     root.reference = reference
     --Check for version update

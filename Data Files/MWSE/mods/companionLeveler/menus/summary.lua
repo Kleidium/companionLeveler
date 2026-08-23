@@ -1,7 +1,6 @@
 ----Initialize----------------------------------------------------------------------------------------------------------
 local tables = require("companionLeveler.tables")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 
 local sumr = {}
@@ -12,7 +11,6 @@ function sumr.createWindow(reference)
 	sumr.id_pane = tes3ui.registerID("kl_sum_pane")
 	sumr.id_ok = tes3ui.registerID("kl_sum_ok")
 	sumr.id_image = tes3ui.registerID("kl_sum_img")
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Summary menu initialized.")
 
 	if (reference) then

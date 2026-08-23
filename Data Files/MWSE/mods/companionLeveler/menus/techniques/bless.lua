@@ -1,5 +1,3 @@
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
 local func = require("companionLeveler.functions.common")
 
 

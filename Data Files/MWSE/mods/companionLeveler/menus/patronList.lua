@@ -1,6 +1,5 @@
 local tables = require("companionLeveler.tables")
-local logger = require("logging.logger")
-local log = logger.getLogger("Companion Leveler")
+local log = mwse.Logger.new()
 local func = require("companionLeveler.functions.common")
 
 
@@ -16,7 +15,6 @@ function pat.pickPatron(ref, aID)
 	pat.id_growth = tes3ui.registerID("kl_patron_growth_btn")
 	pat.id_image = tes3ui.registerID("kl_patron_image")
 
-	log = logger.getLogger("Companion Leveler")
 	log:debug("Patron menu initialized.")
 
 	if (ref) then
