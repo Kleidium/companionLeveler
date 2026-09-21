@@ -380,6 +380,101 @@ function specList.createWindow(reference)
             duty.wrapText = true
             duty.widthProportional = 1.0
         end
+
+        --Rebate Information
+        local rebateLabel = pBlock:createLabel({ text = "Rebate Information:" })
+        rebateLabel.borderBottom = 12
+        rebateLabel.borderTop = 24
+        rebateLabel.color = tables.colors["white"]
+
+        if specList.modData.rebate ~= nil then
+            local lbl = pBlock:createLabel({ text = "" .. math.round(specList.modData.rebate) .. "", id = "kl_rebate_label_spec" })
+            lbl.borderBottom = 12
+            lbl:register("help", function(e)
+                local tooltip = tes3ui.createTooltipMenu()
+
+                local contentElement = tooltip:getContentElement()
+                contentElement.paddingAllSides = 12
+                contentElement.childAlignX = 0.5
+                contentElement.childAlignY = 0.5
+
+
+                local merc = specList.reference.mobile:getSkillStatistic(24).current
+                local amount = merc / 1500
+                if amount > 0.1 then
+                    amount = 0.1
+                end
+                amount = amount * 100
+
+                tooltip:createLabel({ text = "" .. amount .. "% rebate on purchases. Based on " .. tes3.findGMST(tes3.gmst.sSkillMercantile).value .. ".\n\nThis rebate is awarded to you when the Accountant levels up." })
+            end)
+        end
+
+        --Bloodline Information
+        local bloodlineLabel = pBlock:createLabel({ text = "Vampiric Bloodline:" })
+        bloodlineLabel.borderBottom = 12
+        bloodlineLabel.borderTop = 24
+        bloodlineLabel.color = tables.colors["white"]
+
+        if specList.modData.bloodline then
+            local bloodline = tables.bloodlines[specList.modData.bloodline]
+			local lbl = pBlock:createLabel({ text = "" .. bloodline .. "", id = "kl_patron_label_spec" })
+            lbl.borderBottom = 12
+			func.bloodlineTooltip(lbl, specList.modData.bloodline)
+
+            --stages
+            if specList.modData.bloodline == 4 or specList.modData.bloodline == 5 then
+                local stg = specList.modData.stage
+                local type = "vamp"
+                if specList.modData.bloodline == 5 then
+                    type = "volk"
+                end
+                if stg == 1 then
+                    stg = "I"
+                end
+                if stg == 2 then
+                    stg = "II"
+                end
+                if stg == 3 then
+                    stg = "III"
+                end
+                if stg == 4 then
+                    stg = "IV"
+                end
+
+                local stage = pBlock:createLabel({ text = "Stage " .. stg .. "", id = "kl_bloodline_stage_spec" })
+                lbl.borderBottom = 2
+                stage.borderBottom = 12
+
+                if specList.modData.stage > 1 then
+                    stage:register("help", function(e)
+                        local tooltip = tes3ui.createTooltipMenu { spell = "kl_ability_" .. type .. "_stage_" .. specList.modData.stage }
+
+                        local contentElement = tooltip:getContentElement()
+                        contentElement.paddingAllSides = 12
+                        contentElement.childAlignX = 0.5
+                        contentElement.childAlignY = 0.5
+                    end)
+                end
+            end
+
+            --gifts
+            local gift = pBlock:createLabel({ text = "" .. tables.bloodlineGifts[specList.modData.bloodline] .. "", id = "kl_bloodline_gift_spec" })
+            gift.borderBottom = 12
+            gift.wrapText = true
+            gift.widthProportional = 1.0
+            --feeding
+            local feed = pBlock:createLabel({ text = "" .. tables.bloodlineFeeding[specList.modData.bloodline] .. "", id = "kl_bloodline_feed_spec" })
+            feed.borderBottom = 12
+            feed.wrapText = true
+            feed.widthProportional = 1.0
+            --sunlight
+            local sun = pBlock:createLabel({ text = "" .. tables.bloodlineSunlight[specList.modData.bloodline] .. "", id = "kl_bloodline_sun_spec" })
+            sun.borderBottom = 12
+            sun.wrapText = true
+            sun.widthProportional = 1.0
+        end
+
     else
 		--Creature special information
 
@@ -414,6 +509,37 @@ function specList.createWindow(reference)
                 local lbl2 = pBlock:createLabel({ text = "" .. abil2.name .. "", id = "kl_guild2_label_spec" })
                 lbl2.borderBottom = 12
                 func.guildTooltip(lbl2, key2)
+            end
+        end
+
+        --Mutation Information
+        local mutLabel = pBlock:createLabel({ text = "Mutations:" })
+        mutLabel.borderBottom = 12
+        mutLabel.borderTop = 24
+        mutLabel.color = tables.colors["white"]
+
+        --Fill Slots
+        if specList.modData.mutationSlots ~= nil then
+            for i = 1, 4 do
+                if specList.modData.mutationSlots[i] ~= nil then
+                    local obj = tes3.getObject("kl_ability_mutation_" .. specList.modData.mutationSlots[i])
+                    local a = pBlock:createLabel({ text = "" .. obj.name})
+                    a.borderBottom = 6
+
+                    a:register("help", function(e)
+                        local tooltip = tes3ui.createTooltipMenu { spell = obj }
+
+                        local contentElement = tooltip:getContentElement()
+                        contentElement.paddingAllSides = 12
+                        contentElement.childAlignX = 0.5
+                        contentElement.childAlignY = 0.5
+
+                        tooltip:createDivider()
+
+                        local typeLabel = tooltip:createLabel { text = "[PASSIVE]" }
+                        typeLabel.color = tables.colors["white"]
+                    end)
+                end
             end
         end
     end

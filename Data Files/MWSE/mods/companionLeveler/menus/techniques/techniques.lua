@@ -18,6 +18,13 @@ local bless = require("companionLeveler.menus.techniques.bless")
 local ruin = require("companionLeveler.menus.techniques.ruin")
 local ritual = require("companionLeveler.menus.techniques.ritual")
 local duel = require("companionLeveler.menus.techniques.duel")
+local cyto = require("companionLeveler.menus.techniques.cytosis")
+local cook = require("companionLeveler.menus.techniques.cook")
+local feed = require("companionLeveler.menus.techniques.feed")
+local bmgk = require("companionLeveler.menus.techniques.bloodMagic")
+local tincture = require("companionLeveler.menus.techniques.bloodTincture")
+local mut = require("companionLeveler.menus.mutationList")
+
 
 local tech = {}
 
@@ -47,6 +54,16 @@ function tech.createWindow(ref)
 	tech.id_sabo = tes3ui.registerID("kl_tech_sabo_btn")
 	tech.id_transform = tes3ui.registerID("kl_tech_xform_btn")
 	tech.id_drugs = tes3ui.registerID("kl_tech_drugs_btn")
+	tech.id_slime = tes3ui.registerID("kl_tech_slime_btn")
+	tech.id_travel = tes3ui.registerID("kl_tech_travel_btn")
+	tech.id_mark = tes3ui.registerID("kl_tech_mark_btn")
+	tech.id_recall = tes3ui.registerID("kl_tech_recall_btn")
+	tech.id_cook = tes3ui.registerID("kl_tech_cook_btn")
+	tech.id_feed = tes3ui.registerID("kl_tech_feed_btn")
+	tech.id_bloodMagic = tes3ui.registerID("kl_tech_bloodMagic_btn")
+	tech.id_tincture = tes3ui.registerID("kl_tech_tinc_btn")
+	tech.id_lair = tes3ui.registerID("kl_tech_lair_btn")
+	tech.id_recall = tes3ui.registerID("kl_tech_recall_btn")
 
 	-- use module-level logger
 	log:debug("Technique menu initialized.")
@@ -129,6 +146,34 @@ function tech.createWindow(ref)
 		tech.se.borderBottom = 12
 	end
 
+	--Secrets
+	if tech.modData.secrets then
+		local num = 1000 - (tech.ref.mobile:getSkillStatistic(14).current * 5)
+		if num < 250 then
+			num = 250
+		end
+
+		tech.secrets = tech_block:createFillBar({ current = tech.modData.secrets, max = num, id = "kl_tech_secrets_bar" })
+		func.configureBar(tech.secrets, "small", "mauve")
+		tech.secrets.borderBottom = 20
+		tech.secrets.borderBottom = 12
+	end
+
+	--Blood Magicka
+	if tech.modData.bloodline == 1 then
+		tech.bm = tech_block:createFillBar({ current = tech.modData.bloodMagicka, max = tech.modData.level * 20, id = "kl_tech_blood_magicka_bar" })
+		func.configureBar(tech.bm, "small", "wine")
+		tech.bm.borderBottom = 20
+		tech.bm.borderBottom = 12
+	end
+
+	--Blood Frenzy
+	if tech.modData.bloodline == 3 then
+		tech.bf = tech_block:createFillBar({ current = tech.modData.bloodFrenzy, max = 40, id = "kl_tech_blood_frenzy_bar" })
+		func.configureBar(tech.bf, "small", "wine2")
+		tech.bf.borderBottom = 20
+		tech.bf.borderBottom = 12
+	end
 
     -- Main Buttons
 	if ref.object.objectType == tes3.objectType.creature or tech.modData.metamorph == true then
@@ -257,6 +302,31 @@ function tech.createWindow(ref)
 				button_ritual:register("mouseClick", function() tech.menu:destroy() ritual.createWindow(ref) end)
 				break
 			end
+		end
+
+		if tech.modData.abilities[111] == true then
+			--Amorphous Level 15
+			local button_slime = tech_block:createButton { id = tech.id_slime, text = "Phagocytosis" }
+			button_slime:register("mouseClick", function() tech.menu:destroy() cyto.createWindow(ref) end)
+		end
+
+		if tech.modData.abilities[114] == true then
+			--Steed Level 10
+			local button_travel = tech_block:createButton { id = tech.id_travel, text = "Travel to Town" }
+			button_travel:register("mouseClick", function() tech.onTravel() end)
+		end
+		if tech.modData.abilities[116] == true then
+			--Steed Level 20
+			local button_mark = tech_block:createButton { id = tech.id_mark, text = "Mark Travel Point" }
+			button_mark:register("mouseClick", function() tech.onMark() end)
+			local button_recall = tech_block:createButton { id = tech.id_recall, text = "Travel to Mark" }
+			button_recall:register("mouseClick", function() tech.onRecall() end)
+		end
+
+		if tech.modData.abilities[120] == true then
+			--Mutated Level 20
+			local button_mut = tech_block:createButton { id = tech.id_mut, text = "Swap Mutation"}
+			button_mut:register("mouseClick", function() tech.menu:destroy() mut.pickMutation(ref, 1, true) end)
 		end
 	else
 		--NPC Techniques-------------------------------------------------------------------------------------------------------------------------
@@ -398,6 +468,80 @@ function tech.createWindow(ref)
 			--Duelist
 			local button_duel = tech_block:createButton { id = tech.id_duel, text = "Request Duel"}
 			button_duel:register("mouseClick", function() tech.menu:destroy() duel.createWindow(ref) end)
+		end
+		if tech.modData.abilities[153] == true then
+			--Cook
+			local button_cook = tech_block:createButton { id = tech.id_cook, text = "Cooking"}
+			button_cook:register("mouseClick", function() tech.menu:destroy() cook.createWindow(ref) end)
+		end
+		if tech.modData.abilities[155] == true then
+			--Dimensionalist
+			local button_pocket = tech_block:createButton { id = tech.id_pocket, text = "Access Dimensional Pocket" }
+			button_pocket:register("mouseClick", function() tech.onPocket() end)
+		end
+		
+		--NPC Rituals
+		for i = 1, #tables.abTypeNPC do
+			if (tables.abTypeNPC[i] == "[TECHNIQUE]: RITUAL" and tech.modData.abilities[i] == true) then
+				--Ritual Ability
+				local button_ritual = tech_block:createButton { id = tech.id_ritual, text = "Perform Ritual" }
+				button_ritual:register("mouseClick", function() tech.menu:destroy() ritual.createWindow(ref) end)
+				break
+			end
+		end
+
+		--Bloodlines
+		if tech.modData.abilities[156] == true and tech.modData.bloodline ~= 3 then
+			--Feed
+			local button_feed = tech_block:createButton({ id = tech.id_feed, text = "Feed" })
+			button_feed:register("mouseClick", function()
+				tech.menu:destroy()
+				feed.createWindow(ref)
+			end)
+
+			if tech.modData.fed then
+				button_feed:register("help", function(e)
+					local tooltip = tes3ui.createTooltipMenu()
+
+					local contentElement = tooltip:getContentElement()
+					contentElement.flowDirection = tes3.flowDirection.leftToRight
+					contentElement.paddingAllSides = 10
+
+					tooltip:createLabel { text = "Sated" }
+				end)
+				if tech.modData.bloodline ~= 13 then
+					button_feed.widget.state = 2
+					button_feed.disabled = true
+				end
+			end
+
+			--Bloodline: Aundae Blood Magic
+			if tech.modData.bloodline == 1 then
+				local button_blood = tech_block:createButton { id = tech.id_bloodMagic, text = "Blood Magic" }
+				button_blood:register("mouseClick", function() tech.menu:destroy() bmgk.createWindow(ref) end)
+			end
+
+			--Bloodline: Vampyrum/Volkihar/Garlythi/Lyrezi Rituals
+			if tech.modData.bloodline == 4 or tech.modData.bloodline == 5 or tech.modData.bloodline == 7 or tech.modData.bloodline == 10 then
+				if tech.menu:findChild(tech.id_ritual) == nil then
+					local button_ritual = tech_block:createButton { id = tech.id_ritual, text = "Perform Ritual" }
+					button_ritual:register("mouseClick", function() tech.menu:destroy() ritual.createWindow(ref) end)
+				end
+			end
+
+			--Bloodline: Anthotis Blood Tincture
+			if tech.modData.bloodline == 6 then
+				local button_tincture = tech_block:createButton { id = tech.tincture, text = "Blood Tincture" }
+				button_tincture:register("mouseClick", function() tech.menu:destroy() tincture.createWindow(ref) end)
+			end
+
+			--Bloodline: Montalion Lair
+			if tech.modData.bloodline == 11 then
+				local button_lair = tech_block:createButton { id = tech.id_lair, text = "Claim Lair" }
+				button_lair:register("mouseClick", function() tech.onMarkLair() end)
+				local button_recall = tech_block:createButton { id = tech.id_recall, text = "Retire to Lair" }
+				button_recall:register("mouseClick", function() tech.onLairRecall() end)
+			end
 		end
 	end
 
@@ -876,5 +1020,205 @@ function tech.onTransformConfirm(e)
     end
 end
 
+--Steed Type
+function tech.onTravel()
+	if tech.menu then
+		tech.town = tes3.findClosestExteriorReferenceOfObject { object = "TravelMarker", position = tes3.getLastExteriorPosition() }
+		tes3.messageBox({ message = "Travel to " .. tech.town.cell.displayName .. "?\nTP Cost: 3",
+		buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
+		callback = tech.onTravelConfirm })
+    end
+end
+
+function tech.onTravelConfirm(e)
+	log:trace("Travel Technique triggered.")
+
+	if e.button == 0 then
+		if tes3.getPlayerCell().isInterior then
+			func.clMessageBox("Cannot travel inside!")
+			return
+		end
+		if tes3.getWorldController().flagTeleportingDisabled then
+            func.clMessageBox(tes3.findGMST("sTeleportDisabled").value)
+            return
+        end
+		if func.spendTP(tech.ref, 3) == false then
+			return
+		end
+		tech.menu:destroy()
+		tes3ui.leaveMenuMode()
+		tes3.positionCell { reference = tes3.player, cell = tech.town.cell, position = tech.town.position, orientation = tech.town.orientation, forceCellChange = true }
+		tes3.setStatistic({ name = "fatigue", current = 0, reference = tech.ref })
+		func.clMessageBox("" .. tech.ref.object.name .. " takes you to " .. tech.town.cell.displayName .. "!")
+	end
+end
+
+function tech.onMark()
+	if tech.menu then
+		tes3.messageBox({ message = "Mark this spot as a travel point?\nTP Cost: 2",
+		buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
+		callback = tech.onMarkConfirm })
+    end
+end
+
+function tech.onMarkConfirm(e)
+	log:trace("Mark Technique triggered.")
+
+	if e.button == 0 then
+		if tes3.getWorldController().flagTeleportingDisabled then
+            func.clMessageBox(tes3.findGMST("sTeleportDisabled").value)
+            return
+        end
+		if tes3.getPlayerCell().isInterior then
+			func.clMessageBox("Cannot travel inside!")
+			return
+		end
+		if func.spendTP(tech.ref, 2) == false then
+			return
+		end
+		tech.modData["travel_mark"] = { tes3.mobilePlayer.cellX, tes3.mobilePlayer.cellY, tes3.mobilePlayer.position.x, tes3.mobilePlayer.position.y, tes3.mobilePlayer.position.z }
+		tech.menu:destroy()
+		tes3ui.leaveMenuMode()
+		func.clMessageBox("" .. tech.ref.object.name .. " placed a travel mark here.")
+	end
+end
+
+function tech.onRecall()
+	if tech.menu then
+		if tech.modData.travel_mark == nil then
+			func.clMessageBox("First, a spot must be marked.")
+		else
+			tes3.messageBox({ message = "Return to " .. tech.ref.object.name .. "'s Travel Mark?\nTP Cost: 3",
+			buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
+			callback = tech.onRecallConfirm })
+		end
+    end
+end
+
+function tech.onRecallConfirm(e)
+	log:trace("Recall Technique triggered.")
+
+	if e.button == 0 then
+		if tes3.getWorldController().flagTeleportingDisabled then
+            func.clMessageBox(tes3.findGMST("sTeleportDisabled").value)
+            return
+        end
+		if tes3.getPlayerCell().isInterior then
+			func.clMessageBox("Cannot travel inside!")
+			return
+		end
+		if func.spendTP(tech.ref, 3) == false then
+			return
+		end
+		tech.menu:destroy()
+		tes3ui.leaveMenuMode()
+		tes3.positionCell { reference = tes3.player, cell = { tech.modData.travel_mark[1], tech.modData.travel_mark[2] }, position = {tech.modData.travel_mark[3], tech.modData.travel_mark[4], tech.modData.travel_mark[5]}, forceCellChange = true }
+		tes3.setStatistic({ name = "fatigue", current = 0, reference = tech.ref })
+	end
+end
+
+--Dimensionalist
+function tech.onPocket()
+	if tech.menu then
+		tes3.messageBox({ message = "Access dimensional storage?\nTP Cost: 1",
+		buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
+		callback = tech.onPocketConfirm })
+    end
+end
+
+function tech.onPocketConfirm(e)
+	log:trace("Pocket Dimension Technique triggered.")
+
+	if e.button == 0 then
+		if func.spendTP(tech.ref, 1) == false then
+			return
+		end
+		tech.menu:destroy()
+
+		local ref
+
+		if tech.modData.pocket ~= nil then
+			ref = tes3.getReference(tech.modData.pocket)
+		else
+			ref = tes3.createReference({ object = "kl_pocket_dimension", position = tes3.player.position, orientation = tes3.player.orientation, cell = tes3.player.cell, scale = 0 })
+			tech.modData["pocket"] = ref.id
+		end
+
+		local capacity = tech.ref.mobile:getSkillStatistic(13).current * 5
+
+		if capacity > 1000 then
+			capacity = 1000
+		elseif capacity < 5 then
+			capacity = 5
+		end
+
+		ref.object.capacity = capacity
+		tes3.playSound({ sound = "conjuration area" })
+		tes3.showContentsMenu({ reference = ref })
+
+		func.clMessageBox("" .. tech.ref.object.name .. " opens the dimensional pocket!")
+	end
+end
+
+--Montalion Bloodline
+function tech.onMarkLair()
+	if tech.menu then
+		tes3.messageBox({ message = "Mark this space as your lair?\nTP Cost: 2",
+		buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
+		callback = tech.onMarkLairConfirm })
+    end
+end
+
+function tech.onMarkLairConfirm(e)
+	log:trace("Mark Technique triggered.")
+
+	if e.button == 0 then
+		if tes3.getWorldController().flagTeleportingDisabled then
+            func.clMessageBox(tes3.findGMST("sTeleportDisabled").value)
+            return
+        end
+		if not tes3.getPlayerCell().isInterior then
+			func.clMessageBox("Your lair cannot be out in the open!")
+			return
+		end
+		if func.spendTP(tech.ref, 2) == false then
+			return
+		end
+		local modData = func.getModData(tech.ref)
+		modData["lair_mark"] = { tes3.mobilePlayer.cell.id, tes3.mobilePlayer.position.x, tes3.mobilePlayer.position.y, tes3.mobilePlayer.position.z }
+		tech.menu:destroy()
+		tes3ui.leaveMenuMode()
+		func.clMessageBox("" .. tech.ref.object.name .. " claimed this place as their lair.")
+	end
+end
+
+function tech.onLairRecall()
+	if tech.menu then
+		if tech.modData.lair_mark == nil then
+			func.clMessageBox("First, a lair must be claimed.")
+		else
+			tes3.messageBox({ message = "Return to " .. tech.ref.object.name .. "'s lair?\nTP Cost: 3",
+			buttons = { tes3.findGMST("sYes").value, tes3.findGMST("sNo").value },
+			callback = tech.onLairRecallConfirm })
+		end
+    end
+end
+
+function tech.onLairRecallConfirm(e)
+	log:trace("Lair Recall Technique triggered.")
+
+	if e.button == 0 then
+		if tes3.getWorldController().flagTeleportingDisabled then
+            func.clMessageBox(tes3.findGMST("sTeleportDisabled").value)
+            return
+        end
+		if func.spendTP(tech.ref, 3) == false then
+			return
+		end
+		tech.menu:destroy()
+		tes3ui.leaveMenuMode()
+		tes3.positionCell { reference = tes3.player, cell = tech.modData.lair_mark[1], position = {tech.modData.lair_mark[2], tech.modData.lair_mark[3], tech.modData.lair_mark[4]}, forceCellChange = true }
+	end
+end
 
 return tech

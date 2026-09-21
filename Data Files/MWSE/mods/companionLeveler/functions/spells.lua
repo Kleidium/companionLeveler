@@ -462,6 +462,45 @@ function this.creatureSpellRoll(level, cType, companionRef)
                 end, "companionLeveler\\creature_spell.wav"
             )
         end
+    elseif cType == "Vampiric" then
+        if level > 2 then
+            tryLearnSpell(
+                tables.vampTable, modData, companionRef,
+                nil,
+                "%s learned to cast %s!",
+                function(n, s) log:info("%s learned to cast %s.", n, s) end,
+                function(learned)
+                    local obj = tes3.getObject(learned)
+                    return obj and obj.name or learned
+                end, "companionLeveler\\creature_spell.wav"
+            )
+        end
+    elseif cType == "Amorphous" then
+        if level > 2 then
+            tryLearnSpell(
+                tables.slimeTable, modData, companionRef,
+                nil,
+                "%s learned to cast %s!",
+                function(n, s) log:info("%s learned to cast %s.", n, s) end,
+                function(learned)
+                    local obj = tes3.getObject(learned)
+                    return obj and obj.name or learned
+                end, "companionLeveler\\creature_spell.wav"
+            )
+        end
+    elseif cType == "Steed" then
+        if level > 2 then
+            tryLearnSpell(
+                tables.steedTable, modData, companionRef,
+                nil,
+                "%s learned to cast %s!",
+                function(n, s) log:info("%s learned to cast %s.", n, s) end,
+                function(learned)
+                    local obj = tes3.getObject(learned)
+                    return obj and obj.name or learned
+                end, "companionLeveler\\creature_spell.wav"
+            )
+        end
     end
 end
 

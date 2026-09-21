@@ -290,7 +290,7 @@ function sheet.createWindow(reference)
             typeList.wrapText = true
             typeList.justifyText = "center"
             typeList.color = tables.colors["grey"]
-            typeList.borderTop = 8
+            typeList.borderTop = 4
             if i == 1 then
                 typeList.borderTop = 12
             end
@@ -618,6 +618,7 @@ function sheet.fixStats(e)
                     end
                 end
                 func.removeGuildTraining(sheet.reference)
+                func.removeMutations(sheet.reference)
             else
                 func.removeAbilitiesNPC(sheet.reference)
                 modData.metamorph = false
@@ -625,6 +626,7 @@ function sheet.fixStats(e)
                     modData.typelevels[i] = 1
                 end
                 func.removePatron(sheet.reference)
+                func.removeBloodline(sheet.reference)
             end
 
             --Update Statistics after simulating
@@ -734,10 +736,12 @@ function sheet.fixStats(e)
             if sheet.reference.object.objectType == tes3.objectType.creature then
                 func.removeAbilitiesCre(sheet.reference)
                 func.removeGuildTraining(sheet.reference)
+                func.removeMutations(sheet.reference)
             else
                 func.removeAbilitiesNPC(sheet.reference)
                 modData.metamorph = false
                 func.removePatron(sheet.reference)
+                func.removeBloodline(sheet.reference)
             end
 
             --Update Statistics after simulating

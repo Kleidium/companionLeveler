@@ -53,42 +53,162 @@ function ritual.createWindow(ref)
 	--Creature Rituals
     if ref.object.objectType == tes3.objectType.creature or modData.metamorph == true then
         if modData.guildTraining and (modData.guildTraining[1] == tables.factions[5] or modData.guildTraining[2] == tables.factions[5]) then
-            local msg = "Perform the Almsivi Intervention Ritual?\nTP Cost: 2\nTime Cost: 10 Minutes"
+            local msg = "Perform the Ritual of Almsivi Intervention?\nTP Cost: 2\nTime Cost: 10 Minutes"
             ritual_block:createButton { text = "Almsivi Intervention" }
                 :register("mouseClick", function() showConfirmation(msg, "almsivi intervention", (1 / 6), 2) end)
         end
         if modData.abilities[85] then
             local msg = ("Perform the Cure Common Disease Ritual on %s?\nTP Cost: 2\nTime Cost: 5 Minutes"):format(ref.object.name)
             ritual_block:createButton { text = "Cure Common Disease" }
-                :register("mouseClick", function() showConfirmation(msg, "cure common disease", (1 / 12), 2) end)
+                :register("mouseClick", function() ritual.target = ref showConfirmation(msg, "cure common disease", (1 / 12), 2) end)
         end
         if modData.abilities[87] then
             local msg = ("Perform the Cure Blight Disease Ritual on %s?\nTP Cost: 2\nTime Cost: 10 Minutes"):format(ref.object.name)
             ritual_block:createButton { text = "Cure Blight Disease" }
-                :register("mouseClick", function() showConfirmation(msg, "cure blight disease", (1 / 6), 2) end)
+                :register("mouseClick", function() ritual.target = ref showConfirmation(msg, "cure blight disease", (1 / 6), 2) end)
         end
         if modData.abilities[89] then
-            local msg = ("Perform the Telekinesis Ritual on %s?\nTP Cost: 2\nTime Cost: 5 Minutes"):format(tes3.player.object.name)
-            ritual.target = tes3.mobilePlayer
+            local msg = ("Perform the Ritual of Telekinesis on %s?\nTP Cost: 2\nTime Cost: 5 Minutes"):format(tes3.player.object.name)
             ritual_block:createButton { text = "Telekinesis" }
-                :register("mouseClick", function() showConfirmation(msg, "kl_ritual_telekinesis", (1 / 12), 2) end)
+                :register("mouseClick", function() ritual.target = tes3.mobilePlayer showConfirmation(msg, "kl_ritual_telekinesis", (1 / 12), 2) end)
         end
         if modData.abilities[91] then
-            local msg = ("Perform the Levitation Ritual on %s?\nTP Cost: 2\nTime Cost: 5 Minutes"):format(tes3.player.object.name)
-            ritual.target = tes3.mobilePlayer
-            ritual_block:createButton { text = "Levitate" }
-                :register("mouseClick", function() showConfirmation(msg, "levitate", (1 / 12), 2) end)
+            local msg = ("Perform the Ritual of Levitation on %s?\nTP Cost: 2\nTime Cost: 5 Minutes"):format(tes3.player.object.name)
+            ritual_block:createButton { text = "Levitation" }
+                :register("mouseClick", function() ritual.target = tes3.mobilePlayer showConfirmation(msg, "levitate", (1 / 12), 2) end)
         end
         if modData.abilities[92] then
-            local msg = ("Perform the Dispel Ritual on %s?\nTP Cost: 2\nTime Cost: 5 Minutes"):format(tes3.player.object.name)
-            ritual.target = tes3.mobilePlayer
+            local msg = ("Perform the Ritual of Dispel on %s?\nTP Cost: 2\nTime Cost: 5 Minutes"):format(tes3.player.object.name)
             ritual_block:createButton { text = "Dispel" }
-                :register("mouseClick", function() showConfirmation(msg, "dispel", (1 / 12), 2) end)
+                :register("mouseClick", function() ritual.target = tes3.mobilePlayer showConfirmation(msg, "dispel", (1 / 12), 2) end)
         end
         if modData.abilities[95] then
             local msg = ("Perform the Second Barrier Ritual on %s?\nTP Cost: 2\nTime Cost: 5 Minutes"):format(ref.object.name)
             ritual_block:createButton { text = "Second Barrier" }
-                :register("mouseClick", function() showConfirmation(msg, "second barrier", (1 / 12), 2) end)
+                :register("mouseClick", function() ritual.target = ref showConfirmation(msg, "second barrier", (1 / 12), 2) end)
+        end
+    else
+        --NPC Rituals
+        if modData.bloodline ~= nil then
+            --Vampyrum
+            if modData.bloodline == 4 then
+                --Sight
+                local msg = ("Perform the Ritual of Sight on %s?\nTP Cost: 1\nTime Cost: 1 Minute"):format(tes3.player.object.name)
+                ritual_block:createButton { text = "Sight" }
+                    :register("mouseClick", function() ritual.target = tes3.mobilePlayer showConfirmation(msg, "kl_ritual_sight", (1 / 60), 1) end)
+                --Vampire's Seduction
+                if modData.stage >=2 then
+                    local msg2 = ("Perform the Ritual of Vampire's Seduction on %s?\nTP Cost: 2\nTime Cost: 1 Minute"):format(tes3.player.object.name)
+                    ritual_block:createButton { text = "Vampire's Seduction" }
+                        :register("mouseClick", function() ritual.target = tes3.mobilePlayer showConfirmation(msg2, "kl_ritual_seduction", (1 / 60), 2) end)
+                end
+                --Reign of Terror
+                if modData.stage >= 3 then
+                    local msg2 = ("Perform the Reign of Terror Ritual on %s?\nTP Cost: 3\nTime Cost: 1 Minute"):format(ref.object.name)
+                    ritual_block:createButton { text = "Reign of Terror" }
+                        :register("mouseClick", function() ritual.target = ref showConfirmation(msg2, "kl_ritual_reign", (1 / 60), 3) end)
+                end
+                --Embrace of Shadows
+                if modData.stage == 4 then
+                    local msg2 = ("Perform the Embrace of Shadows Ritual on %s?\nTP Cost: 2\nTime Cost: 1 Minute"):format(ref.object.name)
+                    ritual_block:createButton { text = "Embrace of Shadows" }
+                        :register("mouseClick", function() ritual.target = ref showConfirmation(msg2, "kl_ritual_embrace", (1 / 60), 2) end)
+                end
+            end
+            --Volkihar
+            if modData.bloodline == 5 then
+                --Sight
+                local msg = ("Perform the Ritual of Sight on %s?\nTP Cost: 1\nTime Cost: 1 Minute"):format(tes3.player.object.name)
+                ritual_block:createButton { text = "Sight" }
+                    :register("mouseClick", function() ritual.target = tes3.mobilePlayer showConfirmation(msg, "kl_ritual_sight", (1 / 60), 1) end)
+                --Vampire's Seduction
+                if modData.stage >=2 then
+                    local msg2 = ("Perform the Ritual of Vampire's Seduction on %s?\nTP Cost: 2\nTime Cost: 1 Minute"):format(tes3.player.object.name)
+                    ritual_block:createButton { text = "Vampire's Seduction" }
+                        :register("mouseClick", function() ritual.target = tes3.mobilePlayer showConfirmation(msg2, "kl_ritual_seduction", (1 / 60), 2) end)
+                end
+                --Vampire's Servant
+                if modData.stage >= 3 then
+                    local msg2 = ("Perform the Ritual of Vampire's Servant on %s?\nTP Cost: 2\nTime Cost: 1 Minute"):format(ref.object.name)
+                    ritual_block:createButton { text = "Vampire's Servant" }
+                        :register("mouseClick", function() ritual.target = ref showConfirmation(msg2, "kl_ritual_servant", (1 / 60), 2) end)
+                end
+                --Embrace of Shadows
+                if modData.stage == 4 then
+                    local msg2 = ("Perform the Embrace of Shadows Ritual on %s?\nTP Cost: 2\nTime Cost: 1 Minute"):format(ref.object.name)
+                    ritual_block:createButton { text = "Embrace of Shadows" }
+                        :register("mouseClick", function() ritual.target = ref showConfirmation(msg2, "kl_ritual_embrace", (1 / 60), 2) end)
+                end
+            end
+            --Garlythi
+            if modData.bloodline == 7 then
+                --Solidify Flesh
+                local msg = ("Perform the Solidify Flesh Ritual on %s?\nTP Cost: 1\nTime Cost: 1 Minute"):format(ref.object.name)
+                ritual_block:createButton { text = "Solidify Flesh" }
+                    :register("mouseClick", function() ritual.target = ref showConfirmation(msg, "kl_ritual_solidify", (1 / 60), 1) end)
+                
+                local alter = ref.mobile:getSkillStatistic(11).current
+
+                if alter >= 50 then
+                    local msg2 = ("Perform the Ritual of Daedric Shield on %s?\nTP Cost: 2\nTime Cost: 10 Minute"):format(ref.object.name)
+                    ritual_block:createButton { text = "Daedric Shield" }
+                        :register("mouseClick", function() ritual.target = ref showConfirmation(msg2, "kl_ritual_daedricShield", (1 / 6), 2) end)
+                end
+
+                if alter >= 75 then
+                    local msg2 = ("Perform the Ritual of Blood Shield on %s?\nTP Cost: 3\nTime Cost: 30 Minute"):format(ref.object.name)
+                    ritual_block:createButton { text = "Blood Shield" }
+                        :register("mouseClick", function() ritual.target = ref showConfirmation(msg2, "kl_ritual_bloodShield", (1 / 2), 3) end)
+                end
+
+                if alter >= 100 then
+                    local msg2 = ("Perform the Ritual of Chaos Shield on %s?\nTP Cost: 5\nTime Cost: 30 Minute"):format(ref.object.name)
+                    ritual_block:createButton { text = "Chaos Shield" }
+                        :register("mouseClick", function() ritual.target = ref showConfirmation(msg2, "kl_ritual_chaosShield", (1 / 2), 5) end)
+                end
+
+                if alter >= 150 then
+                    local msg2 = ("Perform the Ritual of Dark Shield on %s?\nTP Cost: 8\nTime Cost: 1 Hour"):format(ref.object.name)
+                    ritual_block:createButton { text = "Dark Shield" }
+                        :register("mouseClick", function() ritual.target = ref showConfirmation(msg2, "kl_ritual_darkShield", 1, 8) end)
+                end
+            end
+
+            --Lyrezi
+            if modData.bloodline == 10 then
+                --Solidify Flesh
+                local msg = ("Perform the Ritual of Profane Transparency on %s?\nTP Cost: 1\nTime Cost: 1 Minute"):format(ref.object.name)
+                ritual_block:createButton { text = "Profane Transparency" }
+                    :register("mouseClick", function() ritual.target = ref showConfirmation(msg, "kl_ritual_transparency", (1 / 60), 1) end)
+
+
+                local msg2 = ("Perform the Ritual of Shift Light on %s?\nTP Cost: 2\nTime Cost: 1 Minute"):format(ref.object.name)
+                ritual_block:createButton { text = "Shift Light" }
+                    :register("mouseClick", function() ritual.target = ref showConfirmation(msg2, "kl_ritual_shiftLight", (1 / 60), 2) end)
+            end
+        end
+
+        --Ritualist
+        if modData.abilities[159] then
+            local msg = ("Perform the Ritual of Glow on %s?\nTP Cost: 1\nTime Cost: 10 Minutes"):format(ref.object.name)
+            ritual_block:createButton { text = "Glow" }
+                :register("mouseClick", function() ritual.target = ref showConfirmation(msg, "kl_ritual_glow", (1 / 6), 1) end)
+
+            local msg2 = ("Perform the Ritual of Physick on %s?\nTP Cost: 2\nTime Cost: 10 Minutes"):format(tes3.player.object.name)
+            ritual_block:createButton { text = "Physick" }
+                :register("mouseClick", function() ritual.target = tes3.mobilePlayer showConfirmation(msg2, "kl_ritual_physick", (1 / 6), 2) end)
+
+            local msg3 = ("Perform the Ritual of The Hopper on %s?\nTP Cost: 2\nTime Cost: 15 Minutes"):format(tes3.player.object.name)
+            ritual_block:createButton { text = "Hopper" }
+                :register("mouseClick", function() ritual.target = tes3.mobilePlayer showConfirmation(msg3, "kl_ritual_hopper", (1 / 4), 2) end)
+
+            local msg4 = ("Perform the Ritual of Dual Souls on %s?\nTP Cost: 3\nTime Cost: 30 Minutes"):format(ref.object.name)
+            ritual_block:createButton { text = "Dual Souls" }
+                :register("mouseClick", function() ritual.target = ref showConfirmation(msg4, "kl_ritual_dual_soul", (1 / 2), 3) end)
+
+            local msg5 = ("Perform the Ritual of Trinkets on %s?\nTP Cost: 3\nTime Cost: 30 Minutes"):format(tes3.player.object.name)
+            ritual_block:createButton { text = "Trinkets" }
+                :register("mouseClick", function() ritual.target = tes3.mobilePlayer showConfirmation(msg5, "kl_ritual_trinkets", (1 / 2), 3) end)
         end
     end
 

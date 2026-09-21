@@ -126,6 +126,7 @@ local function onDeath(e)
 	abilities.bountyKill(e)
 	abilities.bloodKarma(e)
 	abilities.huntCheck(e)
+	abilities.killFeed(e)
 
 	if config.expMode == false then return end
 
@@ -159,6 +160,7 @@ event.register("uiActivated", function()
 
 	if actor and func.validCompanionCheck(actor) and actor.inCombat == false then
 		log:debug("NPC Follower detected. Giving class change topic.")
+		tes3.applyConstantEffectEquipment({ reference = actor, activate = true })
 		tes3.setGlobal("kl_companion", 1)
 	else
 		log:debug("Target not an NPC Follower. No class change topic given.")
@@ -197,19 +199,16 @@ event.register(tes3.event.keyDown, function(e)
 	if e.keyCode ~= config.typeBind.keyCode then return end
 
 	local t = tes3.getPlayerTarget()
-	if not t then return end
-	if t.mobile.inCombat then return end
 
-	if func.validCompanionCheck(t.mobile) then
-		log:trace("Ability Check triggered on " .. t.object.name .. ". (Key Press)")
-
-		if t.object.objectType == tes3.objectType.creature then
-			func.addAbilitiesCre(t)
-		else
-			func.addAbilitiesNPC(t)
+	if not t then
+		local buildTable = func.buildTable()
+		if #buildTable > 0 then
+			root.createWindow(buildTable[1])
 		end
-
-		root.createWindow(t)
+	else
+		if func.validCompanionCheck(t.mobile) then
+			root.createWindow(t)
+		end
 	end
 end)
 
@@ -240,7 +239,7 @@ event.register(tes3.event.mobileActivated, abilityClear)
 
 --Triggered Ability Timer: Recurring
 local function abilityTimer2()
-	log:trace("Recurring ability timer triggered.")
+	log:trace("Recurring NPC ability timer triggered.")
 
 	local party = func.npcTable()
 	local num = 0
@@ -269,6 +268,37 @@ local function abilityTimer2()
 end
 timer.register("companionLeveler:abilityTimer2", abilityTimer2)
 
+--Creature Triggered Ability Timer: Recurring
+local function abilityTimer3()
+	log:trace("Recurring creature ability timer triggered.")
+
+	local creatures = func.creTable()
+	local num = 0
+	-- if #party > 0 then
+	-- 	for i = 1, #party do
+	-- 		local modData = func.getModData(party[i])
+	-- 		if modData.patron and modData.patron == 23 then
+	-- 			num = 1
+	-- 			log:debug("Peryite oversees the party's tasks.")
+	-- 			break
+	-- 		end
+	-- 	end
+	-- end
+	local float = math.random()
+	local int = math.random(8, 23) - num
+	timer.start({ type = timer.game, duration = (float + int), iterations = 1, callback = "companionLeveler:abilityTimer3" })
+
+	if #creatures > 0 then
+		local choice = math.random(1, #creatures)
+		local reference = creatures[choice]
+
+		if math.random(0, 99) < config.triggerChance then
+			abilities.executeAbilitiesCre(reference)
+		end
+	end
+end
+timer.register("companionLeveler:abilityTimer3", abilityTimer3)
+
 --Hourly Timer: For Time-Based Abilities
 local function hourlyTimer()
 	log:trace("Hourly timer triggered.")
@@ -286,7 +316,7 @@ local function hourlyTimer()
 		timer.start({ type = timer.game, duration = num, iterations = 1, callback = "companionLeveler:hourlyTimer" })
 	end
 
-	--Patrons--
+	--Patrons/Bloodlines--
 	log:debug("Time is now " .. gameHour .. ".")
 	--func.clMessageBox("Time is now " .. gameHour .. " (" .. tes3.getGlobal('GameHour') .. ").")
 
@@ -309,6 +339,12 @@ local function hourlyTimer()
 	if gameHour >= 3 and gameHour < 4 then
 		log:debug("3am detected.")
 		abilities.mephalaTribute()
+	end
+
+	--Quarra Blood Frenzy
+	if gameHour >= 6 and gameHour < 7 then
+		log:debug("6am detected.")
+		abilities.breakBloodFrenzy()
 	end
 
 	--Meridia Tribute
@@ -346,6 +382,146 @@ local function hourlyTimer()
 		log:debug("Midnight detected.")
 		abilities.boethiahTribute()
 		abilities.moraTribute()
+	end
+
+	--Bloodlines--
+
+	local npcTable = func.npcTable()
+
+	for i = 1, #npcTable do
+		if func.checkModData(npcTable[i]) then
+			local modData = func.getModData(npcTable[i])
+			if modData.fedHours ~= nil and modData.fedHours >= 0 then
+				modData.fedHours = modData.fedHours + 1
+				--Bloodline Specific--
+
+				--Vampyrum Order
+				if modData.bloodline == 4 then
+					if modData.fedHours > 24 and modData.fedHours < 48 then
+						modData.fed = false
+						modData.stage = 2
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_stage_3" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_sun_3" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_stage_4" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_sun_4" })
+						local added = tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_vamp_stage_2" })
+						tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_vamp_sun_2" })
+						if added then func.clMessageBox("" .. npcTable[i].object.name .. " ascended to Vampyrum Stage II.") end
+					elseif modData.fedHours > 48 and modData.fedHours < 72 then
+						modData.fed = false
+						modData.stage = 3
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_stage_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_sun_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_stage_4" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_sun_4" })
+						local added = tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_vamp_stage_3" })
+						tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_vamp_sun_3" })
+						if added then func.clMessageBox("" .. npcTable[i].object.name .. " ascended to Vampyrum Stage III.") end
+					elseif modData.fedHours > 72 then
+						modData.fed = false
+						modData.stage = 4
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_stage_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_sun_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_stage_3" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_vamp_sun_3" })
+						local added = tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_vamp_stage_4" })
+						tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_vamp_sun_4" })
+						if added then func.clMessageBox("" .. npcTable[i].object.name .. " ascended to Vampyrum Stage IV!") end
+					end
+				elseif modData.bloodline == 5 then
+					--Volkihar
+					if modData.fedHours < 24 then
+						modData.fed = true
+						modData.stage = 1
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_1" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_3" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_3" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_4" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_4" })
+						if tes3.player.cell.isOrBehavesAsExterior then
+							if gameHour > 6 and gameHour < 20 then
+								tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_1" })
+							end
+						end
+					end
+					if modData.fedHours > 24 and modData.fedHours < 48 then
+						modData.stage = 2
+						modData.fed = false
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_1" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_3" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_3" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_4" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_4" })
+						local added = tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_2" })
+						if tes3.player.cell.isOrBehavesAsExterior then
+							if gameHour > 6 and gameHour < 20 then
+								tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_2" })
+							end
+						end
+						if added then func.clMessageBox("" .. npcTable[i].object.name .. " ascended to Volkihar Stage II.") end
+					elseif modData.fedHours > 48 and modData.fedHours < 72 then
+						modData.stage = 3
+						modData.fed = false
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_1" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_3" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_4" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_4" })
+						local added = tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_3" })
+						if tes3.player.cell.isOrBehavesAsExterior then
+							if gameHour > 6 and gameHour < 20 then
+								tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_3" })
+							end
+						end
+						if added then func.clMessageBox("" .. npcTable[i].object.name .. " ascended to Volkihar Stage III.") end
+					elseif modData.fedHours > 72 then
+						modData.stage = 4
+						modData.fed = false
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_1" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_2" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_3" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_3" })
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_4" })
+						local added = tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_volk_stage_4" })
+						if tes3.player.cell.isOrBehavesAsExterior then
+							if gameHour > 6 and gameHour < 20 then
+								tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_volk_sun_4" })
+							end
+						end
+						if added then func.clMessageBox("" .. npcTable[i].object.name .. " ascended to Volkihar Stage IV!") end
+					end
+				elseif (modData.bloodline >= 1 and modData.bloodline <= 3) or (modData.bloodline >= 6 and modData.bloodline <= 14) then
+					if modData.fedHours < 24 then
+						modData.fed = true
+					else
+						modData.fed = false
+					end
+					if modData.fedHours >= 36 then
+						local added = tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_unfed" })
+						if added then func.clMessageBox("" .. npcTable[i].object.name .. " has begun to suffer Blood Withdrawal.") end
+					else
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_unfed" })
+					end
+				elseif modData.bloodline == 15 then
+					if modData.fedHours < 48 then
+						modData.fed = true
+					else
+						modData.fed = false
+					end
+					if modData.fedHours >= 60 then
+						local added = tes3.addSpell({ reference = npcTable[i], spell = "kl_ability_unfed" })
+						if added then func.clMessageBox("" .. npcTable[i].object.name .. " has begun to suffer Blood Withdrawal.") end
+					else
+						tes3.removeSpell({ reference = npcTable[i], spell = "kl_ability_unfed" })
+					end
+				end
+			end
+		end
 	end
 end
 timer.register("companionLeveler:hourlyTimer", hourlyTimer)
@@ -391,6 +567,7 @@ local function onCombat(e)
 	abilities.nightmare(e) --Vaermina
 	abilities.lament(e)
 	abilities.indorilCre(e)
+	abilities.dragonLeap(e)
 
 	if math.random(0, 99) < config.combatChance then
 		abilities.jest(e)
@@ -403,6 +580,7 @@ local function onCombat(e)
 		abilities.dominance(e)
 		abilities.weather(e)
 		abilities.spores(e)
+		abilities.triggerChant(e)
 	end
 end
 event.register(tes3.event.combatStarted, onCombat)
@@ -433,6 +611,10 @@ local function onDamage(e)
 		result = result + abilities.tongCre(e)
 		result = result + abilities.ashlandCre(e)
 		result = result + abilities.dresCre(e)
+		result = result + abilities.criticalFang(e)
+		result = result + abilities.bloodFrenzy(e)
+		e.damage = abilities.nimbleness(e) --damage stays same or becomes 0
+		abilities.hexblade(e)
 
 		--Combat Chance
 		if math.random(0, 99) < config.combatChance then
@@ -448,11 +630,15 @@ local function onDamage(e)
 			abilities.meridiaGift(e)
 			abilities.quake(e)
 			abilities.claws(e)
+			abilities.poisonTouch(e)
+			abilities.acidTouch(e)
+			abilities.corrosiveTouch(e)
 
 			if e.projectile then
 				abilities.arcaneA(e)
 			else
 				abilities.arcaneK(e)
+				abilities.sear(e)
 			end
 
 		end
@@ -460,6 +646,7 @@ local function onDamage(e)
 		e.damage = e.damage + result
 
 		--After Added Damage
+		e.block = abilities.splitSecond(e)
 
 	elseif e.source == "fall" then
 		e.damage = abilities.acrobatic(e)
@@ -477,6 +664,8 @@ local function damaged(e)
 	abilities.mephalaSacrifice(e)
 	abilities.meridiaSacrifice(e)
 	abilities.molagGift(e)
+	abilities.khulariReaping(e)
+	abilities.lyreziStifling(e)
 
 	--Combat Chance
 	if math.random(0, 99) < config.combatChance then
@@ -529,6 +718,11 @@ local function onCellChanged(e)
 	abilities.staticAura()
 	abilities.toxicAura()
 	abilities.farseek()
+	abilities.boundless()
+	abilities.pace(e)
+	abilities.sunWeaken(e)
+	abilities.montLair(e)
+	abilities.detectSlave()
 
 	if config.expMode == false then return end
 
@@ -631,6 +825,16 @@ local function calcEnchantmentPriceCallback(e)
 end
 event.register(tes3.event.calcEnchantmentPrice, calcEnchantmentPriceCallback)
 
+--Barter Offer
+local function barterOfferCallback(e)
+	if e.success then
+		abilities.accountant(e)
+	else
+		--nothing
+	end
+end
+event.register(tes3.event.barterOffer, barterOfferCallback)
+
 --Stealth Events-----------------------------------------------------------------------------------------------
 
 --Sneaking Abilities
@@ -671,5 +875,5 @@ end)
 -- 	tes3.player.mobile:exerciseSkill(10, 100)
 -- end
 
--- event.register("jump", onLevelUp)
+--event.register("jump", onLevelUp)
 -- event.register("jump", expTest)

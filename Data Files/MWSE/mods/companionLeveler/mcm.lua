@@ -80,20 +80,25 @@ globalSettings:createOnOffButton {
     variable = mwse.mcm.createTableVariable { id = "ignoreSummon", table = config }
 }
 
-globalSettings:createDropdown {
-    label = "Debug Logging Level",
-    description = "Set the log level.\n\nDefault: INFO",
-    options = {
-        { label = "TRACE", value = "TRACE" },
-        { label = "DEBUG", value = "DEBUG" },
-        { label = "INFO", value = "INFO" },
-        { label = "ERROR", value = "ERROR" },
-        { label = "NONE", value = "NONE" },
-    },
-    variable = mwse.mcm.createTableVariable { id = "logLevel", table = config },
-    callback = function(self)
-        log:setLogLevel(self.variable.value)
-    end
+-- globalSettings:createDropdown {
+--     label = "Debug Logging Level",
+--     description = "Set the log level.\n\nDefault: INFO",
+--     options = {
+--         { label = "TRACE", value = "TRACE" },
+--         { label = "DEBUG", value = "DEBUG" },
+--         { label = "INFO", value = "INFO" },
+--         { label = "ERROR", value = "ERROR" },
+--         { label = "NONE", value = "NONE" },
+--     },
+--     variable = mwse.mcm.createTableVariable { id = "logLevel", table = config },
+--     callback = function(self)
+--         log.level = self.variable.value
+--     end
+-- }
+
+globalSettings:createLogLevelOptions{
+    config = config,
+    configKey = "logLevel", --resets everytime i open the game, still dumb
 }
 
 globalSettings:createKeyBinder {

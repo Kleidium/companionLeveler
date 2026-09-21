@@ -199,7 +199,7 @@ function duel.onSelectTarget(elem, ref)
 		elem.widget.state = 4
 
 		duel.target = ref
-		duel.level = ref.object.level
+		duel.level = func.getLevel(ref)
 		duel.class = ref.object.class
 		duel.will = ref.mobile.willpower.current
 
@@ -218,7 +218,7 @@ function duel.onSelectTarget(elem, ref)
 		elseif duel.class.id == "Bard" or duel.class.id == "Crusader" or duel.class.id == "Paladin" or duel.class.id == "Rogue" then
 			classBonus = 5
 		end
-		local levelBonus = duel.level - duel.ref.object.level
+		local levelBonus = duel.level - func.getLevel(duel.ref)
 		local chance = math.round(((duel.modifier * 0.85) + classBonus + levelBonus) - (duel.will * 0.9))
 		duel.chance = chance
 

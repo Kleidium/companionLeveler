@@ -44,6 +44,18 @@ function creClassMode.levelUp(companions)
                     storedTlevel = modData.typelevels[n]
                     trainedAtt1 = tables.typeStats[n][1]
                     trainedAtt2 = tables.typeStats[n][2]
+                    if cName == "Mutated" then
+                        --Random Attributes non-stacking
+                        trainedAtt1 = math.random(0, 7)
+
+                        local valueRand
+                        repeat
+                            valueRand = math.random(0, 7)
+                        until (valueRand ~= trainedAtt1)
+                        trainedAtt2 = valueRand
+                    end
+
+
                     if cName == "Daedra" then
                         chance = chance + 2
                     end
@@ -72,6 +84,9 @@ function creClassMode.levelUp(companions)
                     if cName == "Impish" then
                         chance = chance + 5
                     end
+                    if cName == "Amorphous" then
+                        chance = chance + 5
+                    end
                 end
             end
             log:info("" .. name .. "'s " .. cName .. " level increased by 1.")
@@ -84,6 +99,10 @@ function creClassMode.levelUp(companions)
             
             if (config.abilityLearning == true and modData.abilityLearning == true) then
                 abilities.creatureAbilities(cName, companionRef)
+            end
+
+            if config.triggeredAbilities == true then
+                abilities.executeAbilitiesCre(companionRef)
             end
 
             --Technique Points
@@ -435,8 +454,14 @@ function creClassMode.levelUp(companions)
         tes3.playSound({ sound = "skillraise" })
     end
 
-    --Start Hourly Timer
+    --Start Recurring Creature Ability Timer
     local modDataP = func.getModDataP()
+    if modDataP.noDupe2 == 0 then
+        timer.start({ type = timer.game, duration = math.random(48, 96), iterations = 1, callback = "companionLeveler:abilityTimer3" })
+        modDataP.noDupe2 = 1
+    end
+
+    --Start Hourly Timer
     if modDataP.hrTimerCreated == false then
         local gameHour = tes3.getGlobal('GameHour')
         local rounded = math.round(gameHour)

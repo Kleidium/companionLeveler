@@ -116,11 +116,7 @@ function necro.createWindow(ref)
 				necro.total = necro.total + 1
 
 				local a = pane:createTextSelect { text = "" .. mobileActor.reference.object.name .. "", id = "kl_necro_btn_" .. necro.total .. ""}
-				local lvl = mobileActor.reference.object.level
-				if func.checkModData(mobileActor.reference) == true then
-					local tempModData = func.getModData(mobileActor.reference)
-					lvl = tempModData.level
-				end
+				local lvl = func.getLevel(mobileActor.reference)
 				local obj
 				local req
 				local tp

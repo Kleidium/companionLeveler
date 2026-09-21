@@ -3,10 +3,10 @@ local stuff = {}
 ----Version Control---------------------------------------------------------------------------------------------------------------------------
 
 --Always make sure these values are correct.
-stuff.version = 3.30
-stuff.npcAbilityAmount = 145
-stuff.creAbilityAmount = 100
-stuff.creTypeAmount = 25
+stuff.version = 3.4
+stuff.npcAbilityAmount = 160
+stuff.creAbilityAmount = 120
+stuff.creTypeAmount = 30
 
 ----Companion Classes-------------------------------------------------------------------------------------------------------------------------
 
@@ -122,7 +122,12 @@ stuff.typeTable = {
 	[22] = "Pestilent",
 	[23] = "Fungal",
 	[24] = "Seismic",
-	[25] = "Feline"
+	[25] = "Feline",
+	[26] = "Reptilian",
+	[27] = "Vampiric",
+	[28] = "Amorphous",
+	[29] = "Steed",
+	[30] = "Mutated"
 }
 
 stuff.typeDesc1 = {
@@ -150,7 +155,12 @@ stuff.typeDesc1 = {
 	[22] = "Mixed Type. Restoration and Destruction magic. Opens themselves to the power of disease, becoming weaker to diseases whilst spreading them to others.",
 	[23] = "Magical Type. Proficient in Mysticism, Alteration, and Illusion. Bonus Technique Points. Deploys calming spores and learns ritual techniques.",
 	[24] = "Physical Type. Weak shield spells. Develops an ability to create shockwaves. May use Technique Points to augment physical attacks.",
-	[25] = "Stealth Type. Highly evasive, but fairly frail. Immune to fall damage. May parry hostile spells and inflict bleeding wounds."
+	[25] = "Stealth Type. Highly evasive, but fairly frail. Immune to fall damage. May parry hostile spells and inflict bleeding wounds.",
+	[26] = "Physical Type. Acidic attacks can corrode armor and deal poison damage. Learns no spells, but may regenerate wounds. Weak to Frost.",
+	[27] = "Mixed Type. Life-draining attacks which may eventually drain the very soul of foes. Weak to Fire. Proficient in Mysticism.",
+	[28] = "Magical Type. Secretes unique alchemical slimes. Paralyzing technique. Resistant to normal weapons. Weak to Shock. Proficient in Illusion and Destruction.",
+	[29] = "Stealth Type. Increases Speed while exploring. May carry the party to other destinations or away from danger. Limited fortifying magic. Weak to Poison.",
+	[30] = "Specialist Type. Develop up to four mutation slots. Eventually spend Technique Points to swap out mutations. Random attribute gain. Learns no spells."
 }
 
 stuff.typeDesc2 = {
@@ -178,7 +188,12 @@ stuff.typeDesc2 = {
 	[22] = "\"Lord Vivec looked upon this wizard, and listened to his boasting, then asked him, 'How can you pretend to prescribe for others the cure to all diseases, when you are unable to cure yourself of your own manifest arrogance and foolishness?'\" - Homilies of Blessed Almalexia",
 	[23] = "\"The common man looks at an object and fits it into a place in his way of thinking. Those skilled in the Old Ways, in the way of the Psijic, in Mysticism, can see an object and identify it by its proper role. But one more layer is needed to be peeled back to achieve understanding.\" - 2920, The Last Year of the First Era",
 	[24] = "\"On the world of Nirn, all was chaos. The only survivors of the twelve worlds of Creation were the Ehlnofey and the Hist. The Ehlnofey are the ancestors of Mer and Men. The Hist are the trees of Argonia. Nirn originally was all land, with interspersed seas, but no oceans.\" - The Annotated Anuad",
-	[25] = "\"Nirni stopped weeping, and Azurah spoke the First Secret to the Moons and they parted and let Azurah pass. And Azurah took some forest people who were torn between man and beast, and she placed them in the best deserts and forests on Nirni. And Azurah in her wisdom made them of many shapes, one for every purpose.\" - Words of Clan Mother Ahnissi"
+	[25] = "\"Nirni stopped weeping, and Azurah spoke the First Secret to the Moons and they parted and let Azurah pass. And Azurah took some forest people who were torn between man and beast, and she placed them in the best deserts and forests on Nirni. And Azurah in her wisdom made them of many shapes, one for every purpose.\" - Words of Clan Mother Ahnissi",
+	[26] = "\"The Serpent wanders about in the sky and has no Season, though its motions are predictable to a degree. No characteristics are common to all who are born under the sign of the Serpent. Those born under this sign are the most blessed and the most cursed.\" - The Firmament",
+	[27] = "\"Abide not the sorcerer among you, for he comes to steal the bones of your fathers and dust of your tombs. He seeks to bind by power what is yours by right, to drag forth the warm spirits from their world between and bind them to their service like slaves and beasts.\" - Blasphemous Revenants",
+	[28] = "\"Scotti looked in the direction Shehs was watching, and saw nothing unusual in the filthy water. Then, he realized that the pool of green slime in front of them was actually moving, and fairly quickly, from one bank to the other. It deposited small bones behind it as it oozed up into the reeds, and disappeared.\" - The Argonian Account, Book Four",
+	[29] = "\"The young man, who no one had ever heard of, arrived in a shining ebon coach drawn by a team of dragons, his clothing of rarest manufacture, and accompanied by an army of the most fantastical servants any of Gunal had ever seen. Valets with eyes on all sides of their heads, maidservants that seemed cast in gemstones.\" - The Dowry",
+	[30] = "\"Before he took issue with the monster, the warrior-poet asked:\n'How came you to be immune to spears?'\nTo which Moon Axle replied, 'Mine is a dual nature, and protean. I am in fact made of many straight lines, though none last too long. In this way I have learned to ignore all true segments.'\" - The Thirty-Six Lessons of Vivec, Sermon Twelve"
 }
 
 stuff.typeStats = {
@@ -206,7 +221,12 @@ stuff.typeStats = {
 	[22] = {5, 2},
 	[23] = {2, 7},
 	[24] = {0, 2},
-	[25] = {3, 2}
+	[25] = {3, 2},
+	[26] = {3, 5},
+	[27] = {0, 1},
+	[28] = {1, 5},
+	[29] = {4, 5},
+	[30] = {7, 7} --placeholder for random
 }
 
 
@@ -1465,6 +1485,68 @@ stuff.seisTable = {
 	[7] = "water walking"
 }
 
+stuff.vampTable = {
+	[1] = "absorb health",
+	[2] = "absorb fatigue",
+	[3] = "reflect",
+	[4] = "Soul Trap",
+	[5] = "weak spelldrinker",
+	[6] = "telekinesis",
+	[7] = "absorb intelligence",
+	[8] = "absorb strength",
+	[9] = "absorb speed",
+	[10] = "absorb endurance",
+	[11] = "absorb willpower",
+	[12] = "absorb agility",
+	[13] = "dispel"
+}
+
+stuff.slimeTable = {
+	[1] = "kl_spell_slime_lash",
+	[2] = "kl_spell_acid_grip",
+	[3] = "debilitate",
+	[4] = "halting grasp",
+	[5] = "Shadow Weave",
+	[6] = "Hide",
+	[7] = "kl_spell_bioluminate",
+	[8] = "Sanctuary",
+	[9] = "Far Silence",
+	[10] = "Clench",
+	[11] = "Stumble",
+	[12] = "Fuddle",
+	[13] = "Doze",
+	[14] = "Heartbite",
+	[15] = "Armor Eater",
+	[16] = "Weapon Eater",
+	[17] = "Strength Leech",
+	[18] = "Clumsy Touch",
+	[19] = "Torpor",
+	[20] = "Distracting Touch",
+	[21] = "kl_spell_pull_of_exhaustion",
+	[22] = "Drain Athletics",
+	[23] = "Poison",
+	[24] = "Poisonous Touch",
+	[25] = "Poisonbloom",
+	[26] = "Toxic Cloud",
+	[27] = "Poisonous Touch",
+	[28] = "Dire Weakness to Magicka",
+	[29] = "Dire Weakness to Poison",
+	[30] = "Daedric Bite",
+	[31] = "kl_spell_corrosive_slime"
+}
+
+stuff.steedTable = {
+	[1] = "Turn of the Wheel",
+	[2] = "Fortitude",
+	[3] = "Nimbleness",
+	[4] = "Quicksilver",
+	[5] = "Troll Strength",
+	[6] = "Vitality",
+	[7] = "Restore Speed",
+	[8] = "Restore Endurance",
+	[9] = "Stamina"
+}
+
 
 ----Creature Abilities-------------------------------------------------------------------------------------------------------
 
@@ -1568,7 +1650,27 @@ stuff.abList = {
 	[97] = "kl_ab_feli_01",
 	[98] = "kl_ab_feli_02",
 	[99] = "kl_ab_feli_03",
-	[100] = "kl_ab_feli_04"
+	[100] = "kl_ab_feli_04",
+	[101] = "kl_ab_rept_01",
+	[102] = "kl_ab_rept_02",
+	[103] = "kl_ab_rept_03",
+	[104] = "kl_ab_rept_04",
+	[105] = "kl_ab_vamp_01",
+	[106] = "kl_ab_vamp_02",
+	[107] = "kl_ab_vamp_03",
+	[108] = "kl_ab_vamp_04",
+	[109] = "kl_ab_slime_01",
+	[110] = "kl_ab_slime_02",
+	[111] = "kl_ab_slime_03",
+	[112] = "kl_ab_slime_04",
+	[113] = "kl_ab_steed_01",
+	[114] = "kl_ab_steed_02",
+	[115] = "kl_ab_steed_03",
+	[116] = "kl_ab_steed_04",
+	[117] = "kl_ab_mutated_01",
+	[118] = "kl_ab_mutated_02",
+	[119] = "kl_ab_mutated_03",
+	[120] = "kl_ab_mutated_04"
 }
 
 stuff.abType = {
@@ -1653,9 +1755,9 @@ stuff.abType = {
 	[79] = "[TECHNIQUE]: ACTIVATED",
 	[80] = "[COMBAT]",
 	[81] = "[TRIGGERED]: LEVEL UP",
-	[82] = "[TRIGGERED]: GUILD CHOICE",
+	[82] = "[SPECIAL]: GUILD CHOICE",
 	[83] = "[PASSIVE]",
-	[84] = "[TRIGGERED]: GUILD CHOICE",
+	[84] = "[SPECIAL]: GUILD CHOICE",
 	[85] = "[TECHNIQUE]: RITUAL",
 	[86] = "[COMBAT]",
 	[87] = "[TECHNIQUE]: RITUAL",
@@ -1671,7 +1773,27 @@ stuff.abType = {
 	[97] = "[PASSIVE]",
 	[98] = "[TRIGGERED]: FALLS",
 	[99] = "[COMBAT]",
-	[100] = "[COMBAT]"
+	[100] = "[COMBAT]",
+	[101] = "[COMBAT]",
+	[102] = "[PASSIVE]",
+	[103] = "[COMBAT]",
+	[104] = "[COMBAT]",
+	[105] = "[PASSIVE]",
+	[106] = "[COMBAT]",
+	[107] = "[COMBAT]",
+	[108] = "[COMBAT]",
+	[109] = "[PASSIVE]",
+	[110] = "[TRIGGERED]: ANYWHERE",
+	[111] = "[TECHNIQUE]: ACTIVATED",
+	[112] = "[TRIGGERED]: ANYWHERE",
+	[113] = "[TRIGGERED]: WILDERNESS",
+	[114] = "[TECHNIQUE]: TRAVEL",
+	[115] = "[COMBAT]",
+	[116] = "[TECHNIQUE]: TRAVEL",
+	[117] = "[SPECIAL]: MUTATION SLOT",
+	[118] = "[SPECIAL]: MUTATION SLOT",
+	[119] = "[SPECIAL]: MUTATION SLOT",
+	[120] = "[SPECIAL]: MUTATION SLOT"
 }
 
 stuff.abDescription = {
@@ -1774,7 +1896,27 @@ stuff.abDescription = {
 	[97] = "Survival means playing to one's strengths.",
 	[98] = "The mind forgets, but the body remembers.",
 	[99] = "For the observer, a rose. For the gardener, a thorn.",
-	[100] = "Even weakness can be a tool of strength."
+	[100] = "Fragility may yet be a tool of strength.",
+	[101] = "To have a sickening touch has always been thy nature.",
+	[102] = "Break yourself apart just to build yourself anew.",
+	[103] = "Escape was never an option.",
+	[104] = "When prey fights back, it only serves to amuse the predator.",
+	[105] = "Some wear their darkness well and proud.",
+	[106] = "Subtle are the ways in which the shadows confound.",
+	[107] = "The meaning of life is surely to take.",
+	[108] = "Body and mind are not enough. All will be forfeit.",
+	[109] = "Those who lack armor must instead rely upon technique.",
+	[110] = "The fruits of labor are meant to be enjoyed.",
+	[111] = "Nutrition comes in many forms.",
+	[112] = "The world is full of unique things that will one day disappear...forever.",
+	[113] = "Time; the most precious resource.",
+	[114] = "Rest. For once.",
+	[115] = "A single second can make all the difference.",
+	[116] = "All must return home eventually...",
+	[117] = "Mediocrity. Is there a worse fate?",
+	[118] = "Suffer not the consequence of stagnation.",
+	[119] = "What was yesterday, never will be again.",
+	[120] = "You've left your past self behind long ago...was it worth it?"
 }
 
 --What hope is there, for those who know their doom?
@@ -1879,7 +2021,27 @@ stuff.abDescription2 = {
 	[97] = "[Feline Type Level 5 Ability]",
 	[98] = "[Feline Type Level 10 Ability] Become immune to fall damage.",
 	[99] = "[Feline Type Level 15 Ability] (Agility) Sharp claws may induce bleeding on strike.",
-	[100] = "[Feline Type Level 20 Ability] (Willpower) Avoid spells as if they were physical strikes."
+	[100] = "[Feline Type Level 20 Ability] (Willpower) Avoid spells as if they were physical strikes.",
+	[101] = "[Reptillian Type Level 5 Ability] Melee strikes inflict light poison damage.",
+	[102] = "[Reptillian Type Level 10 Ability]",
+	[103] = "[Reptillian Type Level 15 Ability] Melee strikes corrode opponent armor.",
+	[104] = "[Reptillian Type Level 20 Ability] Melee strikes deal extra damage and corrode opponent weapons.",
+	[105] = "[Vampiric Type Level 5 Ability]",
+	[106] = "[Vampiric Type Level 10 Ability] Melee strikes may drain stamina from living creatures.",
+	[107] = "[Vampiric Type Level 15 Ability] Melee strikes may now drain blood from living creatures.",
+	[108] = "[Vampiric Type Level 20 Ability] Melee strikes may drain the very soul of living creatures.",
+	[109] = "[Amorphous Type Level 5 Ability]",
+	[110] = "[Amorphous Type Level 10 Ability] Occasionally secrete unique alchemical slimes.",
+	[111] = "[Amorphous Type Level 15 Ability] (Intelligence/Endurance) Paralyze and corrode a target. Immobile while channeling.",
+	[112] = "[Amorphous Type Level 20 Ability] Rarely secrete unique and valuable alchemical slimes.",
+	[113] = "[Steed Type Level 5 Ability] When entering a new area, the party's Speed is increased for a time.",
+	[114] = "[Steed Type Level 10 Ability] Travel to the nearest town. Only usable outdoors.",
+	[115] = "[Steed Type Level 15 Ability] If a physical attack would kill a party member, use technique points to ferry the party to safety.",
+	[116] = "[Steed Type Level 20 Ability] Mark, and subsequently travel to, a single outdoor location of your choice.",
+	[117] = "[Mutated Type Level 5 Ability] Gain a Mutation Slot, and choose a Mutation.",
+	[118] = "[Mutated Type Level 10 Ability] Gain a second Mutation Slot, and choose a Mutation.",
+	[119] = "[Mutated Type Level 15 Ability] Gain a third Mutation Slot, and choose a Mutation.",
+	[120] = "[Mutated Type Level 20 Ability] Gain a final Mutation Slot, and choose a Mutation. Mutation Slots can now be swapped out."
 }
 
 ----NPC Abilities------------------------------------------------------------------------------------------------------
@@ -2029,7 +2191,22 @@ stuff.classesSpecial = {
 	[142] = "Fryse Hag",
 	[143] = "Hood",
 	[144] = "Marauder",
-	[145] = "Relic Seeker"
+	[145] = "Relic Seeker",
+	[146] = "Egg Miner",
+	[147] = "Accountant",
+	[148] = "Seraph",
+	[149] = "Skald",
+	[150] = "Seeker",
+	[151] = "Clever-Man",
+	[152] = "Ratcatcher",
+	[153] = "Cook",
+	[154] = "Dragoon",
+	[155] = "Dimensionalist",
+	[156] = "Sanguine Aspirant",
+	[157] = "Cat-catcher",
+	[158] = "Artist",
+	[159] = "Ritualist",
+	[160] = "Hexblade"
 }
 
 stuff.abListNPC = {
@@ -2177,7 +2354,22 @@ stuff.abListNPC = {
 	[142] = "kl_ab_npc_fryse",
 	[143] = "kl_ab_npc_hood",
 	[144] = "kl_ab_npc_marauder",
-	[145] = "kl_ab_npc_relic_seeker"
+	[145] = "kl_ab_npc_relic_seeker",
+	[146] = "kl_ab_npc_egg_miner",
+	[147] = "kl_ab_npc_accountant",
+	[148] = "kl_ab_npc_seraph",
+	[149] = "kl_ab_npc_skald",
+	[150] = "kl_ab_npc_seeker",
+	[151] = "kl_ab_npc_clever_man",
+	[152] = "kl_ab_npc_ratcatcher",
+	[153] = "kl_ab_npc_cook",
+	[154] = "kl_ab_npc_dragoon",
+	[155] = "kl_ab_npc_dimensionalist",
+	[156] = "kl_ab_npc_sanguine_aspirant",
+	[157] = "kl_ab_npc_cat_catcher",
+	[158] = "kl_ab_npc_artist",
+	[159] = "kl_ab_npc_ritualist",
+	[160] = "kl_ab_npc_hexblade"
 }
 
 stuff.abTypeNPC = {
@@ -2302,7 +2494,7 @@ stuff.abTypeNPC = {
 	[119] = "[AURA]",
 	[120] = "[COMBAT]",
 	[121] = "[TECHNIQUE]: ACTIVATED",
-	[122] = "[PASSIVE]: METAMORPHOSIS",
+	[122] = "[SPECIAL]: METAMORPHOSIS",
 	[123] = "[TECHNIQUE]: TRAINING",
 	[124] = "[PASSIVE]",
 	[125] = "[PASSIVE]",
@@ -2319,13 +2511,28 @@ stuff.abTypeNPC = {
 	[136] = "[AURA]",
 	[137] = "[PASSIVE]",
 	[138] = "[COMBAT]",
-	[139] = "[TRIGGERED]: PATRON",
+	[139] = "[SPECIAL]: PATRON",
 	[140] = "[TECHNIQUE]: SERVICE",
 	[141] = "[TECHNIQUE]: ACTIVATED",
 	[142] = "[COMBAT]",
 	[143] = "[PASSIVE]",
 	[144] = "[PASSIVE]",
-	[145] = "[TRIGGERED]: ANYWHERE"
+	[145] = "[TRIGGERED]: ANYWHERE",
+	[146] = "[TRIGGERED]: ANYWHERE",
+	[147] = "[TRIGGERED]: LEVEL UP",
+	[148] = "[COMBAT]",
+	[149] = "[COMBAT]",
+	[150] = "[TRIGGERED]: WILDERNESS",
+	[151] = "[PASSIVE]",
+	[152] = "[TRIGGERED]: ANYWHERE",
+	[153] = "[TECHNIQUE]: CRAFTING",
+	[154] = "[COMBAT]",
+	[155] = "[TECHNIQUE]: STORAGE",
+	[156] = "[SPECIAL]: VAMPIRIC BLOODLINE",
+	[157] = "[TRIGGERED]: ANYWHERE",
+	[158] = "[PASSIVE]",
+	[159] = "[TECHNIQUE]: RITUAL",
+	[160] = "[COMBAT]"
 }
 
 stuff.abDescriptionNPC = {
@@ -2473,7 +2680,22 @@ stuff.abDescriptionNPC = {
 	[142] = "Deep faith is all too often scorned.",
 	[143] = "Hesitation is a self-inflicted poison.",
 	[144] = "Power is a universal language.",
-	[145] = "The search for greatness never really ends."
+	[145] = "The search for greatness never really ends.",
+	[146] = "Treasure, hidden within the most fragile of shells.",
+	[147] = "Math is magic!",
+	[148] = "Only punishment awaits the wicked.",
+	[149] = "The song of victory sublime can only be silenced once.",
+	[150] = "\"For what do I seek? It is difficult to explain...but I pursue the seeking itself.\"",
+	[151] = "\"Sometimes I like to prepare a spell, only to hit 'em with the axe. Gets 'em every time!\"",
+	[152] = "Hunger does not discriminate.",
+	[153] = "Cooking is science, magic, and art in one.",
+	[154] = "Sooner or later, all blades meet flesh.",
+	[155] = "If there is no space, we shall simply have to make some space.",
+	[156] = "Few are willing to enact the necessary changes required for true progress.",
+	[157] = "To catch, one must first find.",
+	[158] = "Inspiration can come from anywhere; even from within.",
+	[159] = "Proper magic requires proper preparation.",
+	[160] = "Erode them physically, mentally, emotionally, and spiritually. Erode them...completely."
 }
 
 stuff.abDescriptionNPC2 = {
@@ -2620,7 +2842,22 @@ stuff.abDescriptionNPC2 = {
 	[142] = "(Willpower) These followers of Kyne may call upon Her wrath when struck by a foe in combat.",
 	[143] = "",
 	[144] = "",
-	[145] = "Automatically detect the presence of nearby artifacts, such as daedric armor."
+	[145] = "Automatically detect the presence of nearby artifacts, such as daedric armor.",
+	[146] = "Egg miners will occasionally provide fresh kwama eggs.",
+	[147] = "(Mercantile) Accountants log your purchases each level, returning a percentage of what you spend at level up.",
+	[148] = "(Destruction) Melee strikes may sear the flesh of all foes, dealing extra damage to undead and vampires.",
+	[149] = "(Speechcraft) May sing empowering songs during combat, fortifying attributes and removing silence from allies.",
+	[150] = "(Mysticism) Secret knowledge uncovered through constant exploration slowly manifests itself as Technique Points.",
+	[151] = "Ancient Nordic knowledge has increased Technique Points by 2.",
+	[152] = "Ratcatchers occasionally provide rat meat.",
+	[153] = "(Intelligence/Alchemy) Cooks learn various recipes, combining ingredients into food for the party.",
+	[154] = "Teleport to distant foes to close the distance in combat.",
+	[155] = "(Conjuration) Access a secret cache through a small pocket of Oblivion, where you can store and retrieve items.",
+	[156] = "Sanguine Aspirants seek out the dread curse of a vampiric bloodline in order to further their goals.",
+	[157] = "Detect the presence of nearby slaves, dead or alive, when entering an area.",
+	[158] = "",
+	[159] = "Gain access to five useful rituals. Rituals are simple spell techniques that require TP instead of magicka.",
+	[160] = "Each strike with a hexblade's cursed weapon damages a random attribute."
 }
 
 
@@ -3574,7 +3811,7 @@ stuff.patronGifts = {
 	[20] = "Lord Molag Bal grants His thrall the ability to convert soul energy into health, magicka, or fatigue for themselves, or for you at twice the cost. Soul energy is automatically stockpiled by killing both creatures and people.",
 	[21] = "The Cleric's melee and ranged attacks accelerate the decay of weapon, armor, flesh, and bone with each strike. Cannot be resisted. Only effective between the hours of 10pm and 5am.",
 	[22] = "Lesser Evergloam shadows automatically open all locks up to level 50 on contact without alerting anyone nearby.",
-	[23] = "The Taskmaster allows the party's non-combat triggered abilities to trigger slightly more often, and bestows disease-blessings upon the Cleric once per level that leave behind permanent beneficial effects.",
+	[23] = "The Taskmaster allows the party's non-combat triggered abilities to trigger slightly more often, and bestows disease-blessings upon the Cleric once per level that leave behind permanent beneficial effects.", --needs to trigger on creature triggered abilities
 	[24] = "The party never ends, and that now applies to your party as well. The Cleric emits an aura of blood ardor, which regenerates the entire party's fatigue and instills a feeling of euphoria.",
 	[25] = "Sheogorath promises nothing and something at the same time. No, He will not tell you if that's good or bad. Stop asking.",
 	[26] = "Whenever the Cleric rests, Vaermina sends the Cleric a nightmare which grants experience once daily, then manifests into a waking nightmare. The waking nightmare passively siphons enemy magicka and intelligence to the Cleric."
@@ -3641,7 +3878,7 @@ stuff.guildTrainedMessages = {
 	[6] = "The Divines have always favored this creature, prompting the Imperial Cult to draw out these favors through hallowed training.",
 	[7] = "This specimen was experimented on by a Telvanni wizard lord, who subsequently discarded it once their inscrutable needs were met.",
 	[8] = "Honorable House Redoran has bred this creature to destroy their enemies, the profane ash creatures of Red Mountain.",
-	[9] = "House Hlaalu has agreed to sponsor this creature in order to use it as a tool to increase their own reputation.",
+	[9] = "House Hlaalu has agreed to sponsor this creature in order to use it as a tool to increase their own influence.",
 	[10] = "The Morag Tong taught this creature how to target vital weakpoints, allowing them to kill efficiently.",
 	[11] = "The Legion employed this creature as a sentry, utilizing their naturally sharp senses to detect intruders.",
 	[12] = "The Imperial Census and Excise employed this creature to assist in collecting unpaid taxes through asset forfeiture.",
@@ -3731,6 +3968,144 @@ stuff.blightDiseases = {
 	[3] = "black-heart blight",
 	[4] = "chanthrax blight"
 }
+
+stuff.commonSlimes = {
+	[1] = "kl_ingred_viridian_slime",
+	[2] = "kl_ingred_cerulean_slime",
+	[3] = "kl_ingred_scarlet_slime"
+}
+
+stuff.rareSlimes = {
+	[1] = "kl_ingred_neon_slime",
+	[2] = "kl_ingred_mauve_slime"
+}
+
+stuff.bloodlines = {
+	[1] = "Aundae",-- Morrowind
+	[2] = "Berne",
+	[3] = "Quarra",
+	[4] = "Vampyrum Order", --Cyrodiil
+	[5] = "Volkihar", --Skyrim
+	[6] = "Anthotis", --Iliac Bay
+	[7] = "Garlythi",
+	[8] = "Haarvenu",
+	[9] = "Khulari",
+	[10] = "Lyrezi",
+	[11] = "Montalion",
+	[12] = "Selenu",
+	[13] = "Thrafey",
+	[14] = "Vraseth",
+	[15] = "Tenarr Zalviit" --Elsweyr
+}
+
+stuff.bloodlineMessages = {
+	[1] = "\"Our path through the darkness relies on magic, and at this, we are truly gifted.\"",
+	[2] = "\"Our victims never suspect our presence... until their blood is on our lips.\"",
+	[3] = "\"Throw away your armor and weapons, for so great is our skill, that they are unneeded.\"",
+	[4] = "\"None know your nature, save Us. None share your fate, save Us. None welcome you as kin, save Us.\"",
+	[5] = "\"I offer you my blood. Take it, and you will walk as a lion among sheep.\"",
+	[6] = "\"Those of the Athotis bloodline are gifted with great intellect.\"",
+	[7] = "\"Those of the Garlythi bloodline are gifted with the ability to magically shield themselves from damage.\"",
+	[8] = "\"Those of the Haarvenu bloodline are gifted in the school of Destruction magic, particularly elemental attacks.\"",
+	[9] = "\"Those of the Khulari bloodline are gifted with the ability to paralyze their prey.\"", --feeds through paralyzing and feeding
+	[10] = "\"Those of the Lyrezi bloodline are gifted with the ability to turn invisible and magically silence their enemies.\"",
+	[11] = "\"Those of the Montalion bloodline are gifted with the ability to cure paralysis and the power of teleportation.\"",
+	[12] = "\"Those of the Selenu bloodline are resistant to elemental attacks.\"",
+	[13] = "\"Those of the Thrafey bloodline are gifted with the ability to restore damaged tissue.\"",
+	[14] = "\"Those of the Vraseth bloodline are gifted with nimbleness.\"",
+	[15] = "\"So a tiger walks among the cattle.\""
+}
+
+stuff.bloodlineTypes = {
+	[1] = "[TECHNIQUE]: ACTIVATED",
+	[2] = "[TECHNIQUE]: FEEDING",
+	[3] = "[COMBAT]",
+	[4] = "[SPECIAL]: VAMPIRIC STAGES",
+	[5] = "[SPECIAL]: VAMPIRIC STAGES",
+	[6] = "[TECHNIQUE]: CRAFTING",
+	[7] = "[TECHNIQUE]: ACTIVATED",
+	[8] = "[COMBAT]",
+	[9] = "[COMBAT]",
+	[10] = "[COMBAT]",
+	[11] = "[TECHNIQUE]: TRAVEL",
+	[12] = "[PASSIVE]",
+	[13] = "[TECHNIQUE]: FEEDING",
+	[14] = "[COMBAT]",
+	[15] = "[TECHNIQUE]: FEEDING"
+}
+
+stuff.bloodlineSunlight = {
+	[1] = "Sunlight burns the vampire's flesh.",
+	[2] = "Sunlight burns the vampire's flesh.",
+	[3] = "Sunlight burns the vampire's flesh.",
+	[4] = "Sunlight has no effect at stage one. At stages two to four, sunlight burns with increasing intensity.",
+	[5] = "Sunlight weakens the vampire with increasing intensity as stages increase.",
+	[6] = "Sunlight burns the vampire's flesh at a low rate.",
+	[7] = "Sunlight burns the vampire's flesh at a low rate.",
+	[8] = "Sunlight burns the vampire's flesh at a low rate.",
+	[9] = "Sunlight burns the vampire's flesh at a low rate.",
+	[10] = "Sunlight burns the vampire's flesh at a low rate.",
+	[11] = "Sunlight burns the vampire's flesh at a low rate.",
+	[12] = "Sunlight burns the vampire's flesh at a low rate.",
+	[13] = "Sunlight burns the vampire's flesh at a low rate.",
+	[14] = "Sunlight burns the vampire's flesh at a low rate.",
+	[15] = "Sunlight weakens the vampire."
+}
+
+stuff.bloodlineFeeding = {
+	[1] = "Must feed from a living humanoid every 24 hours. Blood Withdrawal at 36 hours.",
+	[2] = "Must feed from a living humanoid every 24 hours. Blood Withdrawal at 36 hours.",
+	[3] = "Must feed by killing a humanoid in combat every 24 hours. Blood Withdrawal at 36 hours.",
+	[4] = "Must feed from a living humanoid. Does not suffer Blood Withdrawal.",
+	[5] = "Must feed from a living humanoid. Does not suffer Blood Withdrawal.",
+	[6] = "Must feed every 24 hours. May feed from the living or from blood tinctures. Blood Withdrawal at 36 hours.",
+	[7] = "Must feed every 24 hours. May feed from the living or by killing a humanoid in combat. Blood Withdrawal at 36 hours.",
+	[8] = "Must feed every 24 hours. May feed from the living or by killing a humanoid in combat. Blood Withdrawal at 36 hours.",
+	[9] = "Must feed every 24 hours. May feed from the living or by killing a humanoid in combat. Blood Withdrawal at 36 hours.",
+	[10] = "Must feed every 24 hours. May feed from the living or by killing a humanoid in combat. Blood Withdrawal at 36 hours.",
+	[11] = "Must feed every 24 hours. May feed from the living or by killing a humanoid in combat. Blood Withdrawal at 36 hours.",
+	[12] = "Must feed every 24 hours. May feed from the living or by killing a humanoid in combat. Blood Withdrawal at 36 hours.",
+	[13] = "Must feed every 24 hours. May feed from the living or dead. Blood Withdrawal at 36 hours.",
+	[14] = "Must feed every 24 hours. May feed from the living or by killing a humanoid in combat. Blood Withdrawal at 36 hours.",
+	[15] = "Must feed every 48 hours. May feed from living humanoids or creatures. Blood Withdrawal at 60 hours."
+}
+
+stuff.bloodlineRegion = {
+	[1] = "Morrowind",
+	[2] = "Morrowind",
+	[3] = "Morrowind",
+	[4] = "Cyrodiil",
+	[5] = "Skyrim",
+	[6] = "Iliac Bay",
+	[7] = "Iliac Bay",
+	[8] = "Iliac Bay",
+	[9] = "Iliac Bay",
+	[10] = "Iliac Bay",
+	[11] = "Iliac Bay",
+	[12] = "Iliac Bay",
+	[13] = "Iliac Bay",
+	[14] = "Iliac Bay",
+	[15] = "Elsweyr"
+}
+
+stuff.bloodlineGifts = {
+	[1] = "Feeding absorbs blood magicka from victims. Blood magicka may be used to cast powerful blood magicks.",
+	[2] = "Always remain unnoticed when feeding. While Sated, gain 12% critical strike chance.",
+	[3] = "Each humanoid killed incites Blood Frenzy. Blood Frenzy increases melee damage, but clouds the senses as it accumulates. Resets daily at 6am.",
+	[4] = "Abstaining from blood increases vampiric power as well as drawbacks. Four total stages.",
+	[5] = "Abstaining from blood increases vampiric power as well as drawbacks. Four total stages.",
+	[6] = "(Alchemy) May create blood tincture from corpses, which keep the vampire fed and provide benefits to others.",
+	[7] = "(Alteration) Gain access to powerful personal shield rituals.",
+	[8] = "Casting an elemental destruction spell restores health equal to 20% of magicka cost.",
+	[9] = "Feeding paralyzes the victim. Attacking a paralyzed target heals the vampire.",
+	[10] = "Gain access to invisibility and chameleon rituals. Attacks may silence foes.",
+	[11] = "Mark an interior as a lair. Within this lair, the vampire regenerates. Teleport to the lair as a technique.",
+	[12] = "Strong passive resistance to all elements.",
+	[13] = "Feeding restores the entire party's health and can be done even while Sated for 1 Technique Point.",
+	[14] = "15% of physical attacks that would otherwise land are parried instead.",
+	[15] = "Feeding inflicts extra damage. This damage ignores all resistances."
+}
+
 
 ----NPC Level Up Messages-------------------------------------------------------------------------------------------
 stuff.npcMessage = {
@@ -3855,7 +4230,12 @@ stuff.colors = {
 	["crimson"] = { 0.6, 0.0, 0.0 }, --Blood Karma Crimson
 	["bloodmoon"] = { 0.9, 0.0, 0.0 }, --Lycanthropic Power "Bloodmoon"
 	["silver"] = { 0.4, 0.4, 0.4 }, --Order Streak Silver ( but it looked bad with the font so now it's grey+ )
-	["azure"] = { 0.0, 0.5, 1.0 } --Soul Energy Azure
+	["azure"] = { 0.0, 0.5, 1.0 }, --Soul Energy Azure
+	["mauve"] = { 0.65, 0.50, 0.73 }, --Secret Mauve,
+	["pastel_pink"] = { 1.0, 0.773, 0.824}, -- pastel pink
+	["wine"] = { 0.404, 0.012, 0.184 }, --blood magicka wine
+	["wine2"] = { 0.404, 0.012, 0.184 } --blood frenzy wine
+
 }
 
 

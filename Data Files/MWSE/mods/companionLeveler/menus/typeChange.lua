@@ -218,11 +218,15 @@ function typeModule.typeChange(reference)
 	--Attribute Text
 	local kl_att = text_right:createLabel({ text = "Favored Attributes:", id = "kl_att_type" })
 	kl_att.color = tables.colors["white"]
-	text_right:createLabel({ text = "" .. tables.capitalization[mAtt1] .. "", id = "kl_att1_type" })
-	text_right:createLabel({ text = "" .. tables.capitalization[mAtt2] .. "", id = "kl_att2_type" })
+	local att1 = text_right:createLabel({ text = "" .. tables.capitalization[mAtt1] .. "", id = "kl_att1_type" })
+	local att2 = text_right:createLabel({ text = "" .. tables.capitalization[mAtt2] .. "", id = "kl_att2_type" })
 	local extraAtt = text_right:createLabel({ text = "", id = "kl_att3_type" })
 	if modData.type == "Draconic" then
 		extraAtt.text = "Personality"
+	end
+	if modData.type == "Mutated" then
+		att1.text = "???"
+		att2.text = "???"
 	end
 
 	--Description Text
@@ -332,6 +336,10 @@ function typeModule.onSelect(i)
 		if i == 11 then
 			text5.text = "Personality"
 		end
+		if i == 30 then
+			text2.text = "???"
+			text3.text = "???"
+		end
 
 		if i == 8 then
 			for n = 1, 4 do
@@ -409,6 +417,10 @@ function typeModule.defSelect()
 				text5.text = ""
 				if i == 11 then
 					text5.text = "Personality"
+				end
+				if i == 30 then
+					text2.text = "???"
+					text3.text = "???"
 				end
 
 				for n = 1, 4 do

@@ -16,7 +16,7 @@ function this.getModDataP()
 
     if not tes3.player.data.companionLeveler then
         log:info("Player Mod Data not found, setting to base Mod Data values.")
-        tes3.player.data.companionLeveler = { ["noDupe"] = 0, ["lastExteriorPosition"] = {0.0, 0.0, 0.0}, ["hrTimerCreated"] = false }
+        tes3.player.data.companionLeveler = { ["noDupe"] = 0, ["noDupe2"] = 0, ["lastExteriorPosition"] = {0.0, 0.0, 0.0}, ["hrTimerCreated"] = false }
         tes3.player.modified = true
     else
         log:trace("Saved Mod Data found.")
@@ -111,7 +111,7 @@ end
 function this.checkModData(ref)
 	log:trace("Checking for existing Mod Data.")
 
-	if not ref.data.companionLeveler then
+	if ref == tes3.player or not ref.data.companionLeveler then
 		return false
 	else
 		return true
@@ -137,6 +137,11 @@ function this.updateModData(ref)
 		if modData.hrTimerCreated == nil then
 			modData["hrTimerCreated"] = false
 			log:debug("" .. ref.object.name .. "'s hrTimerCreated feature updated.")
+		end
+
+		if modData.noDupe2 == nil then
+			modData["noDupe2"] = 0
+			log:debug("" .. ref.object.name .. "'s Creature Timer feature updated.")
 		end
 	else
 		log:trace("Version Check: Reference is not the player.")
@@ -464,6 +469,18 @@ function this.modStatAndTrack(type, index, value, ref, modData)
     end
 end
 
+--- Helper to quickly find correct level data
+--- @ param  ref tes3reference
+--- @ return integer
+function this.getLevel(ref)
+	if this.checkModData(ref) then
+		local modData = this.getModData(ref)
+		return modData.level
+	else
+		return ref.object.level
+	end
+end
+
 
 --
 ----Companion Check-------------------------------------------------------------------------------------------------------------
@@ -739,6 +756,59 @@ function this.removeGuildTraining(ref)
 	end
 end
 
+--- @ param  ref tes3reference
+function this.removeMutations(ref)
+	for i = 1, 22 do
+		local wasRemoved = tes3.removeSpell({ spell = "kl_ability_mutation_" .. i .. "", reference = ref, })
+		if wasRemoved == true then
+			log:debug("Mutation " .. i .. " removed from " .. ref.object.name .. ".")
+			local modData = this.getModData(ref)
+			modData.mutationSlots = nil
+		else
+			log:trace("Mutation " .. i .. " not removed from " .. ref.object.name .. ".")
+		end
+	end
+end
+
+--- @ param  ref tes3reference
+function this.removeBloodline(ref)
+	for i = 1, #tables.bloodlines do
+		local wasRemoved = tes3.removeSpell({ spell = "kl_ability_bloodline_" .. i .. "", reference = ref, })
+		if wasRemoved == true then
+			log:debug("Bloodline " .. tables.bloodline[i] .. " removed from " .. ref.object.name .. ".")
+			local modData = this.getModData(ref)
+			modData.fed = nil
+			modData.fedHours = nil
+			modData.bloodline = nil
+			if modData.bloodMagicka ~= nil then
+				modData.bloodMagicka = nil
+			end
+			if modData.bloodFrenzy ~= nil then
+				modData.bloodFrenzy = nil
+			end
+			if modData.stage ~= nil then
+				modData.stage = nil
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_vamp_stage_2" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_vamp_stage_3" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_vamp_stage_4" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_volk_stage_2" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_volk_stage_3" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_volk_stage_4" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_volk_sun_1" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_volk_sun_2" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_volk_sun_3" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_volk_sun_4" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_vamp_sun_2" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_vamp_sun_3" })
+				tes3.removeSpell({ reference = ref, spell = "kl_ability_vamp_sun_4" })
+			end
+			tes3.removeSpell({ reference = ref, spell = "kl_ability_unfed" })
+		else
+			log:trace("Bloodline " .. tables.bloodline[i] .. " not removed from " .. ref.object.name .. ".")
+		end
+	end
+end
+
 --
 ----Experience Functions--------------------------------------------------------------------------------------------------
 --
@@ -981,7 +1051,7 @@ end
 --Creates a Bar.
 --- @ param  ele tes3uiElement
 --- @ param type string small or standard
---- @ param color string red/blue/green/gold/purple/crimson/bloodmoon/silver/azure
+--- @ param color string red/blue/green/gold/purple/crimson/bloodmoon/silver/azure/mauve/wine/wine2
 function this.configureBar(ele, type, color)
 	ele.widget.showText = true
 	ele.widget.fillColor = tables.colors[color]
@@ -1015,6 +1085,12 @@ function this.configureBar(ele, type, color)
 		this.clTooltip(ele, "order streak")
 	elseif color == "azure" then
 		this.clTooltip(ele, "soul energy")
+	elseif color == "mauve" then
+		this.clTooltip(ele, "secrets")
+	elseif color == "wine" then
+		this.clTooltip(ele, "blood magic")
+	elseif color == "wine2" then
+		this.clTooltip(ele, "blood frenzy")
 	end
 end
 
@@ -1062,6 +1138,9 @@ function this.abilityTooltip(ele, key, npc)
 		elseif string.match(typeLabel.text, "AURA") then
 			--Blue
 			typeLabel.color = { 0.3, 0.3, 0.7 }
+		elseif string.startswith(typeLabel.text, "[SPECIAL") then
+			--Pink
+			typeLabel.color = tables.colors["pink"]
 		end
 
 		local helpLabel = tooltip:createLabel { text = desc }
@@ -1105,6 +1184,47 @@ function this.patronTooltip(ele, key)
 		elseif string.match(typeLabel.text, "AURA") then
 			--Blue
 			typeLabel.color = { 0.3, 0.3, 0.7 }
+		elseif string.startswith(typeLabel.text, "[SPECIAL") then
+			--Pink
+			typeLabel.color = tables.colors["pink"]
+		end
+	end)
+end
+
+--- @param ele tes3uiElement
+--- @param key integer
+function this.bloodlineTooltip(ele, key)
+	local spellObject = tes3.getObject("kl_ability_bloodline_" .. key .. "")
+	local type = tables.bloodlineTypes[key]
+
+	ele:register("help", function(e)
+		local tooltip = tes3ui.createTooltipMenu { spell = spellObject }
+
+		local contentElement = tooltip:getContentElement()
+		contentElement.paddingAllSides = 12
+		contentElement.childAlignX = 0.5
+		contentElement.childAlignY = 0.5
+
+		tooltip:createDivider()
+
+		local typeLabel = tooltip:createLabel { text = type }
+		typeLabel.color = tables.colors["white"]
+
+		if string.match(typeLabel.text, "TRIGGERED") then
+			--Green
+			typeLabel.color = tables.colors["green"]
+		elseif string.match(typeLabel.text, "COMBAT") then
+			--Red
+			typeLabel.color = tables.colors["red"]
+		elseif string.match(typeLabel.text, "TECHNIQUE") then
+			--Purple
+			typeLabel.color = tables.colors["dark_purple"]
+		elseif string.match(typeLabel.text, "AURA") then
+			--Blue
+			typeLabel.color = { 0.3, 0.3, 0.7 }
+		elseif string.startswith(typeLabel.text, "[SPECIAL") then
+			--Pink
+			typeLabel.color = tables.colors["pink"]
 		end
 	end)
 end
@@ -1140,6 +1260,9 @@ function this.guildTooltip(ele, key)
 		elseif string.match(typeLabel.text, "AURA") then
 			--Blue
 			typeLabel.color = { 0.3, 0.3, 0.7 }
+		elseif string.startswith(typeLabel.text, "[SPECIAL") then
+			--Pink
+			typeLabel.color = tables.colors["pink"]
 		end
 
 		local helpLabel = tooltip:createLabel { text = tables.guildTrainedMessages[key] }
@@ -1153,6 +1276,8 @@ function this.guildTooltip(ele, key)
 		end
 	end)
 end
+
+
 
 --CL General Tooltips.
 --- @param ele tes3uiElement
@@ -1197,6 +1322,15 @@ function this.clTooltip(ele, type)
 		elseif type == "soul energy" then
 			icon = tooltip:createImage({ path = "textures\\companionLeveler\\se_icon.tga" })
 			label = tooltip:createLabel { text = "Trapped souls instead provide Soul Energy while the Cleric of Molag Bal is in the party.\nSoul Energy can be used to fill soul gems or restore Health, Magicka, or Fatigue." }
+		elseif type == "secrets" then
+			icon = tooltip:createImage({ path = "textures\\companionLeveler\\secrets_icon.tga" })
+			label = tooltip:createLabel { text = "Wilderness exploration gradually uncovers secret knowledge.\nSecret knowledge is automatically used to restore technique points.\nThe amount required is determined by " .. tes3.findGMST("sSkillMysticism").value .. "." }
+		elseif type == "blood magic" then
+			icon = tooltip:createImage({ path = "textures\\companionLeveler\\bm_icon.tga" })
+			label = tooltip:createLabel { text = "Blood Magicka is used to cast powerful vampiric spells.\nBlood Magicka is extracted when feeding upon victims with large magicka pools." }
+		elseif type == "blood frenzy" then
+			icon = tooltip:createImage({ path = "textures\\companionLeveler\\bf_icon.tga" })
+			label = tooltip:createLabel { text = "Blood Frenzy takes hold of the senses, increasing savagery of attacks.\nBlood Frenzy is generated by killing humanoids in combat.\nResets daily at 6am." }
 		elseif string.startswith(type, "skill:") then
 			for i = 0, 26 do
 				if type == "skill:" .. i .. "" then
@@ -1246,6 +1380,8 @@ function this.abilityColor(ele, num, npc)
             ele.widget.idle = tables.colors["dark_purple"]
         elseif string.match(t[num], "AURA") then
             ele.widget.idle = tables.colors["ui_blue"]
+		elseif string.startswith(t[num], "[SPECIAL") then
+			ele.widget.idle = tables.colors["pink"]
         end
     end
 end

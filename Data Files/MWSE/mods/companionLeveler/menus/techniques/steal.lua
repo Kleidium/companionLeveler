@@ -253,7 +253,7 @@ function steal.onSelectTarget(elem, ref)
 			steal.fatCost = 1
 		end
 
-		steal.base_fat.text = "Base: " .. math.round(steal.weight * 7.5) .. ""
+		steal.base_fat.text = "Base: " .. math.round(steal.weight * 8.5) .. ""
 		steal.total_fat.text = "Total Cost: " .. steal.fatCost .. ""
 
 		if steal.target ~= nil then
