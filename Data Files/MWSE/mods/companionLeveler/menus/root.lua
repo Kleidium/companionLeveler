@@ -28,6 +28,10 @@ function root.createWindow(reference)
 
     log:trace("Root menu initialized.")
 
+    --Close Any Open Menus
+    local check = tes3ui.findMenu(root.id_menu)
+    if check then check:destroy() end
+
     root.reference = reference
 
 
