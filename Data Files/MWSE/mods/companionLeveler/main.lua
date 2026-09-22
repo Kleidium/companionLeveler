@@ -197,6 +197,7 @@ end, { filter = "MenuDialog" })
 
 event.register(tes3.event.keyDown, function(e)
 	if e.keyCode ~= config.typeBind.keyCode then return end
+	if tes3ui.menuMode() then return end
 
 	local t = tes3.getPlayerTarget()
 
