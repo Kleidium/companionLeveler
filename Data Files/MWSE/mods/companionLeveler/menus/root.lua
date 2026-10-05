@@ -205,7 +205,7 @@ function root.createWindow(reference)
         root.updateEncumbrance(reference)
         contentsMenu:updateLayout()
 
-        contentsMenu:registerBefore("update", function() root.updateEncumbrance(reference) end)
+        contentsMenu:registerAfter("update", function() root.updateEncumbrance(reference) end)
 
     end)
     button_tech:register("mouseClick", function() menu:destroy() tech.createWindow(reference) end)
@@ -341,6 +341,12 @@ function root.updateEncumbrance(ref)
     local weight2 = tes3.player.object.inventory:calculateWeight() + burden2 - feather2
 
     bar2.widget.current = weight2
+
+    --Weight Fix
+    local oldWeight = tes3.mobilePlayer.encumbrance.currentRaw
+    if (math.abs(oldWeight - weight2) > 0.01) then
+        tes3.setStatistic({ reference = tes3.mobilePlayer, name = "encumbrance", current = weight2 })
+    end
 end
 
 

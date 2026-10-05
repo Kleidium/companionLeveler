@@ -160,56 +160,57 @@ function mut.pickMutation(ref, slot, swap)
 	slot_block.width = 200
 	slot_block.height = 110
 	slot_block.flowDirection = "top_to_bottom"
-	--slot_block.borderLeft = 60
+	slot_block.childAlignX = 0.5
 
 	local slot_block2 = text_block:createBlock {}
 	slot_block2.width = 200
 	slot_block2.height = 110
 	slot_block2.flowDirection = "top_to_bottom"
+	slot_block2.childAlignX = 0.5
 
 
 	--1-2
 	local slot1 = slot_block:createLabel({ text = "Slot 1:", id = "kl_slot1_label" })
 	slot1.color = tables.colors["white"]
 	slot1.wrapText = true
-	slot1.justifyText = "center"
+	--slot1.justifyText = "center"
 
 	local slot1b = slot_block:createLabel({ text = "", id = "kl_slot1" })
 	slot1b.wrapText = true
-	slot1b.justifyText = "center"
+	--slot1b.justifyText = "center"
 	slot1b.borderLeft = 2
 
 	local slot3 = slot_block:createLabel({ text = "Slot 3:", id = "kl_slot3_label" })
 	slot3.color = tables.colors["white"]
 	slot3.borderTop = 10
 	slot3.wrapText = true
-	slot3.justifyText = "center"
+	--slot3.justifyText = "center"
 
 	local slot3b = slot_block:createLabel({ text = "", id = "kl_slot3" })
 	slot3b.wrapText = true
-	slot3b.justifyText = "center"
+	--slot3b.justifyText = "center"
 	slot3b.borderLeft = 2
 
 	--3-4
 	local slot2 = slot_block2:createLabel({ text = "Slot 2:", id = "kl_slot2_label" })
 	slot2.color = tables.colors["white"]
 	slot2.wrapText = true
-	slot2.justifyText = "center"
+	--slot2.justifyText = "center"
 
 	local slot2b = slot_block2:createLabel({ text = "", id = "kl_slot2" })
 	slot2b.wrapText = true
-	slot2b.justifyText = "center"
+	--slot2b.justifyText = "center"
 	slot2b.borderLeft = 2
 
 	local slot4 = slot_block2:createLabel({ text = "Slot 4:", id = "kl_slot4_label" })
 	slot4.color = tables.colors["white"]
 	slot4.wrapText = true
-	slot4.justifyText = "center"
+	--slot4.justifyText = "center"
 	slot4.borderTop = 10
 
 	local slot4b = slot_block2:createLabel({ text = "", id = "kl_slot4" })
 	slot4b.wrapText = true
-	slot4b.justifyText = "center"
+	--slot4b.justifyText = "center"
 	slot4b.borderLeft = 2
 
 
@@ -237,7 +238,6 @@ function mut.pickMutation(ref, slot, swap)
 		end
 	end
 
-
 	--Button Block
 	local button_block = menu:createBlock {}
 	button_block.widthProportional = 1.0 -- width is 100% parent width
@@ -256,6 +256,7 @@ function mut.pickMutation(ref, slot, swap)
 	mut.button_ok:register(tes3.uiEvent.mouseClick, mut.onOK)
 
 	-- Final setup
+	menu:updateLayout()
 	menu:updateLayout()
 	tes3ui.enterMenuMode(mut.id_menu)
 end

@@ -679,6 +679,6 @@ abMod:createOnOffButton {
 
 abMod:createOnOffButton {
     label = "Ability UI Colors: NPC",
-    description = "If this is enabled, all NPC classes will be displayed color coded by their ability type when seen in the Class Change menu.\n\nPassive: White\nTriggered: Green\nCombat: Red\nTechnique: Purple\nAura: Blue\n\nDefault: Off",
+    description = "If this is enabled, all NPC classes will be displayed color coded by their ability type when seen in the Class Change menu.\n\nPassive: White\nTriggered: Green\nCombat: Red\nTechnique: Purple\nAura: Blue\nSpecial: Pink\n\nDefault: Off",
     variable = mwse.mcm.createTableVariable { id = "abilityColors", table = config }
 }
